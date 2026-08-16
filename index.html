@@ -91,7 +91,106 @@
 .sim p {
   margin-top: 0;
 }
+.sim-modele {
+  padding: 12px;
+}
 
+.nom-sim {
+  margin: 8px 0 2px;
+  font-size: 18px;
+}
+
+.age-sim {
+  display: inline-block;
+  background: #73c66b;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.identite-sim {
+  margin-top: 8px;
+}
+
+.ligne-identite {
+  background: white;
+  border-radius: 10px;
+  padding: 6px;
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.titre-ligne {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.icones-identite {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.icone-identite {
+  width: 27px;
+  height: 27px;
+  background: #efeaf4;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.icone-identite.vide {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.objectifs-sim {
+  margin-top: 10px;
+}
+
+.titre-objectifs {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 7px;
+  color: #4c9f46;
+}
+
+.objectif {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  background: white;
+  padding: 6px 8px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  font-size: 11px;
+  text-align: left;
+}
+
+.objectif button {
+  border: none;
+  background: #73c66b;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.objectif-final {
+  background: #fff4dc;
+}
 @media (max-width: 700px) {
   .grille-sims {
     grid-template-columns: repeat(2, 1fr);
@@ -143,11 +242,88 @@
 
   <div class="grille-sims">
 
-    <div class="sim">
-      <div class="photo-sim">1</div>
-      <h3>Sim 1</h3>
-      <p>À compléter</p>
+    <div class="sim sim-modele">
+
+  <div class="photo-sim">
+    <span>Photo</span>
+  </div>
+
+  <h3 class="nom-sim">Prénom du Sim</h3>
+  <div class="age-sim">Nourrisson</div>
+
+  <div class="identite-sim">
+
+    <div class="ligne-identite">
+      <span class="titre-ligne">🌱 En grandissant</span>
+      <div class="icones-identite">
+        <span class="icone-identite" title="Trait temporaire">👶</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
     </div>
+
+    <div class="ligne-identite">
+      <span class="titre-ligne">✨ Acquis de vie</span>
+      <div class="icones-identite">
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+    </div>
+
+    <div class="ligne-identite">
+      <span class="titre-ligne">💎 Personnalité</span>
+      <div class="icones-identite">
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="objectifs-sim">
+
+    <div class="titre-objectifs">
+      Objectifs actuels
+    </div>
+
+    <div class="objectif">
+      <span>🃏 Étape de vie 1</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span>🃏 Étape de vie 2</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span>🃏 Étape de vie 3</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span>🃏 Étape de vie 4</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span>🃏 Étape de vie 5</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-final">
+      <span>🎭 Fête costumée</span>
+      <button>✓</button>
+    </div>
+
+  </div>
+
+</div>
 
     <div class="sim">
       <div class="photo-sim">2</div>
