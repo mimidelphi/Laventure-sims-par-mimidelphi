@@ -58,11 +58,12 @@
       text-decoration: none;
       font-weight: bold;
     }
-   .grille-sims {
+  .grille-sims {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
   margin-top: 20px;
+}
 }
 
 .sim {
@@ -123,8 +124,11 @@
 
 .prenom-sim {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nom-famille-sim {
@@ -198,7 +202,23 @@
 .icone-identite.vide {
   color: #999;
 }
+.cases-acquis {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex: 1;
+}
 
+.suite-acquis {
+  width: auto;
+  min-width: 27px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #8b65ad;
+  cursor: default;
+}
 
 /* =========================
    ÉTAPE DE VIE
@@ -417,23 +437,33 @@
       <span class="icone-identite vide">+</span>
     </div>
 
-    <div class="ligne-identite-simple">
-      <span class="icone-categorie">✨</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-    </div>
+    <div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">✨</span>
+
+  <div class="cases-acquis">
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+
+    <span class="icone-identite suite-acquis">+…</span>
+  </div>
+</div>
 
     <div class="ligne-identite-simple">
-      <span class="icone-categorie">💎</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-    </div>
+  <span class="icone-categorie">💎</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+  <span class="icone-identite vide">+</span>
+</div>
 
   </div>
 
@@ -526,13 +556,22 @@
       <span class="icone-identite vide">+</span>
     </div>
 
-    <div class="ligne-identite-simple">
-      <span class="icone-categorie">✨</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-      <span class="icone-identite vide">+</span>
-    </div>
+    <div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">✨</span>
+
+  <div class="cases-acquis">
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+    <span class="icone-identite vide">+</span>
+
+    <span class="icone-identite suite-acquis">+…</span>
+  </div>
+</div>
 
     <div class="ligne-identite-simple">
       <span class="icone-categorie">💎</span>
