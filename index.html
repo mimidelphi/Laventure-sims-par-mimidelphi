@@ -58,6 +58,45 @@
       text-decoration: none;
       font-weight: bold;
     }
+   .grille-sims {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.sim {
+  background: #f5f3f7;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+.photo-sim {
+  height: 140px;
+  background: #e4dcef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: #73c66b;
+}
+
+.sim h3 {
+  margin-bottom: 5px;
+}
+
+.sim p {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .grille-sims {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} 
   </style>
 </head>
 
@@ -98,7 +137,62 @@
 
     <p id="messageSauvegarde"></p>
 </div>
+<div class="carte">
+  <h2>👨‍👩‍👧‍👦 Mes 8 Sims actifs</h2>
+  <p>Le foyer actuel de mon Challenge 100 Baby</p>
 
+  <div class="grille-sims">
+
+    <div class="sim">
+      <div class="photo-sim">1</div>
+      <h3>Sim 1</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">2</div>
+      <h3>Sim 2</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">3</div>
+      <h3>Sim 3</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">4</div>
+      <h3>Sim 4</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">5</div>
+      <h3>Sim 5</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">6</div>
+      <h3>Sim 6</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">7</div>
+      <h3>Sim 7</h3>
+      <p>À compléter</p>
+    </div>
+
+    <div class="sim">
+      <div class="photo-sim">8</div>
+      <h3>Sim 8</h3>
+      <p>À compléter</p>
+    </div>
+
+  </div>
+</div>
     <div class="carte">
       <h2>🏡 Mes mondes & constructions</h2>
       <p>Cette partie accueillera progressivement mes mondes et mes constructions.</p>
