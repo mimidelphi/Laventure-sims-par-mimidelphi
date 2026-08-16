@@ -82,6 +82,16 @@
     </div>
 
   </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+  const SUPABASE_URL = "https://puvcdmhsufuqgtqwwhry.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_3fGyjY5PKxGBfDy4-2dSbA_iy1kBHwm";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
 </body>
 </html>
