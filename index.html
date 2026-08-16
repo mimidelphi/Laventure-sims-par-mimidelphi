@@ -69,7 +69,17 @@
   </header>
 
   <main>
+<div class="carte" id="connexion">
+  <h2>🔐 Connexion</h2>
+  <p>Connecte-toi pour retrouver ta progression sur tous tes ordinateurs.</p>
 
+  <input type="email" id="email" placeholder="Adresse e-mail">
+  <input type="password" id="password" placeholder="Mot de passe">
+
+  <button class="bouton" onclick="seConnecter()">Se connecter</button>
+
+  <p id="messageConnexion"></p>
+</div>
     <div class="carte">
       <h2>👶 Challenge 100 Baby</h2>
       <p>Suivi de la famille, objectifs des Sims actifs et outils du challenge.</p>
@@ -92,6 +102,39 @@
     SUPABASE_URL,
     SUPABASE_KEY
   );
+  
+  async function seConnecter() {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("messageConnexion");
+
+  message.textContent = "Connexion en cours...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "❌ Impossible de se connecter. Vérifie ton e-mail et ton mot de passe.";
+    return;
+  }
+
+  message.textContent = "✅ Connectée ! Ta sauvegarde peut maintenant être synchronisée.";
+  document.getElementById("connexion").style.display = "none";
+
+  console.log("Utilisateur connecté :", data.user.id);
+}
+ async function verifierConnexion() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    document.getElementById("connexion").style.display = "none";
+  }
+}
+
+verifierConnexion(); 
 </script>
 </body>
 </html>
