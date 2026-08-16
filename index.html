@@ -93,99 +93,239 @@
 }
 .sim-modele {
   padding: 12px;
-}
-
-.nom-sim {
-  margin: 8px 0 2px;
-  font-size: 18px;
-}
-
-.age-sim {
-  display: inline-block;
-  background: #73c66b;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.identite-sim {
-  margin-top: 8px;
-}
-
-.ligne-identite {
-  background: white;
-  border-radius: 10px;
-  padding: 6px;
-  margin-bottom: 6px;
   text-align: left;
 }
 
-.titre-ligne {
-  display: block;
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
+
+/* =========================
+   PHOTO + NOM
+========================= */
+
+.entete-sim {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.icones-identite {
+.petite-photo {
+  width: 78px;
+  height: 78px;
+  min-width: 78px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.infos-sim {
+  flex: 1;
+  min-width: 0;
+}
+
+.prenom-sim {
+  margin: 3px 0 0;
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.nom-famille-sim {
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+
+/* =========================
+   BABY N° X / 100
+========================= */
+
+.numero-baby {
   display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: #7b4bb7;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.trait-deco {
+  height: 1px;
+  flex: 1;
+  background: #c8a7e8;
+}
+
+.baby-numero {
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   3 LIGNES D'ICÔNES
+========================= */
+
+.identite-sim {
+  margin-top: 10px;
+}
+
+.ligne-identite-simple {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
   gap: 5px;
-  flex-wrap: wrap;
+  padding: 3px 4px;
+  border-bottom: 1px solid #e8e0ee;
+}
+
+.icone-categorie {
+  width: 28px;
+  min-width: 28px;
+  text-align: center;
+  font-size: 17px;
 }
 
 .icone-identite {
-  width: 27px;
-  height: 27px;
-  background: #efeaf4;
+  width: 25px;
+  height: 25px;
+  background: #eee8f3;
   border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .icone-identite.vide {
-  color: #aaa;
+  color: #999;
+}
+
+
+/* =========================
+   ÉTAPE DE VIE
+========================= */
+
+.bloc-age {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+  padding: 8px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    #eee7f3,
+    #f8f4fa
+  );
+}
+
+.logo-age {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  border-radius: 10px;
+  background: #ddd2ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.texte-age {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.texte-age strong {
+  color: #6c3eb1;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.texte-age span {
+  margin-top: 3px;
+  font-size: 10px;
+  color: #555;
+}
+
+.icone-age-droite {
+  font-size: 23px;
+}
+
+
+/* =========================
+   PETIT CŒUR SÉPARATEUR
+========================= */
+
+.separateur-coeur {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 0 3px;
+  color: #b68add;
+  font-size: 11px;
+}
+
+.separateur-coeur span {
+  height: 1px;
+  flex: 1;
+  background: #cdb2e7;
+}
+
+
+/* =========================
+   OBJECTIFS
+========================= */
+
+.titre-objectifs {
+  margin: 5px 0 7px;
+  text-align: center;
+  color: #6c3eb1;
   font-size: 13px;
+  font-weight: bold;
 }
 
 .objectifs-sim {
-  margin-top: 10px;
-}
-
-.titre-objectifs {
-  font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 7px;
-  color: #4c9f46;
+  margin-top: 0;
 }
 
 .objectif {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
+  gap: 6px;
   background: white;
-  padding: 6px 8px;
+  padding: 6px;
   border-radius: 8px;
   margin-bottom: 5px;
-  font-size: 11px;
+  font-size: 10.5px;
   text-align: left;
+  transition: 0.25s ease;
+}
+
+.icone-objectif {
+  width: 24px;
+  min-width: 24px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.texte-objectif {
+  flex: 1;
+  line-height: 1.2;
 }
 
 .objectif button {
   border: none;
   background: #73c66b;
   color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  border-radius: 7px;
   cursor: pointer;
   font-weight: bold;
+}
+
+.objectif button:hover {
+  transform: scale(1.08);
 }
 
 .objectif-final {
@@ -242,83 +382,109 @@
 
   <div class="grille-sims">
 
-    <div class="sim sim-modele">
+   <div class="sim sim-modele">
 
-  <div class="photo-sim">
-    <span>Photo</span>
+  <!-- PHOTO + IDENTITÉ -->
+  <div class="entete-sim">
+
+    <div class="photo-sim petite-photo">
+      <span>Photo</span>
+    </div>
+
+    <div class="infos-sim">
+      <h3 class="prenom-sim">Prénom du Sim</h3>
+      <div class="nom-famille-sim">Nom du Sim</div>
+
+      <div class="numero-baby">
+        <span class="trait-deco"></span>
+        <span class="baby-numero">♥ Baby n° 3 / 100 ♥</span>
+        <span class="trait-deco"></span>
+      </div>
+    </div>
+
   </div>
 
-  <h3 class="nom-sim">Prénom du Sim</h3>
-  <div class="age-sim">Nourrisson</div>
 
+  <!-- LES 3 LIGNES D'ICÔNES -->
   <div class="identite-sim">
 
-    <div class="ligne-identite">
-      <span class="titre-ligne">🌱 En grandissant</span>
-      <div class="icones-identite">
-        <span class="icone-identite" title="Trait temporaire">👶</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+    <div class="ligne-identite-simple">
+      <span class="icone-categorie">👶</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
     </div>
 
-    <div class="ligne-identite">
-      <span class="titre-ligne">✨ Acquis de vie</span>
-      <div class="icones-identite">
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+    <div class="ligne-identite-simple">
+      <span class="icone-categorie">✨</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
     </div>
 
-    <div class="ligne-identite">
-      <span class="titre-ligne">💎 Personnalité</span>
-      <div class="icones-identite">
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+    <div class="ligne-identite-simple">
+      <span class="icone-categorie">💎</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
+      <span class="icone-identite vide">+</span>
     </div>
 
+  </div>
+
+
+  <!-- ÉTAPE DE VIE -->
+  <div class="bloc-age">
+
+    <div class="logo-age">
+      👶
+    </div>
+
+    <div class="texte-age">
+      <strong>NOUVEAU-NÉ</strong>
+      <span>Étape de vie actuelle</span>
+    </div>
+
+    <div class="icone-age-droite">
+      🍼
+    </div>
+
+  </div>
+
+
+  <div class="separateur-coeur">
+    <span></span>
+    ♥
+    <span></span>
+  </div>
+
+
+  <!-- OBJECTIFS -->
+  <div class="titre-objectifs">
+    Objectifs de cette étape
   </div>
 
   <div class="objectifs-sim">
 
-    <div class="titre-objectifs">
-      Objectifs actuels
+    <div class="objectif objectif-nouveau-ne">
+      <span class="icone-objectif">💗</span>
+      <span class="texte-objectif">Prendre soin des besoins du bébé</span>
+      <button onclick="validerObjectif(this)">✓</button>
     </div>
 
-    <div class="objectif">
-      <span>🃏 Étape de vie 1</span>
-      <button>✓</button>
+    <div class="objectif objectif-nouveau-ne">
+      <span class="icone-objectif">🎉</span>
+      <span class="texte-objectif">Organiser une fête prénatale</span>
+      <button onclick="validerObjectif(this)">✓</button>
     </div>
 
-    <div class="objectif">
-      <span>🃏 Étape de vie 2</span>
-      <button>✓</button>
-    </div>
-
-    <div class="objectif">
-      <span>🃏 Étape de vie 3</span>
-      <button>✓</button>
-    </div>
-
-    <div class="objectif">
-      <span>🃏 Étape de vie 4</span>
-      <button>✓</button>
-    </div>
-
-    <div class="objectif">
-      <span>🃏 Étape de vie 5</span>
-      <button>✓</button>
-    </div>
-
-    <div class="objectif objectif-final">
-      <span>🎭 Fête costumée</span>
-      <button>✓</button>
+    <div class="objectif objectif-nouveau-ne objectif-final">
+      <span class="icone-objectif">🍼</span>
+      <span class="texte-objectif">Grandir pendant la fête</span>
+      <button onclick="validerObjectif(this)">✓</button>
     </div>
 
   </div>
