@@ -86,6 +86,19 @@
       <a class="bouton" href="#">Accéder au challenge</a>
     </div>
 
+    <div class="carte" id="testSauvegarde">
+    <h2>💾 Test de sauvegarde</h2>
+    <p>On vérifie que ta progression peut être enregistrée.</p>
+
+    <input type="text" id="testTexte" placeholder="Écris quelque chose ici">
+
+    <button class="bouton" onclick="sauvegarderTest()">
+        Sauvegarder
+    </button>
+
+    <p id="messageSauvegarde"></p>
+</div>
+
     <div class="carte">
       <h2>🏡 Mes mondes & constructions</h2>
       <p>Cette partie accueillera progressivement mes mondes et mes constructions.</p>
@@ -132,6 +145,37 @@
   if (data.session) {
     document.getElementById("connexion").style.display = "none";
   }
+}
+
+  async function sauvegarderTest() {
+    const texte = document.getElementById("testTexte").value;
+    const message = document.getElementById("messageSauvegarde");
+
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+
+    if (!sessionData.session) {
+        message.textContent = "❌ Tu dois être connectée.";
+        return;
+    }
+
+    const user = sessionData.session.user;
+
+    const { error } = await supabaseClient
+        .from("app_data")
+        .upsert({
+            user_id: user.id,
+            data: { test: texte }
+        }, {
+            onConflict: "user_id"
+        });
+
+    if (error) {
+        console.error(error);
+        message.textContent = "❌ Erreur pendant la sauvegarde.";
+        return;
+    }
+
+    message.textContent = "✅ Sauvegardé !";
 }
 
 verifierConnexion(); 
