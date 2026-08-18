@@ -131,7 +131,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+    
+.ligne-prenom {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
 
+.ligne-prenom .prenom-sim {
+  flex: 1;
+  min-width: 0;
+}
+
+.sexe-sim {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: #8b65ad;
+}
+    
 .nom-famille-sim {
   margin-top: 2px;
   font-size: 12px;
@@ -437,9 +456,13 @@
     </div>
 
     <div class="infos-sim">
-      <h3 class="prenom-sim">Prénom du Sim</h3>
-      <div class="nom-famille-sim">Nom du Sim</div>
+      <div class="ligne-prenom">
+  <h3 class="prenom-sim">Prénom du Sim</h3>
+  <span class="sexe-sim" title="Femme">♀</span>
+</div>
 
+<div class="nom-famille-sim">Nom du Sim</div>
+      
       <div class="numero-baby">
         <span class="trait-deco"></span>
         <span class="baby-numero">♥ Baby n° 3 / 100 ♥</span>
@@ -491,21 +514,20 @@
   <!-- ÉTAPE DE VIE -->
   <div class="bloc-age">
 
-    <div class="logo-age">
-      👶
-    </div>
-
-    <div class="texte-age">
-      <strong class="age-nom">NOUVEAU-NÉ</strong>
-      <span class="age-sous-titre">Étape de vie actuelle</span>
-    </div>
-
-    <div class="icone-age-droite">
-      🍼
-    </div>
-
+  <div class="logo-age">
+    👑
   </div>
 
+  <div class="texte-age">
+    <strong class="age-nom">MATRIARCHE</strong>
+    <span class="age-sous-titre">Maman du Challenge</span>
+  </div>
+
+  <div class="icone-age-droite">
+    🤰
+  </div>
+
+</div>
 
   <div class="separateur-coeur">
     <span></span>
@@ -516,28 +538,42 @@
 
   <!-- OBJECTIFS -->
   <div class="titre-objectifs">
-    Objectifs de cette étape
-  </div>
+  Objectifs de la Matriarche
+</div>
 
   <div class="objectifs-sim" id="objectifs-sim-1">
 
-    <div class="objectif objectif-nouveau-ne">
-      <span class="icone-objectif">💗</span>
-      <span class="texte-objectif">Prendre soin des besoins du bébé</span>
-      <button onclick="validerObjectif(this)">✓</button>
-    </div>
+  <div class="objectif">
+    <span class="icone-objectif">👶</span>
+    <span class="texte-objectif">Donner la vie 1</span>
+    <button>✓</button>
+  </div>
 
-    <div class="objectif objectif-nouveau-ne">
-     <span class="icone-objectif">🪇</span>
-      <span class="texte-objectif">Organiser une fête prénatale</span>
-      <button onclick="validerObjectif(this)">✓</button>
-    </div>
+  <div class="objectif">
+    <span class="icone-objectif">👶</span>
+    <span class="texte-objectif">Donner la vie 2</span>
+    <button>✓</button>
+  </div>
 
-    <div class="objectif objectif-nouveau-ne objectif-final">
-      <span class="icone-objectif">🎂</span>
-      <span class="texte-objectif">Grandir pendant la fête</span>
-      <button onclick="validerObjectif(this)">✓</button>
-    </div>
+  <div class="objectif">
+    <span class="icone-objectif">👶</span>
+    <span class="texte-objectif">Donner la vie 3</span>
+    <button>✓</button>
+  </div>
+
+  <div class="objectif">
+    <span class="icone-objectif">👵</span>
+    <span class="texte-objectif">Devenir personne âgée</span>
+    <button>✓</button>
+  </div>
+
+  <div class="objectif objectif-final">
+    <span class="icone-objectif">👑</span>
+    <span class="texte-objectif">Passer le relais à la dernière fille éligible</span>
+    <button>✓</button>
+  </div>
+
+</div>
 
   </div>
 
