@@ -1922,6 +1922,133 @@ const bibliothequeAges = {
   }
 
 };
+
+/* =========================================
+   TROUVER LA CLÉ D'UN ÂGE
+========================================= */
+
+function trouverCleAge(nomAge) {
+  for (const cle in bibliothequeAges) {
+    if (bibliothequeAges[cle].nom === nomAge) {
+      return cle;
+    }
+  }
+
+  return null;
+}
+
+
+/* =========================================
+   AFFICHER UN ÂGE DANS UNE FICHE
+========================================= */
+
+function afficherAge(sim, cleAge) {
+
+  const modele = bibliothequeAges[cleAge];
+
+  if (!modele) {
+    console.error("Âge introuvable :", cleAge);
+    return;
+  }
+
+  const ageNom = sim.querySelector(".age-nom");
+  const logoAge = sim.querySelector(".logo-age");
+  const sousTitre = sim.querySelector(".age-sous-titre");
+  const iconeDroite = sim.querySelector(".icone-age-droite");
+  const titreObjectifs = sim.querySelector(".titre-objectifs");
+  const objectifs = sim.querySelector(".objectifs-sim");
+
+  if (ageNom) {
+    ageNom.textContent = modele.nom;
+  }
+
+  if (logoAge) {
+    logoAge.textContent = modele.logo;
+  }
+
+  if (sousTitre) {
+    sousTitre.textContent = modele.sousTitre;
+  }
+
+  if (iconeDroite) {
+    iconeDroite.textContent = modele.iconeDroite;
+  }
+
+  if (titreObjectifs) {
+    titreObjectifs.textContent = modele.titreObjectifs;
+  }
+
+  if (objectifs) {
+    objectifs.innerHTML = modele.objectifs;
+  }
+}
+
+
+/* =========================================
+   FAIRE GRANDIR UN SIM
+========================================= */
+
+function faireGrandir(sim) {
+
+  const ageNom = sim.querySelector(".age-nom");
+
+  if (!ageNom) {
+    return;
+  }
+
+  const nomAgeActuel = ageNom.textContent.trim();
+
+  const cleAgeActuel = trouverCleAge(nomAgeActuel);
+
+  if (!cleAgeActuel) {
+    console.error("Impossible de reconnaître l'âge :", nomAgeActuel);
+    return;
+  }
+
+  const ageActuel = bibliothequeAges[cleAgeActuel];
+
+  if (!ageActuel.suivant) {
+    alert("🚚 Ce Sim est prêt à quitter le foyer !");
+    return;
+  }
+
+  afficherAge(sim, ageActuel.suivant);
+}
+
+
+/* =========================================
+   GÉRER LES CLICS SUR LES ✓
+========================================= */
+
+document.addEventListener("click", function(event) {
+
+  const bouton = event.target.closest(".objectif button");
+
+  if (!bouton) {
+    return;
+  }
+
+  const objectif = bouton.closest(".objectif");
+  const sim = bouton.closest(".sim-modele");
+
+  if (!objectif || !sim) {
+    return;
+  }
+
+  /* La Matriarche ne suit pas le système normal */
+  if (sim.id === "sim-1") {
+    return;
+  }
+
+  /* Bouton final = passage à l'âge suivant */
+  if (objectif.classList.contains("objectif-final")) {
+    faireGrandir(sim);
+    return;
+  }
+
+  /* Objectif normal validé */
+  objectif.style.opacity = "0.45";
+});
   
 verifierConnexion(); 
 </script>
