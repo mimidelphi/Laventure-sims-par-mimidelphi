@@ -423,6 +423,16 @@
   font-size: 14px;
   opacity: 0.7;
 }
+
+.objectif-grandir-bloque {
+  opacity: 0.55;
+}
+
+.objectif-grandir-bloque button {
+  background: #b9a8c8;
+  cursor: not-allowed;
+}
+    
 @media (max-width: 700px) {
   .grille-sims {
     grid-template-columns: repeat(2, 1fr);
@@ -2020,6 +2030,71 @@ function faireGrandir(sim) {
    GÉRER LES CLICS SUR LES ✓
 ========================================= */
 
+/* =========================================
+   VÉRIFIER SI LE SIM PEUT GRANDIR
+========================================= */
+
+function verifierGrandir(sim) {
+
+  const objectifs = sim.querySelectorAll(".objectif");
+  const objectifFinal = sim.querySelector(".objectif-final");
+
+  if (!objectifFinal) {
+    return;
+  }
+
+  let toutEstFait = true;
+
+  objectifs.forEach(function(objectif) {
+
+    /* On ignore le gâteau lui-même */
+    if (objectif.classList.contains("objectif-final")) {
+      return;
+    }
+
+    /* On ignore les objectifs volontairement bloqués */
+    if (objectif.classList.contains("objectif-bloque")) {
+      return;
+    }
+
+    /* S'il reste un objectif non validé */
+    if (!objectif.classList.contains("objectif-valide")) {
+      toutEstFait = false;
+    }
+
+  });
+
+
+  const boutonFinal = objectifFinal.querySelector("button");
+
+  if (!boutonFinal) {
+    return;
+  }
+
+
+  if (toutEstFait) {
+
+    objectifFinal.classList.remove("objectif-grandir-bloque");
+
+    boutonFinal.disabled = false;
+    boutonFinal.textContent = "✓";
+    boutonFinal.title = "Tous les objectifs sont terminés !";
+
+  } else {
+
+    objectifFinal.classList.add("objectif-grandir-bloque");
+
+    boutonFinal.disabled = true;
+    boutonFinal.textContent = "🔒";
+    boutonFinal.title = "Termine d'abord les autres objectifs";
+  }
+}
+
+
+/* =========================================
+   GÉRER LES CLICS SUR LES ✓
+========================================= */
+
 document.addEventListener("click", function(event) {
 
   const bouton = event.target.closest(".objectif button");
@@ -2035,19 +2110,67 @@ document.addEventListener("click", function(event) {
     return;
   }
 
-  /* La Matriarche ne suit pas le système normal */
+
+  /* La Matriarche garde son fonctionnement à part */
+
   if (sim.id === "sim-1") {
     return;
   }
 
-  /* Bouton final = passage à l'âge suivant */
+
+  /* GÂTEAU = PASSAGE À L'ÂGE SUIVANT */
+
   if (objectif.classList.contains("objectif-final")) {
+
+    if (bouton.disabled) {
+      return;
+    }
+
     faireGrandir(sim);
+
+    /* Le nouvel âge vient d'apparaître :
+       on verrouille immédiatement son gâteau */
+
+    verifierGrandir(sim);
+
     return;
   }
 
-  /* Objectif normal validé */
-  objectif.style.opacity = "0.45";
+
+  /* OBJECTIF NORMAL */
+
+  objectif.classList.toggle("objectif-valide");
+
+
+  if (objectif.classList.contains("objectif-valide")) {
+
+    objectif.style.opacity = "0.45";
+    bouton.textContent = "↩";
+
+  } else {
+
+    objectif.style.opacity = "1";
+    bouton.textContent = "✓";
+  }
+
+
+  /* On regarde si le gâteau peut maintenant être débloqué */
+
+  verifierGrandir(sim);
+
+});
+
+
+/* =========================================
+   VERROUILLAGE AU CHARGEMENT DE LA PAGE
+========================================= */
+
+document.querySelectorAll(".sim-modele").forEach(function(sim) {
+
+  if (sim.id !== "sim-1") {
+    verifierGrandir(sim);
+  }
+
 });
   
 verifierConnexion(); 
