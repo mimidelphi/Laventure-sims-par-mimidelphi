@@ -342,6 +342,17 @@
   transition: 0.25s ease;
 }
 
+.compteur-matriarche {
+  background: #f3edf8;
+  border: 1px solid #d8c6e8;
+  font-weight: bold;
+}
+
+.compteur-matriarche strong {
+  color: #6c3eb1;
+  font-size: 14px;
+}    
+    
 .icone-objectif {
   width: 24px;
   min-width: 24px;
@@ -543,23 +554,13 @@
 
   <div class="objectifs-sim" id="objectifs-sim-1">
 
-  <div class="objectif">
-    <span class="icone-objectif">👶</span>
-    <span class="texte-objectif">Donner la vie 1</span>
-    <button>✓</button>
-  </div>
-
-  <div class="objectif">
-    <span class="icone-objectif">👶</span>
-    <span class="texte-objectif">Donner la vie 2</span>
-    <button>✓</button>
-  </div>
-
-  <div class="objectif">
-    <span class="icone-objectif">👶</span>
-    <span class="texte-objectif">Donner la vie 3</span>
-    <button>✓</button>
-  </div>
+ <div class="objectif compteur-matriarche">
+  <span class="icone-objectif">👶</span>
+  <span class="texte-objectif">
+    Enfants de cette Matriarche :
+    <strong id="compteur-matriarche">25</strong>
+  </span>
+</div>
 
   <div class="objectif">
     <span class="icone-objectif">👵</span>
