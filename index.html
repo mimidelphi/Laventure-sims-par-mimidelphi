@@ -1853,11 +1853,57 @@ async function chargerChallenge() {
     return;
   }
 
-  if (!data || !data.data || !data.data.sims) {
-    return;
-  }
+ if (!data || !data.data || !data.data.sims) {
+  return;
+}
 
-  console.log("Sauvegarde trouvée :", data.data.sims);
+const simsSauvegardes = data.data.sims;
+
+const sim8Sauvegarde = simsSauvegardes.find(function(sim) {
+  return sim.id === "sim-8";
+});
+
+if (!sim8Sauvegarde) {
+  return;
+}
+
+transformerEnFicheBebe(
+  sim8Sauvegarde.prenom,
+  sim8Sauvegarde.nom,
+  sim8Sauvegarde.sexe,
+  sim8Sauvegarde.trait
+);
+
+const sim8 = document.getElementById("sim-8");
+
+if (sim8Sauvegarde.numeroBaby) {
+  const numero = sim8.querySelector(".baby-numero");
+
+  if (numero) {
+    numero.textContent = sim8Sauvegarde.numeroBaby;
+  }
+}
+
+if (sim8Sauvegarde.photo) {
+  const zonePhoto = sim8.querySelector(".photo-sim");
+
+  if (zonePhoto) {
+    zonePhoto.innerHTML = "";
+
+    const image = document.createElement("img");
+    image.src = sim8Sauvegarde.photo;
+    image.alt = "Photo du Sim";
+
+    image.style.width = "100%";
+    image.style.height = "100%";
+    image.style.objectFit = "cover";
+    image.style.borderRadius = "12px";
+
+    zonePhoto.appendChild(image);
+  }
+}
+
+verifierGrandir(sim8);
 }
   
 /* =========================================
@@ -2755,6 +2801,8 @@ function ouvrirModificationSim(bouton) {
 }
   
 verifierConnexion(); 
+  chargerChallenge();
+  
 </script>
 </body>
 </html>
