@@ -2664,6 +2664,8 @@ if (simEnModification) {
   
   transformerEnFicheBebe(prenom, nom, sexe, trait);
 
+sauvegarderChallenge();
+  
   fermerCreationBebe();
 
   document.getElementById("bebe-prenom").value = "";
@@ -2718,6 +2720,7 @@ function ouvrirModificationSim(bouton) {
   const sim = bouton.closest(".sim-modele");
 
   if (!sim) {
+    sauvegarderChallenge();
     return;
   }
 
