@@ -2357,15 +2357,146 @@ function fermerCreationBebe() {
   }
 }
 
+function transformerEnFicheBebe(prenom, nom, sexe, trait) {
+
+  const sim = document.getElementById("sim-8");
+
+  if (!sim) {
+    return;
+  }
+
+  const symboleSexe = sexe === "femme" ? "♀" : "♂";
+
+  sim.className = "sim sim-modele";
+
+  sim.innerHTML = `
+    <!-- PHOTO + IDENTITÉ -->
+
+    <div class="entete-sim">
+
+      <div class="photo-sim petite-photo photo-modifiable">
+        <span>Photo</span>
+      </div>
+
+      <div class="infos-sim">
+
+        <div class="ligne-prenom">
+          <h3 class="prenom-sim">${prenom}</h3>
+          <span class="sexe-sim ${sexe}" title="${sexe === "femme" ? "Fille" : "Garçon"}">
+            ${symboleSexe}
+          </span>
+        </div>
+
+        <div class="nom-famille-sim">${nom}</div>
+
+        <div class="numero-baby">
+          <span class="trait-deco"></span>
+          <span class="baby-numero">♥ Baby n° 10 / 100 ♥</span>
+          <span class="trait-deco"></span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- IDENTITÉ -->
+
+    <div class="identite-sim">
+
+      <div class="ligne-identite-simple ligne-traits-temporaires">
+        <span class="icone-categorie">👶</span>
+
+        <span class="icone-identite trait-bebe" title="${trait}">
+          ${trait || "+"}
+        </span>
+
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+
+
+      <div class="ligne-identite-simple ligne-acquis">
+        <span class="icone-categorie">✨</span>
+
+        <div class="cases-acquis">
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite suite-acquis">+…</span>
+        </div>
+      </div>
+
+
+      <div class="ligne-identite-simple">
+        <span class="icone-categorie">💎</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+
+    </div>
+
+
+    <!-- ÂGE -->
+
+    <div class="age-sim">
+
+      <div class="logo-age">👶</div>
+
+      <div class="texte-age">
+        <div class="age-nom">NOUVEAU-NÉ</div>
+        <div class="age-sous-titre">Étape de vie actuelle</div>
+      </div>
+
+      <div class="icone-age-droite">🍼</div>
+
+    </div>
+
+
+    <div class="separateur-age">
+      <span></span>
+      <b>♥</b>
+      <span></span>
+    </div>
+
+
+    <div class="titre-objectifs">
+      Objectifs de cette étape
+    </div>
+
+    <div class="objectifs-sim"></div>
+  `;
+
+  afficherAge(sim, "nouveauNe");
+  verifierGrandir(sim);
+}
+  
 function creerNouveauBebe() {
 
   const prenom = document.getElementById("bebe-prenom").value.trim();
   const nom = document.getElementById("bebe-nom").value.trim();
+  const sexe = document.getElementById("bebe-sexe").value;
+  const trait = document.getElementById("bebe-trait").value.trim();
 
   if (!prenom || !nom) {
     alert("💕 Il manque le prénom ou le nom de ce petit cœur !");
     return;
   }
+
+  transformerEnFicheBebe(prenom, nom, sexe, trait);
+
+  fermerCreationBebe();
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  document.getElementById("bebe-trait").value = "";
+}
 
   alert(
     "👶 Bienvenue " +
