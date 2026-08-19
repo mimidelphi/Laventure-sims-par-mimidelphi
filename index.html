@@ -541,6 +541,20 @@
   margin-top: 20px;
   cursor: pointer;
 }
+
+.modifier-sim {
+  float: right;
+  border: none;
+  background: transparent;
+  color: #9b72bb;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.modifier-sim:hover {
+  transform: scale(1.15);
+}
     
 @media (max-width: 700px) {
   .grille-sims {
@@ -2357,6 +2371,28 @@ function fermerCreationBebe() {
   }
 }
 
+function prochainNumeroBaby() {
+
+  let plusGrandNumero = 0;
+
+  document.querySelectorAll(".baby-numero").forEach(function(element) {
+
+    const texte = element.textContent;
+    const resultat = texte.match(/Baby n°\s*(\d+)/i);
+
+    if (resultat) {
+      const numero = parseInt(resultat[1]);
+
+      if (numero > plusGrandNumero) {
+        plusGrandNumero = numero;
+      }
+    }
+
+  });
+
+  return plusGrandNumero + 1;
+}
+  
 function transformerEnFicheBebe(prenom, nom, sexe, trait) {
 
   const sim = document.getElementById("sim-8");
@@ -2367,6 +2403,8 @@ function transformerEnFicheBebe(prenom, nom, sexe, trait) {
 
   const symboleSexe = sexe === "femme" ? "♀" : "♂";
 
+const numeroBaby = prochainNumeroBaby();
+  
   sim.className = "sim sim-modele";
 
   sim.innerHTML = `
@@ -2374,11 +2412,19 @@ function transformerEnFicheBebe(prenom, nom, sexe, trait) {
 
     <div class="entete-sim">
 
-      <div class="photo-sim petite-photo photo-modifiable">
-        <span>Photo</span>
-      </div>
+      <div class="photo-sim petite-photo photo-modifiable"
+     onclick="choisirPhotoSim(this)"
+     title="Cliquer pour ajouter ou changer la photo">
+  <span>Photo</span>
+</div>
 
       <div class="infos-sim">
+
+<button class="modifier-sim"
+        onclick="ouvrirModificationSim(this)"
+        title="Modifier les informations">
+  ✎
+</button>
 
         <div class="ligne-prenom">
           <h3 class="prenom-sim">${prenom}</h3>
@@ -2391,7 +2437,7 @@ function transformerEnFicheBebe(prenom, nom, sexe, trait) {
 
         <div class="numero-baby">
           <span class="trait-deco"></span>
-          <span class="baby-numero">♥ Baby n° 10 / 100 ♥</span>
+          <span class="baby-numero">♥ Baby n° ${numeroBaby} / 100 ♥</span>
           <span class="trait-deco"></span>
         </div>
 
@@ -2486,12 +2532,49 @@ function creerNouveauBebe() {
   const nom = document.getElementById("bebe-nom").value.trim();
   const sexe = document.getElementById("bebe-sexe").value;
   const trait = document.getElementById("bebe-trait").value.trim();
-
+  
   if (!prenom || !nom) {
     alert("💕 Il manque le prénom ou le nom de ce petit cœur !");
     return;
   }
 
+if (simEnModification) {
+
+  const symboleSexe = sexe === "femme" ? "♀" : "♂";
+
+  simEnModification.querySelector(".prenom-sim").textContent = prenom;
+  simEnModification.querySelector(".nom-famille-sim").textContent = nom;
+
+  const zoneSexe = simEnModification.querySelector(".sexe-sim");
+
+  zoneSexe.className = "sexe-sim " + sexe;
+  zoneSexe.textContent = symboleSexe;
+  zoneSexe.title = sexe === "femme" ? "Fille" : "Garçon";
+
+  const zoneTrait = simEnModification.querySelector(".trait-bebe");
+
+  if (zoneTrait) {
+    zoneTrait.title = trait;
+    zoneTrait.textContent = trait || "+";
+  }
+
+  fermerCreationBebe();
+
+  simEnModification = null;
+
+  document.querySelector(".fenetre-bebe h2").textContent =
+    "💕 Bienvenue petit cœur 💕";
+
+  document.querySelector(".bouton-bienvenue").textContent =
+    "💕 Bienvenue dans la famille 💕";
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  document.getElementById("bebe-trait").value = "";
+
+  return;
+}
+  
   transformerEnFicheBebe(prenom, nom, sexe, trait);
 
   fermerCreationBebe();
@@ -2499,6 +2582,84 @@ function creerNouveauBebe() {
   document.getElementById("bebe-prenom").value = "";
   document.getElementById("bebe-nom").value = "";
   document.getElementById("bebe-trait").value = "";
+}
+
+function choisirPhotoSim(zonePhoto) {
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = function() {
+
+    const fichier = input.files[0];
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      zonePhoto.innerHTML = "";
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+      image.alt = "Photo du Sim";
+
+      image.style.width = "100%";
+      image.style.height = "100%";
+      image.style.objectFit = "cover";
+      image.style.borderRadius = "12px";
+
+      zonePhoto.appendChild(image);
+    };
+
+    lecteur.readAsDataURL(fichier);
+  };
+
+  input.click();
+}
+
+let simEnModification = null;
+
+function ouvrirModificationSim(bouton) {
+
+  const sim = bouton.closest(".sim-modele");
+
+  if (!sim) {
+    return;
+  }
+
+  simEnModification = sim;
+
+  const prenom = sim.querySelector(".prenom-sim");
+  const nom = sim.querySelector(".nom-famille-sim");
+  const sexe = sim.querySelector(".sexe-sim");
+  const trait = sim.querySelector(".trait-bebe");
+
+  document.getElementById("bebe-prenom").value =
+    prenom ? prenom.textContent.trim() : "";
+
+  document.getElementById("bebe-nom").value =
+    nom ? nom.textContent.trim() : "";
+
+  document.getElementById("bebe-sexe").value =
+    sexe && sexe.classList.contains("homme") ? "homme" : "femme";
+
+  document.getElementById("bebe-trait").value =
+    trait ? trait.getAttribute("title") || "" : "";
+
+  document.querySelector(".fenetre-bebe h2").textContent =
+    "💕 Modifier la fiche 💕";
+
+  document.querySelector(".bouton-bienvenue").textContent =
+    "💕 Enregistrer les modifications 💕";
+
+  ouvrirCreationBebe();
 }
   
 verifierConnexion(); 
