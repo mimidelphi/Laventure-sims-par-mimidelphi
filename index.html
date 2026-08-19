@@ -459,6 +459,88 @@
   object-fit: contain;
   border-radius: 12px;
 }
+
+/* =========================
+   FENÊTRE CRÉATION BÉBÉ
+========================= */
+
+.fond-fenetre-bebe {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(75, 55, 95, 0.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fond-fenetre-bebe.ouverte {
+  display: flex;
+}
+
+.fenetre-bebe {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #e8b8db;
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 15px 45px rgba(92, 55, 120, 0.25);
+  box-sizing: border-box;
+}
+
+.fenetre-bebe h2 {
+  margin: 0 0 5px;
+  text-align: center;
+  color: #8b4bb3;
+}
+
+.intro-bebe {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.fenetre-bebe label {
+  display: block;
+  margin: 11px 0 5px;
+  color: #6c3eb1;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.fenetre-bebe input,
+.fenetre-bebe select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddcbe9;
+  border-radius: 10px;
+  background: white;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.fermer-fenetre-bebe {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: #a47abc;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.bouton-bienvenue {
+  display: block;
+  width: 100%;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
     
 @media (max-width: 700px) {
   .grille-sims {
@@ -1535,7 +1617,7 @@
 
    <div class="sim sim-emplacement-libre" id="sim-8">
 
-  <div class="carte-naissance-cliquable">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe()">
     <img
       src="carte-naissance.png"
       alt="Un nouveau bébé est arrivé"
@@ -1552,6 +1634,57 @@
       <p>Cette partie accueillera progressivement mes mondes et mes constructions.</p>
     </div>
 
+<!-- =========================
+     FENÊTRE CRÉATION BÉBÉ
+========================= -->
+
+<div id="fenetre-creation-bebe" class="fond-fenetre-bebe">
+
+  <div class="fenetre-bebe">
+
+    <button class="fermer-fenetre-bebe" onclick="fermerCreationBebe()">×</button>
+
+    <h2>💕 Bienvenue petit cœur 💕</h2>
+
+    <p class="intro-bebe">
+      Un nouveau membre vient d’agrandir la famille !
+    </p>
+
+    <label for="bebe-prenom">Prénom</label>
+    <input
+      type="text"
+      id="bebe-prenom"
+      placeholder="Prénom du bébé"
+    >
+
+    <label for="bebe-nom">Nom</label>
+    <input
+      type="text"
+      id="bebe-nom"
+      placeholder="Nom de famille"
+    >
+
+    <label for="bebe-sexe">Sexe</label>
+    <select id="bebe-sexe">
+      <option value="femme">♀ Fille</option>
+      <option value="homme">♂ Garçon</option>
+    </select>
+
+    <label for="bebe-trait">Trait du nouveau-né</label>
+    <input
+      type="text"
+      id="bebe-trait"
+      placeholder="Ex : Calme, intense..."
+    >
+
+    <button class="bouton bouton-bienvenue" onclick="creerNouveauBebe()">
+      💕 Bienvenue dans la famille 💕
+    </button>
+
+  </div>
+
+</div>
+    
   </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -2203,6 +2336,45 @@ document.querySelectorAll(".sim-modele").forEach(function(sim) {
   }
 
 });
+
+/* =========================================
+   CRÉATION D'UN NOUVEAU BÉBÉ
+========================================= */
+
+function ouvrirCreationBebe() {
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  if (fenetre) {
+    fenetre.classList.add("ouverte");
+  }
+}
+
+function fermerCreationBebe() {
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  if (fenetre) {
+    fenetre.classList.remove("ouverte");
+  }
+}
+
+function creerNouveauBebe() {
+
+  const prenom = document.getElementById("bebe-prenom").value.trim();
+  const nom = document.getElementById("bebe-nom").value.trim();
+
+  if (!prenom || !nom) {
+    alert("💕 Il manque le prénom ou le nom de ce petit cœur !");
+    return;
+  }
+
+  alert(
+    "👶 Bienvenue " +
+    prenom +
+    " " +
+    nom +
+    " !"
+  );
+}
   
 verifierConnexion(); 
 </script>
