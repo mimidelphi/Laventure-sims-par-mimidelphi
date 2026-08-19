@@ -1773,6 +1773,93 @@
     message.textContent = "✅ Sauvegardé !";
 }
 
+async function sauvegarderChallenge() {
+
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    console.warn("Sauvegarde impossible : utilisateur non connecté.");
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const sims = [];
+
+  document.querySelectorAll(".grille-sims > .sim").forEach(function(sim) {
+
+    if (sim.classList.contains("sim-emplacement-libre")) {
+      return;
+    }
+
+    const prenom = sim.querySelector(".prenom-sim");
+    const nom = sim.querySelector(".nom-famille-sim");
+    const sexe = sim.querySelector(".sexe-sim");
+    const numero = sim.querySelector(".baby-numero");
+    const age = sim.querySelector(".age-nom");
+    const trait = sim.querySelector(".trait-bebe");
+    const photo = sim.querySelector(".photo-sim img");
+
+    sims.push({
+      id: sim.id,
+      prenom: prenom ? prenom.textContent.trim() : "",
+      nom: nom ? nom.textContent.trim() : "",
+      sexe: sexe && sexe.classList.contains("homme") ? "homme" : "femme",
+      numeroBaby: numero ? numero.textContent.trim() : "",
+      age: age ? age.textContent.trim() : "",
+      trait: trait ? trait.getAttribute("title") || "" : "",
+      photo: photo ? photo.src : ""
+    });
+
+  });
+
+  const { error } = await supabaseClient
+    .from("app_data")
+    .upsert({
+      user_id: user.id,
+      data: {
+        sims: sims
+      }
+    }, {
+      onConflict: "user_id"
+    });
+
+  if (error) {
+    console.error("Erreur sauvegarde challenge :", error);
+    return;
+  }
+
+  console.log("✅ Challenge sauvegardé");
+}
+
+async function chargerChallenge() {
+
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const { data, error } = await supabaseClient
+    .from("app_data")
+    .select("data")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error) {
+    console.log("Aucune sauvegarde challenge trouvée.");
+    return;
+  }
+
+  if (!data || !data.data || !data.data.sims) {
+    return;
+  }
+
+  console.log("Sauvegarde trouvée :", data.data.sims);
+}
+  
 /* =========================================
    BIBLIOTHÈQUE DES ÂGES
    Les modèles restent ici en permanence.
