@@ -706,7 +706,7 @@
       <h2>🏡 Mes mondes & constructions</h2>
       <p>Cette partie accueillera progressivement mes mondes et mes constructions.</p>
     </div>
-
+    
 <!-- =========================
      FENÊTRE CRÉATION BÉBÉ
 ========================= -->
@@ -1960,6 +1960,19 @@ function supprimerMatriarcheTest(bouton) {
 
   sauvegarderChallenge();
 }
+
+function modifierCompteurMatriarche(changement) {
+
+  const compteur = document.getElementById("compteur-matriarche");
+
+  if (!compteur) {
+    return;
+  }
+
+  const valeurActuelle = parseInt(compteur.textContent, 10) || 0;
+
+  compteur.textContent = Math.max(0, valeurActuelle + changement);
+}
   
 function creerNouveauBebe() {
 
@@ -2044,6 +2057,20 @@ sauvegarderChallenge();
 
 emplacementBebeChoisi = null;
 
+transformerEnFicheBebe(
+  prenom,
+  nom,
+  sexe,
+  trait,
+  emplacementBebeChoisi
+);
+
+emplacementBebeChoisi = null;
+
+modifierCompteurMatriarche(1);
+
+sauvegarderChallenge();
+  
 sauvegarderChallenge();
   
   fermerCreationBebe();
