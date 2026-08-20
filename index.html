@@ -1917,6 +1917,43 @@ function supprimerBebeTest(bouton) {
 
   sauvegarderChallenge();
 }
+
+function supprimerMatriarcheTest(bouton) {
+
+  const sim = bouton.closest(".sim");
+
+  if (!sim) {
+    return;
+  }
+
+  const confirmation = confirm(
+    "👑 Oups ! Effacer cette Matriarche de test ?\n\n" +
+    "Sa fiche sera supprimée et la carte de création reviendra."
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  sim.className = "sim sim-emplacement-matriarche";
+
+  sim.innerHTML = `
+    <div class="carte-naissance-cliquable"
+         onclick="ouvrirCreationMatriarche()">
+
+      <img
+        src="carte-matriarche.png"
+        alt="Créer ma Matriarche"
+        class="image-carte-naissance"
+      >
+
+    </div>
+  `;
+
+  creationMatriarcheEnCours = false;
+
+  sauvegarderChallenge();
+}
   
 function creerNouveauBebe() {
 
