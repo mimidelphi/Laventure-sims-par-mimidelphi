@@ -1541,6 +1541,24 @@ document.querySelectorAll(".sim-modele").forEach(function(sim) {
    CRÉATION D'UN NOUVEAU BÉBÉ
 ========================================= */
 
+function ouvrirCreationMatriarche() {
+
+  creationMatriarcheEnCours = true;
+  emplacementBebeChoisi = null;
+  simEnModification = null;
+
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  document.getElementById("bebe-sexe").value = "femme";
+  document.getElementById("bebe-trait").value = "";
+
+  if (fenetre) {
+    fenetre.classList.add("ouverte");
+  }
+}
+  
 function ouvrirCreationBebe(element) {
 
   emplacementBebeChoisi = element
@@ -1870,6 +1888,7 @@ function choisirPhotoSim(zonePhoto) {
 
 let simEnModification = null;
 let emplacementBebeChoisi = null;
+let creationMatriarcheEnCours = false;
   
 function ouvrirModificationSim(bouton) {
 
