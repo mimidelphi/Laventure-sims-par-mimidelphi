@@ -926,57 +926,150 @@ async function chargerChallenge() {
     return;
   }
 
- if (!data || !data.data || !data.data.sims) {
-  return;
-}
-
-const simsSauvegardes = data.data.sims;
-
-const sim8Sauvegarde = simsSauvegardes.find(function(sim) {
-  return sim.id === "sim-8";
-});
-
-if (!sim8Sauvegarde) {
-  return;
-}
-
-transformerEnFicheBebe(
-  sim8Sauvegarde.prenom,
-  sim8Sauvegarde.nom,
-  sim8Sauvegarde.sexe,
-  sim8Sauvegarde.trait
-);
-
-const sim8 = document.getElementById("sim-8");
-
-if (sim8Sauvegarde.numeroBaby) {
-  const numero = sim8.querySelector(".baby-numero");
-
-  if (numero) {
-    numero.textContent = sim8Sauvegarde.numeroBaby;
+  if (!data || !data.data) {
+    return;
   }
-}
 
-if (sim8Sauvegarde.photo) {
-  const zonePhoto = sim8.querySelector(".photo-sim");
+  const simsSauvegardes = data.data.sims || [];
 
-  if (zonePhoto) {
-    zonePhoto.innerHTML = "";
 
-    const image = document.createElement("img");
-    image.src = sim8Sauvegarde.photo;
-    image.alt = "Photo du Sim";
+  // ==============================
+  // 👑 RESTAURER LA MATRIARCHE
+  // ==============================
 
-    image.style.width = "100%";
-    image.style.height = "100%";
-    image.style.objectFit = "cover";
-    image.style.borderRadius = "12px";
+  const matriarcheSauvegardee = simsSauvegardes.find(function(sim) {
+    return sim.id === "sim-1";
+  });
 
-    zonePhoto.appendChild(image);
+  if (matriarcheSauvegardee) {
+
+    transformerEnFicheMatriarche(
+      matriarcheSauvegardee.prenom,
+      matriarcheSauvegardee.nom
+    );
+
+    const matriarche = document.getElementById("sim-1");
+
+    if (matriarcheSauvegardee.photo) {
+
+      const zonePhoto = matriarche.querySelector(".photo-sim");
+
+      if (zonePhoto) {
+
+        zonePhoto.innerHTML = "";
+
+        const image = document.createElement("img");
+
+        image.src = matriarcheSauvegardee.photo;
+        image.alt = "Photo de la Matriarche";
+
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+        image.style.borderRadius = "12px";
+
+        zonePhoto.appendChild(image);
+      }
+    }
   }
-}
 
-verifierGrandir(sim8);
+
+  // ==============================
+  // 👶 RESTAURER LES 7 ENFANTS
+  // ==============================
+
+  simsSauvegardes.forEach(function(simSauvegarde) {
+
+    if (simSauvegarde.id === "sim-1") {
+      return;
+    }
+
+    const emplacement =
+      document.getElementById(simSauvegarde.id);
+
+    if (!emplacement) {
+      return;
+    }
+
+    transformerEnFicheBebe(
+      simSauvegarde.prenom,
+      simSauvegarde.nom,
+      simSauvegarde.sexe,
+      simSauvegarde.trait,
+      emplacement
+    );
+
+
+    // Numéro Baby
+    if (simSauvegarde.numeroBaby) {
+
+      const numero =
+        emplacement.querySelector(".baby-numero");
+
+      if (numero) {
+        numero.textContent =
+          simSauvegarde.numeroBaby;
+      }
+    }
+
+
+    // Âge actuel
+    if (simSauvegarde.age) {
+
+      const cleAge =
+        trouverCleAge(simSauvegarde.age);
+
+      if (cleAge) {
+        afficherAge(emplacement, cleAge);
+      }
+    }
+
+
+    // Photo
+    if (simSauvegarde.photo) {
+
+      const zonePhoto =
+        emplacement.querySelector(".photo-sim");
+
+      if (zonePhoto) {
+
+        zonePhoto.innerHTML = "";
+
+        const image =
+          document.createElement("img");
+
+        image.src = simSauvegarde.photo;
+        image.alt = "Photo du Sim";
+
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+        image.style.borderRadius = "12px";
+
+        zonePhoto.appendChild(image);
+      }
+    }
+
+    verifierGrandir(emplacement);
+
+  });
+
+
+  // ==============================
+  // 👑 RESTAURER LE COMPTEUR
+  // ==============================
+
+  const compteur =
+    document.getElementById("compteur-matriarche");
+
+  if (
+    compteur &&
+    data.data.compteurMatriarche !== undefined
+  ) {
+    compteur.textContent =
+      data.data.compteurMatriarche;
+  }
+
 }
   
 /* =========================================
