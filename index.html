@@ -1690,9 +1690,9 @@ function prochainNumeroBaby() {
   return plusGrandNumero + 1;
 }
   
-function transformerEnFicheBebe(prenom, nom, sexe, trait) {
+function transformerEnFicheBebe(prenom, nom, sexe, trait, emplacement = null) {
 
-  const sim = document.getElementById("sim-8");
+  const sim = emplacement || emplacementBebeChoisi || document.getElementById("sim-8");
 
   if (!sim) {
     return;
