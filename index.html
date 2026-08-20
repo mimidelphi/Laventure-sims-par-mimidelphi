@@ -1648,12 +1648,16 @@ document.querySelectorAll(".sim-modele").forEach(function(sim) {
    CRÉATION D'UN NOUVEAU BÉBÉ
 ========================================= */
 
-function ouvrirCreationBebe() {
-  const fenetre = document.getElementById("fenetre-creation-bebe");
+function ouvrirCreationBebe(element) {
 
-  if (fenetre) {
-    fenetre.classList.add("ouverte");
-  }
+  emplacementBebeChoisi = element
+    ? element.closest(".sim")
+    : document.getElementById("sim-8");
+
+  document
+    .getElementById("fenetre-creation-bebe")
+    .classList.add("ouverte");
+}
 }
 
 function fermerCreationBebe() {
