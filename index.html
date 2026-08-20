@@ -1654,10 +1654,11 @@ function ouvrirCreationBebe(element) {
     ? element.closest(".sim")
     : document.getElementById("sim-8");
 
-  document
-    .getElementById("fenetre-creation-bebe")
-    .classList.add("ouverte");
-}
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  if (fenetre) {
+    fenetre.classList.add("ouverte");
+  }
 }
 
 function fermerCreationBebe() {
