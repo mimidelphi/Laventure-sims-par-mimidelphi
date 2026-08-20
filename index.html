@@ -1601,6 +1601,142 @@ function prochainNumeroBaby() {
 
   return plusGrandNumero + 1;
 }
+
+function transformerEnFicheMatriarche(prenom, nom) {
+
+  const sim = document.getElementById("sim-1");
+
+  if (!sim) {
+    return;
+  }
+
+  sim.className = "sim sim-modele matriarche";
+
+  sim.innerHTML = `
+    <div class="entete-sim">
+
+      <div class="photo-sim petite-photo photo-modifiable"
+           onclick="choisirPhotoSim(this)"
+           title="Cliquer pour ajouter ou changer la photo">
+        <span>Photo</span>
+      </div>
+
+      <div class="infos-sim">
+
+        <button class="modifier-sim"
+                onclick="ouvrirModificationSim(this)"
+                title="Modifier les informations">
+          ✎
+        </button>
+
+        <div class="ligne-prenom">
+          <h3 class="prenom-sim">${prenom}</h3>
+          <span class="sexe-sim femme" title="Femme">♀</span>
+        </div>
+
+        <div class="nom-famille-sim">${nom}</div>
+
+        <div class="numero-baby">
+          <span class="trait-deco"></span>
+          <span class="baby-numero">♥ Matriarche ♥</span>
+          <span class="trait-deco"></span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="identite-sim">
+
+      <div class="ligne-identite-simple">
+        <span class="icone-categorie">👶</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+
+      <div class="ligne-identite-simple ligne-acquis">
+        <span class="icone-categorie">✨</span>
+
+        <div class="cases-acquis">
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite vide">+</span>
+          <span class="icone-identite suite-acquis">+…</span>
+        </div>
+      </div>
+
+      <div class="ligne-identite-simple">
+        <span class="icone-categorie">💎</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+        <span class="icone-identite vide">+</span>
+      </div>
+
+    </div>
+
+
+    <div class="bloc-age">
+
+      <div class="logo-age">👑</div>
+
+      <div class="texte-age">
+        <strong class="age-nom">MATRIARCHE</strong>
+        <span class="age-sous-titre">Maman du Challenge</span>
+      </div>
+
+      <div class="icone-age-droite">🤰</div>
+
+    </div>
+
+
+    <div class="separateur-coeur">
+      <span></span>
+      ♥
+      <span></span>
+    </div>
+
+
+    <div class="titre-objectifs">
+      Objectifs de la Matriarche
+    </div>
+
+    <div class="objectifs-sim" id="objectifs-sim-1">
+
+      <div class="objectif compteur-matriarche">
+        <span class="icone-objectif">👶</span>
+
+        <span class="texte-objectif">
+          Enfants de cette Matriarche :
+          <strong id="compteur-matriarche">0</strong>
+        </span>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">👵</span>
+        <span class="texte-objectif">
+          Devenir personne âgée
+        </span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">👑</span>
+        <span class="texte-objectif">
+          Passer le relais à la dernière fille éligible
+        </span>
+        <button>✓</button>
+      </div>
+
+    </div>
+  `;
+}
   
 function transformerEnFicheBebe(prenom, nom, sexe, trait, emplacement = null) {
 
