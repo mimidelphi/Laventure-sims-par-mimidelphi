@@ -2664,6 +2664,41 @@ const numeroBaby = prochainNumeroBaby();
   afficherAge(sim, "nouveauNe");
   verifierGrandir(sim);
 }
+
+function supprimerBebeTest(bouton) {
+
+  const sim = bouton.closest(".sim");
+
+  if (!sim) {
+    return;
+  }
+
+  const prenom = sim.querySelector(".prenom-sim");
+  const nomBebe = prenom ? prenom.textContent.trim() : "ce bébé";
+
+  const confirmation = confirm(
+    "🗑️ Oups ! Effacer " + nomBebe + " ?\n\n" +
+    "Cette fiche sera supprimée et l'emplacement redeviendra libre."
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  sim.className = "sim sim-emplacement-libre";
+
+  sim.innerHTML = `
+    <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe()">
+      <img
+        src="carte-naissance.png"
+        alt="Un nouveau bébé est arrivé"
+        class="image-carte-naissance"
+      >
+    </div>
+  `;
+
+  sauvegarderChallenge();
+}
   
 function creerNouveauBebe() {
 
