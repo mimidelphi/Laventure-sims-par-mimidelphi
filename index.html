@@ -847,7 +847,11 @@ async function sauvegarderChallenge() {
 
   document.querySelectorAll(".grille-sims > .sim").forEach(function(sim) {
 
-    if (sim.classList.contains("sim-emplacement-libre")) {
+    // On ne sauvegarde pas les emplacements encore vides
+    if (
+      sim.classList.contains("sim-emplacement-libre") ||
+      sim.classList.contains("sim-emplacement-matriarche")
+    ) {
       return;
     }
 
@@ -872,33 +876,26 @@ async function sauvegarderChallenge() {
 
   });
 
-const compteurMatriarcheElement =
-  document.getElementById("compteur-matriarche");
+  // 👑 Compteur de la Matriarche
+  const compteurElement =
+    document.getElementById("compteur-matriarche");
 
-const compteurMatriarche =
-  compteurMatriarcheElement
-    ? parseInt(compteurMatriarcheElement.textContent, 10) || 0
-    : 0;
+  const compteurMatriarche =
+    compteurElement
+      ? parseInt(compteurElement.textContent, 10) || 0
+      : 0;
 
-const compteurMatriarcheElement =
-  document.getElementById("compteur-matriarche");
-
-const compteurMatriarche =
-  compteurMatriarcheElement
-    ? parseInt(compteurMatriarcheElement.textContent, 10) || 0
-    : 0;
-  
   const { error } = await supabaseClient
-  .from("app_data")
-  .upsert({
-    user_id: user.id,
-    data: {
-  sims: sims,
-  compteurMatriarche: compteurMatriarche
-}
-  }, {
-    onConflict: "user_id"
-  });
+    .from("app_data")
+    .upsert({
+      user_id: user.id,
+      data: {
+        sims: sims,
+        compteurMatriarche: compteurMatriarche
+      }
+    }, {
+      onConflict: "user_id"
+    });
 
   if (error) {
     console.error("Erreur sauvegarde challenge :", error);
