@@ -1918,6 +1918,28 @@ function creerNouveauBebe() {
   const nom = document.getElementById("bebe-nom").value.trim();
   const sexe = document.getElementById("bebe-sexe").value;
   const trait = document.getElementById("bebe-trait").value.trim();
+
+if (creationMatriarcheEnCours) {
+
+  if (!prenom || !nom) {
+    alert("👑 Il manque le prénom ou le nom de la Matriarche !");
+    return;
+  }
+
+  transformerEnFicheMatriarche(prenom, nom);
+
+  creationMatriarcheEnCours = false;
+
+  fermerCreationBebe();
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  document.getElementById("bebe-trait").value = "";
+
+  sauvegarderChallenge();
+
+  return;
+}
   
   if (!prenom || !nom) {
     alert("💕 Il manque le prénom ou le nom de ce petit cœur !");
