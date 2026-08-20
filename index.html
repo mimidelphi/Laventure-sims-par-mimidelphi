@@ -872,16 +872,33 @@ async function sauvegarderChallenge() {
 
   });
 
+const compteurMatriarcheElement =
+  document.getElementById("compteur-matriarche");
+
+const compteurMatriarche =
+  compteurMatriarcheElement
+    ? parseInt(compteurMatriarcheElement.textContent, 10) || 0
+    : 0;
+
+const compteurMatriarcheElement =
+  document.getElementById("compteur-matriarche");
+
+const compteurMatriarche =
+  compteurMatriarcheElement
+    ? parseInt(compteurMatriarcheElement.textContent, 10) || 0
+    : 0;
+  
   const { error } = await supabaseClient
-    .from("app_data")
-    .upsert({
-      user_id: user.id,
-      data: {
-        sims: sims
-      }
-    }, {
-      onConflict: "user_id"
-    });
+  .from("app_data")
+  .upsert({
+    user_id: user.id,
+    data: {
+  sims: sims,
+  compteurMatriarche: compteurMatriarche
+}
+  }, {
+    onConflict: "user_id"
+  });
 
   if (error) {
     console.error("Erreur sauvegarde challenge :", error);
