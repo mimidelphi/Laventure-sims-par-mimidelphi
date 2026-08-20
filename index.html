@@ -1915,7 +1915,15 @@ sauvegarderChallenge();
   return;
 }
   
-  transformerEnFicheBebe(prenom, nom, sexe, trait);
+  transformerEnFicheBebe(
+  prenom,
+  nom,
+  sexe,
+  trait,
+  emplacementBebeChoisi
+);
+
+emplacementBebeChoisi = null;
 
 sauvegarderChallenge();
   
