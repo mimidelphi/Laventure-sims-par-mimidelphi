@@ -249,6 +249,81 @@
 .icone-identite.vide {
   color: #999;
 }
+
+.icone-identite.vide {
+  cursor: pointer;
+}
+
+.icone-identite.vide:hover {
+  transform: scale(1.08);
+  background: #e3d7ed;
+}
+
+.fond-bibliotheque-icones {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(75, 55, 95, 0.45);
+  z-index: 1200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fond-bibliotheque-icones.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-icones {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 15px 45px rgba(92, 55, 120, 0.25);
+  box-sizing: border-box;
+}
+
+.fenetre-bibliotheque-icones h2 {
+  margin: 0 0 5px;
+  text-align: center;
+  color: #6c3eb1;
+}
+
+.fermer-bibliotheque {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: #a47abc;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.recherche-icone {
+  width: 100%;
+  margin-top: 15px;
+  padding: 11px;
+  border: 1px solid #ddcbe9;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.resultats-icones {
+  min-height: 80px;
+  margin-top: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+}
+    
 .cases-acquis {
   display: flex;
   align-items: center;
@@ -762,6 +837,42 @@
     <button class="bouton bouton-bienvenue" onclick="creerNouveauBebe()">
       💕 Bienvenue dans la famille 💕
     </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     BIBLIOTHÈQUE D'ICÔNES
+========================= -->
+
+<div id="fond-bibliotheque-icones"
+     class="fond-bibliotheque-icones">
+
+  <div class="fenetre-bibliotheque-icones">
+
+    <button class="fermer-bibliotheque"
+            onclick="fermerBibliothequeIcones()">
+      ×
+    </button>
+
+    <h2>Bibliothèque d'icônes</h2>
+
+    <p class="intro-bebe">
+      Recherche un trait, une aspiration ou un acquis.
+    </p>
+
+    <input
+      type="text"
+      id="recherche-icone"
+      class="recherche-icone"
+      placeholder="Ex : Créatif, Romantique..."
+    >
+
+    <div id="resultats-icones"
+         class="resultats-icones">
+      Commence à écrire le nom d'une icône…
+    </div>
 
   </div>
 
@@ -2264,6 +2375,60 @@ function ouvrirModificationSim(bouton) {
 
   ouvrirCreationBebe();
 }
+
+/* =========================================
+   BIBLIOTHÈQUE D'ICÔNES
+========================================= */
+
+let caseIconeChoisie = null;
+
+function ouvrirBibliothequeIcones(caseIcone) {
+
+  caseIconeChoisie = caseIcone;
+
+  const fond =
+    document.getElementById("fond-bibliotheque-icones");
+
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  recherche.value = "";
+
+  resultats.textContent =
+    "Commence à écrire le nom d'une icône…";
+
+  fond.classList.add("ouverte");
+
+  recherche.focus();
+}
+
+function fermerBibliothequeIcones() {
+
+  document
+    .getElementById("fond-bibliotheque-icones")
+    .classList.remove("ouverte");
+
+  caseIconeChoisie = null;
+}
+
+
+/* Détecte automatiquement tous les + des fiches */
+
+document.addEventListener("click", function(event) {
+
+  const caseVide =
+    event.target.closest(".icone-identite.vide");
+
+  if (!caseVide) {
+    return;
+  }
+
+  ouvrirBibliothequeIcones(caseVide);
+
+});
   
 verifierConnexion(); 
   chargerChallenge();
