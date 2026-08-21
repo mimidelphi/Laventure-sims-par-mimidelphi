@@ -1776,37 +1776,37 @@ function transformerEnFicheMatriarche(prenom, nom) {
 
     <div class="identite-sim">
 
-      <div class="ligne-identite-simple">
-        <span class="icone-categorie">👶</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+    <div class="ligne-identite-simple ligne-traits-temporaires">
+  <span class="icone-categorie">
+    <img src="icone-trait-age.png" alt="Traits en grandissant">
+  </span>
 
-      <div class="ligne-identite-simple ligne-acquis">
-        <span class="icone-categorie">✨</span>
+  <span class="icone-identite vide"
+        data-categorie-ligne="temporaire">+</span>
+</div>
 
-        <div class="cases-acquis">
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite suite-acquis">+…</span>
-        </div>
-      </div>
 
-      <div class="ligne-identite-simple">
-        <span class="icone-categorie">💎</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+<div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">
+    <img src="icone-acquis-vie.png" alt="Acquis de vie">
+  </span>
 
+  <div class="cases-acquis">
+    <span class="icone-identite vide"
+          data-categorie-ligne="acquis">+</span>
+  </div>
+</div>
+
+
+<div class="ligne-identite-simple ligne-traits-definitifs">
+  <span class="icone-categorie">
+    <img src="icone-traits-definitifs.png"
+         alt="Traits et aspiration">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="definitif">+</span>
+</div>
     </div>
 
 
@@ -1928,45 +1928,41 @@ const numeroBaby = prochainNumeroBaby();
 
     <div class="identite-sim">
 
-      <div class="ligne-identite-simple ligne-traits-temporaires">
-        <span class="icone-categorie">👶</span>
+     <div class="ligne-identite-simple ligne-traits-temporaires">
+  <span class="icone-categorie">
+    <img src="icone-trait-age.png" alt="Traits en grandissant">
+  </span>
 
-        <span class="icone-identite trait-bebe" title="${trait}">
-          ${trait || "+"}
-        </span>
+  <span class="icone-identite trait-bebe" title="${trait}">
+    ${trait || "+"}
+  </span>
 
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
-
-
-      <div class="ligne-identite-simple ligne-acquis">
-        <span class="icone-categorie">✨</span>
-
-        <div class="cases-acquis">
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite vide">+</span>
-          <span class="icone-identite suite-acquis">+…</span>
-        </div>
-      </div>
+  <span class="icone-identite vide"
+        data-categorie-ligne="temporaire">+</span>
+</div>
 
 
-      <div class="ligne-identite-simple">
-        <span class="icone-categorie">💎</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-        <span class="icone-identite vide">+</span>
-      </div>
+<div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">
+    <img src="icone-acquis-vie.png" alt="Acquis de vie">
+  </span>
 
-    </div>
+  <div class="cases-acquis">
+    <span class="icone-identite vide"
+          data-categorie-ligne="acquis">+</span>
+  </div>
+</div>
 
+
+<div class="ligne-identite-simple ligne-traits-definitifs">
+  <span class="icone-categorie">
+    <img src="icone-traits-definitifs.png"
+         alt="Traits et aspiration">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="definitif">+</span>
+</div>
 
     <!-- ÉTAPE DE VIE -->
 
