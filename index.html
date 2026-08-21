@@ -2661,8 +2661,74 @@ function afficherResultatsIcones(icones) {
       </span>
     `;
 
+bouton.addEventListener("click", function() {
+  ajouterIconeSurFiche(icone);
+});
+    
     resultats.appendChild(bouton);
 
+function ajouterIconeSurFiche(icone) {
+
+  if (!caseIconeChoisie) {
+    return;
+  }
+
+  const caseActuelle = caseIconeChoisie;
+
+  /* On mémorise à quelle ligne appartient le + */
+  const categorieLigne =
+    caseActuelle.dataset.categorieLigne;
+
+  /* Le + devient l'icône choisie */
+  caseActuelle.classList.remove("vide");
+
+  caseActuelle.innerHTML = `
+    <img src="${icone.image}"
+         alt="${icone.nom}">
+  `;
+
+  /* Nom visible quand on passe la souris */
+  caseActuelle.title = icone.nom;
+
+  /* On garde les informations de l'icône */
+  caseActuelle.dataset.iconeId = icone.id;
+  caseActuelle.dataset.iconeNom = icone.nom;
+
+  /* Le + actuel n'est plus un emplacement vide */
+  delete caseActuelle.dataset.categorieLigne;
+
+
+  /* Création du prochain + */
+  const nouveauPlus =
+    document.createElement("span");
+
+  nouveauPlus.className =
+    "icone-identite vide";
+
+  nouveauPlus.textContent = "+";
+
+  nouveauPlus.dataset.categorieLigne =
+    categorieLigne;
+
+
+  /* Ligne des acquis = le + est dans cases-acquis */
+  if (categorieLigne === "acquis") {
+
+    caseActuelle.parentElement.appendChild(
+      nouveauPlus
+    );
+
+  } else {
+
+    caseActuelle.parentElement.appendChild(
+      nouveauPlus
+    );
+  }
+
+
+  fermerBibliothequeIcones();
+}
+    
   });
 }
 
