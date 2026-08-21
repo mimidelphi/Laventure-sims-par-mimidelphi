@@ -2414,7 +2414,100 @@ function fermerBibliothequeIcones() {
   caseIconeChoisie = null;
 }
 
+  async function rechercherIconesBibliotheque() {
 
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  const terme = recherche.value.trim();
+
+  if (terme.length === 0) {
+    resultats.textContent =
+      "Commence à écrire le nom d'une icône…";
+    return;
+  }
+
+  resultats.textContent = "Recherche en cours...";
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    resultats.textContent =
+      "Tu dois être connectée pour utiliser la bibliothèque.";
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const { data, error } =
+    await supabaseClient
+      .from("icon_library")
+      .select("id, nom, categorie, image")
+      .eq("user_id", user.id)
+      .ilike("nom", "%" + terme + "%")
+      .order("nom", { ascending: true });
+
+  if (error) {
+    console.error(
+      "Erreur recherche bibliothèque :",
+      error
+    );
+
+    resultats.textContent =
+      "Erreur pendant la recherche.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    resultats.textContent =
+      "Aucune icône trouvée dans ta bibliothèque.";
+    return;
+  }
+
+  afficherResultatsIcones(data);
+}
+
+function afficherResultatsIcones(icones) {
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  resultats.innerHTML = "";
+
+  icones.forEach(function(icone) {
+
+    const bouton =
+      document.createElement("button");
+
+    bouton.type = "button";
+    bouton.className = "resultat-icone";
+
+    bouton.innerHTML = `
+      <img src="${icone.image}"
+           alt="${icone.nom}">
+
+      <span>
+        <strong>${icone.nom}</strong>
+        <small>${icone.categorie}</small>
+      </span>
+    `;
+
+    resultats.appendChild(bouton);
+
+  });
+}
+
+  document
+  .getElementById("recherche-icone")
+  .addEventListener(
+    "input",
+    rechercherIconesBibliotheque
+  );
+  
 /* Détecte automatiquement tous les + des fiches */
 
 document.addEventListener("click", function(event) {
