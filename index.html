@@ -2666,6 +2666,150 @@ function afficherResultatsIcones(icones) {
   });
 }
 
+function afficherFormulaireNouvelleIcone() {
+
+  const formulaire =
+    document.getElementById("formulaire-nouvelle-icone");
+
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const nom =
+    document.getElementById("nouvelle-icone-nom");
+
+  formulaire.classList.toggle("ouvert");
+
+  /* Si on avait déjà tapé Créatif dans la recherche,
+     on récupère automatiquement ce nom */
+
+  if (
+    formulaire.classList.contains("ouvert") &&
+    recherche.value.trim()
+  ) {
+    nom.value = recherche.value.trim();
+  }
+}
+
+document
+  .getElementById("nouvelle-icone-image")
+  .addEventListener("change", function() {
+
+    const fichier = this.files[0];
+
+    const apercu =
+      document.getElementById("apercu-nouvelle-icone");
+
+    apercu.innerHTML = "";
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+
+      apercu.appendChild(image);
+    };
+
+    lecteur.readAsDataURL(fichier);
+
+  });
+
+async function enregistrerNouvelleIcone() {
+
+  const nom =
+    document
+      .getElementById("nouvelle-icone-nom")
+      .value
+      .trim();
+
+  const categorie =
+    document
+      .getElementById("nouvelle-icone-categorie")
+      .value;
+
+  const inputImage =
+    document.getElementById("nouvelle-icone-image");
+
+  const message =
+    document.getElementById("message-nouvelle-icone");
+
+  if (!nom) {
+    message.textContent =
+      "Écris d'abord le nom de l'icône.";
+    return;
+  }
+
+  if (!inputImage.files[0]) {
+    message.textContent =
+      "Choisis l'image de l'icône.";
+    return;
+  }
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+  const fichier = inputImage.files[0];
+
+  const lecteur = new FileReader();
+
+  lecteur.onload = async function(event) {
+
+    const image = event.target.result;
+
+    const { error } =
+      await supabaseClient
+        .from("icon_library")
+        .insert({
+          user_id: user.id,
+          nom: nom,
+          categorie: categorie,
+          image: image
+        });
+
+    if (error) {
+
+      console.error(
+        "Erreur ajout icône :",
+        error
+      );
+
+      message.textContent =
+        "Impossible d'enregistrer l'icône.";
+
+      return;
+    }
+
+    message.textContent =
+      "Icône ajoutée à la bibliothèque !";
+
+    document.getElementById(
+      "recherche-icone"
+    ).value = nom;
+
+    await rechercherIconesBibliotheque();
+
+  };
+
+  lecteur.readAsDataURL(fichier);
+}
+  
   document
   .getElementById("recherche-icone")
   .addEventListener(
