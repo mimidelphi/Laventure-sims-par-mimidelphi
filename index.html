@@ -915,6 +915,67 @@
       Commence à écrire le nom d'une icône…
     </div>
 
+<button
+  type="button"
+  class="bouton bouton-ajouter-icone"
+  onclick="afficherFormulaireNouvelleIcone()">
+  + Ajouter une nouvelle icône
+</button>
+
+<div id="formulaire-nouvelle-icone"
+     class="formulaire-nouvelle-icone">
+
+  <label for="nouvelle-icone-nom">Nom</label>
+
+  <input
+    type="text"
+    id="nouvelle-icone-nom"
+    placeholder="Ex : Créatif"
+  >
+
+  <label for="nouvelle-icone-categorie">Catégorie</label>
+
+  <select id="nouvelle-icone-categorie">
+    <option value="trait_age">
+      Trait en grandissant
+    </option>
+
+    <option value="acquis">
+      Acquis / trait bonus
+    </option>
+
+    <option value="trait_caractere">
+      Trait de caractère
+    </option>
+
+    <option value="aspiration">
+      Aspiration
+    </option>
+  </select>
+
+  <label for="nouvelle-icone-image">Icône</label>
+
+  <input
+    type="file"
+    id="nouvelle-icone-image"
+    accept="image/*"
+  >
+
+  <div id="apercu-nouvelle-icone"
+       class="apercu-nouvelle-icone">
+  </div>
+
+  <button
+    type="button"
+    class="bouton bouton-enregistrer-icone"
+    onclick="enregistrerNouvelleIcone()">
+    Enregistrer dans la bibliothèque
+  </button>
+
+  <p id="message-nouvelle-icone"></p>
+
+</div>
+    
   </div>
 
 </div>
