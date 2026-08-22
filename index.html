@@ -2055,7 +2055,6 @@ function transformerEnFicheMatriarche(prenom, nom) {
   sim.className = "sim sim-modele matriarche";
 
   sim.innerHTML = `
-  <div class="carte-sim-interne">
     <div class="entete-sim">
 
       <div class="photo-sim petite-photo photo-modifiable"
@@ -2182,7 +2181,6 @@ function transformerEnFicheMatriarche(prenom, nom) {
         </span>
         <button>✓</button>
       </div>
-</div>
     </div>
   `;
 }
@@ -2202,7 +2200,6 @@ const numeroBaby = prochainNumeroBaby();
   sim.className = "sim sim-modele";
 
   sim.innerHTML = `
-  <div class="carte-sim-interne">
     <!-- PHOTO + IDENTITÉ -->
 
     <div class="entete-sim">
@@ -2314,7 +2311,6 @@ const numeroBaby = prochainNumeroBaby();
 
        <div class="objectifs-sim"></div>
 
-  </div>
 `;
 
   afficherAge(sim, "nouveauNe");
