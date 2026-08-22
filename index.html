@@ -1245,7 +1245,46 @@ async function chargerChallenge() {
   }
 
   const simsSauvegardes = data.data.sims || [];
+const sauvegardeComplete = simsSauvegardes.some(function(sim) {
+  return sim.html;
+});
 
+if (sauvegardeComplete) {
+
+  simsSauvegardes.forEach(function(simSauvegarde) {
+
+    const emplacement =
+      document.getElementById(simSauvegarde.id);
+
+    if (!emplacement || !simSauvegarde.html) {
+      return;
+    }
+
+    emplacement.className =
+      simSauvegarde.className || "sim sim-modele";
+
+    emplacement.innerHTML =
+      simSauvegarde.html;
+
+    if (emplacement.id !== "sim-1") {
+      verifierGrandir(emplacement);
+    }
+
+  });
+
+  const compteur =
+    document.getElementById("compteur-matriarche");
+
+  if (
+    compteur &&
+    data.data.compteurMatriarche !== undefined
+  ) {
+    compteur.textContent =
+      data.data.compteurMatriarche;
+  }
+
+  return;
+}
 
   // ==============================
   // 👑 RESTAURER LA MATRIARCHE
