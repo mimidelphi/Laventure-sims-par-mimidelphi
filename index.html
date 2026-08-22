@@ -98,6 +98,10 @@
   text-align: left;
 }
 
+    .carte-sim-interne {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 /* =========================
    PHOTO + NOM
@@ -2154,6 +2158,7 @@ const numeroBaby = prochainNumeroBaby();
   sim.className = "sim sim-modele";
 
   sim.innerHTML = `
+  <div class="carte-sim-interne">
     <!-- PHOTO + IDENTITÉ -->
 
     <div class="entete-sim">
@@ -2263,8 +2268,10 @@ const numeroBaby = prochainNumeroBaby();
       Objectifs de cette étape
     </div>
 
-    <div class="objectifs-sim"></div>
-  `;
+       <div class="objectifs-sim"></div>
+
+  </div>
+`;
 
   afficherAge(sim, "nouveauNe");
   verifierGrandir(sim);
