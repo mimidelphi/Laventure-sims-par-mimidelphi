@@ -1145,7 +1145,6 @@ async function sauvegarderChallenge() {
     const sexe = sim.querySelector(".sexe-sim");
     const numero = sim.querySelector(".baby-numero");
     const age = sim.querySelector(".age-nom");
-    const trait = sim.querySelector(".trait-bebe");
     const photo = sim.querySelector(".photo-sim img");
 
     sims.push({
@@ -1155,7 +1154,6 @@ async function sauvegarderChallenge() {
       sexe: sexe && sexe.classList.contains("homme") ? "homme" : "femme",
       numeroBaby: numero ? numero.textContent.trim() : "",
       age: age ? age.textContent.trim() : "",
-      trait: trait ? trait.getAttribute("title") || "" : "",
       photo: photo ? photo.src : ""
     });
 
