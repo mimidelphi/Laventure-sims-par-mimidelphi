@@ -1175,15 +1175,18 @@ async function sauvegarderChallenge() {
     const age = sim.querySelector(".age-nom");
     const photo = sim.querySelector(".photo-sim img");
 
-    sims.push({
-      id: sim.id,
-      prenom: prenom ? prenom.textContent.trim() : "",
-      nom: nom ? nom.textContent.trim() : "",
-      sexe: sexe && sexe.classList.contains("homme") ? "homme" : "femme",
-      numeroBaby: numero ? numero.textContent.trim() : "",
-      age: age ? age.textContent.trim() : "",
-      photo: photo ? photo.src : ""
-    });
+   sims.push({
+  id: sim.id,
+  prenom: prenom ? prenom.textContent.trim() : "",
+  nom: nom ? nom.textContent.trim() : "",
+  sexe: sexe && sexe.classList.contains("homme") ? "homme" : "femme",
+  numeroBaby: numero ? numero.textContent.trim() : "",
+  age: age ? age.textContent.trim() : "",
+  photo: photo ? photo.src : "",
+
+  className: sim.className,
+  html: sim.innerHTML
+});
 
   });
 
