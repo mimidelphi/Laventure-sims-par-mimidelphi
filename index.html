@@ -97,8 +97,43 @@
 .sim-modele {
   padding: 12px;
   text-align: left;
+   position: relative;
 }
 
+.croix-supprimer-sim {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+
+  z-index: 10;
+
+  border: none;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1;
+  color: #9b86aa;
+
+  cursor: pointer;
+}
+
+.croix-supprimer-sim:hover {
+  color: #7b4bb7;
+  transform: scale(1.15);
+}
+
+    .plumbob-deco {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  color: #62b96b;
+}
+    
 /* =========================
    PHOTO + NOM
 ========================= */
@@ -2096,10 +2131,12 @@ function transformerEnFicheMatriarche(prenom, nom) {
           ✎
         </button>
 
-<button class="supprimer-sim"
+<span class="plumbob-deco" title="Matriarche">♦</span>
+
+<button class="croix-supprimer-sim"
         onclick="supprimerMatriarcheTest(this)"
-        title="Oups ! Effacer cette Matriarche">
-  🗑️
+        title="Effacer la Matriarche">
+  ×
 </button>
 
         <div class="ligne-prenom">
@@ -2243,10 +2280,12 @@ const numeroBaby = prochainNumeroBaby();
   ✎
 </button>
 
-<button class="supprimer-sim"
+<span class="plumbob-deco" title="Sim actif">♦</span>
+
+<button class="croix-supprimer-sim"
         onclick="supprimerBebeTest(this)"
-        title="Oups ! Effacer ce bébé">
-  🗑️
+        title="Effacer ce bébé">
+  ×
 </button>
 
         <div class="ligne-prenom">
