@@ -2142,7 +2142,7 @@ function transformerEnFicheMatriarche(prenom, nom) {
   `;
 }
   
-function transformerEnFicheBebe(prenom, nom, sexe, trait, emplacement = null) {
+function transformerEnFicheBebe(prenom, nom, sexe, emplacement = null) {
 
   const sim = emplacement || emplacementBebeChoisi || document.getElementById("sim-8");
 
@@ -2204,13 +2204,9 @@ const numeroBaby = prochainNumeroBaby();
 
     <div class="identite-sim">
 
-     <div class="ligne-identite-simple ligne-traits-temporaires">
+    <div class="ligne-identite-simple ligne-traits-temporaires">
   <span class="icone-categorie">
     <img src="icone-trait-age.png" alt="Traits en grandissant">
-  </span>
-
-  <span class="icone-identite trait-bebe" title="${trait}">
-    ${trait || "+"}
   </span>
 
   <span class="icone-identite vide"
