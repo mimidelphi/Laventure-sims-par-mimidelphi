@@ -2761,11 +2761,35 @@ function ajouterIconeSurFiche(icone) {
 
 
   fermerBibliothequeIcones();
+   sauvegarderChallenge();
 }
-
-  sauvegarderChallenge();  
     
   });
+}
+
+  function supprimerIconeDeFiche(caseIcone) {
+
+  if (
+    !caseIcone ||
+    caseIcone.classList.contains("vide")
+  ) {
+    return;
+  }
+
+  const nom =
+    caseIcone.dataset.iconeNom || "ce trait";
+
+  const confirmation = confirm(
+    "Retirer « " + nom + " » de cette fiche ?"
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  caseIcone.remove();
+
+  sauvegarderChallenge();
 }
 
 function afficherFormulaireNouvelleIcone() {
@@ -2932,6 +2956,23 @@ document.addEventListener("click", function(event) {
 
   ouvrirBibliothequeIcones(caseVide);
 
+});
+
+document.addEventListener("click", function(event) {
+
+  const icone =
+    event.target.closest(".icone-identite");
+
+  if (!icone) {
+    return;
+  }
+
+  /* Un + reste géré par la bibliothèque */
+  if (icone.classList.contains("vide")) {
+    return;
+  }
+
+  supprimerIconeDeFiche(icone);
 });
   
 verifierConnexion(); 
