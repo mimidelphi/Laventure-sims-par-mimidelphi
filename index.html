@@ -73,7 +73,11 @@
   padding: 10px;
   text-align: center;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+    
 .photo-sim {
   height: 140px;
   background: #e4dcef;
@@ -98,7 +102,7 @@
   text-align: left;
 }
 
-   .carte-sim-interne {
+  .carte-sim-interne {
   position: relative;
   box-sizing: border-box;
 
@@ -106,21 +110,27 @@
   padding: 8px;
 
   background: #fffaf0;
-  border: 2px solid #c7a2df;
+
+  /* vrai bord de la carte */
+  border: 2px solid #b987df;
   border-radius: 18px;
+
+  /* relief */
+  box-shadow:
+    0 3px 6px rgba(80, 45, 105, 0.18),
+    0 0 0 3px rgba(200, 165, 225, 0.35);
 }
 
+
+/* Pointillés à l'intérieur */
 .carte-sim-interne::before {
   content: "";
   position: absolute;
 
-  top: 4px;
-  right: 4px;
-  bottom: 4px;
-  left: 4px;
+  inset: 4px;
 
-  border: 2px dashed #b987df;
-  border-radius: 14px;
+  border: 1.5px dashed #c18be2;
+  border-radius: 13px;
 
   pointer-events: none;
 }
