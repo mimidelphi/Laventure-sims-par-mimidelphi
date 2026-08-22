@@ -1947,7 +1947,6 @@ function ouvrirCreationMatriarche() {
   document.getElementById("bebe-prenom").value = "";
   document.getElementById("bebe-nom").value = "";
   document.getElementById("bebe-sexe").value = "femme";
-  document.getElementById("bebe-trait").value = "";
 
   if (fenetre) {
     fenetre.classList.add("ouverte");
@@ -2378,7 +2377,6 @@ if (creationMatriarcheEnCours) {
 
   document.getElementById("bebe-prenom").value = "";
   document.getElementById("bebe-nom").value = "";
-  document.getElementById("bebe-trait").value = "";
 
   sauvegarderChallenge();
 
@@ -2422,8 +2420,7 @@ if (simEnModification) {
 
   document.getElementById("bebe-prenom").value = "";
   document.getElementById("bebe-nom").value = "";
-  document.getElementById("bebe-trait").value = "";
-
+  
 sauvegarderChallenge();
   
   return;
@@ -2448,7 +2445,6 @@ sauvegarderChallenge();
 
   document.getElementById("bebe-prenom").value = "";
   document.getElementById("bebe-nom").value = "";
-  document.getElementById("bebe-trait").value = "";
 }
 
 function choisirPhotoSim(zonePhoto) {
@@ -2519,9 +2515,6 @@ function ouvrirModificationSim(bouton) {
 
   document.getElementById("bebe-sexe").value =
     sexe && sexe.classList.contains("homme") ? "homme" : "femme";
-
-  document.getElementById("bebe-trait").value =
-    trait ? trait.getAttribute("title") || "" : "";
 
   document.querySelector(".fenetre-bebe h2").textContent =
     "💕 Modifier la fiche 💕";
