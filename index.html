@@ -1130,6 +1130,13 @@
 }
 
 async function sauvegarderChallenge() {
+  
+  const etatSauvegarde =
+  document.getElementById("etat-sauvegarde");
+
+if (etatSauvegarde) {
+  etatSauvegarde.textContent = "⏳ Sauvegarde en cours...";
+}
 
   const { data: sessionData } = await supabaseClient.auth.getSession();
 
@@ -1195,13 +1202,21 @@ async function sauvegarderChallenge() {
       onConflict: "user_id"
     });
 
-  if (error) {
-    console.error("Erreur sauvegarde challenge :", error);
-    return;
+ if (error) {
+  console.error("Erreur sauvegarde challenge :", error);
+
+  if (etatSauvegarde) {
+    etatSauvegarde.textContent = "⚠️ Erreur de sauvegarde";
   }
 
-  console.log("✅ Challenge sauvegardé");
+  return;
 }
+
+  console.log("✅ Challenge sauvegardé");
+
+if (etatSauvegarde) {
+  etatSauvegarde.textContent = "✓ Sauvegardé — F5 possible";
+}  
 
 async function chargerChallenge() {
 
