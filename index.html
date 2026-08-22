@@ -73,9 +73,6 @@
   padding: 10px;
   text-align: center;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
     
 .photo-sim {
@@ -100,39 +97,6 @@
 .sim-modele {
   padding: 12px;
   text-align: left;
-}
-
-  .carte-sim-interne {
-  position: relative;
-  box-sizing: border-box;
-
-  margin: 6px;
-  padding: 8px;
-
-  background: #fffaf0;
-
-  /* vrai bord de la carte */
-  border: 2px solid #b987df;
-  border-radius: 18px;
-
-  /* relief */
-  box-shadow:
-    0 3px 6px rgba(80, 45, 105, 0.18),
-    0 0 0 3px rgba(200, 165, 225, 0.35);
-}
-
-
-/* Pointillés à l'intérieur */
-.carte-sim-interne::before {
-  content: "";
-  position: absolute;
-
-  inset: 4px;
-
-  border: 1.5px dashed #c18be2;
-  border-radius: 13px;
-
-  pointer-events: none;
 }
 
 /* =========================
