@@ -1181,16 +1181,28 @@
   });
 
   const icones = Array.from(
-    sim.querySelectorAll(".icone-identite:not(.vide)")
-  ).map(function(icone) {
-    return {
-      id: icone.dataset.iconeId || "",
-      nom: icone.dataset.iconeNom || icone.title || "",
-      image: icone.querySelector("img")
-        ? icone.querySelector("img").src
-        : ""
-    };
-  });
+  sim.querySelectorAll(".icone-identite:not(.vide)")
+).map(function(icone) {
+
+  let categorie = "";
+
+  if (icone.closest(".ligne-traits-temporaires")) {
+    categorie = "temporaire";
+  } else if (icone.closest(".ligne-acquis")) {
+    categorie = "acquis";
+  } else if (icone.closest(".ligne-traits-definitifs")) {
+    categorie = "definitif";
+  }
+
+  return {
+    id: icone.dataset.iconeId || "",
+    nom: icone.dataset.iconeNom || icone.title || "",
+    image: icone.querySelector("img")
+      ? icone.querySelector("img").src
+      : "",
+    categorie: categorie
+  };
+});
 
   return {
     objectifs: objectifs,
@@ -1350,6 +1362,68 @@ if (version < 3) {
     });
   }
 }
+
+function restaurerIconesSim(sim, etat) {
+
+  if (!etat || !etat.icones) return;
+
+  etat.icones.forEach(function(icone) {
+
+    let conteneur = null;
+
+    if (icone.categorie === "temporaire") {
+      conteneur = sim.querySelector(".ligne-traits-temporaires");
+
+    } else if (icone.categorie === "acquis") {
+      conteneur = sim.querySelector(".ligne-acquis .cases-acquis");
+
+    } else if (icone.categorie === "definitif") {
+      conteneur = sim.querySelector(".ligne-traits-definitifs");
+    }
+
+    if (!conteneur) return;
+
+const dejaPresente = Array.from(
+  conteneur.querySelectorAll(".icone-identite:not(.vide)")
+).some(function(caseIcone) {
+
+  const memeId =
+    icone.id &&
+    caseIcone.dataset.iconeId === icone.id;
+
+  const memeNom =
+    icone.nom &&
+    caseIcone.dataset.iconeNom === icone.nom;
+
+  return memeId || memeNom;
+});
+
+if (dejaPresente) return;
+    
+    const plus = conteneur.querySelector(".icone-identite.vide");
+
+    if (!plus) return;
+
+    plus.classList.remove("vide");
+
+    plus.innerHTML = `
+      <img src="${icone.image}" alt="${icone.nom}">
+    `;
+
+    plus.title = icone.nom;
+    plus.dataset.iconeId = icone.id;
+    plus.dataset.iconeNom = icone.nom;
+
+    delete plus.dataset.categorieLigne;
+
+    const nouveauPlus = document.createElement("span");
+    nouveauPlus.className = "icone-identite vide";
+    nouveauPlus.textContent = "+";
+    nouveauPlus.dataset.categorieLigne = icone.categorie;
+
+    conteneur.appendChild(nouveauPlus);
+  });
+}
   
 async function chargerChallenge() {
 
@@ -1409,6 +1483,11 @@ if (sauvegardeComplete) {
       simSauvegarde.html;
 
 restaurerEtatSim(
+  emplacement,
+  simSauvegarde.etat
+);
+
+restaurerIconesSim(
   emplacement,
   simSauvegarde.etat
 );
