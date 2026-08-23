@@ -2186,10 +2186,6 @@ document.addEventListener("click", function(event) {
 
   /* La Matriarche garde son fonctionnement à part */
 
-  if (sim.id === "sim-1") {
-    return;
-  }
-
 
   /* GÂTEAU = PASSAGE À L'ÂGE SUIVANT */
 
@@ -2243,11 +2239,7 @@ sauvegarderChallenge();
 ========================================= */
 
 document.querySelectorAll(".sim-modele").forEach(function(sim) {
-
-  if (sim.id !== "sim-1") {
-    verifierGrandir(sim);
-  }
-
+  verifierGrandir(sim);
 });
 
 /* =========================================
