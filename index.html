@@ -1102,7 +1102,7 @@
     SUPABASE_KEY
   );
 
-  const VERSION_SAUVEGARDE = 2;
+  const VERSION_SAUVEGARDE = 3;
   
   async function seConnecter() {
 
@@ -1166,6 +1166,38 @@
     message.textContent = "✅ Sauvegardé !";
 }
 
+  function extraireEtatSim(sim) {
+
+  const objectifs = Array.from(
+    sim.querySelectorAll(".objectif")
+  ).map(function(objectif, index) {
+    return {
+      index: index,
+      texte: objectif.querySelector(".texte-objectif")
+        ? objectif.querySelector(".texte-objectif").textContent.trim()
+        : "",
+      valide: objectif.classList.contains("objectif-valide")
+    };
+  });
+
+  const icones = Array.from(
+    sim.querySelectorAll(".icone-identite:not(.vide)")
+  ).map(function(icone) {
+    return {
+      id: icone.dataset.iconeId || "",
+      nom: icone.dataset.iconeNom || icone.title || "",
+      image: icone.querySelector("img")
+        ? icone.querySelector("img").src
+        : ""
+    };
+  });
+
+  return {
+    objectifs: objectifs,
+    icones: icones
+  };
+}
+
 async function sauvegarderChallenge() {
   
   const etatSauvegarde =
@@ -1211,7 +1243,8 @@ if (etatSauvegarde) {
   numeroBaby: numero ? numero.textContent.trim() : "",
   age: age ? age.textContent.trim() : "",
   photo: photo ? photo.src : "",
-
+  etat: extraireEtatSim(sim),
+     
   className: sim.className,
   html: sim.innerHTML
 });
@@ -1273,7 +1306,49 @@ function migrerSauvegarde(donnees) {
     donneesMigrees.version = 2;
   }
 
+if (version < 3) {
+  donneesMigrees.sims = donneesMigrees.sims || [];
+
+  version = 3;
+  donneesMigrees.version = 3;
+}
+  
   return donneesMigrees;
+}
+
+  function restaurerEtatSim(sim, etat) {
+
+  if (!etat) return;
+
+  // Restaurer l'état des objectifs
+  if (etat.objectifs) {
+
+    const objectifs =
+      sim.querySelectorAll(".objectif");
+
+    etat.objectifs.forEach(function(objectifSauvegarde, index) {
+
+      const objectif = objectifs[index];
+
+      if (!objectif) return;
+
+     if (objectifSauvegarde.valide) {
+  objectif.classList.add("objectif-valide");
+  objectif.style.opacity = "0.45";
+
+  const bouton = objectif.querySelector("button");
+  if (bouton) bouton.textContent = "↩";
+
+} else {
+  objectif.classList.remove("objectif-valide");
+  objectif.style.opacity = "1";
+
+  const bouton = objectif.querySelector("button");
+  if (bouton) bouton.textContent = "✓";
+}
+
+    });
+  }
 }
   
 async function chargerChallenge() {
@@ -1333,6 +1408,11 @@ if (sauvegardeComplete) {
     emplacement.innerHTML =
       simSauvegarde.html;
 
+restaurerEtatSim(
+  emplacement,
+  simSauvegarde.etat
+);
+    
     if (emplacement.id !== "sim-1") {
       verifierGrandir(emplacement);
     }
