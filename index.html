@@ -1465,7 +1465,7 @@ const sauvegardeComplete = simsSauvegardes.some(function(sim) {
   return sim.html;
 });
 
-if (sauvegardeComplete) {
+if (false && sauvegardeComplete) {
 
   simsSauvegardes.forEach(function(simSauvegarde) {
 
@@ -1628,6 +1628,16 @@ restaurerIconesSim(
       }
     }
 
+
+    restaurerEtatSim(
+  emplacement,
+  simSauvegarde.etat
+);
+
+restaurerIconesSim(
+  emplacement,
+  simSauvegarde.etat
+);
     verifierGrandir(emplacement);
 
   });
