@@ -2120,6 +2120,10 @@ function verifierGrandir(sim) {
 
   objectifs.forEach(function(objectif) {
 
+    if (objectif.classList.contains("compteur-matriarche")) {
+  return;
+}
+
     /* On ignore le gâteau lui-même */
     if (objectif.classList.contains("objectif-final")) {
       return;
