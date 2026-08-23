@@ -1101,6 +1101,8 @@
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+  const VERSION_SAUVEGARDE = 2;
   
   async function seConnecter() {
 
@@ -1230,9 +1232,10 @@ if (etatSauvegarde) {
     .upsert({
       user_id: user.id,
       data: {
-        sims: sims,
-        compteurMatriarche: compteurMatriarche
-      }
+  version: VERSION_SAUVEGARDE,
+  sims: sims,
+  compteurMatriarche: compteurMatriarche
+}
     }, {
       onConflict: "user_id"
     });
@@ -1253,6 +1256,26 @@ if (etatSauvegarde) {
   etatSauvegarde.textContent = "✓ Sauvegardé — F5 possible";
 }  
 }
+
+function migrerSauvegarde(donnees) {
+
+  const donneesMigrees = donnees || {};
+  let version = donneesMigrees.version || 1;
+
+  // Passage de la version 1 à la version 2
+  if (version < 2) {
+
+    donneesMigrees.sims = donneesMigrees.sims || [];
+    donneesMigrees.compteurMatriarche =
+      donneesMigrees.compteurMatriarche || 0;
+
+    version = 2;
+    donneesMigrees.version = 2;
+  }
+
+  return donneesMigrees;
+}
+  
 async function chargerChallenge() {
 
   const { data: sessionData } = await supabaseClient.auth.getSession();
@@ -1278,7 +1301,17 @@ async function chargerChallenge() {
     return;
   }
 
-  const simsSauvegardes = data.data.sims || [];
+const donneesChargees = migrerSauvegarde(data.data);
+
+console.log(
+  "Version de la sauvegarde :",
+  data.data.version || 1,
+  "→ version utilisée :",
+  donneesChargees.version
+);
+
+const simsSauvegardes = donneesChargees.sims || [];
+  
 const sauvegardeComplete = simsSauvegardes.some(function(sim) {
   return sim.html;
 });
@@ -1311,10 +1344,10 @@ if (sauvegardeComplete) {
 
   if (
     compteur &&
-    data.data.compteurMatriarche !== undefined
+    donneesChargees.compteurMatriarche !== undefined
   ) {
     compteur.textContent =
-      data.data.compteurMatriarche;
+      donneesChargees.compteurMatriarche;
   }
 
   return;
@@ -1450,10 +1483,10 @@ if (sauvegardeComplete) {
 
   if (
     compteur &&
-    data.data.compteurMatriarche !== undefined
+    donneesChargees.compteurMatriarche !== undefined
   ) {
     compteur.textContent =
-      data.data.compteurMatriarche;
+      donneesChargees.compteurMatriarche;
   }
 
 }
