@@ -1742,6 +1742,10 @@ if (version < 4) {
 
       if (!objectif) return;
 
+      if (objectif.classList.contains("compteur-matriarche")) {
+  return;
+}
+
 const texte = objectif.querySelector(".texte-objectif");
 const image = objectif.querySelector(".icone-objectif img");
 
