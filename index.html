@@ -1354,6 +1354,129 @@ const cartesMotriciteGlobale = [
   }
 ];
 
+/* =========================
+   CARTES PREMIÈRE FOIS
+========================= */
+
+const cartesPremiereFois = [
+  {
+    nom: "A dormi toute la nuit",
+    image: "images/nourrisson/premiere-fois/dormi-toute-la-nuit.jpg"
+  },
+  {
+    nom: "Premier pipi sur son gardien",
+    image: "images/nourrisson/premiere-fois/pipi-sur-gardien.jpg"
+  },
+  {
+    nom: "Premier aliment pour bébé",
+    image: "images/nourrisson/premiere-fois/premier-aliment-bebe.jpg"
+  },
+  {
+    nom: "Premier bain moussant",
+    image: "images/nourrisson/premiere-fois/premier-bain-moussant.jpg"
+  },
+  {
+    nom: "Premier bain",
+    image: "images/nourrisson/premiere-fois/premier-bain.jpg"
+  },
+  {
+    nom: "Premier en-cas",
+    image: "images/nourrisson/premiere-fois/premier-en-cas.jpg"
+  },
+  {
+    nom: "Première grosse fuite",
+    image: "images/nourrisson/premiere-fois/premiere-grosse-fuite.jpg"
+  },
+  {
+    nom: "Première sortie au parc",
+    image: "images/nourrisson/premiere-fois/premiere-sortie-parc.jpg"
+  },
+  {
+    nom: "Premières vacances",
+    image: "images/nourrisson/premiere-fois/premieres-vacances.jpg"
+  },
+  {
+    nom: "Premiers visiteurs",
+    image: "images/nourrisson/premiere-fois/premiers-visiteurs.jpg"
+  },
+  {
+    nom: "Visite à la famille",
+    image: "images/nourrisson/premiere-fois/visite-famille.jpg"
+  }
+];
+
+
+/* =========================
+   CARTES MOTRICITÉ FINE
+========================= */
+
+const cartesMotriciteFine = [
+  {
+    nom: "A appris à saisir un objet",
+    image: "images/nourrisson/motricite-fine/motricite-fine-saisir-un-objet.jpg"
+  },
+  {
+    nom: "A appris à tendre le bras",
+    image: "images/nourrisson/motricite-fine/motricite-fine-tendre-le-bras.jpg"
+  },
+  {
+    nom: "A mis ses orteils dans la bouche",
+    image: "images/nourrisson/motricite-fine/motricite-fine-orteils-dans-la-bouche.jpg"
+  },
+  {
+    nom: "A appris la pince pouce-index",
+    image: "images/nourrisson/motricite-fine/motricite-fine-pince-pouce-index.jpg"
+  },
+  {
+    nom: "A appris à applaudir",
+    image: "images/nourrisson/motricite-fine/motricite-fine-applaudir.jpg"
+  },
+  {
+    nom: "A appris à faire signe de la main",
+    image: "images/nourrisson/motricite-fine/motricite-fine-faire-signe-de-la-main.jpg"
+  }
+];
+
+
+/* =========================
+   CARTES SOCIAL
+========================= */
+
+const cartesSocial = [
+  {
+    nom: "A appris à envoyer un baiser",
+    image: "images/nourrisson/social/social-envoyer-un-baiser.jpg"
+  },
+  {
+    nom: "A appris à babiller",
+    image: "images/nourrisson/social/social-babiller.jpg"
+  },
+  {
+    nom: "A fait un bruit amusant avec sa langue",
+    image: "images/nourrisson/social/social-bruit-amusant-langue.jpg"
+  },
+  {
+    nom: "A dit son premier mot",
+    image: "images/nourrisson/social/social-premier-mot.jpg"
+  },
+  {
+    nom: "A appris à jouer à faire Coucou !",
+    image: "images/nourrisson/social/social-jouer-a-coucou.jpg"
+  },
+  {
+    nom: "A appris à gazouiller",
+    image: "images/nourrisson/social/social-gazouiller.jpg"
+  },
+  {
+    nom: "A souri pour la première fois",
+    image: "images/nourrisson/social/social-premier-sourire.jpg"
+  },
+  {
+    nom: "A appris à rire",
+    image: "images/nourrisson/social/social-rire.jpg"
+  }
+];
+  
 let objectifTirageEnCours = null;
 let carteNourrissonTiree = null;
   
@@ -2030,29 +2153,53 @@ const bibliothequeAges = {
   <button onclick="event.stopPropagation()">✓</button>
 </div>
 
-<div class="objectif">
+<div class="objectif objectif-tirage"
+     onclick="tirerPremiereFois(this)">
+
   <span class="icone-objectif">
-    <img src="dos-premiere-fois.jpeg" alt="Première fois">
+    <img src="dos-premiere-fois.jpeg"
+         alt="Première fois">
   </span>
-  <span class="texte-objectif">Première fois : à tirer</span>
-  <button>✓</button>
+
+  <span class="texte-objectif">
+    Première fois : à tirer
+  </span>
+
+  <button onclick="event.stopPropagation()">✓</button>
 </div>
 
-<div class="objectif">
+
+<div class="objectif objectif-tirage"
+     onclick="tirerMotriciteFine(this)">
+
   <span class="icone-objectif">
-    <img src="dos-motricite-fine.jpeg" alt="Motricité fine">
+    <img src="dos-motricite-fine.jpeg"
+         alt="Motricité fine">
   </span>
-  <span class="texte-objectif">Motricité fine : à tirer</span>
-  <button>✓</button>
+
+  <span class="texte-objectif">
+    Motricité fine : à tirer
+  </span>
+
+  <button onclick="event.stopPropagation()">✓</button>
 </div>
 
-<div class="objectif">
+
+<div class="objectif objectif-tirage"
+     onclick="tirerSocial(this)">
+
   <span class="icone-objectif">
-    <img src="dos-social.jpeg" alt="Social">
+    <img src="dos-social.jpeg"
+         alt="Social">
   </span>
-  <span class="texte-objectif">Social : à tirer</span>
-  <button>✓</button>
+
+  <span class="texte-objectif">
+    Social : à tirer
+  </span>
+
+  <button onclick="event.stopPropagation()">✓</button>
 </div>
+
       <div class="objectif">
         <span class="icone-objectif">🎭</span>
         <span class="texte-objectif">Organiser une fête costumée</span>
@@ -3662,6 +3809,267 @@ function tirerMotriciteGlobale(objectif) {
   }, 3750);
 }
 
+function tirerPremiereFois(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesPremiereFois.length
+    );
+
+  carteNourrissonTiree =
+    cartesPremiereFois[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-premiere-fois.jpeg"
+            alt="Dos Première fois">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+function tirerMotriciteFine(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesMotriciteFine.length
+    );
+
+  carteNourrissonTiree =
+    cartesMotriciteFine[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-motricite-fine.jpeg"
+            alt="Dos Motricité fine">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+function tirerSocial(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesSocial.length
+    );
+
+  carteNourrissonTiree =
+    cartesSocial[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-social.jpeg"
+            alt="Dos Social">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+function lancerAnimationTirageNourrisson(
+  fond,
+  paquet,
+  bouton
+) {
+
+  fond.classList.add("ouvert");
+
+  /* 1 — le paquet s'ouvre */
+  setTimeout(function() {
+    paquet.classList.add("eventail");
+  }, 350);
+
+  /* Carte centrale choisie */
+  const choisie =
+    paquet.querySelector(".carte-4");
+
+  /* 2 — elle s'envole */
+  setTimeout(function() {
+
+    choisie.classList.add("choisie");
+
+  }, 1500);
+
+  /* 3 — les autres cartes disparaissent */
+  setTimeout(function() {
+
+    paquet.classList.add("selection-faite");
+
+  }, 2050);
+
+  /* 4 — elle revient et se retourne */
+  setTimeout(function() {
+
+    choisie.classList.add("retournee");
+
+  }, 2700);
+
+  /* 5 — bouton après la révélation */
+  setTimeout(function() {
+
+    bouton.classList.add("visible");
+
+  }, 3750);
+}
+  
 function fermerTirageNourrisson() {
 
   if (
