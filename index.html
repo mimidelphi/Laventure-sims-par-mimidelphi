@@ -3119,31 +3119,29 @@ function supprimerMatriarcheTest(bouton) {
 
 function modifierCompteurMatriarche(changement) {
 
-  const matriarche =
-    document.querySelector(".sim.matriarche");
-
-  if (!matriarche) {
-    console.warn("Matriarche introuvable pour le compteur.");
-    return;
-  }
-
   const compteur =
-    matriarche.querySelector("#compteur-matriarche");
+    document.getElementById("compteur-matriarche");
+
+  console.log("🔎 compteur trouvé :", compteur);
+  console.log("🔎 changement demandé :", changement);
 
   if (!compteur) {
-    console.warn("Compteur de la Matriarche introuvable.");
+    console.error("❌ Le compteur Matriarche est introuvable !");
     return;
   }
 
   const valeurActuelle =
     Number(compteur.textContent.trim()) || 0;
 
+  console.log("🔎 valeur actuelle :", valeurActuelle);
+
   const nouvelleValeur =
     Math.max(0, valeurActuelle + changement);
 
   compteur.textContent = nouvelleValeur;
+
+  console.log("✅ nouvelle valeur :", nouvelleValeur);
 }
-  
 function creerNouveauBebe() {
 
   const prenom = document.getElementById("bebe-prenom").value.trim();
