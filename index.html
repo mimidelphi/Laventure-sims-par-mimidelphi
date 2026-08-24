@@ -1479,6 +1479,7 @@ const cartesSocial = [
   
 let objectifTirageEnCours = null;
 let carteNourrissonTiree = null;
+  let compteurMatriarcheValeur = 0;
   
   async function seConnecter() {
 
@@ -2075,20 +2076,16 @@ restaurerIconesSim(
   });
 
 
-  // ==============================
-  // 👑 RESTAURER LE COMPTEUR
-  // ==============================
+// ==============================
+// 👑 RESTAURER LE COMPTEUR
+// ==============================
 
-  const compteur =
-    document.getElementById("compteur-matriarche");
+compteurMatriarcheValeur =
+  donneesChargees.compteurMatriarche !== undefined
+    ? donneesChargees.compteurMatriarche
+    : 0;
 
-  if (
-    compteur &&
-    donneesChargees.compteurMatriarche !== undefined
-  ) {
-    compteur.textContent =
-      donneesChargees.compteurMatriarche;
-  }
+afficherCompteurMatriarche();
 
 }
   
@@ -3117,30 +3114,26 @@ function supprimerMatriarcheTest(bouton) {
   sauvegarderChallenge();
 }
 
-function modifierCompteurMatriarche(changement) {
+function afficherCompteurMatriarche() {
 
   const compteur =
     document.getElementById("compteur-matriarche");
 
-  console.log("🔎 compteur trouvé :", compteur);
-  console.log("🔎 changement demandé :", changement);
-
-  if (!compteur) {
-    console.error("❌ Le compteur Matriarche est introuvable !");
-    return;
+  if (compteur) {
+    compteur.textContent = compteurMatriarcheValeur;
   }
+}
 
-  const valeurActuelle =
-    Number(compteur.textContent.trim()) || 0;
 
-  console.log("🔎 valeur actuelle :", valeurActuelle);
+function modifierCompteurMatriarche(changement) {
 
-  const nouvelleValeur =
-    Math.max(0, valeurActuelle + changement);
+  compteurMatriarcheValeur =
+    Math.max(
+      0,
+      compteurMatriarcheValeur + changement
+    );
 
-  compteur.textContent = nouvelleValeur;
-
-  console.log("✅ nouvelle valeur :", nouvelleValeur);
+  afficherCompteurMatriarche();
 }
 function creerNouveauBebe() {
 
