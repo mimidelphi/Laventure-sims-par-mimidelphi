@@ -1313,7 +1313,7 @@ justify-content: center;
     SUPABASE_KEY
   );
 
-  const VERSION_SAUVEGARDE = 3;
+  const VERSION_SAUVEGARDE = 4;
 
   /* =========================
    CARTES NOURRISSON
@@ -1421,17 +1421,33 @@ let carteNourrissonTiree = null;
 
   function extraireEtatSim(sim) {
 
-  const objectifs = Array.from(
-    sim.querySelectorAll(".objectif")
-  ).map(function(objectif, index) {
-    return {
-      index: index,
-      texte: objectif.querySelector(".texte-objectif")
-        ? objectif.querySelector(".texte-objectif").textContent.trim()
-        : "",
-      valide: objectif.classList.contains("objectif-valide")
-    };
-  });
+ const objectifs = Array.from(
+  sim.querySelectorAll(".objectif")
+).map(function(objectif, index) {
+
+  const texte = objectif.querySelector(".texte-objectif");
+  const image = objectif.querySelector(".icone-objectif img");
+
+  return {
+    index: index,
+
+    texte: texte
+      ? texte.textContent.trim()
+      : "",
+
+    valide:
+      objectif.classList.contains("objectif-valide"),
+
+    carteTiree:
+      objectif.dataset.carteTiree === "oui",
+
+    image:
+      image ? image.getAttribute("src") : "",
+
+    imageAlt:
+      image ? image.getAttribute("alt") : ""
+  };
+});
 
   const icones = Array.from(
   sim.querySelectorAll(".icone-identite:not(.vide)")
@@ -1575,6 +1591,13 @@ if (version < 3) {
   version = 3;
   donneesMigrees.version = 3;
 }
+
+if (version < 4) {
+  donneesMigrees.sims = donneesMigrees.sims || [];
+
+  version = 4;
+  donneesMigrees.version = 4;
+}
   
   return donneesMigrees;
 }
@@ -1595,6 +1618,31 @@ if (version < 3) {
 
       if (!objectif) return;
 
+const texte = objectif.querySelector(".texte-objectif");
+const image = objectif.querySelector(".icone-objectif img");
+
+/* Restaurer le texte de l'objectif */
+if (texte && objectifSauvegarde.texte) {
+  texte.textContent = objectifSauvegarde.texte;
+}
+
+/* Restaurer la carte tirée */
+if (objectifSauvegarde.carteTiree) {
+
+  objectif.dataset.carteTiree = "oui";
+
+  if (image && objectifSauvegarde.image) {
+    image.src = objectifSauvegarde.image;
+    image.alt =
+      objectifSauvegarde.imageAlt ||
+      objectifSauvegarde.texte ||
+      "";
+  }
+
+  /* Impossible de refaire le tirage */
+  objectif.onclick = null;
+}
+      
      if (objectifSauvegarde.valide) {
   objectif.classList.add("objectif-valide");
   objectif.style.opacity = "0.45";
