@@ -823,6 +823,123 @@
   z-index: 999;
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
 }
+
+    /* =========================
+   TIRAGE CARTES NOURRISSON
+========================= */
+
+.fond-tirage-nourrisson {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 32, 55, 0.72);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fond-tirage-nourrisson.ouvert {
+  display: flex;
+}
+
+.zone-tirage-nourrisson {
+  position: relative;
+  width: min(900px, 95vw);
+  height: min(700px, 90vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paquet-nourrisson {
+  position: relative;
+  width: 260px;
+  height: 390px;
+}
+
+.carte-animation {
+  position: absolute;
+  inset: 0;
+  width: 260px;
+  height: 390px;
+  perspective: 1200px;
+  transition:
+    transform 0.7s ease,
+    opacity 0.4s ease;
+}
+
+.carte-animation-interieur {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.9s ease;
+  transform-style: preserve-3d;
+}
+
+.carte-animation.retournee .carte-animation-interieur {
+  transform: rotateY(180deg);
+}
+
+.face-carte {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face-carte img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  display: block;
+}
+
+.face-carte.recto {
+  transform: rotateY(180deg);
+}
+
+.carte-animation.carte-1 {
+  transform: translateX(-35px) rotate(-6deg);
+}
+
+.carte-animation.carte-2 {
+  transform: translateX(-12px) rotate(-2deg);
+}
+
+.carte-animation.carte-3 {
+  transform: translateX(12px) rotate(2deg);
+}
+
+.carte-animation.carte-4 {
+  transform: translateX(35px) rotate(6deg);
+}
+
+.carte-animation.choisie {
+  z-index: 20;
+  transform: translateY(-45px) scale(1.15);
+}
+
+.bouton-fermer-tirage {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: none;
+  background: #73c66b;
+  color: white;
+  padding: 11px 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.bouton-fermer-tirage.visible {
+  display: block;
+}
     
   </style>
 </head>
@@ -1115,6 +1232,31 @@
 </div>
     
   </main>
+
+<!-- =========================
+     TIRAGE CARTES NOURRISSON
+========================= -->
+
+<div id="fond-tirage-nourrisson"
+     class="fond-tirage-nourrisson">
+
+  <div class="zone-tirage-nourrisson">
+
+    <div id="paquet-nourrisson"
+         class="paquet-nourrisson">
+    </div>
+
+    <button
+      id="bouton-fermer-tirage"
+      class="bouton-fermer-tirage"
+      onclick="fermerTirageNourrisson()">
+      Valider cette étape
+    </button>
+
+  </div>
+
+</div>
+  
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -1127,6 +1269,48 @@
   );
 
   const VERSION_SAUVEGARDE = 3;
+
+  /* =========================
+   CARTES NOURRISSON
+========================= */
+
+const cartesMotriciteGlobale = [
+  {
+    nom: "A appris à s'asseoir",
+    image: "images/nourrisson/motricite-globale/motricite-globale-asseoir.jpg"
+  },
+  {
+    nom: "A appris à danser",
+    image: "images/nourrisson/motricite-globale/motricite-globale-danser.jpg"
+  },
+  {
+    nom: "A appris à se tenir debout",
+    image: "images/nourrisson/motricite-globale/motricite-globale-debout.jpg"
+  },
+  {
+    nom: "A appris à lever la tête",
+    image: "images/nourrisson/motricite-globale/motricite-globale-leve-la-tete.jpg"
+  },
+  {
+    nom: "A appris à marcher à quatre pattes",
+    image: "images/nourrisson/motricite-globale/motricite-globale-quatre-pattes.jpg"
+  },
+  {
+    nom: "A appris à ramper",
+    image: "images/nourrisson/motricite-globale/motricite-globale-ramper.jpg"
+  },
+  {
+    nom: "A appris à se retourner sur le dos",
+    image: "images/nourrisson/motricite-globale/motricite-globale-retourne-sur-le-dos.jpg"
+  },
+  {
+    nom: "A appris à se retourner sur le ventre",
+    image: "images/nourrisson/motricite-globale/motricite-globale-retourne-sur-le-ventre.jpg"
+  }
+];
+
+let objectifTirageEnCours = null;
+let carteNourrissonTiree = null;
   
   async function seConnecter() {
 
@@ -1738,12 +1922,19 @@ const bibliothequeAges = {
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
-   <div class="objectif">
+   <div class="objectif objectif-tirage"
+     onclick="tirerMotriciteGlobale(this)">
+
   <span class="icone-objectif">
-    <img src="dos-motricite-globale.jpeg" alt="Motricité globale">
+    <img src="dos-motricite-globale.jpeg"
+         alt="Motricité globale">
   </span>
-  <span class="texte-objectif">Motricité globale : à tirer</span>
-  <button>✓</button>
+
+  <span class="texte-objectif">
+    Motricité globale : à tirer
+  </span>
+
+  <button onclick="event.stopPropagation()">✓</button>
 </div>
 
 <div class="objectif">
@@ -3269,6 +3460,146 @@ document.addEventListener("click", function(event) {
 
   supprimerIconeDeFiche(icone);
 });
+
+  /* =========================
+   TIRAGE MOTRICITÉ GLOBALE
+========================= */
+
+function tirerMotriciteGlobale(objectif) {
+
+  /* Si cette ligne a déjà été tirée,
+     on ne refait pas le tirage */
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+  bouton.classList.remove("visible");
+
+  /* Choix aléatoire parmi les 8 cartes */
+  const index =
+    Math.floor(Math.random() * cartesMotriciteGlobale.length);
+
+  carteNourrissonTiree =
+    cartesMotriciteGlobale[index];
+
+  /* On crée 4 cartes de dos */
+  for (let i = 1; i <= 4; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    const recto =
+      i === 3
+        ? carteNourrissonTiree.image
+        : carteNourrissonTiree.image;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-motricite-globale.jpeg"
+            alt="Dos Motricité globale">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${recto}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  fond.classList.add("ouvert");
+
+  /* La troisième carte est celle qui est choisie */
+  const choisie =
+    paquet.querySelector(".carte-3");
+
+  setTimeout(function() {
+
+    choisie.classList.add("choisie");
+
+  }, 900);
+
+  setTimeout(function() {
+
+    choisie.classList.add("retournee");
+
+  }, 1700);
+
+  setTimeout(function() {
+
+    bouton.classList.add("visible");
+
+  }, 2700);
+}
+
+
+function fermerTirageNourrisson() {
+
+  if (
+    objectifTirageEnCours &&
+    carteNourrissonTiree
+  ) {
+
+    const texte =
+      objectifTirageEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      objectifTirageEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    texte.textContent =
+      carteNourrissonTiree.nom;
+
+    image.src =
+      carteNourrissonTiree.image;
+
+    image.alt =
+      carteNourrissonTiree.nom;
+
+    objectifTirageEnCours.dataset.carteTiree =
+      "oui";
+
+    objectifTirageEnCours.onclick = null;
+  }
+
+  document
+    .getElementById("fond-tirage-nourrisson")
+    .classList.remove("ouvert");
+
+  document
+    .getElementById("paquet-nourrisson")
+    .innerHTML = "";
+
+  objectifTirageEnCours = null;
+  carteNourrissonTiree = null;
+
+  sauvegarderChallenge();
+}
   
 verifierConnexion(); 
   chargerChallenge();
