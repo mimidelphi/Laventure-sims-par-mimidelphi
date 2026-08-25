@@ -986,6 +986,155 @@ justify-content: center;
   display: block;
 }
     
+
+/* =========================
+   TIRAGE DES COMPÉTENCES BAMBIN
+========================= */
+.de-competence-bambin {
+  cursor: pointer;
+}
+
+.de-competence-bambin img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 6px;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.de-competence-bambin img:hover {
+  transform: scale(2.4) !important;
+  z-index: 1000;
+}
+
+.fond-tirage-des-bambin {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  background: rgba(45, 32, 55, 0.78);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fond-tirage-des-bambin.ouvert {
+  display: flex;
+}
+
+.fenetre-tirage-des-bambin {
+  width: min(760px, 94vw);
+  max-height: 92vh;
+  overflow: auto;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(40, 25, 55, 0.35);
+}
+
+.titre-tirage-des-bambin {
+  margin: 0 0 6px;
+  text-align: center;
+  color: #6c3eb1;
+  font-size: 24px;
+}
+
+.sous-titre-tirage-des-bambin {
+  margin: 0 0 18px;
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+}
+
+.liste-des-bambin {
+  display: grid;
+  gap: 10px;
+}
+
+.ligne-de-bambin {
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) 130px 90px;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid #eadff1;
+  border-radius: 14px;
+}
+
+.nom-de-bambin {
+  font-weight: bold;
+  color: #5f3a84;
+}
+
+.image-de-bambin {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  justify-self: center;
+  transition: transform 0.15s ease;
+}
+
+.image-de-bambin.en-lancer {
+  animation: secousse-de-bambin 0.18s linear infinite;
+}
+
+@keyframes secousse-de-bambin {
+  0% { transform: rotate(-8deg) scale(0.96); }
+  50% { transform: rotate(8deg) scale(1.04); }
+  100% { transform: rotate(-8deg) scale(0.96); }
+}
+
+.resultat-de-bambin {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #6c3eb1;
+}
+
+.actions-tirage-des-bambin {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.actions-tirage-des-bambin button {
+  border: none;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#bouton-lancer-des-bambin {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-des-bambin {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-des-bambin.visible {
+  display: inline-block;
+}
+
+@media (max-width: 650px) {
+  .ligne-de-bambin {
+    grid-template-columns: 1fr 90px 70px;
+  }
+  .image-de-bambin {
+    width: 80px;
+    height: 80px;
+  }
+}
+
   </style>
 </head>
 
@@ -1302,6 +1451,54 @@ justify-content: center;
 
 </div>
   
+
+<!-- =========================
+     TIRAGE DES COMPÉTENCES BAMBIN
+========================= -->
+<div id="fond-tirage-des-bambin" class="fond-tirage-des-bambin">
+  <div class="fenetre-tirage-des-bambin">
+    <h2 class="titre-tirage-des-bambin">🎲 Dés Bambin — par compétence</h2>
+    <p class="sous-titre-tirage-des-bambin">Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.</p>
+
+    <div class="liste-des-bambin">
+      <div class="ligne-de-bambin" data-competence="communication">
+        <span class="nom-de-bambin">Communication</span>
+        <img class="image-de-bambin" src="images/bambin/competences/des/communication/communication-dessin.png" alt="Dé Communication">
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="imagination">
+        <span class="nom-de-bambin">Imagination</span>
+        <img class="image-de-bambin" src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="Dé Imagination">
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="mouvements">
+        <span class="nom-de-bambin">Mouvements</span>
+        <img class="image-de-bambin" src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="Dé Mouvements">
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="pot">
+        <span class="nom-de-bambin">Pot</span>
+        <img class="image-de-bambin" src="images/bambin/competences/des/pot/pot-dessin.png" alt="Dé Pot">
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="reflexion">
+        <span class="nom-de-bambin">Réflexion</span>
+        <img class="image-de-bambin" src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="Dé Réflexion">
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+    </div>
+
+    <div class="actions-tirage-des-bambin">
+      <button id="bouton-lancer-des-bambin" type="button" onclick="lancerDesBambin()">Lancer les dés</button>
+      <button id="bouton-valider-des-bambin" type="button" onclick="validerDesBambin()">Valider les niveaux</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -2223,71 +2420,45 @@ bambin: {
   titreObjectifs: "Objectifs de cette étape",
 
   objectifs: `
-    <div class="objectif objectif-competence-bambin"
-         data-competence="communication">
-
-      <span class="icone-objectif de-competence-bambin"
-            onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/communication/communication-dessin.png"
-             alt="Dé Communication">
+    <div class="objectif objectif-competence-bambin" data-competence="communication">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="Dé Communication">
       </span>
-
       <span class="texte-objectif">Communication — à tirer</span>
       <button>✓</button>
     </div>
 
-
-    <div class="objectif objectif-competence-bambin"
-         data-competence="imagination">
-
-      <span class="icone-objectif de-competence-bambin">
-        <img src="images/bambin/competences/des/imagination/imagination-dessin.png"
-             alt="Dé Imagination">
+    <div class="objectif objectif-competence-bambin" data-competence="imagination">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="Dé Imagination">
       </span>
-
       <span class="texte-objectif">Imagination — à tirer</span>
       <button>✓</button>
     </div>
 
-
-    <div class="objectif objectif-competence-bambin"
-         data-competence="mouvements">
-
-      <span class="icone-objectif de-competence-bambin">
-        <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png"
-             alt="Dé Mouvements">
+    <div class="objectif objectif-competence-bambin" data-competence="mouvements">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="Dé Mouvements">
       </span>
-
       <span class="texte-objectif">Mouvements — à tirer</span>
       <button>✓</button>
     </div>
 
-
-    <div class="objectif objectif-competence-bambin"
-         data-competence="pot">
-
-      <span class="icone-objectif de-competence-bambin">
-        <img src="images/bambin/competences/des/pot/pot-dessin.png"
-             alt="Dé Pot">
+    <div class="objectif objectif-competence-bambin" data-competence="pot">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="Dé Pot">
       </span>
-
       <span class="texte-objectif">Pot — à tirer</span>
       <button>✓</button>
     </div>
 
-
-    <div class="objectif objectif-competence-bambin"
-         data-competence="reflexion">
-
-      <span class="icone-objectif de-competence-bambin">
-        <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png"
-             alt="Dé Réflexion">
+    <div class="objectif objectif-competence-bambin" data-competence="reflexion">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="Dé Réflexion">
       </span>
-
       <span class="texte-objectif">Réflexion — à tirer</span>
       <button>✓</button>
     </div>
-
 
     <div class="objectif">
       <span class="icone-objectif">🧸</span>
@@ -4159,6 +4330,191 @@ function fermerTirageNourrisson() {
   sauvegarderChallenge();
 }
   
+
+/* =========================
+   TIRAGE DES COMPÉTENCES BAMBIN
+========================= */
+let simTirageDesBambin = null;
+let resultatsDesBambin = null;
+let tirageDesBambinEnCours = false;
+
+const configDesBambin = {
+  communication: {
+    nom: "Communication",
+    dossier: "communication",
+    valeurs: [2, 3, 4, 5]
+  },
+  imagination: {
+    nom: "Imagination",
+    dossier: "imagination",
+    valeurs: [2, 3, 4, 5]
+  },
+  mouvements: {
+    nom: "Mouvements",
+    dossier: "mouvements",
+    valeurs: [2, 3, 4, 5]
+  },
+  pot: {
+    nom: "Pot",
+    dossier: "pot",
+    valeurs: [2, 3]
+  },
+  reflexion: {
+    nom: "Réflexion",
+    dossier: "reflexion",
+    valeurs: [2, 3, 4, 5]
+  }
+};
+
+function cheminDeBambin(competence, face) {
+  const c = configDesBambin[competence];
+  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-${face}.png`;
+}
+
+function cheminDessinDeBambin(competence) {
+  const c = configDesBambin[competence];
+  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-dessin.png`;
+}
+
+function lireNiveauDansTexte(texte) {
+  const match = (texte || "").match(/niveau\s+([2-5])/i);
+  return match ? Number(match[1]) : null;
+}
+
+function ouvrirTirageDesBambin(element) {
+  simTirageDesBambin = element.closest(".sim-modele");
+  if (!simTirageDesBambin) return;
+
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  const boutonLancer = document.getElementById("bouton-lancer-des-bambin");
+  const boutonValider = document.getElementById("bouton-valider-des-bambin");
+
+  resultatsDesBambin = {};
+  let tousDejaTires = true;
+
+  Object.keys(configDesBambin).forEach(function(competence) {
+    const objectif = simTirageDesBambin.querySelector(`.objectif-competence-bambin[data-competence="${competence}"]`);
+    const ligneZoom = fond.querySelector(`.ligne-de-bambin[data-competence="${competence}"]`);
+    if (!objectif || !ligneZoom) return;
+
+    const texte = objectif.querySelector(".texte-objectif");
+    const niveau = lireNiveauDansTexte(texte ? texte.textContent : "");
+    const imageZoom = ligneZoom.querySelector(".image-de-bambin");
+    const resultatZoom = ligneZoom.querySelector(".resultat-de-bambin");
+
+    if (niveau) {
+      resultatsDesBambin[competence] = niveau;
+      imageZoom.src = cheminDeBambin(competence, niveau);
+      resultatZoom.textContent = "Niveau " + niveau;
+    } else {
+      tousDejaTires = false;
+      imageZoom.src = cheminDessinDeBambin(competence);
+      resultatZoom.textContent = "À tirer";
+    }
+  });
+
+  boutonLancer.style.display = tousDejaTires ? "none" : "inline-block";
+  boutonValider.classList.toggle("visible", tousDejaTires);
+  boutonValider.textContent = tousDejaTires ? "Fermer" : "Valider les niveaux";
+
+  fond.classList.add("ouvert");
+}
+
+function tirerNiveauBambin(competence) {
+  if (competence === "pot") {
+    return Math.random() < 0.65 ? 3 : 2;
+  }
+
+  const valeurs = [2, 3, 4, 5];
+  return valeurs[Math.floor(Math.random() * valeurs.length)];
+}
+
+function lancerDesBambin() {
+  if (tirageDesBambinEnCours || !simTirageDesBambin) return;
+
+  tirageDesBambinEnCours = true;
+  resultatsDesBambin = {};
+
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  const boutonLancer = document.getElementById("bouton-lancer-des-bambin");
+  const boutonValider = document.getElementById("bouton-valider-des-bambin");
+  const ordre = ["communication", "imagination", "mouvements", "pot", "reflexion"];
+  const intervalles = {};
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  ordre.forEach(function(competence) {
+    const ligne = fond.querySelector(`.ligne-de-bambin[data-competence="${competence}"]`);
+    const image = ligne.querySelector(".image-de-bambin");
+    const texte = ligne.querySelector(".resultat-de-bambin");
+    const config = configDesBambin[competence];
+    const facesAnimation = config.valeurs.concat(["dessin"]);
+
+    image.classList.add("en-lancer");
+    texte.textContent = "...";
+
+    let i = 0;
+    intervalles[competence] = setInterval(function() {
+      const face = facesAnimation[i % facesAnimation.length];
+      image.src = face === "dessin" ? cheminDessinDeBambin(competence) : cheminDeBambin(competence, face);
+      i++;
+    }, 110);
+  });
+
+  ordre.forEach(function(competence, index) {
+    setTimeout(function() {
+      clearInterval(intervalles[competence]);
+
+      const niveau = tirerNiveauBambin(competence);
+      resultatsDesBambin[competence] = niveau;
+
+      const ligne = fond.querySelector(`.ligne-de-bambin[data-competence="${competence}"]`);
+      const image = ligne.querySelector(".image-de-bambin");
+      const texte = ligne.querySelector(".resultat-de-bambin");
+
+      image.classList.remove("en-lancer");
+      image.src = cheminDeBambin(competence, niveau);
+      texte.textContent = "Niveau " + niveau;
+
+      if (index === ordre.length - 1) {
+        tirageDesBambinEnCours = false;
+        boutonLancer.disabled = false;
+        boutonLancer.style.display = "none";
+        boutonValider.textContent = "Valider les niveaux";
+        boutonValider.classList.add("visible");
+      }
+    }, 1500 + index * 650);
+  });
+}
+
+function validerDesBambin() {
+  if (!simTirageDesBambin || tirageDesBambinEnCours) return;
+
+  if (resultatsDesBambin) {
+    Object.keys(resultatsDesBambin).forEach(function(competence) {
+      const niveau = resultatsDesBambin[competence];
+      const objectif = simTirageDesBambin.querySelector(`.objectif-competence-bambin[data-competence="${competence}"]`);
+      if (!objectif) return;
+
+      const texte = objectif.querySelector(".texte-objectif");
+      const image = objectif.querySelector(".de-competence-bambin img");
+      const config = configDesBambin[competence];
+
+      if (texte) texte.textContent = `${config.nom} — niveau ${niveau}`;
+      if (image) {
+        image.src = cheminDeBambin(competence, niveau);
+        image.alt = `${config.nom} — niveau ${niveau}`;
+      }
+    });
+
+    sauvegarderChallenge();
+  }
+
+  document.getElementById("fond-tirage-des-bambin").classList.remove("ouvert");
+  simTirageDesBambin = null;
+}
+
 verifierConnexion(); 
   chargerChallenge();
   
