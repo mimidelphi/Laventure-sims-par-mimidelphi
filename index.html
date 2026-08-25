@@ -2130,151 +2130,157 @@ const bibliothequeAges = {
   },
 
 
-  nourrisson: {
-    nom: "NOURRISSON",
-    suivant: "bambin",
-    logo: "👶",
-    iconeDroite: "🧸",
-    sousTitre: "Étape de vie actuelle",
-    titreObjectifs: "Objectifs de cette étape",
+ nourrisson: {
+  nom: "NOURRISSON",
+  suivant: "bambin",
+  logo: "👶",
+  iconeDroite: "🧸",
+  sousTitre: "Étape de vie actuelle",
+  titreObjectifs: "Objectifs de cette étape",
 
-    objectifs: `
-   <div class="objectif objectif-tirage"
-     onclick="if (!event.target.closest('button')) tirerMotriciteGlobale(this)"
+  objectifs: `
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerMotriciteGlobale(this)">
 
-  <span class="icone-objectif">
-    <img src="dos-motricite-globale.jpeg"
-         alt="Motricité globale">
-  </span>
+      <span class="icone-objectif">
+        <img src="dos-motricite-globale.jpeg"
+             alt="Motricité globale">
+      </span>
 
-  <span class="texte-objectif">
-    Motricité globale : à tirer
-  </span>
+      <span class="texte-objectif">
+        Motricité globale : à tirer
+      </span>
 
-  <button>✓</button>
-</div>
+      <button>✓</button>
+    </div>
 
-<div class="objectif objectif-tirage"
-     onclick="if (!event.target.closest('button')) tirerPremiereFois(this)"
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerPremiereFois(this)">
 
-  <span class="icone-objectif">
-    <img src="dos-premiere-fois.jpeg"
-         alt="Première fois">
-  </span>
+      <span class="icone-objectif">
+        <img src="dos-premiere-fois.jpeg"
+             alt="Première fois">
+      </span>
 
-  <span class="texte-objectif">
-    Première fois : à tirer
-  </span>
+      <span class="texte-objectif">
+        Première fois : à tirer
+      </span>
 
-  <button>✓</button>
-</div>
+      <button>✓</button>
+    </div>
 
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerMotriciteFine(this)">
 
-<div class="objectif objectif-tirage"
-     onclick="if (!event.target.closest('button')) tirerMotriciteFine(this)"
+      <span class="icone-objectif">
+        <img src="dos-motricite-fine.jpeg"
+             alt="Motricité fine">
+      </span>
 
-  <span class="icone-objectif">
-    <img src="dos-motricite-fine.jpeg"
-         alt="Motricité fine">
-  </span>
+      <span class="texte-objectif">
+        Motricité fine : à tirer
+      </span>
 
-  <span class="texte-objectif">
-    Motricité fine : à tirer
-  </span>
+      <button>✓</button>
+    </div>
 
-  <button>✓</button>
-</div>
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerSocial(this)">
 
+      <span class="icone-objectif">
+        <img src="dos-social.jpeg"
+             alt="Social">
+      </span>
 
-<div class="objectif objectif-tirage"
-     onclick="if (!event.target.closest('button')) tirerSocial(this)">
+      <span class="texte-objectif">
+        Social : à tirer
+      </span>
 
-  <span class="icone-objectif">
-    <img src="dos-social.jpeg"
-         alt="Social">
-  </span>
+      <button>✓</button>
+    </div>
 
-  <span class="texte-objectif">
-    Social : à tirer
-  </span>
+    <div class="objectif">
+      <span class="icone-objectif">🎭</span>
+      <span class="texte-objectif">Organiser une fête costumée</span>
+      <button>✓</button>
+    </div>
 
-  <button>✓</button>
-</div>
-
-      <div class="objectif">
-        <span class="icone-objectif">🎭</span>
-        <span class="texte-objectif">Organiser une fête costumée</span>
-        <button>✓</button>
-      </div>
-
-      <div class="objectif objectif-final">
-        <span class="icone-objectif">🎂</span>
-        <span class="texte-objectif">Grandir pendant la fête</span>
-        <button>✓</button>
-      </div>
-    `
-  },
+    <div class="objectif objectif-final">
+      <span class="icone-objectif">🎂</span>
+      <span class="texte-objectif">Grandir pendant la fête</span>
+      <button>✓</button>
+    </div>
+  `
+},
 
 
-  bambin: {
-    nom: "BAMBIN",
-    suivant: "enfant",
-    logo: "🧒",
-    iconeDroite: "🧸",
-    sousTitre: "Étape de vie actuelle",
-    titreObjectifs: "Objectifs de cette étape",
+bambin: {
+  nom: "BAMBIN",
+  suivant: "enfant",
+  logo: "🧒",
+  iconeDroite: "🧸",
+  sousTitre: "Étape de vie actuelle",
+  titreObjectifs: "Objectifs de cette étape",
+
+  objectifs: `
+    <div class="objectif objectif-competence-bambin"
+         data-competence="communication">
+
+      <span class="icone-objectif de-competence-bambin"
+            onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        🎲
+      </span>
+
+      <span class="texte-objectif">Communication — à tirer</span>
+      <button>✓</button>
+    </div>
 
     <div class="objectif objectif-competence-bambin"
-     data-competence="communication">
-  <span class="icone-objectif de-competence-bambin"
-        onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-    🎲
-  </span>
-  <span class="texte-objectif">Communication — à tirer</span>
-  <button>✓</button>
-</div>
+         data-competence="imagination">
 
-<div class="objectif objectif-competence-bambin"
-     data-competence="imagination">
-  <span class="icone-objectif de-competence-bambin">🎲</span>
-  <span class="texte-objectif">Imagination — à tirer</span>
-  <button>✓</button>
-</div>
+      <span class="icone-objectif de-competence-bambin">🎲</span>
+      <span class="texte-objectif">Imagination — à tirer</span>
+      <button>✓</button>
+    </div>
 
-<div class="objectif objectif-competence-bambin"
-     data-competence="mouvements">
-  <span class="icone-objectif de-competence-bambin">🎲</span>
-  <span class="texte-objectif">Mouvements — à tirer</span>
-  <button>✓</button>
-</div>
+    <div class="objectif objectif-competence-bambin"
+         data-competence="mouvements">
 
-<div class="objectif objectif-competence-bambin"
-     data-competence="pot">
-  <span class="icone-objectif de-competence-bambin">🎲</span>
-  <span class="texte-objectif">Pot — à tirer</span>
-  <button>✓</button>
-</div>
+      <span class="icone-objectif de-competence-bambin">🎲</span>
+      <span class="texte-objectif">Mouvements — à tirer</span>
+      <button>✓</button>
+    </div>
 
-<div class="objectif objectif-competence-bambin"
-     data-competence="reflexion">
-  <span class="icone-objectif de-competence-bambin">🎲</span>
-  <span class="texte-objectif">Réflexion — à tirer</span>
-  <button>✓</button>
-</div>
+    <div class="objectif objectif-competence-bambin"
+         data-competence="pot">
 
-      <div class="objectif">
-        <span class="icone-objectif">🧸</span>
-        <span class="texte-objectif">Organiser une séance de jeu entre bambins</span>
-        <button>✓</button>
-      </div>
+      <span class="icone-objectif de-competence-bambin">🎲</span>
+      <span class="texte-objectif">Pot — à tirer</span>
+      <button>✓</button>
+    </div>
 
-      <div class="objectif objectif-final">
-        <span class="icone-objectif">🎂</span>
-        <span class="texte-objectif">Grandir pendant la fête</span>
-        <button>✓</button>
-      </div>
-    `
-  },
+    <div class="objectif objectif-competence-bambin"
+         data-competence="reflexion">
+
+      <span class="icone-objectif de-competence-bambin">🎲</span>
+      <span class="texte-objectif">Réflexion — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span class="icone-objectif">🧸</span>
+      <span class="texte-objectif">Organiser une séance de jeu entre bambins</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-final">
+      <span class="icone-objectif">🎂</span>
+      <span class="texte-objectif">Grandir pendant la fête</span>
+      <button>✓</button>
+    </div>
+  `
+},
+
 
 
   enfant: {
