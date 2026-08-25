@@ -1051,60 +1051,63 @@ justify-content: center;
 
 .liste-des-bambin {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .ligne-de-bambin {
   display: grid;
-  grid-template-columns: minmax(130px, 1fr) 130px 90px;
+  grid-template-columns: minmax(125px, 1fr) 82px 85px;
   align-items: center;
-  gap: 14px;
-  padding: 10px 14px;
+  gap: 10px;
+
+  min-height: 76px;
+  padding: 5px 12px;
+
   background: white;
   border: 1px solid #eadff1;
-  border-radius: 14px;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .nom-de-bambin {
   font-weight: bold;
   color: #5f3a84;
+  font-size: 13px;
 }
 
+/* Zone qui accueillera le véritable dé 3D */
 .image-de-bambin {
-  width: 110px;
-  height: 110px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
   justify-self: center;
-  transition: transform 0.15s ease;
+  transition: none;
 }
 
+/* On retire l'ancienne secousse :
+   la vraie rotation 3D la remplacera juste après */
 .image-de-bambin.en-lancer {
-  animation: secousse-de-bambin 0.18s linear infinite;
-}
-
-@keyframes secousse-de-bambin {
-  0% { transform: rotate(-8deg) scale(0.96); }
-  50% { transform: rotate(8deg) scale(1.04); }
-  100% { transform: rotate(-8deg) scale(0.96); }
+  animation: none;
 }
 
 .resultat-de-bambin {
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #6c3eb1;
+  white-space: nowrap;
 }
 
 .actions-tirage-des-bambin {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 12px;
 }
 
 .actions-tirage-des-bambin button {
   border: none;
-  padding: 11px 18px;
+  padding: 9px 16px;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
@@ -1127,11 +1130,12 @@ justify-content: center;
 
 @media (max-width: 650px) {
   .ligne-de-bambin {
-    grid-template-columns: 1fr 90px 70px;
+    grid-template-columns: 1fr 65px 75px;
   }
+
   .image-de-bambin {
-    width: 80px;
-    height: 80px;
+    width: 58px;
+    height: 58px;
   }
 }
 
