@@ -1139,6 +1139,70 @@ justify-content: center;
   }
 }
 
+/* =========================
+   VRAI DÉ 3D BAMBIN
+========================= */
+
+.de-3d-bambin {
+  width: 68px;
+  height: 68px;
+  justify-self: center;
+  perspective: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cube-bambin {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  transform-style: preserve-3d;
+
+  /* Vue semi-côté / trois-quarts */
+  transform: rotateX(-20deg) rotateY(32deg);
+}
+
+.face-de {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  backface-visibility: hidden;
+}
+
+.face-de img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* 54 / 2 = 27px */
+
+.face-avant {
+  transform: translateZ(27px);
+}
+
+.face-arriere {
+  transform: rotateY(180deg) translateZ(27px);
+}
+
+.face-droite {
+  transform: rotateY(90deg) translateZ(27px);
+}
+
+.face-gauche {
+  transform: rotateY(-90deg) translateZ(27px);
+}
+
+.face-dessus {
+  transform: rotateX(90deg) translateZ(27px);
+}
+
+.face-dessous {
+  transform: rotateX(-90deg) translateZ(27px);
+}
+    
   </style>
 </head>
 
@@ -1467,7 +1531,33 @@ justify-content: center;
     <div class="liste-des-bambin">
       <div class="ligne-de-bambin" data-competence="communication">
         <span class="nom-de-bambin">Communication</span>
-        <img class="image-de-bambin" src="images/bambin/competences/des/communication/communication-dessin.png" alt="Dé Communication">
+        <div class="de-3d-bambin" data-de="communication">
+  <div class="cube-bambin">
+    <div class="face-de face-avant">
+      <img src="images/bambin/competences/des/communication/communication-2.png" alt="">
+    </div>
+
+    <div class="face-de face-arriere">
+      <img src="images/bambin/competences/des/communication/communication-4.png" alt="">
+    </div>
+
+    <div class="face-de face-droite">
+      <img src="images/bambin/competences/des/communication/communication-3.png" alt="">
+    </div>
+
+    <div class="face-de face-gauche">
+      <img src="images/bambin/competences/des/communication/communication-5.png" alt="">
+    </div>
+
+    <div class="face-de face-dessus">
+      <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
+    </div>
+
+    <div class="face-de face-dessous">
+      <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
+    </div>
+  </div>
+</div>
         <span class="resultat-de-bambin">À tirer</span>
       </div>
 
