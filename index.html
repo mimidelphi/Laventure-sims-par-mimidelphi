@@ -2140,7 +2140,7 @@ const bibliothequeAges = {
 
     objectifs: `
    <div class="objectif objectif-tirage"
-     onclick="tirerMotriciteGlobale(this)">
+     onclick="if (!event.target.closest('button')) tirerMotriciteGlobale(this)"
 
   <span class="icone-objectif">
     <img src="dos-motricite-globale.jpeg"
@@ -2151,11 +2151,11 @@ const bibliothequeAges = {
     Motricité globale : à tirer
   </span>
 
-  <button onclick="event.stopPropagation()">✓</button>
+  <button>✓</button>
 </div>
 
 <div class="objectif objectif-tirage"
-     onclick="tirerPremiereFois(this)">
+     onclick="if (!event.target.closest('button')) tirerPremiereFois(this)"
 
   <span class="icone-objectif">
     <img src="dos-premiere-fois.jpeg"
@@ -2166,12 +2166,12 @@ const bibliothequeAges = {
     Première fois : à tirer
   </span>
 
-  <button onclick="event.stopPropagation()">✓</button>
+  <button>✓</button>
 </div>
 
 
 <div class="objectif objectif-tirage"
-     onclick="tirerMotriciteFine(this)">
+     onclick="if (!event.target.closest('button')) tirerMotriciteFine(this)"
 
   <span class="icone-objectif">
     <img src="dos-motricite-fine.jpeg"
@@ -2182,12 +2182,12 @@ const bibliothequeAges = {
     Motricité fine : à tirer
   </span>
 
-  <button onclick="event.stopPropagation()">✓</button>
+  <button>✓</button>
 </div>
 
 
 <div class="objectif objectif-tirage"
-     onclick="tirerSocial(this)">
+     onclick="if (!event.target.closest('button')) tirerSocial(this)">
 
   <span class="icone-objectif">
     <img src="dos-social.jpeg"
@@ -2198,7 +2198,7 @@ const bibliothequeAges = {
     Social : à tirer
   </span>
 
-  <button onclick="event.stopPropagation()">✓</button>
+  <button>✓</button>
 </div>
 
       <div class="objectif">
