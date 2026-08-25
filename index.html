@@ -2224,36 +2224,43 @@ const bibliothequeAges = {
     sousTitre: "Étape de vie actuelle",
     titreObjectifs: "Objectifs de cette étape",
 
-    objectifs: `
-      <div class="objectif">
-        <span class="icone-objectif">💬</span>
-        <span class="texte-objectif">Communication — niveau tiré</span>
-        <button>✓</button>
-      </div>
+    <div class="objectif objectif-competence-bambin"
+     data-competence="communication">
+  <span class="icone-objectif de-competence-bambin"
+        onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+    🎲
+  </span>
+  <span class="texte-objectif">Communication — à tirer</span>
+  <button>✓</button>
+</div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🧠</span>
-        <span class="texte-objectif">Réflexion — niveau tiré</span>
-        <button>✓</button>
-      </div>
+<div class="objectif objectif-competence-bambin"
+     data-competence="imagination">
+  <span class="icone-objectif de-competence-bambin">🎲</span>
+  <span class="texte-objectif">Imagination — à tirer</span>
+  <button>✓</button>
+</div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🏃</span>
-        <span class="texte-objectif">Mouvement — niveau tiré</span>
-        <button>✓</button>
-      </div>
+<div class="objectif objectif-competence-bambin"
+     data-competence="mouvements">
+  <span class="icone-objectif de-competence-bambin">🎲</span>
+  <span class="texte-objectif">Mouvements — à tirer</span>
+  <button>✓</button>
+</div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🎨</span>
-        <span class="texte-objectif">Imagination — niveau tiré</span>
-        <button>✓</button>
-      </div>
+<div class="objectif objectif-competence-bambin"
+     data-competence="pot">
+  <span class="icone-objectif de-competence-bambin">🎲</span>
+  <span class="texte-objectif">Pot — à tirer</span>
+  <button>✓</button>
+</div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🚽</span>
-        <span class="texte-objectif">Pot — niveau tiré</span>
-        <button>✓</button>
-      </div>
+<div class="objectif objectif-competence-bambin"
+     data-competence="reflexion">
+  <span class="icone-objectif de-competence-bambin">🎲</span>
+  <span class="texte-objectif">Réflexion — à tirer</span>
+  <button>✓</button>
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🧸</span>
