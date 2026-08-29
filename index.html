@@ -4681,14 +4681,10 @@ function preparerFacesResultatBambin(competence, niveau) {
   const ligne = fond.querySelector(
     `.ligne-de-bambin[data-competence="${competence}"]`
   );
-
   if (!ligne) return;
 
   const cube = ligne.querySelector(".cube-bambin");
   if (!cube) return;
-
-  /* Pour l'instant : test uniquement sur Communication */
-  if (competence !== "communication") return;
 
   const dessus = cube.querySelector(".face-dessus img");
   const dessous = cube.querySelector(".face-dessous img");
@@ -4697,21 +4693,46 @@ function preparerFacesResultatBambin(competence, niveau) {
   const arriere = cube.querySelector(".face-arriere img");
   const gauche = cube.querySelector(".face-gauche img");
 
-  /* LE RÉSULTAT EST TOUJOURS SUR LE DESSUS */
+  const logos = {
+    communication: "face-communication.png",
+    imagination: "face-imagination.png",
+    mouvements: "face-mouvement.png",
+    pot: "face-pot.png",
+    reflexion: "face-reflexion.png"
+  };
+
+  const logo = logos[competence];
+  if (!logo) return;
+
+  /* Résultat = face du dessus */
   dessus.src = `images/bambin/des/face-${niveau}.png`;
 
-  /* Logo Communication sur une face latérale visible */
-  avant.src = "images/bambin/des/face-communication.png";
+  /* Logo de la compétence = côté visible */
+  avant.src = `images/bambin/des/${logo}`;
 
-  /* Les autres chiffres remplissent les autres côtés */
-  const autres = [2, 3, 4, 5].filter(n => n !== niveau);
+  /* Deuxième logo sur la face opposée */
+  dessous.src = `images/bambin/des/${logo}`;
 
-  droite.src = `images/bambin/des/face-${autres[0]}.png`;
-  arriere.src = `images/bambin/des/face-${autres[1]}.png`;
-  gauche.src = `images/bambin/des/face-${autres[2]}.png`;
+  if (competence === "pot") {
+    /* Pot n'a que les résultats 2 et 3 */
+    droite.src = niveau === 2
+      ? "images/bambin/des/face-3.png"
+      : "images/bambin/des/face-2.png";
 
-  /* Deuxième face logo, opposée au résultat */
-  dessous.src = "images/bambin/des/face-communication.png";
+    arriere.src = `images/bambin/des/${logo}`;
+
+    gauche.src = niveau === 2
+      ? "images/bambin/des/face-3.png"
+      : "images/bambin/des/face-2.png";
+
+  } else {
+    /* Autres compétences : niveaux 2, 3, 4 et 5 */
+    const autres = [2, 3, 4, 5].filter(n => n !== niveau);
+
+    droite.src = `images/bambin/des/face-${autres[0]}.png`;
+    arriere.src = `images/bambin/des/face-${autres[1]}.png`;
+    gauche.src = `images/bambin/des/face-${autres[2]}.png`;
+  }
 }
   
 function orientationCubeBambin(competence, niveau) {
