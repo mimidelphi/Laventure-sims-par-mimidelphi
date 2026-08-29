@@ -2067,15 +2067,16 @@ if (etatSauvegarde) {
   const { error } = await supabaseClient
     .from("app_data")
     .upsert({
-      user_id: user.id,
-      data: {
-  version: VERSION_SAUVEGARDE,
-  sims: sims,
-  compteurMatriarche: compteurMatriarche
-}
-    }, {
-      onConflict: "user_id"
-    });
+  user_id: user.id,
+  save_slot: SAVE_SLOT,
+  data: {
+    version: VERSION_SAUVEGARDE,
+    sims: sims,
+    compteurMatriarche: compteurMatriarche
+  }
+}, {
+  onConflict: "user_id,save_slot"
+});
 
  if (error) {
   console.error("Erreur sauvegarde challenge :", error);
