@@ -1354,6 +1354,152 @@ justify-content: center;
   }
 }
 
+ /* =========================
+   NOUVEAU VISUEL TIRAGE BAMBIN
+   5 CARTES CÔTE À CÔTE
+========================= */
+
+.fenetre-tirage-des-bambin {
+  width: min(1050px, 96vw);
+  padding: 24px 26px 22px;
+  background: linear-gradient(180deg, #fffafd 0%, #f5eefb 100%);
+  border: 2px solid #d9c2eb;
+  border-radius: 26px;
+}
+
+.titre-tirage-des-bambin {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+.sous-titre-tirage-des-bambin {
+  margin-bottom: 22px;
+  font-size: 13px;
+}
+
+/* Les 5 compétences */
+.liste-des-bambin {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(145px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* Une carte par compétence */
+.ligne-de-bambin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 0;
+  min-height: 205px;
+
+  padding: 14px 10px 16px;
+
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e5d4ef;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 14px rgba(75, 47, 100, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  box-sizing: border-box;
+}
+
+/* Icône officielle + nom */
+.entete-carte-de-bambin {
+  width: 100%;
+  min-height: 70px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 5px;
+  margin-bottom: 8px;
+
+  text-align: center;
+}
+
+.icone-officielle-bambin {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+}
+
+.nom-de-bambin {
+  font-size: 14px;
+  font-weight: 800;
+  color: #5f3a84;
+  text-align: center;
+}
+
+/* Zone du vrai dé :
+   on garde entièrement notre cube 3D actuel */
+.ligne-de-bambin .de-3d-bambin {
+  margin: 7px auto 12px;
+  justify-self: auto;
+  flex-shrink: 0;
+}
+
+/* Résultat sous le dé */
+.resultat-de-bambin {
+  margin-top: auto;
+  min-height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 800;
+  color: #6c3eb1;
+  text-align: center;
+}
+
+/* Boutons en dessous des 5 cartes */
+.actions-tirage-des-bambin {
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.actions-tirage-des-bambin button {
+  min-width: 150px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+/* Écrans plus étroits */
+@media (max-width: 850px) {
+
+  .fenetre-tirage-des-bambin {
+    width: min(720px, 96vw);
+  }
+
+  .liste-des-bambin {
+    grid-template-columns: repeat(2, minmax(145px, 1fr));
+  }
+
+  .ligne-de-bambin {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .liste-des-bambin {
+    grid-template-columns: 1fr;
+  }
+
+  .ligne-de-bambin {
+    min-height: 190px;
+  }
+}   
     
   </style>
 </head>
@@ -1677,12 +1823,22 @@ justify-content: center;
 ========================= -->
 <div id="fond-tirage-des-bambin" class="fond-tirage-des-bambin">
   <div class="fenetre-tirage-des-bambin">
-    <h2 class="titre-tirage-des-bambin">🎲 Dés Bambin — par compétence</h2>
-    <p class="sous-titre-tirage-des-bambin">Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.</p>
+   <h2 class="titre-tirage-des-bambin">
+  💚 TIRAGE DES COMPÉTENCES DU BAMBIN 💚
+</h2>
+
+<p class="sous-titre-tirage-des-bambin">
+  🎲 Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.
+</p>
 
     <div class="liste-des-bambin">
       <div class="ligne-de-bambin" data-competence="communication">
-        <span class="nom-de-bambin">Communication</span>
+       <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-communication.png"
+       alt="Communication">
+  <span class="nom-de-bambin">Communication</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Communication">
   <div class="cube-bambin">
@@ -1718,7 +1874,12 @@ justify-content: center;
       </div>
 
       <div class="ligne-de-bambin" data-competence="imagination">
-        <span class="nom-de-bambin">Imagination</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-imagination.png"
+       alt="Imagination">
+  <span class="nom-de-bambin">Imagination</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Imagination">
   <div class="cube-bambin">
@@ -1747,7 +1908,12 @@ justify-content: center;
       </div>
 
       <div class="ligne-de-bambin" data-competence="mouvements">
-        <span class="nom-de-bambin">Mouvements</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-mouvement.png"
+       alt="Mouvement">
+  <span class="nom-de-bambin">Mouvements</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Mouvements">
   <div class="cube-bambin">
@@ -1775,8 +1941,12 @@ justify-content: center;
       </div>
 
       <div class="ligne-de-bambin" data-competence="pot">
-        <span class="nom-de-bambin">Pot</span>
-
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-pot.png"
+       alt="Pot">
+  <span class="nom-de-bambin">Pot</span>
+</div>
         <div class="de-3d-bambin" aria-label="Dé Pot">
   <div class="cube-bambin">
     <div class="face-de face-avant">
@@ -1804,7 +1974,13 @@ justify-content: center;
       </div>
 
       <div class="ligne-de-bambin" data-competence="reflexion">
-        <span class="nom-de-bambin">Réflexion</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-reflexion.png"
+       alt="Réflexion">
+  <span class="nom-de-bambin">Réflexion</span>
+</div>
+      
 
        <div class="de-3d-bambin" aria-label="Dé Réflexion">
   <div class="cube-bambin">
@@ -4957,26 +5133,16 @@ function lancerDesBambin() {
   cube.style.transform = "";
   cube.classList.add("en-lancer");
 
-  /* TEST : vrai trajet uniquement pour Communication */
-  if (competence === "communication") {
-    const zoneDe = ligne.querySelector(".de-3d-bambin");
-    const nom = ligne.querySelector(".nom-de-bambin");
+ /* Petit trajet de roulement dans chaque carte */
+const zoneDe = ligne.querySelector(".de-3d-bambin");
 
-    if (zoneDe && nom) {
-      const positionDe = zoneDe.getBoundingClientRect();
-      const positionNom = nom.getBoundingClientRect();
+if (zoneDe) {
+  zoneDe.classList.remove("en-roulement");
 
-      const depart =
-        positionNom.right + 20 - positionDe.left;
+  void zoneDe.offsetWidth;
 
-      zoneDe.style.setProperty("--depart-de", depart + "px");
-      zoneDe.classList.remove("en-roulement");
-
-      void zoneDe.offsetWidth;
-
-      zoneDe.classList.add("en-roulement");
-    }
-  }
+  zoneDe.classList.add("en-roulement");
+}
 }
 
     if (texte) {
@@ -4995,13 +5161,11 @@ function lancerDesBambin() {
       const texte = ligne.querySelector(".resultat-de-bambin");
       const niveau = resultatsDesBambin[competence];
 
-if (competence === "communication") {
-  const zoneDe = ligne.querySelector(".de-3d-bambin");
+const zoneDe = ligne.querySelector(".de-3d-bambin");
 
-  if (zoneDe) {
-    zoneDe.classList.remove("en-roulement");
-    zoneDe.style.transform = "";
-  }
+if (zoneDe) {
+  zoneDe.classList.remove("en-roulement");
+  zoneDe.style.transform = "";
 }
 
 preparerFacesResultatBambin(competence, niveau);
