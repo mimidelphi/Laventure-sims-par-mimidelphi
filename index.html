@@ -4771,16 +4771,6 @@ const configDesBambin = {
   }
 };
 
-function cheminDeBambin(competence, face) {
-  const c = configDesBambin[competence];
-  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-${face}.png`;
-}
-
-function cheminDessinDeBambin(competence) {
-  const c = configDesBambin[competence];
-  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-dessin.png`;
-}
-
 function lireNiveauDansTexte(texte) {
   const match = (texte || "").match(/niveau\s+([2-5])/i);
   return match ? Number(match[1]) : null;
