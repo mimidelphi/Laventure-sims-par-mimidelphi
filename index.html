@@ -5531,6 +5531,66 @@ function lancerDeQualitesBambin() {
    VALIDATION
 ------------------------- */
 
+/* -------------------------
+   CRÉATION DES LIGNES
+   QUALITÉS PERSONNELLES
+------------------------- */
+
+function creerLignesQualitesBambin(nombre) {
+
+  if (!simTirageQualitesBambin) return;
+
+  const objectifDe =
+    simTirageQualitesBambin.querySelector(
+      ".objectif-qualites-bambin"
+    );
+
+  if (!objectifDe) return;
+
+
+  /* Sécurité :
+     si les lignes existent déjà,
+     on ne les duplique pas */
+  simTirageQualitesBambin
+    .querySelectorAll(".objectif-carte-qualite-bambin")
+    .forEach(function(ligne) {
+      ligne.remove();
+    });
+
+
+  let pointInsertion = objectifDe;
+
+
+  for (let i = 1; i <= nombre; i++) {
+
+    const ligne = document.createElement("div");
+
+    ligne.className =
+      "objectif objectif-carte-qualite-bambin";
+
+    ligne.dataset.numeroQualite = i;
+
+
+    ligne.innerHTML = `
+      <span class="icone-objectif">
+        <img
+          src="images/bambin/carte-qualite/dos-carte-qualite.png"
+          alt="Qualité personnelle à tirer"
+        >
+      </span>
+
+      <span class="texte-objectif">
+        Qualité personnelle n°${i} — à tirer
+      </span>
+    `;
+
+
+    pointInsertion.after(ligne);
+
+    pointInsertion = ligne;
+  }
+}
+  
 function validerDeQualitesBambin() {
 
   if (
@@ -5625,6 +5685,9 @@ function validerDeQualitesBambin() {
     }
 
 
+        creerLignesQualitesBambin(
+      resultatQualitesBambin
+    );
     sauvegarderChallenge();
   }
 
