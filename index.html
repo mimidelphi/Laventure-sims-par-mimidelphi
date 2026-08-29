@@ -2675,6 +2675,50 @@ if (version < 4) {
   // Restaurer l'état des objectifs
   if (etat.objectifs) {
 
+/* =========================
+   RECRÉER LES LIGNES QUALITÉS
+   AVANT LA RESTAURATION BAMBIN
+========================= */
+
+const ageNom =
+  sim.querySelector(".age-nom");
+
+const estBambin =
+  ageNom &&
+  ageNom.textContent.trim() === "BAMBIN";
+
+
+if (estBambin) {
+
+  const qualitesSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+
+  if (qualitesSauvegardees.length > 0) {
+
+    simTirageQualitesBambin = sim;
+
+    creerLignesQualitesBambin(
+      qualitesSauvegardees.length
+    );
+
+    simTirageQualitesBambin = null;
+
+  }
+}
+    
     const objectifs =
       sim.querySelectorAll(".objectif");
 
