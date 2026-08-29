@@ -4675,26 +4675,26 @@ function lireNiveauDansTexte(texte) {
 }
 
 function orientationCubeBambin(competence, niveau) {
-
   if (!niveau) {
     return "rotateX(-22deg) rotateY(32deg)";
   }
 
-  /*
-    IMPORTANT :
-    le résultat du dé est maintenant placé SUR LE DESSUS.
-    Les autres faces restent visibles sur les côtés.
-  */
+  if (competence === "pot") {
+    return niveau === 3
+      ? "rotateX(-22deg) rotateY(-58deg)"
+      : "rotateX(-22deg) rotateY(32deg)";
+  }
 
   const orientations = {
-    2: "rotateX(-90deg) rotateY(0deg) rotateZ(0deg)",
-    3: "rotateX(-90deg) rotateY(90deg) rotateZ(0deg)",
-    4: "rotateX(-90deg) rotateY(180deg) rotateZ(0deg)",
-    5: "rotateX(-90deg) rotateY(-90deg) rotateZ(0deg)"
+    2: "rotateX(-22deg) rotateY(32deg)",
+    3: "rotateX(-22deg) rotateY(-58deg)",
+    4: "rotateX(-22deg) rotateY(-148deg)",
+    5: "rotateX(-22deg) rotateY(122deg)"
   };
 
   return orientations[niveau] || orientations[2];
 }
+  
 function placerCubeBambin(competence, niveau) {
   const fond = document.getElementById("fond-tirage-des-bambin");
   if (!fond) return;
