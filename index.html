@@ -2264,11 +2264,12 @@ async function chargerChallenge() {
 
   const user = sessionData.session.user;
 
-  const { data, error } = await supabaseClient
-    .from("app_data")
-    .select("data")
-    .eq("user_id", user.id)
-    .single();
+ const { data, error } = await supabaseClient
+  .from("app_data")
+  .select("data")
+  .eq("user_id", user.id)
+  .eq("save_slot", SAVE_SLOT)
+  .single();
 
   if (error) {
     console.log("Aucune sauvegarde challenge trouvée.");
