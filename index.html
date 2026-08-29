@@ -5571,24 +5571,445 @@ function creerLignesQualitesBambin(nombre) {
     ligne.dataset.numeroQualite = i;
 
 
-    ligne.innerHTML = `
-      <span class="icone-objectif">
-        <img
-          src="images/bambin/carte-qualite/dos-carte-qualite.png"
-          alt="Qualité personnelle à tirer"
-        >
-      </span>
+   ligne.innerHTML = `
+  <span class="icone-objectif">
+    <img
+      src="images/bambin/carte-qualite/dos-carte-qualite.png"
+      alt="Qualité personnelle à tirer"
+    >
+  </span>
 
-      <span class="texte-objectif">
-        Qualité personnelle n°${i} — à tirer
-      </span>
-    `;
+  <span class="texte-objectif">
+    Qualité personnelle n°${i} — à tirer
+  </span>
+
+  <span class="icone-bloque">🔒</span>
+`;
+
+    ligne.onclick = function() {
+  tirerCarteQualiteBambin(this);
+};
 
 
     pointInsertion.after(ligne);
 
     pointInsertion = ligne;
   }
+}
+
+/* =========================
+   CARTES QUALITÉS PERSONNELLES
+========================= */
+
+const cartesQualitesBambin = [
+
+  {
+    categorie: "manieres",
+    positif: {
+      nom: "Bien élevé",
+      image: "images/bambin/carte-qualite/carte-bien-eleve.png"
+    },
+    negatif: {
+      nom: "Mal élevé",
+      image: "images/bambin/carte-qualite/carte-mal-eleve.png"
+    }
+  },
+
+  {
+    categorie: "empathie",
+    positif: {
+      nom: "Compatissant",
+      image: "images/bambin/carte-qualite/carte-compatissant.png"
+    },
+    negatif: {
+      nom: "Insensible",
+      image: "images/bambin/carte-qualite/carte-insensible.png"
+    }
+  },
+
+  {
+    categorie: "emotions",
+    positif: {
+      nom: "Contrôle des émotions",
+      image: "images/bambin/carte-qualite/carte-controle-des-emotions.png"
+    },
+    negatif: {
+      nom: "Émotions incontrôlées",
+      image: "images/bambin/carte-qualite/carte-emotions-incontrolees.png"
+    }
+  },
+
+  {
+    categorie: "conflit",
+    positif: {
+      nom: "Médiateur",
+      image: "images/bambin/carte-qualite/carte-mediateur.png"
+    },
+    negatif: {
+      nom: "Enclin au conflit",
+      image: "images/bambin/carte-qualite/carte-enclin-au-conflit.png"
+    }
+  },
+
+  {
+    categorie: "responsabilite",
+    positif: {
+      nom: "Responsable",
+      image: "images/bambin/carte-qualite/carte-responsable.png"
+    },
+    negatif: {
+      nom: "Irresponsable",
+      image: "images/bambin/carte-qualite/carte-irresponsable.png"
+    }
+  }
+
+];
+
+
+let ligneQualiteBambinEnCours = null;
+let carteQualiteBambinTiree = null;
+
+
+/* -------------------------
+   TROUVE LES CATÉGORIES
+   DÉJÀ TIRÉES
+------------------------- */
+
+function categoriesQualitesDejaTirees(sim) {
+
+  const categories = [];
+
+  sim
+    .querySelectorAll(".objectif-carte-qualite-bambin")
+    .forEach(function(ligne) {
+
+      if (ligne.dataset.categorieQualite) {
+        categories.push(
+          ligne.dataset.categorieQualite
+        );
+      }
+
+    });
+
+  return categories;
+}
+
+
+/* -------------------------
+   TIRAGE 70 % / 30 %
+------------------------- */
+
+function choisirCarteQualiteBambin(sim) {
+
+  const dejaTirees =
+    categoriesQualitesDejaTirees(sim);
+
+
+  /* Une catégorie déjà utilisée disparaît
+     entièrement : positif ET négatif */
+  const disponibles =
+    cartesQualitesBambin.filter(function(categorie) {
+
+      return !dejaTirees.includes(
+        categorie.categorie
+      );
+
+    });
+
+
+  if (!disponibles.length) {
+    return null;
+  }
+
+
+  const categorie =
+    disponibles[
+      Math.floor(
+        Math.random() * disponibles.length
+      )
+    ];
+
+
+  /* 70 % positif / 30 % négatif */
+  const estPositive =
+    Math.random() < 0.70;
+
+
+  const carte =
+    estPositive
+      ? categorie.positif
+      : categorie.negatif;
+
+
+  return {
+    categorie: categorie.categorie,
+    nom: carte.nom,
+    image: carte.image,
+    type: estPositive
+      ? "positif"
+      : "negatif"
+  };
+}
+
+
+/* -------------------------
+   VÉRIFIE QUE C'EST BIEN
+   LA PROCHAINE LIGNE
+------------------------- */
+
+function ligneQualiteEstDisponible(ligne) {
+
+  const sim =
+    ligne.closest(".sim-modele");
+
+  if (!sim) return false;
+
+
+  const lignes =
+    Array.from(
+      sim.querySelectorAll(
+        ".objectif-carte-qualite-bambin"
+      )
+    );
+
+
+  const premiereNonTiree =
+    lignes.find(function(ligneTest) {
+
+      return (
+        ligneTest.dataset.carteTiree !== "oui"
+      );
+
+    });
+
+
+  return premiereNonTiree === ligne;
+}
+
+
+/* -------------------------
+   OUVERTURE DU TIRAGE
+------------------------- */
+
+function tirerCarteQualiteBambin(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+
+  /* Oblige à tirer dans l'ordre */
+  if (!ligneQualiteEstDisponible(ligne)) {
+    return;
+  }
+
+
+  const sim =
+    ligne.closest(".sim-modele");
+
+  if (!sim) return;
+
+
+  carteQualiteBambinTiree =
+    choisirCarteQualiteBambin(sim);
+
+
+  if (!carteQualiteBambinTiree) {
+    return;
+  }
+
+
+  ligneQualiteBambinEnCours = ligne;
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+
+  /* On transforme temporairement
+     le bouton Nourrisson en bouton Qualité */
+  bouton.textContent =
+    "Valider cette qualité";
+
+  bouton.onclick =
+    validerCarteQualiteBambin;
+
+
+  /* Même éventail de 7 cartes
+     que les tirages Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/bambin/carte-qualite/dos-carte-qualite.png"
+            alt="Dos carte qualité personnelle">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteQualiteBambinTiree.image}"
+            alt="${carteQualiteBambinTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+
+    paquet.appendChild(carte);
+  }
+
+
+  /* Réutilisation de TON animation Nourrisson */
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+/* -------------------------
+   VALIDATION DE LA CARTE
+------------------------- */
+
+function validerCarteQualiteBambin() {
+
+  if (
+    !ligneQualiteBambinEnCours ||
+    !carteQualiteBambinTiree
+  ) {
+    return;
+  }
+
+
+  const texte =
+    ligneQualiteBambinEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneQualiteBambinEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      carteQualiteBambinTiree.nom +
+      " — à travailler";
+  }
+
+
+  if (image) {
+
+    image.src =
+      carteQualiteBambinTiree.image;
+
+    image.alt =
+      carteQualiteBambinTiree.nom;
+  }
+
+
+  /* On mémorise le résultat */
+  ligneQualiteBambinEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneQualiteBambinEnCours.dataset.categorieQualite =
+    carteQualiteBambinTiree.categorie;
+
+  ligneQualiteBambinEnCours.dataset.typeQualite =
+    carteQualiteBambinTiree.type;
+
+
+  /* Cette ligne ne peut plus être retirée */
+  ligneQualiteBambinEnCours.onclick = null;
+
+
+  /* Fermeture de la fenêtre */
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+
+  /* Très important :
+     on rend au bouton sa fonction Nourrisson */
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneQualiteBambinEnCours = null;
+  carteQualiteBambinTiree = null;
+
+
+  sauvegarderChallenge();
 }
   
 function validerDeQualitesBambin() {
