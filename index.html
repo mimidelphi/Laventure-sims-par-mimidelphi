@@ -1187,6 +1187,37 @@ justify-content: center;
   transform: rotateX(-90deg) translateZ(24px);
 }
 
+/* Trajet réel du dé Communication */
+.ligne-de-bambin[data-competence="communication"] .de-3d-bambin.en-roulement {
+  animation: trajet-de-communication 1.4s ease-out forwards;
+}
+
+@keyframes trajet-de-communication {
+  0% {
+    transform: translateX(var(--depart-de, -250px)) translateY(0);
+  }
+
+  20% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.78)) translateY(-12px);
+  }
+
+  42% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.52)) translateY(2px);
+  }
+
+  60% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.32)) translateY(-8px);
+  }
+
+  78% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.15)) translateY(1px);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+    
 .cube-bambin.en-lancer {
   transition: none;
   animation: rouler-cube-bambin 0.9s linear infinite;
@@ -4776,11 +4807,32 @@ function lancerDesBambin() {
     const texte = ligne.querySelector(".resultat-de-bambin");
 
     if (cube) {
-      cube.style.animation = "";
-      cube.style.transition = "";
-      cube.style.transform = "";
-      cube.classList.add("en-lancer");
+  cube.style.animation = "";
+  cube.style.transition = "";
+  cube.style.transform = "";
+  cube.classList.add("en-lancer");
+
+  /* TEST : vrai trajet uniquement pour Communication */
+  if (competence === "communication") {
+    const zoneDe = ligne.querySelector(".de-3d-bambin");
+    const nom = ligne.querySelector(".nom-de-bambin");
+
+    if (zoneDe && nom) {
+      const positionDe = zoneDe.getBoundingClientRect();
+      const positionNom = nom.getBoundingClientRect();
+
+      const depart =
+        positionNom.right + 20 - positionDe.left;
+
+      zoneDe.style.setProperty("--depart-de", depart + "px");
+      zoneDe.classList.remove("en-roulement");
+
+      void zoneDe.offsetWidth;
+
+      zoneDe.classList.add("en-roulement");
     }
+  }
+}
 
     if (texte) {
       texte.textContent = "...";
@@ -4798,6 +4850,15 @@ function lancerDesBambin() {
       const texte = ligne.querySelector(".resultat-de-bambin");
       const niveau = resultatsDesBambin[competence];
 
+if (competence === "communication") {
+  const zoneDe = ligne.querySelector(".de-3d-bambin");
+
+  if (zoneDe) {
+    zoneDe.classList.remove("en-roulement");
+    zoneDe.style.transform = "";
+  }
+}
+      
       if (cube) {
         const positionActuelle = getComputedStyle(cube).transform;
 
