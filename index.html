@@ -1926,14 +1926,15 @@ let carteNourrissonTiree = null;
 
     const user = sessionData.session.user;
 
-    const { error } = await supabaseClient
-        .from("app_data")
-        .upsert({
-            user_id: user.id,
-            data: { test: texte }
-        }, {
-            onConflict: "user_id"
-        });
+   const { error } = await supabaseClient
+    .from("app_data")
+    .upsert({
+        user_id: user.id,
+        save_slot: SAVE_SLOT,
+        data: { test: texte }
+    }, {
+        onConflict: "user_id,save_slot"
+    });
 
     if (error) {
         console.error(error);
