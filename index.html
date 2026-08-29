@@ -4674,6 +4674,46 @@ function lireNiveauDansTexte(texte) {
   return match ? Number(match[1]) : null;
 }
 
+function preparerFacesResultatBambin(competence, niveau) {
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  if (!fond) return;
+
+  const ligne = fond.querySelector(
+    `.ligne-de-bambin[data-competence="${competence}"]`
+  );
+
+  if (!ligne) return;
+
+  const cube = ligne.querySelector(".cube-bambin");
+  if (!cube) return;
+
+  /* Pour l'instant : test uniquement sur Communication */
+  if (competence !== "communication") return;
+
+  const dessus = cube.querySelector(".face-dessus img");
+  const dessous = cube.querySelector(".face-dessous img");
+  const avant = cube.querySelector(".face-avant img");
+  const droite = cube.querySelector(".face-droite img");
+  const arriere = cube.querySelector(".face-arriere img");
+  const gauche = cube.querySelector(".face-gauche img");
+
+  /* LE RÉSULTAT EST TOUJOURS SUR LE DESSUS */
+  dessus.src = `images/bambin/des/face-${niveau}.png`;
+
+  /* Logo Communication sur une face latérale visible */
+  avant.src = "images/bambin/des/face-communication.png";
+
+  /* Les autres chiffres remplissent les autres côtés */
+  const autres = [2, 3, 4, 5].filter(n => n !== niveau);
+
+  droite.src = `images/bambin/des/face-${autres[0]}.png`;
+  arriere.src = `images/bambin/des/face-${autres[1]}.png`;
+  gauche.src = `images/bambin/des/face-${autres[2]}.png`;
+
+  /* Deuxième face logo, opposée au résultat */
+  dessous.src = "images/bambin/des/face-communication.png";
+}
+  
 function orientationCubeBambin(competence, niveau) {
   if (!niveau) {
     return "rotateX(-22deg) rotateY(32deg)";
@@ -4857,6 +4897,8 @@ if (competence === "communication") {
     zoneDe.style.transform = "";
   }
 }
+
+preparerFacesResultatBambin(competence, niveau);
       
       if (cube) {
         const positionActuelle = getComputedStyle(cube).transform;
