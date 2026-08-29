@@ -4715,24 +4715,7 @@ function preparerFacesResultatBambin(competence, niveau) {
 }
   
 function orientationCubeBambin(competence, niveau) {
-  if (!niveau) {
-    return "rotateX(-22deg) rotateY(32deg)";
-  }
-
-  if (competence === "pot") {
-    return niveau === 3
-      ? "rotateX(-22deg) rotateY(-58deg)"
-      : "rotateX(-22deg) rotateY(32deg)";
-  }
-
-  const orientations = {
-    2: "rotateX(-22deg) rotateY(32deg)",
-    3: "rotateX(-22deg) rotateY(-58deg)",
-    4: "rotateX(-22deg) rotateY(-148deg)",
-    5: "rotateX(-22deg) rotateY(122deg)"
-  };
-
-  return orientations[niveau] || orientations[2];
+  return "rotateX(-22deg) rotateY(32deg)";
 }
   
 function placerCubeBambin(competence, niveau) {
