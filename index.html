@@ -1189,17 +1189,64 @@ justify-content: center;
 
 .cube-bambin.en-lancer {
   transition: none;
-  animation: lancer-cube-bambin 0.72s linear infinite;
+  animation: rouler-cube-bambin 0.85s linear infinite;
 }
 
-@keyframes lancer-cube-bambin {
-  0%   { transform: rotateX(-22deg) rotateY(32deg) rotateZ(0deg); }
-  25%  { transform: rotateX(158deg) rotateY(212deg) rotateZ(35deg); }
-  50%  { transform: rotateX(338deg) rotateY(392deg) rotateZ(70deg); }
-  75%  { transform: rotateX(518deg) rotateY(572deg) rotateZ(105deg); }
-  100% { transform: rotateX(698deg) rotateY(752deg) rotateZ(140deg); }
-}
+@keyframes rouler-cube-bambin {
+  0% {
+    transform:
+      translateX(-12px)
+      translateY(0)
+      rotateX(-22deg)
+      rotateY(32deg)
+      rotateZ(0deg);
+  }
 
+  20% {
+    transform:
+      translateX(-4px)
+      translateY(-8px)
+      rotateX(120deg)
+      rotateY(150deg)
+      rotateZ(35deg);
+  }
+
+  40% {
+    transform:
+      translateX(8px)
+      translateY(1px)
+      rotateX(250deg)
+      rotateY(290deg)
+      rotateZ(80deg);
+  }
+
+  60% {
+    transform:
+      translateX(14px)
+      translateY(-5px)
+      rotateX(390deg)
+      rotateY(430deg)
+      rotateZ(125deg);
+  }
+
+  80% {
+    transform:
+      translateX(3px)
+      translateY(2px)
+      rotateX(540deg)
+      rotateY(580deg)
+      rotateZ(175deg);
+  }
+
+  100% {
+    transform:
+      translateX(-12px)
+      translateY(0)
+      rotateX(698deg)
+      rotateY(752deg)
+      rotateZ(220deg);
+  }
+}
 @media (max-width: 650px) {
   .fenetre-tirage-des-bambin {
     padding: 14px;
