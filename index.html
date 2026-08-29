@@ -985,7 +985,161 @@ justify-content: center;
 .bouton-fermer-tirage.visible {
   display: block;
 }
-    
+
+    /* =========================
+   TIRAGE DU DÉ QUALITÉS PERSONNELLES
+========================= */
+
+.fond-tirage-qualites-bambin {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3950;
+  background: rgba(45, 32, 55, 0.78);
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.fond-tirage-qualites-bambin.ouvert {
+  display: flex;
+}
+
+.fenetre-tirage-qualites-bambin {
+  width: min(430px, 94vw);
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 24px 22px 20px;
+  box-shadow: 0 20px 60px rgba(40, 25, 55, 0.35);
+  text-align: center;
+}
+
+.titre-tirage-qualites-bambin {
+  margin: 0 0 6px;
+  color: #6c3eb1;
+  font-size: 22px;
+}
+
+.sous-titre-tirage-qualites-bambin {
+  margin: 0 0 22px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.carte-de-qualites-bambin {
+  width: 190px;
+  min-height: 190px;
+  margin: 0 auto;
+  padding: 18px 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5d4ef;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 14px rgba(75, 47, 100, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  box-sizing: border-box;
+}
+
+.resultat-qualites-bambin {
+  min-height: 30px;
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #6c3eb1;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.de-3d-qualites-bambin {
+  width: 110px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  perspective: 600px;
+}
+
+/* Dé un peu plus grand que ceux des compétences */
+.de-3d-qualites-bambin .cube-bambin {
+  width: 64px;
+  height: 64px;
+}
+
+.de-3d-qualites-bambin .face-de {
+  width: 64px;
+  height: 64px;
+  border-radius: 9px;
+}
+
+.de-3d-qualites-bambin .face-avant {
+  transform: translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-arriere {
+  transform: rotateY(180deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-droite {
+  transform: rotateY(90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-gauche {
+  transform: rotateY(-90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-dessus {
+  transform: rotateX(90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-dessous {
+  transform: rotateX(-90deg) translateZ(32px);
+}
+
+.actions-tirage-qualites-bambin {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.actions-tirage-qualites-bambin button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#bouton-lancer-qualites-bambin {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-qualites-bambin {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-qualites-bambin.visible {
+  display: inline-block;
+}
 
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
@@ -1812,7 +1966,83 @@ justify-content: center;
 
 </div>
   
+<!-- =========================
+     TIRAGE DU DÉ QUALITÉS PERSONNELLES
+========================= -->
 
+<div id="fond-tirage-qualites-bambin"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 QUALITÉS PERSONNELLES 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Combien de qualités personnelles devra commencer à travailler ce bambin ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-qualites-bambin"
+           class="resultat-qualites-bambin">
+        À tirer
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-qualites-bambin"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/face-qualite.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/face-2.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/face-3.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/face-4.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/face-1.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/face-5.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-qualites-bambin"
+              onclick="lancerDeQualitesBambin()">
+        Lancer le dé 🎲
+      </button>
+
+      <button id="bouton-valider-qualites-bambin"
+              onclick="validerDeQualitesBambin()">
+        Valider
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
 <!-- =========================
      TIRAGE DES COMPÉTENCES BAMBIN
 ========================= -->
@@ -2935,7 +3165,51 @@ bambin: {
   sousTitre: "Étape de vie actuelle",
   titreObjectifs: "Objectifs de cette étape",
 
-  objectifs: `
+  objectifs: 
+    
+    <div class="objectif objectif-qualites-bambin">
+
+  <span class="icone-objectif de-competence-bambin"
+        onclick="event.stopPropagation(); ouvrirTirageQualitesBambin(this)">
+
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+    </span>
+
+  </span>
+
+  <span class="texte-objectif">
+    Qualités personnelles — à tirer
+  </span>
+
+  <span class="icone-bloque">🔒</span>
+
+</div>
+    `
     <div class="objectif objectif-competence-bambin" data-competence="communication">
      <span class="icone-objectif de-competence-bambin"
       onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
@@ -4904,7 +5178,463 @@ function fermerTirageNourrisson() {
 
   sauvegarderChallenge();
 }
-  
+
+  /* =========================
+   DÉ DES QUALITÉS PERSONNELLES
+========================= */
+
+let simTirageQualitesBambin = null;
+let resultatQualitesBambin = null;
+let tirageQualitesBambinEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageQualitesBambin(element) {
+
+  simTirageQualitesBambin = element.closest(".sim-modele");
+
+  if (!simTirageQualitesBambin) return;
+
+  const fond =
+    document.getElementById("fond-tirage-qualites-bambin");
+
+  const resultat =
+    document.getElementById("resultat-qualites-bambin");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-qualites-bambin");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-qualites-bambin");
+
+  if (!fond || !resultat || !boutonLancer || !boutonValider) {
+    return;
+  }
+
+
+  /* Vérifie si ce dé a déjà été tiré */
+  const objectif =
+    simTirageQualitesBambin.querySelector(
+      ".objectif-qualites-bambin"
+    );
+
+  const texte =
+    objectif
+      ? objectif.querySelector(".texte-objectif")
+      : null;
+
+  const match =
+    texte
+      ? texte.textContent.match(/([1-5])\s+qualit/i)
+      : null;
+
+
+  if (match) {
+
+    resultatQualitesBambin = Number(match[1]);
+
+    resultat.textContent =
+      resultatQualitesBambin +
+      (resultatQualitesBambin === 1
+        ? " qualité personnelle"
+        : " qualités personnelles");
+
+    preparerFacesQualitesBambin(
+      resultatQualitesBambin
+    );
+
+    boutonLancer.style.display = "none";
+
+    boutonValider.textContent = "Fermer";
+    boutonValider.classList.add("visible");
+
+  } else {
+
+    resultatQualitesBambin = null;
+
+    resultat.textContent = "À tirer";
+
+    preparerFacesInitialesQualitesBambin();
+
+    boutonLancer.style.display = "inline-block";
+    boutonLancer.disabled = false;
+
+    boutonValider.classList.remove("visible");
+    boutonValider.textContent = "Valider";
+
+  }
+
+  fond.classList.add("ouvert");
+}
+
+
+/* -------------------------
+   FACES AVANT LE TIRAGE
+------------------------- */
+
+function preparerFacesInitialesQualitesBambin() {
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  if (!cube) return;
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+
+  avant.src =
+    "images/bambin/des/face-qualite.png";
+
+  droite.src =
+    "images/bambin/des/face-2.png";
+
+  arriere.src =
+    "images/bambin/des/face-3.png";
+
+  gauche.src =
+    "images/bambin/des/face-4.png";
+
+  dessus.src =
+    "images/bambin/des/face-1.png";
+
+  dessous.src =
+    "images/bambin/des/face-5.png";
+
+
+  cube.classList.remove("en-lancer");
+
+  cube.style.animation = "";
+  cube.style.transition = "transform 0.45s ease";
+
+  cube.style.transform =
+    "rotateX(-22deg) rotateY(32deg)";
+}
+
+
+/* -------------------------
+   TIRAGE AVEC NOS POURCENTAGES
+------------------------- */
+
+function tirerNombreQualitesBambin() {
+
+  const hasard = Math.random() * 100;
+
+  if (hasard < 15) {
+    return 1;
+  }
+
+  if (hasard < 45) {
+    return 2;
+  }
+
+  if (hasard < 75) {
+    return 3;
+  }
+
+  if (hasard < 90) {
+    return 4;
+  }
+
+  return 5;
+}
+
+
+/* -------------------------
+   PRÉPARE LE DÉ FINAL
+   résultat dessus
+   logo devant
+------------------------- */
+
+function preparerFacesQualitesBambin(nombre) {
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  if (!cube) return;
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+
+  /* Résultat sur le dessus */
+  dessus.src =
+    `images/bambin/des/face-${nombre}.png`;
+
+
+  /* Notre logo Qualités à l'avant */
+  avant.src =
+    "images/bambin/des/face-qualite.png";
+
+
+  /*
+    Les quatre autres nombres
+    remplissent les autres faces.
+  */
+  const autres =
+    [1, 2, 3, 4, 5].filter(
+      n => n !== nombre
+    );
+
+
+  droite.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+}
+
+
+/* -------------------------
+   LANCEMENT DU DÉ
+------------------------- */
+
+function lancerDeQualitesBambin() {
+
+  if (
+    tirageQualitesBambinEnCours ||
+    !simTirageQualitesBambin
+  ) {
+    return;
+  }
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  const resultat =
+    document.getElementById("resultat-qualites-bambin");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-qualites-bambin");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-qualites-bambin");
+
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+
+  tirageQualitesBambinEnCours = true;
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  resultat.textContent = "Le dé roule… 🎲";
+
+
+  /* On utilise l'animation déjà créée
+     pour les dés Bambin */
+  cube.style.transition = "none";
+  cube.classList.add("en-lancer");
+
+
+  resultatQualitesBambin =
+    tirerNombreQualitesBambin();
+
+
+  setTimeout(function() {
+
+    const positionActuelle =
+      getComputedStyle(cube).transform;
+
+
+    cube.style.animation = "none";
+    cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+
+    /* Force le navigateur à garder
+       la dernière position du roulement */
+    void cube.offsetWidth;
+
+
+    preparerFacesQualitesBambin(
+      resultatQualitesBambin
+    );
+
+
+    cube.style.transition =
+      "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+    cube.style.transform =
+      "rotateX(-22deg) rotateY(32deg)";
+
+
+    resultat.textContent =
+      resultatQualitesBambin +
+      (resultatQualitesBambin === 1
+        ? " qualité personnelle"
+        : " qualités personnelles");
+
+
+    tirageQualitesBambinEnCours = false;
+
+    boutonLancer.style.display = "none";
+    boutonLancer.disabled = false;
+
+    boutonValider.textContent = "Valider";
+    boutonValider.classList.add("visible");
+
+  }, 1900);
+}
+
+
+/* -------------------------
+   VALIDATION
+------------------------- */
+
+function validerDeQualitesBambin() {
+
+  if (
+    !simTirageQualitesBambin ||
+    tirageQualitesBambinEnCours
+  ) {
+    return;
+  }
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-qualites-bambin"
+    );
+
+
+  /*
+    Si le résultat existe,
+    on l'affiche dans la fiche.
+  */
+  if (resultatQualitesBambin) {
+
+    const objectif =
+      simTirageQualitesBambin.querySelector(
+        ".objectif-qualites-bambin"
+      );
+
+    if (objectif) {
+
+      const texte =
+        objectif.querySelector(".texte-objectif");
+
+      if (texte) {
+
+        texte.textContent =
+          resultatQualitesBambin +
+          (resultatQualitesBambin === 1
+            ? " qualité personnelle à travailler"
+            : " qualités personnelles à travailler");
+      }
+
+
+      /* Petit dé de la fiche */
+      const cube =
+        objectif.querySelector(".cube-bambin");
+
+      if (cube) {
+
+        const dessus =
+          cube.querySelector(".face-dessus img");
+
+        const avant =
+          cube.querySelector(".face-avant img");
+
+        const droite =
+          cube.querySelector(".face-droite img");
+
+        const arriere =
+          cube.querySelector(".face-arriere img");
+
+        const gauche =
+          cube.querySelector(".face-gauche img");
+
+        const dessous =
+          cube.querySelector(".face-dessous img");
+
+
+        const autres =
+          [1, 2, 3, 4, 5].filter(
+            n => n !== resultatQualitesBambin
+          );
+
+
+        dessus.src =
+          `images/bambin/des/face-${resultatQualitesBambin}.png`;
+
+        avant.src =
+          "images/bambin/des/face-qualite.png";
+
+        droite.src =
+          `images/bambin/des/face-${autres[0]}.png`;
+
+        arriere.src =
+          `images/bambin/des/face-${autres[1]}.png`;
+
+        gauche.src =
+          `images/bambin/des/face-${autres[2]}.png`;
+
+        dessous.src =
+          `images/bambin/des/face-${autres[3]}.png`;
+      }
+    }
+
+
+    sauvegarderChallenge();
+  }
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  simTirageQualitesBambin = null;
+}
 
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
