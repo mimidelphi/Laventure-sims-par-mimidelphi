@@ -1,1 +1,4816 @@
-ma vrai sauvegarde
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Aventure Sims par Mimidelphi</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f3f7;
+      color: #333;
+    }
+
+    header {
+      background: #73c66b;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 38px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .carte {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .carte h2 {
+      margin-top: 0;
+      color: #4c9f46;
+    }
+
+    .bouton {
+      display: inline-block;
+      background: #73c66b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  .grille-sims {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+
+.sim {
+  background: #f5f3f7;
+  border: 1px solid #e7dfed;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+    
+.photo-sim {
+  height: 140px;
+  background: #e4dcef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: #73c66b;
+}
+
+.sim h3 {
+  margin-bottom: 5px;
+}
+
+.sim p {
+  margin-top: 0;
+}
+.sim-modele {
+  padding: 12px;
+  text-align: left;
+   position: relative;
+}
+
+.croix-supprimer-sim {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+
+  z-index: 10;
+
+  border: none;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1;
+  color: #9b86aa;
+
+  cursor: pointer;
+}
+
+.croix-supprimer-sim:hover {
+  color: #7b4bb7;
+  transform: scale(1.15);
+}
+
+    .plumbob-deco {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  color: #62b96b;
+}
+    
+/* =========================
+   PHOTO + NOM
+========================= */
+
+.entete-sim {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.petite-photo {
+  width: 78px;
+  height: 78px;
+  min-width: 78px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.infos-sim {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.prenom-sim {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+    
+.ligne-prenom {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.ligne-prenom .prenom-sim {
+  flex: 1;
+  min-width: 0;
+}
+
+.sexe-sim {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.sexe-sim.femme {
+  background: #f6d7e5;
+  color: #c64f84;
+  border: 1px solid #e9acc8;
+}
+
+.sexe-sim.homme {
+  background: #d8eafb;
+  color: #4185c5;
+  border: 1px solid #aacfed;
+}
+    
+.nom-famille-sim {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.05;
+}
+
+
+/* =========================
+   BABY N° X / 100
+========================= */
+
+.numero-baby {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  color: #7b4bb7;
+  font-size: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.trait-deco {
+  height: 1px;
+  flex: 1;
+  background: #c8a7e8;
+}
+
+.baby-numero {
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   3 LIGNES D'ICÔNES
+========================= */
+
+.identite-sim {
+  margin-top: 5px;
+}
+
+.ligne-identite-simple {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 4px;
+  border-bottom: none;
+  flex-wrap: wrap;
+}
+
+.icone-categorie {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icone-categorie img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.icone-identite {
+  width: 23px;
+  height: 23px;
+  background: #eee8f3;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.icone-identite.vide {
+  color: #999;
+}
+
+.icone-identite.vide {
+  cursor: pointer;
+}
+
+.icone-identite.vide:hover {
+  transform: scale(1.08);
+  background: #e3d7ed;
+}
+
+.fond-bibliotheque-icones {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(75, 55, 95, 0.45);
+  z-index: 1200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fond-bibliotheque-icones.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-icones {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 15px 45px rgba(92, 55, 120, 0.25);
+  box-sizing: border-box;
+}
+
+.fenetre-bibliotheque-icones h2 {
+  margin: 0 0 5px;
+  text-align: center;
+  color: #6c3eb1;
+}
+
+.fermer-bibliotheque {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: #a47abc;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.recherche-icone {
+  width: 100%;
+  margin-top: 15px;
+  padding: 11px;
+  border: 1px solid #ddcbe9;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.resultats-icones {
+  min-height: 80px;
+  margin-top: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+}
+
+.resultat-icone {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-bottom: 1px solid #eee5f4;
+  background: white;
+  padding: 8px;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 8px;
+}
+
+.bouton-ajouter-icone {
+  display: block;
+  width: 100%;
+  border: none;
+  margin-top: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.formulaire-nouvelle-icone {
+  display: none;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddcbe9;
+}
+
+.formulaire-nouvelle-icone.ouvert {
+  display: block;
+}
+
+.formulaire-nouvelle-icone label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #6c3eb1;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.formulaire-nouvelle-icone input,
+.formulaire-nouvelle-icone select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddcbe9;
+  border-radius: 10px;
+  background: white;
+  box-sizing: border-box;
+}
+
+.apercu-nouvelle-icone {
+  min-height: 10px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.apercu-nouvelle-icone img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.bouton-enregistrer-icone {
+  width: 100%;
+  border: none;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+#message-nouvelle-icone {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+    
+.resultat-icone:hover {
+  background: #f4ecfa;
+}
+
+.resultat-icone img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.resultat-icone span {
+  display: flex;
+  flex-direction: column;
+}
+
+.resultat-icone strong {
+  font-size: 13px;
+  color: #5f3a84;
+}
+
+.resultat-icone small {
+  margin-top: 2px;
+  color: #999;
+  font-size: 10px;
+}
+
+.icone-identite img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+    
+.cases-acquis {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.suite-acquis {
+  width: auto;
+  min-width: 27px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #8b65ad;
+  cursor: default;
+}
+
+/* =========================
+   ÉTAPE DE VIE
+========================= */
+
+.bloc-age {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+  padding: 8px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    #eee7f3,
+    #f8f4fa
+  );
+}
+
+.logo-age {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  border-radius: 10px;
+  background: #ddd2ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.texte-age {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.texte-age strong {
+  color: #6c3eb1;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.texte-age span {
+  margin-top: 3px;
+  font-size: 10px;
+  color: #555;
+}
+
+.icone-age-droite {
+  font-size: 23px;
+}
+
+
+/* =========================
+   PETIT CŒUR SÉPARATEUR
+========================= */
+
+.separateur-coeur {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 0 3px;
+  color: #b68add;
+  font-size: 11px;
+}
+
+.separateur-coeur span {
+  height: 1px;
+  flex: 1;
+  background: #cdb2e7;
+}
+
+
+/* =========================
+   OBJECTIFS
+========================= */
+
+.titre-objectifs {
+  margin: 5px 0 7px;
+  text-align: center;
+  color: #6c3eb1;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.objectifs-sim {
+  margin-top: 0;
+}
+
+.objectif {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 6px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  font-size: 10.5px;
+  text-align: left;
+  transition: 0.25s ease;
+}
+
+.compteur-matriarche {
+  background: #f3edf8;
+  border: 1px solid #d8c6e8;
+  font-weight: bold;
+}
+
+.compteur-matriarche strong {
+  color: #6c3eb1;
+  font-size: 14px;
+}    
+    
+.icone-objectif {
+  width: 24px;
+  min-width: 24px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.texte-objectif {
+  flex: 1;
+  line-height: 1.2;
+}
+
+.objectif button {
+  border: none;
+  background: #73c66b;
+  color: white;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.objectif button:hover {
+  transform: scale(1.08);
+}
+
+.objectif-final {
+  background: #fff4dc;
+}
+    .objectif-bloque {
+  background: #f1edf5;
+  border: 1px dashed #b9a8c8;
+  color: #777;
+}
+
+.objectif-bloque .icone-objectif {
+  opacity: 0.75;
+}
+
+.objectif-bloque .texte-objectif {
+  font-style: italic;
+}
+
+.icone-bloque {
+  width: 25px;
+  min-width: 25px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.objectif-grandir-bloque {
+  opacity: 0.55;
+}
+
+.objectif-grandir-bloque button {
+  background: #b9a8c8;
+  cursor: not-allowed;
+}
+
+/* =========================
+   CARTE NAISSANCE
+========================= */
+
+.sim-emplacement-libre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sim-emplacement-matriarche {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+    
+.carte-naissance-cliquable {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-carte-naissance {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* =========================
+   FENÊTRE CRÉATION BÉBÉ
+========================= */
+
+.fond-fenetre-bebe {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(75, 55, 95, 0.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fond-fenetre-bebe.ouverte {
+  display: flex;
+}
+
+.fenetre-bebe {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #e8b8db;
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 15px 45px rgba(92, 55, 120, 0.25);
+  box-sizing: border-box;
+}
+
+.fenetre-bebe h2 {
+  margin: 0 0 5px;
+  text-align: center;
+  color: #8b4bb3;
+}
+
+.intro-bebe {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.fenetre-bebe label {
+  display: block;
+  margin: 11px 0 5px;
+  color: #6c3eb1;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.fenetre-bebe input,
+.fenetre-bebe select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddcbe9;
+  border-radius: 10px;
+  background: white;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.fermer-fenetre-bebe {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: #a47abc;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.bouton-bienvenue {
+  display: block;
+  width: 100%;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.modifier-sim {
+  float: right;
+  border: none;
+  background: transparent;
+  color: #9b72bb;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.modifier-sim:hover {
+  transform: scale(1.15);
+}
+    
+@media (max-width: 700px) {
+  .grille-sims {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+} 
+
+.icone-objectif {
+  position: relative;
+  z-index: 1;
+}
+
+.icone-objectif img {
+  width: 24px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-origin: left center;
+}
+
+.icone-objectif img:hover {
+  transform: scale(8);
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+    /* =========================
+   TIRAGE CARTES NOURRISSON
+========================= */
+
+.fond-tirage-nourrisson {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 32, 55, 0.72);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fond-tirage-nourrisson.ouvert {
+  display: flex;
+}
+
+.zone-tirage-nourrisson {
+  position: relative;
+  width: min(900px, 95vw);
+  height: min(700px, 90vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paquet-nourrisson {
+  position: relative;
+  width: 700px;
+  height: 390px;
+  display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.carte-animation {
+  position: absolute;
+    top: 0;
+  left: 50%;
+  margin-left: -130px;
+  width: 260px;
+  height: 390px;
+  perspective: 1200px;
+  transition:
+    transform 0.7s ease,
+    opacity 0.4s ease;
+}
+
+.carte-animation-interieur {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.9s ease;
+  transform-style: preserve-3d;
+}
+
+.carte-animation.retournee .carte-animation-interieur {
+  transform: rotateY(180deg);
+}
+
+.face-carte {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face-carte img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  display: block;
+}
+
+.face-carte.recto {
+  transform: rotateY(180deg);
+}
+
+/* Les cartes commencent toutes empilées */
+.carte-animation {
+  transform: translateX(0) rotate(0deg);
+}
+
+/* Ouverture en éventail */
+.paquet-nourrisson.eventail .carte-1 {
+  transform: translateX(-210px) translateY(55px) rotate(-22deg);
+}
+
+.paquet-nourrisson.eventail .carte-2 {
+  transform: translateX(-145px) translateY(25px) rotate(-14deg);
+}
+
+.paquet-nourrisson.eventail .carte-3 {
+  transform: translateX(-75px) translateY(8px) rotate(-7deg);
+}
+
+.paquet-nourrisson.eventail .carte-4 {
+  transform: translateX(0) translateY(0) rotate(0deg);
+}
+
+.paquet-nourrisson.eventail .carte-5 {
+  transform: translateX(75px) translateY(8px) rotate(7deg);
+}
+
+.paquet-nourrisson.eventail .carte-6 {
+  transform: translateX(145px) translateY(25px) rotate(14deg);
+}
+
+.paquet-nourrisson.eventail .carte-7 {
+  transform: translateX(210px) translateY(55px) rotate(22deg);
+}
+
+/* Les cartes non choisies disparaissent */
+.paquet-nourrisson.selection-faite
+.carte-animation:not(.choisie) {
+  transform: translateY(80px) scale(0.8);
+  opacity: 0;
+}
+
+/* La carte choisie s'envole */
+.carte-animation.choisie {
+  z-index: 30;
+  animation: envol-carte 1.1s ease forwards;
+}
+
+@keyframes envol-carte {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+
+  45% {
+    transform: translateX(0) translateY(-190px) scale(1.08);
+  }
+
+  100% {
+    transform: translateX(0) translateY(-35px) scale(1.18);
+  }
+}
+
+.bouton-fermer-tirage {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: none;
+  background: #73c66b;
+  color: white;
+  padding: 11px 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.bouton-fermer-tirage.visible {
+  display: block;
+}
+    
+
+/* =========================
+   TIRAGE DES COMPÉTENCES BAMBIN
+========================= */
+
+.de-competence-bambin {
+  cursor: pointer;
+}
+
+.de-competence-bambin img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 6px;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.de-competence-bambin img:hover {
+  transform: scale(2.4) !important;
+  z-index: 1000;
+}
+
+.fond-tirage-des-bambin {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  background: rgba(45, 32, 55, 0.78);
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.fond-tirage-des-bambin.ouvert {
+  display: flex;
+}
+
+.fenetre-tirage-des-bambin {
+  width: min(720px, 94vw);
+  max-height: 94vh;
+  overflow: auto;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 18px 22px;
+  box-shadow: 0 20px 60px rgba(40, 25, 55, 0.35);
+}
+
+.titre-tirage-des-bambin {
+  margin: 0 0 4px;
+  text-align: center;
+  color: #6c3eb1;
+  font-size: 22px;
+}
+
+.sous-titre-tirage-des-bambin {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+}
+
+.liste-des-bambin {
+  display: grid;
+  gap: 5px;
+}
+
+.ligne-de-bambin {
+  display: grid;
+  grid-template-columns: minmax(125px, 1fr) 82px 92px;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  padding: 4px 12px;
+  background: white;
+  border: 1px solid #eadff1;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.nom-de-bambin {
+  font-weight: bold;
+  color: #5f3a84;
+  font-size: 13px;
+}
+
+.resultat-de-bambin {
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #6c3eb1;
+  white-space: nowrap;
+}
+
+.actions-tirage-des-bambin {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actions-tirage-des-bambin button {
+  border: none;
+  padding: 9px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#bouton-lancer-des-bambin {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-lancer-des-bambin:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+#bouton-valider-des-bambin {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-des-bambin.visible {
+  display: inline-block;
+}
+
+/* =========================
+   VRAI DÉ 3D BAMBIN
+========================= */
+
+.de-3d-bambin {
+  width: 72px;
+  height: 64px;
+  justify-self: center;
+  perspective: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cube-bambin {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(32deg);
+  transition: transform 0.7s cubic-bezier(.2,.75,.2,1);
+  will-change: transform;
+}
+
+.face-de {
+  position: absolute;
+  inset: 0;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border-radius: 7px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(90, 65, 110, 0.12);
+}
+
+.face-de img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+.face-avant {
+  transform: translateZ(24px);
+}
+
+.face-arriere {
+  transform: rotateY(180deg) translateZ(24px);
+}
+
+.face-droite {
+  transform: rotateY(90deg) translateZ(24px);
+}
+
+.face-gauche {
+  transform: rotateY(-90deg) translateZ(24px);
+}
+
+.face-dessus {
+  transform: rotateX(90deg) translateZ(24px);
+}
+
+.face-dessous {
+  transform: rotateX(-90deg) translateZ(24px);
+}
+
+.cube-bambin.en-lancer {
+  transition: none;
+  animation: lancer-cube-bambin 0.72s linear infinite;
+}
+
+@keyframes lancer-cube-bambin {
+  0%   { transform: rotateX(-22deg) rotateY(32deg) rotateZ(0deg); }
+  25%  { transform: rotateX(158deg) rotateY(212deg) rotateZ(35deg); }
+  50%  { transform: rotateX(338deg) rotateY(392deg) rotateZ(70deg); }
+  75%  { transform: rotateX(518deg) rotateY(572deg) rotateZ(105deg); }
+  100% { transform: rotateX(698deg) rotateY(752deg) rotateZ(140deg); }
+}
+
+@media (max-width: 650px) {
+  .fenetre-tirage-des-bambin {
+    padding: 14px;
+  }
+
+  .ligne-de-bambin {
+    grid-template-columns: 1fr 68px 78px;
+    min-height: 66px;
+    padding: 3px 9px;
+  }
+
+  .de-3d-bambin {
+    width: 62px;
+    height: 58px;
+    transform: scale(0.9);
+  }
+
+  .resultat-de-bambin {
+    font-size: 12px;
+  }
+}
+
+    
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>💚 L'Aventure Sims par Mimidelphi 💚</h1>
+    <p>Mon univers Sims, mes challenges, mes constructions et bien plus encore.</p>
+  </header>
+
+  <main>
+<div class="carte" id="connexion">
+  <h2>🔐 Connexion</h2>
+  <p>Connecte-toi pour retrouver ta progression sur tous tes ordinateurs.</p>
+
+  <input type="email" id="email" placeholder="Adresse e-mail">
+  <input type="password" id="password" placeholder="Mot de passe">
+
+  <button class="bouton" onclick="seConnecter()">Se connecter</button>
+
+  <p id="messageConnexion"></p>
+</div>
+    <div class="carte">
+      <h2>👶 Challenge 100 Baby</h2>
+      <p>Suivi de la famille, objectifs des Sims actifs et outils du challenge.</p>
+      <a class="bouton" href="#">Accéder au challenge</a>
+    </div>
+
+    <div class="carte" id="testSauvegarde">
+    <h2>💾 Test de sauvegarde</h2>
+    <p>On vérifie que ta progression peut être enregistrée.</p>
+
+    <input type="text" id="testTexte" placeholder="Écris quelque chose ici">
+
+    <button class="bouton" onclick="sauvegarderTest()">
+        Sauvegarder
+    </button>
+
+    <p id="messageSauvegarde"></p>
+</div>
+<div class="carte">
+
+  <div id="etat-sauvegarde" style="
+  text-align:center;
+  font-size:12px;
+  color:#7b4bb7;
+  margin-bottom:8px;
+">
+  ✓ Sauvegardé
+</div>
+  
+  <h2>👨‍👩‍👧‍👦 Mes 8 Sims actifs</h2>
+  <p>Le foyer actuel de mon Challenge 100 Baby</p>
+
+  <div class="grille-sims">
+
+<div class="sim sim-emplacement-matriarche" id="sim-1">
+
+  <div class="carte-naissance-cliquable"
+       onclick="ouvrirCreationMatriarche()">
+
+    <img
+      src="carte-matriarche.png"
+      alt="Créer ma Matriarche"
+      class="image-carte-naissance"
+    >
+
+  </div>
+
+</div>
+<div class="sim sim-emplacement-libre" id="sim-2">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-3">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-4">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-5">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-6">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-7">
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+</div>
+
+<div class="sim sim-emplacement-libre" id="sim-8">
+    
+  <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+    <img
+      src="carte-naissance.png"
+      alt="Un nouveau bébé est arrivé"
+      class="image-carte-naissance"
+    >
+  </div>
+
+</div>
+
+  </div>
+</div>
+    <div class="carte">
+      <h2>🏡 Mes mondes & constructions</h2>
+      <p>Cette partie accueillera progressivement mes mondes et mes constructions.</p>
+    </div>
+    
+<!-- =========================
+     FENÊTRE CRÉATION BÉBÉ
+========================= -->
+
+<div id="fenetre-creation-bebe" class="fond-fenetre-bebe">
+
+  <div class="fenetre-bebe">
+
+    <button class="fermer-fenetre-bebe" onclick="fermerCreationBebe()">×</button>
+
+    <h2>💕 Bienvenue petit cœur 💕</h2>
+
+    <p class="intro-bebe">
+      Un nouveau membre vient d’agrandir la famille !
+    </p>
+
+    <label for="bebe-prenom">Prénom</label>
+    <input
+      type="text"
+      id="bebe-prenom"
+      placeholder="Prénom du bébé"
+    >
+
+    <label for="bebe-nom">Nom</label>
+    <input
+      type="text"
+      id="bebe-nom"
+      placeholder="Nom de famille"
+    >
+
+    <label for="bebe-sexe">Sexe</label>
+    <select id="bebe-sexe">
+      <option value="femme">♀ Fille</option>
+      <option value="homme">♂ Garçon</option>
+    </select>
+
+    <button class="bouton bouton-bienvenue" onclick="creerNouveauBebe()">
+      💕 Bienvenue dans la famille 💕
+    </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     BIBLIOTHÈQUE D'ICÔNES
+========================= -->
+
+<div id="fond-bibliotheque-icones"
+     class="fond-bibliotheque-icones">
+
+  <div class="fenetre-bibliotheque-icones">
+
+    <button class="fermer-bibliotheque"
+            onclick="fermerBibliothequeIcones()">
+      ×
+    </button>
+
+    <h2>Bibliothèque d'icônes</h2>
+
+    <p class="intro-bebe">
+      Recherche un trait, une aspiration ou un acquis.
+    </p>
+
+    <input
+      type="text"
+      id="recherche-icone"
+      class="recherche-icone"
+      placeholder="Ex : Créatif, Romantique..."
+    >
+
+    <div id="resultats-icones"
+         class="resultats-icones">
+      Commence à écrire le nom d'une icône…
+    </div>
+
+<button
+  type="button"
+  class="bouton bouton-ajouter-icone"
+  onclick="afficherFormulaireNouvelleIcone()">
+  + Ajouter une nouvelle icône
+</button>
+
+<div id="formulaire-nouvelle-icone"
+     class="formulaire-nouvelle-icone">
+
+  <label for="nouvelle-icone-nom">Nom</label>
+
+  <input
+    type="text"
+    id="nouvelle-icone-nom"
+    placeholder="Ex : Créatif"
+  >
+
+  <label for="nouvelle-icone-categorie">Catégorie</label>
+
+  <select id="nouvelle-icone-categorie">
+    <option value="trait_age">
+      Trait en grandissant
+    </option>
+
+    <option value="acquis">
+      Acquis / trait bonus
+    </option>
+
+    <option value="trait_caractere">
+      Trait de caractère
+    </option>
+
+    <option value="aspiration">
+      Aspiration
+    </option>
+  </select>
+
+  <label for="nouvelle-icone-image">Icône</label>
+
+  <input
+    type="file"
+    id="nouvelle-icone-image"
+    accept="image/*"
+  >
+
+  <div id="apercu-nouvelle-icone"
+       class="apercu-nouvelle-icone">
+  </div>
+
+  <button
+    type="button"
+    class="bouton bouton-enregistrer-icone"
+    onclick="enregistrerNouvelleIcone()">
+    Enregistrer dans la bibliothèque
+  </button>
+
+  <p id="message-nouvelle-icone"></p>
+
+</div>
+    
+  </div>
+
+</div>
+    
+  </main>
+
+<!-- =========================
+     TIRAGE CARTES NOURRISSON
+========================= -->
+
+<div id="fond-tirage-nourrisson"
+     class="fond-tirage-nourrisson">
+
+  <div class="zone-tirage-nourrisson">
+
+    <div id="paquet-nourrisson"
+         class="paquet-nourrisson">
+    </div>
+
+    <button
+      id="bouton-fermer-tirage"
+      class="bouton-fermer-tirage"
+      onclick="fermerTirageNourrisson()">
+      Valider cette étape
+    </button>
+
+  </div>
+
+</div>
+  
+
+<!-- =========================
+     TIRAGE DES COMPÉTENCES BAMBIN
+========================= -->
+<div id="fond-tirage-des-bambin" class="fond-tirage-des-bambin">
+  <div class="fenetre-tirage-des-bambin">
+    <h2 class="titre-tirage-des-bambin">🎲 Dés Bambin — par compétence</h2>
+    <p class="sous-titre-tirage-des-bambin">Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.</p>
+
+    <div class="liste-des-bambin">
+      <div class="ligne-de-bambin" data-competence="communication">
+        <span class="nom-de-bambin">Communication</span>
+
+        <div class="de-3d-bambin" aria-label="Dé Communication">
+          <div class="cube-bambin">
+            <div class="face-de face-avant">
+              <img src="images/bambin/competences/des/communication/communication-2.png" alt="">
+            </div>
+            <div class="face-de face-droite">
+              <img src="images/bambin/competences/des/communication/communication-3.png" alt="">
+            </div>
+            <div class="face-de face-arriere">
+              <img src="images/bambin/competences/des/communication/communication-4.png" alt="">
+            </div>
+            <div class="face-de face-gauche">
+              <img src="images/bambin/competences/des/communication/communication-5.png" alt="">
+            </div>
+            <div class="face-de face-dessus">
+              <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
+            </div>
+            <div class="face-de face-dessous">
+              <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="imagination">
+        <span class="nom-de-bambin">Imagination</span>
+
+        <div class="de-3d-bambin" aria-label="Dé Imagination">
+          <div class="cube-bambin">
+            <div class="face-de face-avant">
+              <img src="images/bambin/competences/des/imagination/imagination-2.png" alt="">
+            </div>
+            <div class="face-de face-droite">
+              <img src="images/bambin/competences/des/imagination/imagination-3.png" alt="">
+            </div>
+            <div class="face-de face-arriere">
+              <img src="images/bambin/competences/des/imagination/imagination-4.png" alt="">
+            </div>
+            <div class="face-de face-gauche">
+              <img src="images/bambin/competences/des/imagination/imagination-5.png" alt="">
+            </div>
+            <div class="face-de face-dessus">
+              <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="">
+            </div>
+            <div class="face-de face-dessous">
+              <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="mouvements">
+        <span class="nom-de-bambin">Mouvements</span>
+
+        <div class="de-3d-bambin" aria-label="Dé Mouvements">
+          <div class="cube-bambin">
+            <div class="face-de face-avant">
+              <img src="images/bambin/competences/des/mouvements/mouvements-2.png" alt="">
+            </div>
+            <div class="face-de face-droite">
+              <img src="images/bambin/competences/des/mouvements/mouvements-3.png" alt="">
+            </div>
+            <div class="face-de face-arriere">
+              <img src="images/bambin/competences/des/mouvements/mouvements-4.png" alt="">
+            </div>
+            <div class="face-de face-gauche">
+              <img src="images/bambin/competences/des/mouvements/mouvements-5.png" alt="">
+            </div>
+            <div class="face-de face-dessus">
+              <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="">
+            </div>
+            <div class="face-de face-dessous">
+              <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="pot">
+        <span class="nom-de-bambin">Pot</span>
+
+        <div class="de-3d-bambin" aria-label="Dé Pot">
+          <div class="cube-bambin">
+            <div class="face-de face-avant">
+              <img src="images/bambin/competences/des/pot/pot-2.png" alt="">
+            </div>
+            <div class="face-de face-droite">
+              <img src="images/bambin/competences/des/pot/pot-3.png" alt="">
+            </div>
+            <div class="face-de face-arriere">
+              <img src="images/bambin/competences/des/pot/pot-2.png" alt="">
+            </div>
+            <div class="face-de face-gauche">
+              <img src="images/bambin/competences/des/pot/pot-3.png" alt="">
+            </div>
+            <div class="face-de face-dessus">
+              <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="">
+            </div>
+            <div class="face-de face-dessous">
+              <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+
+      <div class="ligne-de-bambin" data-competence="reflexion">
+        <span class="nom-de-bambin">Réflexion</span>
+
+        <div class="de-3d-bambin" aria-label="Dé Réflexion">
+          <div class="cube-bambin">
+            <div class="face-de face-avant">
+              <img src="images/bambin/competences/des/reflexion/reflexion-2.png" alt="">
+            </div>
+            <div class="face-de face-droite">
+              <img src="images/bambin/competences/des/reflexion/reflexion-3.png" alt="">
+            </div>
+            <div class="face-de face-arriere">
+              <img src="images/bambin/competences/des/reflexion/reflexion-4.png" alt="">
+            </div>
+            <div class="face-de face-gauche">
+              <img src="images/bambin/competences/des/reflexion/reflexion-5.png" alt="">
+            </div>
+            <div class="face-de face-dessus">
+              <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="">
+            </div>
+            <div class="face-de face-dessous">
+              <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <span class="resultat-de-bambin">À tirer</span>
+      </div>
+    </div>
+
+    <div class="actions-tirage-des-bambin">
+      <button id="bouton-lancer-des-bambin" type="button" onclick="lancerDesBambin()">Lancer les dés</button>
+      <button id="bouton-valider-des-bambin" type="button" onclick="validerDesBambin()">Valider les niveaux</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://puvcdmhsufuqgtqwwhry.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_3fGyjY5PKxGBfDy4-2dSbA_iy1kBHwm";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const VERSION_SAUVEGARDE = 4;
+
+  /* =========================
+   CARTES NOURRISSON
+========================= */
+
+const cartesMotriciteGlobale = [
+  {
+    nom: "A appris à s'asseoir",
+    image: "images/nourrisson/motricite-globale/motricite-globale-asseoir.jpg"
+  },
+  {
+    nom: "A appris à danser",
+    image: "images/nourrisson/motricite-globale/motricite-globale-danser.jpg"
+  },
+  {
+    nom: "A appris à se tenir debout",
+    image: "images/nourrisson/motricite-globale/motricite-globale-debout.jpg"
+  },
+  {
+    nom: "A appris à lever la tête",
+    image: "images/nourrisson/motricite-globale/motricite-globale-leve-la-tete.jpg"
+  },
+  {
+    nom: "A appris à marcher à quatre pattes",
+    image: "images/nourrisson/motricite-globale/motricite-globale-quatre-pattes.jpg"
+  },
+  {
+    nom: "A appris à ramper",
+    image: "images/nourrisson/motricite-globale/motricite-globale-ramper.jpg"
+  },
+  {
+    nom: "A appris à se retourner sur le dos",
+    image: "images/nourrisson/motricite-globale/motricite-globale-retourne-sur-le-dos.jpg"
+  },
+  {
+    nom: "A appris à se retourner sur le ventre",
+    image: "images/nourrisson/motricite-globale/motricite-globale-retourne-sur-le-ventre.jpg"
+  }
+];
+
+/* =========================
+   CARTES PREMIÈRE FOIS
+========================= */
+
+const cartesPremiereFois = [
+  {
+    nom: "A dormi toute la nuit",
+    image: "images/nourrisson/premiere-fois/dormi-toute-la-nuit.jpg"
+  },
+  {
+    nom: "Premier pipi sur son gardien",
+    image: "images/nourrisson/premiere-fois/pipi-sur-gardien.jpg"
+  },
+  {
+    nom: "Premier aliment pour bébé",
+    image: "images/nourrisson/premiere-fois/premier-aliment-bebe.jpg"
+  },
+  {
+    nom: "Premier bain moussant",
+    image: "images/nourrisson/premiere-fois/premier-bain-moussant.jpg"
+  },
+  {
+    nom: "Premier bain",
+    image: "images/nourrisson/premiere-fois/premier-bain.jpg"
+  },
+  {
+    nom: "Premier en-cas",
+    image: "images/nourrisson/premiere-fois/premier-en-cas.jpg"
+  },
+  {
+    nom: "Première grosse fuite",
+    image: "images/nourrisson/premiere-fois/premiere-grosse-fuite.jpg"
+  },
+  {
+    nom: "Première sortie au parc",
+    image: "images/nourrisson/premiere-fois/premiere-sortie-parc.jpg"
+  },
+  {
+    nom: "Premières vacances",
+    image: "images/nourrisson/premiere-fois/premieres-vacances.jpg"
+  },
+  {
+    nom: "Premiers visiteurs",
+    image: "images/nourrisson/premiere-fois/premiers-visiteurs.jpg"
+  },
+  {
+    nom: "Visite à la famille",
+    image: "images/nourrisson/premiere-fois/visite-famille.jpg"
+  }
+];
+
+
+/* =========================
+   CARTES MOTRICITÉ FINE
+========================= */
+
+const cartesMotriciteFine = [
+  {
+    nom: "A appris à saisir un objet",
+    image: "images/nourrisson/motricite-fine/motricite-fine-saisir-un-objet.jpg"
+  },
+  {
+    nom: "A appris à tendre le bras",
+    image: "images/nourrisson/motricite-fine/motricite-fine-tendre-le-bras.jpg"
+  },
+  {
+    nom: "A mis ses orteils dans la bouche",
+    image: "images/nourrisson/motricite-fine/motricite-fine-orteils-dans-la-bouche.jpg"
+  },
+  {
+    nom: "A appris la pince pouce-index",
+    image: "images/nourrisson/motricite-fine/motricite-fine-pince-pouce-index.jpg"
+  },
+  {
+    nom: "A appris à applaudir",
+    image: "images/nourrisson/motricite-fine/motricite-fine-applaudir.jpg"
+  },
+  {
+    nom: "A appris à faire signe de la main",
+    image: "images/nourrisson/motricite-fine/motricite-fine-faire-signe-de-la-main.jpg"
+  }
+];
+
+
+/* =========================
+   CARTES SOCIAL
+========================= */
+
+const cartesSocial = [
+  {
+    nom: "A appris à envoyer un baiser",
+    image: "images/nourrisson/social/social-envoyer-un-baiser.jpg"
+  },
+  {
+    nom: "A appris à babiller",
+    image: "images/nourrisson/social/social-babiller.jpg"
+  },
+  {
+    nom: "A fait un bruit amusant avec sa langue",
+    image: "images/nourrisson/social/social-bruit-amusant-langue.jpg"
+  },
+  {
+    nom: "A dit son premier mot",
+    image: "images/nourrisson/social/social-premier-mot.jpg"
+  },
+  {
+    nom: "A appris à jouer à faire Coucou !",
+    image: "images/nourrisson/social/social-jouer-a-coucou.jpg"
+  },
+  {
+    nom: "A appris à gazouiller",
+    image: "images/nourrisson/social/social-gazouiller.jpg"
+  },
+  {
+    nom: "A souri pour la première fois",
+    image: "images/nourrisson/social/social-premier-sourire.jpg"
+  },
+  {
+    nom: "A appris à rire",
+    image: "images/nourrisson/social/social-rire.jpg"
+  }
+];
+  
+let objectifTirageEnCours = null;
+let carteNourrissonTiree = null;
+  let compteurMatriarcheValeur = 0;
+  
+  async function seConnecter() {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("messageConnexion");
+
+  message.textContent = "Connexion en cours...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "❌ Impossible de se connecter. Vérifie ton e-mail et ton mot de passe.";
+    return;
+  }
+
+  message.textContent = "✅ Connectée ! Ta sauvegarde peut maintenant être synchronisée.";
+  document.getElementById("connexion").style.display = "none";
+
+  console.log("Utilisateur connecté :", data.user.id);
+}
+ async function verifierConnexion() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    document.getElementById("connexion").style.display = "none";
+  }
+}
+
+  async function sauvegarderTest() {
+    const texte = document.getElementById("testTexte").value;
+    const message = document.getElementById("messageSauvegarde");
+
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+
+    if (!sessionData.session) {
+        message.textContent = "❌ Tu dois être connectée.";
+        return;
+    }
+
+    const user = sessionData.session.user;
+
+    const { error } = await supabaseClient
+        .from("app_data")
+        .upsert({
+            user_id: user.id,
+            data: { test: texte }
+        }, {
+            onConflict: "user_id"
+        });
+
+    if (error) {
+        console.error(error);
+        message.textContent = "❌ Erreur pendant la sauvegarde.";
+        return;
+    }
+
+    message.textContent = "✅ Sauvegardé !";
+}
+
+  function extraireEtatSim(sim) {
+
+ const objectifs = Array.from(
+  sim.querySelectorAll(".objectif")
+).map(function(objectif, index) {
+
+  const texte = objectif.querySelector(".texte-objectif");
+  const image = objectif.querySelector(".icone-objectif img");
+
+  return {
+    index: index,
+
+    texte: texte
+      ? texte.textContent.trim()
+      : "",
+
+    valide:
+      objectif.classList.contains("objectif-valide"),
+
+    carteTiree:
+      objectif.dataset.carteTiree === "oui",
+
+    image:
+      image ? image.getAttribute("src") : "",
+
+    imageAlt:
+      image ? image.getAttribute("alt") : ""
+  };
+});
+
+  const icones = Array.from(
+  sim.querySelectorAll(".icone-identite:not(.vide)")
+).map(function(icone) {
+
+  let categorie = "";
+
+  if (icone.closest(".ligne-traits-temporaires")) {
+    categorie = "temporaire";
+  } else if (icone.closest(".ligne-acquis")) {
+    categorie = "acquis";
+  } else if (icone.closest(".ligne-traits-definitifs")) {
+    categorie = "definitif";
+  }
+
+  return {
+    id: icone.dataset.iconeId || "",
+    nom: icone.dataset.iconeNom || icone.title || "",
+    image: icone.querySelector("img")
+      ? icone.querySelector("img").src
+      : "",
+    categorie: categorie
+  };
+});
+
+  return {
+    objectifs: objectifs,
+    icones: icones
+  };
+}
+
+async function sauvegarderChallenge() {
+  
+  const etatSauvegarde =
+  document.getElementById("etat-sauvegarde");
+
+if (etatSauvegarde) {
+  etatSauvegarde.textContent = "⏳ Sauvegarde en cours...";
+}
+
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    console.warn("Sauvegarde impossible : utilisateur non connecté.");
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const sims = [];
+
+  document.querySelectorAll(".grille-sims > .sim").forEach(function(sim) {
+
+    // On ne sauvegarde pas les emplacements encore vides
+    if (
+      sim.classList.contains("sim-emplacement-libre") ||
+      sim.classList.contains("sim-emplacement-matriarche")
+    ) {
+      return;
+    }
+
+    const prenom = sim.querySelector(".prenom-sim");
+    const nom = sim.querySelector(".nom-famille-sim");
+    const sexe = sim.querySelector(".sexe-sim");
+    const numero = sim.querySelector(".baby-numero");
+    const age = sim.querySelector(".age-nom");
+    const photo = sim.querySelector(".photo-sim img");
+
+   sims.push({
+  id: sim.id,
+  prenom: prenom ? prenom.textContent.trim() : "",
+  nom: nom ? nom.textContent.trim() : "",
+  sexe: sexe && sexe.classList.contains("homme") ? "homme" : "femme",
+  numeroBaby: numero ? numero.textContent.trim() : "",
+  age: age ? age.textContent.trim() : "",
+  photo: photo ? photo.src : "",
+  etat: extraireEtatSim(sim),
+     
+});
+
+  });
+
+  // 👑 Compteur de la Matriarche
+  const compteurElement =
+    document.getElementById("compteur-matriarche");
+
+  const compteurMatriarche =
+    compteurElement
+      ? parseInt(compteurElement.textContent, 10) || 0
+      : 0;
+
+  const { error } = await supabaseClient
+    .from("app_data")
+    .upsert({
+      user_id: user.id,
+      data: {
+  version: VERSION_SAUVEGARDE,
+  sims: sims,
+  compteurMatriarche: compteurMatriarche
+}
+    }, {
+      onConflict: "user_id"
+    });
+
+ if (error) {
+  console.error("Erreur sauvegarde challenge :", error);
+
+  if (etatSauvegarde) {
+    etatSauvegarde.textContent = "⚠️ Erreur de sauvegarde";
+  }
+
+  return;
+}
+
+  console.log("✅ Challenge sauvegardé");
+
+if (etatSauvegarde) {
+  etatSauvegarde.textContent = "✓ Sauvegardé — F5 possible";
+}  
+}
+
+function migrerSauvegarde(donnees) {
+
+  const donneesMigrees = donnees || {};
+  let version = donneesMigrees.version || 1;
+
+  // Passage de la version 1 à la version 2
+  if (version < 2) {
+
+    donneesMigrees.sims = donneesMigrees.sims || [];
+    donneesMigrees.compteurMatriarche =
+      donneesMigrees.compteurMatriarche || 0;
+
+    version = 2;
+    donneesMigrees.version = 2;
+  }
+
+if (version < 3) {
+  donneesMigrees.sims = donneesMigrees.sims || [];
+
+  version = 3;
+  donneesMigrees.version = 3;
+}
+
+if (version < 4) {
+  donneesMigrees.sims = donneesMigrees.sims || [];
+
+  version = 4;
+  donneesMigrees.version = 4;
+}
+  
+  return donneesMigrees;
+}
+
+  function restaurerEtatSim(sim, etat) {
+
+  if (!etat) return;
+
+  // Restaurer l'état des objectifs
+  if (etat.objectifs) {
+
+    const objectifs =
+      sim.querySelectorAll(".objectif");
+
+    etat.objectifs.forEach(function(objectifSauvegarde, index) {
+
+      const objectif = objectifs[index];
+
+      if (!objectif) return;
+
+      if (objectif.classList.contains("compteur-matriarche")) {
+  return;
+}
+
+const texte = objectif.querySelector(".texte-objectif");
+const image = objectif.querySelector(".icone-objectif img");
+
+/* Restaurer le texte de l'objectif */
+if (texte && objectifSauvegarde.texte) {
+  texte.textContent = objectifSauvegarde.texte;
+}
+
+/* Restaurer la carte tirée */
+if (objectifSauvegarde.carteTiree) {
+
+  objectif.dataset.carteTiree = "oui";
+
+  if (image && objectifSauvegarde.image) {
+    image.src = objectifSauvegarde.image;
+    image.alt =
+      objectifSauvegarde.imageAlt ||
+      objectifSauvegarde.texte ||
+      "";
+  }
+
+  /* Impossible de refaire le tirage */
+  objectif.onclick = null;
+}
+      
+     if (objectifSauvegarde.valide) {
+  objectif.classList.add("objectif-valide");
+  objectif.style.opacity = "0.45";
+
+  const bouton = objectif.querySelector("button");
+  if (bouton) bouton.textContent = "↩";
+
+} else {
+  objectif.classList.remove("objectif-valide");
+  objectif.style.opacity = "1";
+
+  const bouton = objectif.querySelector("button");
+  if (bouton) bouton.textContent = "✓";
+}
+
+    });
+  }
+}
+
+function restaurerIconesSim(sim, etat) {
+
+  if (!etat || !etat.icones) return;
+
+  etat.icones.forEach(function(icone) {
+
+    let conteneur = null;
+
+    if (icone.categorie === "temporaire") {
+      conteneur = sim.querySelector(".ligne-traits-temporaires");
+
+    } else if (icone.categorie === "acquis") {
+      conteneur = sim.querySelector(".ligne-acquis .cases-acquis");
+
+    } else if (icone.categorie === "definitif") {
+      conteneur = sim.querySelector(".ligne-traits-definitifs");
+    }
+
+    if (!conteneur) return;
+
+const dejaPresente = Array.from(
+  conteneur.querySelectorAll(".icone-identite:not(.vide)")
+).some(function(caseIcone) {
+
+  const memeId =
+    icone.id &&
+    caseIcone.dataset.iconeId === icone.id;
+
+  const memeNom =
+    icone.nom &&
+    caseIcone.dataset.iconeNom === icone.nom;
+
+  return memeId || memeNom;
+});
+
+if (dejaPresente) return;
+    
+    const plus = conteneur.querySelector(".icone-identite.vide");
+
+    if (!plus) return;
+
+    plus.classList.remove("vide");
+
+    plus.innerHTML = `
+      <img src="${icone.image}" alt="${icone.nom}">
+    `;
+
+    plus.title = icone.nom;
+    plus.dataset.iconeId = icone.id;
+    plus.dataset.iconeNom = icone.nom;
+
+    delete plus.dataset.categorieLigne;
+
+    const nouveauPlus = document.createElement("span");
+    nouveauPlus.className = "icone-identite vide";
+    nouveauPlus.textContent = "+";
+    nouveauPlus.dataset.categorieLigne = icone.categorie;
+
+    conteneur.appendChild(nouveauPlus);
+  });
+}
+  
+async function chargerChallenge() {
+
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const { data, error } = await supabaseClient
+    .from("app_data")
+    .select("data")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error) {
+    console.log("Aucune sauvegarde challenge trouvée.");
+    return;
+  }
+
+  if (!data || !data.data) {
+    return;
+  }
+
+const donneesChargees = migrerSauvegarde(data.data);
+
+console.log(
+  "Version de la sauvegarde :",
+  data.data.version || 1,
+  "→ version utilisée :",
+  donneesChargees.version
+);
+
+const simsSauvegardes = donneesChargees.sims || [];
+  
+const sauvegardeComplete = simsSauvegardes.some(function(sim) {
+  return sim.html;
+});
+
+if (false && sauvegardeComplete) {
+
+  simsSauvegardes.forEach(function(simSauvegarde) {
+
+    const emplacement =
+      document.getElementById(simSauvegarde.id);
+
+    if (!emplacement || !simSauvegarde.html) {
+      return;
+    }
+
+    emplacement.className =
+      simSauvegarde.className || "sim sim-modele";
+
+    emplacement.innerHTML =
+      simSauvegarde.html;
+
+restaurerEtatSim(
+  emplacement,
+  simSauvegarde.etat
+);
+
+restaurerIconesSim(
+  emplacement,
+  simSauvegarde.etat
+);
+    
+    if (emplacement.id !== "sim-1") {
+      verifierGrandir(emplacement);
+    }
+
+  });
+
+  const compteur =
+    document.getElementById("compteur-matriarche");
+
+  if (
+    compteur &&
+    donneesChargees.compteurMatriarche !== undefined
+  ) {
+    compteur.textContent =
+      donneesChargees.compteurMatriarche;
+  }
+
+  return;
+}
+
+  // ==============================
+  // 👑 RESTAURER LA MATRIARCHE
+  // ==============================
+
+  const matriarcheSauvegardee = simsSauvegardes.find(function(sim) {
+    return sim.id === "sim-1";
+  });
+
+  if (matriarcheSauvegardee) {
+
+    transformerEnFicheMatriarche(
+      matriarcheSauvegardee.prenom,
+      matriarcheSauvegardee.nom
+    );
+
+    const matriarche = document.getElementById("sim-1");
+
+    if (matriarcheSauvegardee.photo) {
+
+      const zonePhoto = matriarche.querySelector(".photo-sim");
+
+      if (zonePhoto) {
+
+        zonePhoto.innerHTML = "";
+
+        const image = document.createElement("img");
+
+        image.src = matriarcheSauvegardee.photo;
+        image.alt = "Photo de la Matriarche";
+
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+        image.style.borderRadius = "12px";
+
+        zonePhoto.appendChild(image);
+      }
+    }
+    
+ restaurerEtatSim(
+  matriarche,
+  matriarcheSauvegardee.etat
+);
+
+restaurerIconesSim(
+  matriarche,
+  matriarcheSauvegardee.etat
+);
+  
+  }
+
+  // ==============================
+  // 👶 RESTAURER LES 7 ENFANTS
+  // ==============================
+
+  simsSauvegardes.forEach(function(simSauvegarde) {
+
+    if (simSauvegarde.id === "sim-1") {
+      return;
+    }
+
+    const emplacement =
+      document.getElementById(simSauvegarde.id);
+
+    if (!emplacement) {
+      return;
+    }
+
+    transformerEnFicheBebe(
+      simSauvegarde.prenom,
+      simSauvegarde.nom,
+      simSauvegarde.sexe,
+      emplacement
+    );
+
+
+    // Numéro Baby
+    if (simSauvegarde.numeroBaby) {
+
+      const numero =
+        emplacement.querySelector(".baby-numero");
+
+      if (numero) {
+        numero.textContent =
+          simSauvegarde.numeroBaby;
+      }
+    }
+
+
+    // Âge actuel
+    if (simSauvegarde.age) {
+
+      const cleAge =
+        trouverCleAge(simSauvegarde.age);
+
+      if (cleAge) {
+        afficherAge(emplacement, cleAge);
+      }
+    }
+
+
+    // Photo
+    if (simSauvegarde.photo) {
+
+      const zonePhoto =
+        emplacement.querySelector(".photo-sim");
+
+      if (zonePhoto) {
+
+        zonePhoto.innerHTML = "";
+
+        const image =
+          document.createElement("img");
+
+        image.src = simSauvegarde.photo;
+        image.alt = "Photo du Sim";
+
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+        image.style.borderRadius = "12px";
+
+        zonePhoto.appendChild(image);
+      }
+    }
+
+
+    restaurerEtatSim(
+  emplacement,
+  simSauvegarde.etat
+);
+
+restaurerIconesSim(
+  emplacement,
+  simSauvegarde.etat
+);
+    verifierGrandir(emplacement);
+
+  });
+
+
+// ==============================
+// 👑 RESTAURER LE COMPTEUR
+// ==============================
+
+compteurMatriarcheValeur =
+  donneesChargees.compteurMatriarche !== undefined
+    ? donneesChargees.compteurMatriarche
+    : 0;
+
+afficherCompteurMatriarche();
+
+}
+  
+/* =========================================
+   BIBLIOTHÈQUE DES ÂGES
+   Les modèles restent ici en permanence.
+========================================= */
+
+const bibliothequeAges = {
+
+  nouveauNe: {
+    nom: "NOUVEAU-NÉ",
+    suivant: "nourrisson",
+    logo: "👶",
+    iconeDroite: "🍼",
+    sousTitre: "Étape de vie actuelle",
+    titreObjectifs: "Objectifs de cette étape",
+
+    objectifs: `
+      <div class="objectif">
+        <span class="icone-objectif">💗</span>
+        <span class="texte-objectif">Prendre soin des besoins du bébé</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🪇</span>
+        <span class="texte-objectif">Organiser une fête prénatale</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">🎂</span>
+        <span class="texte-objectif">Grandir pendant la fête</span>
+        <button>✓</button>
+      </div>
+    `
+  },
+
+
+ nourrisson: {
+  nom: "NOURRISSON",
+  suivant: "bambin",
+  logo: "👶",
+  iconeDroite: "🧸",
+  sousTitre: "Étape de vie actuelle",
+  titreObjectifs: "Objectifs de cette étape",
+
+  objectifs: `
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerMotriciteGlobale(this)">
+
+      <span class="icone-objectif">
+        <img src="dos-motricite-globale.jpeg"
+             alt="Motricité globale">
+      </span>
+
+      <span class="texte-objectif">
+        Motricité globale : à tirer
+      </span>
+
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerPremiereFois(this)">
+
+      <span class="icone-objectif">
+        <img src="dos-premiere-fois.jpeg"
+             alt="Première fois">
+      </span>
+
+      <span class="texte-objectif">
+        Première fois : à tirer
+      </span>
+
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerMotriciteFine(this)">
+
+      <span class="icone-objectif">
+        <img src="dos-motricite-fine.jpeg"
+             alt="Motricité fine">
+      </span>
+
+      <span class="texte-objectif">
+        Motricité fine : à tirer
+      </span>
+
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-tirage"
+         onclick="if (!event.target.closest('button')) tirerSocial(this)">
+
+      <span class="icone-objectif">
+        <img src="dos-social.jpeg"
+             alt="Social">
+      </span>
+
+      <span class="texte-objectif">
+        Social : à tirer
+      </span>
+
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span class="icone-objectif">🎭</span>
+      <span class="texte-objectif">Organiser une fête costumée</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-final">
+      <span class="icone-objectif">🎂</span>
+      <span class="texte-objectif">Grandir pendant la fête</span>
+      <button>✓</button>
+    </div>
+  `
+},
+
+
+bambin: {
+  nom: "BAMBIN",
+  suivant: "enfant",
+  logo: "🧒",
+  iconeDroite: "🧸",
+  sousTitre: "Étape de vie actuelle",
+  titreObjectifs: "Objectifs de cette étape",
+
+  objectifs: `
+    <div class="objectif objectif-competence-bambin" data-competence="communication">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="Dé Communication">
+      </span>
+      <span class="texte-objectif">Communication — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-competence-bambin" data-competence="imagination">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="Dé Imagination">
+      </span>
+      <span class="texte-objectif">Imagination — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-competence-bambin" data-competence="mouvements">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="Dé Mouvements">
+      </span>
+      <span class="texte-objectif">Mouvements — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-competence-bambin" data-competence="pot">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="Dé Pot">
+      </span>
+      <span class="texte-objectif">Pot — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-competence-bambin" data-competence="reflexion">
+      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+        <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="Dé Réflexion">
+      </span>
+      <span class="texte-objectif">Réflexion — à tirer</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif">
+      <span class="icone-objectif">🧸</span>
+      <span class="texte-objectif">Organiser une séance de jeu entre bambins</span>
+      <button>✓</button>
+    </div>
+
+    <div class="objectif objectif-final">
+      <span class="icone-objectif">🎂</span>
+      <span class="texte-objectif">Grandir pendant la fête</span>
+      <button>✓</button>
+    </div>
+  `
+},
+
+
+  enfant: {
+    nom: "ENFANT",
+    suivant: "adolescent",
+    logo: "🧒",
+    iconeDroite: "🎒",
+    sousTitre: "Étape de vie actuelle",
+    titreObjectifs: "Objectifs de cette étape",
+
+    objectifs: `
+      <div class="objectif">
+        <span class="icone-objectif">🎲</span>
+        <span class="texte-objectif">Terminer l'enfance avec la moyenne tirée : A / B / C</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Moment déterminant tiré n°1</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Moment déterminant tiré n°2</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Moment déterminant tiré n°3</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Moment déterminant tiré n°4</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Activité : résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-bloque">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualité personnelle tirée n°1 — à travailler</span>
+        <span class="icone-bloque">🔒</span>
+      </div>
+
+      <div class="objectif objectif-bloque">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualité personnelle tirée n°2 — à travailler</span>
+        <span class="icone-bloque">🔒</span>
+      </div>
+
+      <div class="objectif objectif-bloque">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualité personnelle tirée n°3 — à travailler</span>
+        <span class="icone-bloque">🔒</span>
+      </div>
+
+      <div class="objectif objectif-bloque">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualité personnelle tirée n°4 — à travailler</span>
+        <span class="icone-bloque">🔒</span>
+      </div>
+
+      <div class="objectif objectif-bloque">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualité personnelle tirée n°5 — à travailler</span>
+        <span class="icone-bloque">🔒</span>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🎉</span>
+        <span class="texte-objectif">Faire une fête d'anniversaire avec les copains</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">🎂</span>
+        <span class="texte-objectif">Grandir pendant la fête</span>
+        <button>✓</button>
+      </div>
+    `
+  },
+
+
+  adolescent: {
+    nom: "ADOLESCENT",
+    suivant: "jeuneAdulte",
+    logo: "🧑",
+    iconeDroite: "🎓",
+    sousTitre: "Étape de vie actuelle",
+    titreObjectifs: "Objectifs de cette étape",
+
+    objectifs: `
+      <div class="objectif">
+        <span class="icone-objectif">🎓</span>
+        <span class="texte-objectif">Diplôme : résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🃏</span>
+        <span class="texte-objectif">Activité : résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">💃</span>
+        <span class="texte-objectif">Dernier bal de promo : résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🌱</span>
+        <span class="texte-objectif">Qualités personnelles révélées</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🎉</span>
+        <span class="texte-objectif">Faire une fête privée entre ados</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">🎂</span>
+        <span class="texte-objectif">Grandir pendant la fête</span>
+        <button>✓</button>
+      </div>
+    `
+  },
+
+
+  jeuneAdulte: {
+    nom: "JEUNE ADULTE",
+    suivant: null,
+    logo: "🧑",
+    iconeDroite: "🏡",
+    sousTitre: "Derniers objectifs avant le départ",
+    titreObjectifs: "Objectifs avant de quitter le foyer",
+
+    objectifs: `
+      <div class="objectif">
+        <span class="icone-objectif">🎓</span>
+        <span class="texte-objectif">Université ? — résultat du tirage (7 %)</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">💼</span>
+        <span class="texte-objectif">Trouver son travail — résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">💰</span>
+        <span class="texte-objectif">Avoir 2 000 § en poche</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">💍</span>
+        <span class="texte-objectif">Célibataire ou mariage — résultat du tirage</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🗺️</span>
+        <span class="texte-objectif">Choisir le monde où s'installer</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">🏠</span>
+        <span class="texte-objectif">Construire son logement et son commerce si besoin</span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">🚚</span>
+        <span class="texte-objectif">Allez oust ! — freerealestate on</span>
+        <button>✓</button>
+      </div>
+    `
+  }
+
+};
+
+/* =========================================
+   TROUVER LA CLÉ D'UN ÂGE
+========================================= */
+
+function trouverCleAge(nomAge) {
+  for (const cle in bibliothequeAges) {
+    if (bibliothequeAges[cle].nom === nomAge) {
+      return cle;
+    }
+  }
+
+  return null;
+}
+
+
+/* =========================================
+   AFFICHER UN ÂGE DANS UNE FICHE
+========================================= */
+
+function afficherAge(sim, cleAge) {
+
+  const modele = bibliothequeAges[cleAge];
+
+  if (!modele) {
+    console.error("Âge introuvable :", cleAge);
+    return;
+  }
+
+  const ageNom = sim.querySelector(".age-nom");
+  const logoAge = sim.querySelector(".logo-age");
+  const sousTitre = sim.querySelector(".age-sous-titre");
+  const iconeDroite = sim.querySelector(".icone-age-droite");
+  const titreObjectifs = sim.querySelector(".titre-objectifs");
+  const objectifs = sim.querySelector(".objectifs-sim");
+
+  if (ageNom) {
+    ageNom.textContent = modele.nom;
+  }
+
+  if (logoAge) {
+    logoAge.textContent = modele.logo;
+  }
+
+  if (sousTitre) {
+    sousTitre.textContent = modele.sousTitre;
+  }
+
+  if (iconeDroite) {
+    iconeDroite.textContent = modele.iconeDroite;
+  }
+
+  if (titreObjectifs) {
+    titreObjectifs.textContent = modele.titreObjectifs;
+  }
+
+  if (objectifs) {
+    objectifs.innerHTML = modele.objectifs;
+  }
+}
+
+
+/* =========================================
+   FAIRE GRANDIR UN SIM
+========================================= */
+
+function faireGrandir(sim) {
+
+  const ageNom = sim.querySelector(".age-nom");
+
+  if (!ageNom) {
+    return;
+  }
+
+  const nomAgeActuel = ageNom.textContent.trim();
+
+  const cleAgeActuel = trouverCleAge(nomAgeActuel);
+
+  if (!cleAgeActuel) {
+    console.error("Impossible de reconnaître l'âge :", nomAgeActuel);
+    return;
+  }
+
+  const ageActuel = bibliothequeAges[cleAgeActuel];
+
+  if (!ageActuel.suivant) {
+    alert("🚚 Ce Sim est prêt à quitter le foyer !");
+    return;
+  }
+
+  afficherAge(sim, ageActuel.suivant);
+}
+
+
+/* =========================================
+   GÉRER LES CLICS SUR LES ✓
+========================================= */
+
+/* =========================================
+   VÉRIFIER SI LE SIM PEUT GRANDIR
+========================================= */
+
+function verifierGrandir(sim) {
+
+  const objectifs = sim.querySelectorAll(".objectif");
+  const objectifFinal = sim.querySelector(".objectif-final");
+
+  if (!objectifFinal) {
+    return;
+  }
+
+  let toutEstFait = true;
+
+  objectifs.forEach(function(objectif) {
+
+    if (objectif.classList.contains("compteur-matriarche")) {
+  return;
+}
+
+    /* On ignore le gâteau lui-même */
+    if (objectif.classList.contains("objectif-final")) {
+      return;
+    }
+
+    /* On ignore les objectifs volontairement bloqués */
+    if (objectif.classList.contains("objectif-bloque")) {
+      return;
+    }
+
+    /* S'il reste un objectif non validé */
+    if (!objectif.classList.contains("objectif-valide")) {
+      toutEstFait = false;
+    }
+
+  });
+
+
+  const boutonFinal = objectifFinal.querySelector("button");
+
+  if (!boutonFinal) {
+    return;
+  }
+
+
+  if (toutEstFait) {
+
+    objectifFinal.classList.remove("objectif-grandir-bloque");
+
+    boutonFinal.disabled = false;
+    boutonFinal.textContent = "✓";
+    boutonFinal.title = "Tous les objectifs sont terminés !";
+
+  } else {
+
+    objectifFinal.classList.add("objectif-grandir-bloque");
+
+    boutonFinal.disabled = true;
+    boutonFinal.textContent = "🔒";
+    boutonFinal.title = "Termine d'abord les autres objectifs";
+  }
+}
+
+
+/* =========================================
+   GÉRER LES CLICS SUR LES ✓
+========================================= */
+
+document.addEventListener("click", function(event) {
+
+  const bouton = event.target.closest(".objectif button");
+
+  if (!bouton) {
+    return;
+  }
+
+  const objectif = bouton.closest(".objectif");
+  const sim = bouton.closest(".sim-modele");
+
+  if (!objectif || !sim) {
+    return;
+  }
+
+
+  /* La Matriarche garde son fonctionnement à part */
+
+
+  /* GÂTEAU = PASSAGE À L'ÂGE SUIVANT */
+
+  if (objectif.classList.contains("objectif-final")) {
+
+    if (bouton.disabled) {
+      return;
+    }
+
+    faireGrandir(sim);
+
+    /* Le nouvel âge vient d'apparaître :
+       on verrouille immédiatement son gâteau */
+
+    verifierGrandir(sim);
+
+sauvegarderChallenge();
+    
+    return;
+  }
+
+
+  /* OBJECTIF NORMAL */
+
+  objectif.classList.toggle("objectif-valide");
+
+
+  if (objectif.classList.contains("objectif-valide")) {
+
+    objectif.style.opacity = "0.45";
+    bouton.textContent = "↩";
+
+  } else {
+
+    objectif.style.opacity = "1";
+    bouton.textContent = "✓";
+  }
+
+
+  /* On regarde si le gâteau peut maintenant être débloqué */
+
+  verifierGrandir(sim);
+
+sauvegarderChallenge();
+  
+});
+
+
+/* =========================================
+   VERROUILLAGE AU CHARGEMENT DE LA PAGE
+========================================= */
+
+document.querySelectorAll(".sim-modele").forEach(function(sim) {
+  verifierGrandir(sim);
+});
+
+/* =========================================
+   CRÉATION D'UN NOUVEAU BÉBÉ
+========================================= */
+
+function ouvrirCreationMatriarche() {
+
+  creationMatriarcheEnCours = true;
+  emplacementBebeChoisi = null;
+  simEnModification = null;
+
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  document.getElementById("bebe-sexe").value = "femme";
+
+  if (fenetre) {
+    fenetre.classList.add("ouverte");
+  }
+}
+  
+function ouvrirCreationBebe(element) {
+
+  emplacementBebeChoisi = element
+    ? element.closest(".sim")
+    : document.getElementById("sim-8");
+
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  if (fenetre) {
+    fenetre.classList.add("ouverte");
+  }
+}
+
+function fermerCreationBebe() {
+  const fenetre = document.getElementById("fenetre-creation-bebe");
+
+  if (fenetre) {
+    fenetre.classList.remove("ouverte");
+  }
+}
+
+function prochainNumeroBaby() {
+
+  let plusGrandNumero = 0;
+
+  document.querySelectorAll(".baby-numero").forEach(function(element) {
+
+    const texte = element.textContent;
+    const resultat = texte.match(/Baby n°\s*(\d+)/i);
+
+    if (resultat) {
+      const numero = parseInt(resultat[1]);
+
+      if (numero > plusGrandNumero) {
+        plusGrandNumero = numero;
+      }
+    }
+
+  });
+
+  return plusGrandNumero + 1;
+}
+
+function transformerEnFicheMatriarche(prenom, nom) {
+
+  const sim = document.getElementById("sim-1");
+
+  if (!sim) {
+    return;
+  }
+
+  sim.className = "sim sim-modele matriarche";
+
+  sim.innerHTML = `
+    <div class="entete-sim">
+
+      <div class="photo-sim petite-photo photo-modifiable"
+           onclick="choisirPhotoSim(this)"
+           title="Cliquer pour ajouter ou changer la photo">
+        <span>Photo</span>
+      </div>
+
+      <div class="infos-sim">
+
+        <button class="modifier-sim"
+                onclick="ouvrirModificationSim(this)"
+                title="Modifier les informations">
+          ✎
+        </button>
+
+<span class="plumbob-deco" title="Matriarche">♦</span>
+
+<button class="croix-supprimer-sim"
+        onclick="supprimerMatriarcheTest(this)"
+        title="Effacer la Matriarche">
+  ×
+</button>
+
+        <div class="ligne-prenom">
+          <h3 class="prenom-sim">${prenom}</h3>
+          <span class="sexe-sim femme" title="Femme">♀</span>
+        </div>
+
+        <div class="nom-famille-sim">${nom}</div>
+
+        <div class="numero-baby">
+          <span class="trait-deco"></span>
+          <span class="baby-numero">♥ Matriarche ♥</span>
+          <span class="trait-deco"></span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="identite-sim">
+
+    <div class="ligne-identite-simple ligne-traits-temporaires">
+  <span class="icone-categorie">
+    <img src="icone-trait-age.png" alt="Traits en grandissant">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="temporaire">+</span>
+</div>
+
+
+<div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">
+    <img src="icone-acquis-vie.png" alt="Acquis de vie">
+  </span>
+
+  <div class="cases-acquis">
+    <span class="icone-identite vide"
+          data-categorie-ligne="acquis">+</span>
+  </div>
+</div>
+
+
+<div class="ligne-identite-simple ligne-traits-definitifs">
+  <span class="icone-categorie">
+    <img src="icone-traits-definitifs.png"
+         alt="Traits et aspiration">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="definitif">+</span>
+</div>
+    </div>
+
+
+    <div class="bloc-age">
+
+      <div class="logo-age">👑</div>
+
+      <div class="texte-age">
+        <strong class="age-nom">MATRIARCHE</strong>
+        <span class="age-sous-titre">Maman du Challenge</span>
+      </div>
+
+      <div class="icone-age-droite">🤰</div>
+
+    </div>
+
+
+    <div class="separateur-coeur">
+      <span></span>
+      ♥
+      <span></span>
+    </div>
+
+
+    <div class="titre-objectifs">
+      Objectifs de la Matriarche
+    </div>
+
+    <div class="objectifs-sim" id="objectifs-sim-1">
+
+      <div class="objectif compteur-matriarche">
+        <span class="icone-objectif">👶</span>
+
+        <span class="texte-objectif">
+          Enfants de cette Matriarche :
+          <strong id="compteur-matriarche">0</strong>
+        </span>
+      </div>
+
+      <div class="objectif">
+        <span class="icone-objectif">👵</span>
+        <span class="texte-objectif">
+          Devenir personne âgée
+        </span>
+        <button>✓</button>
+      </div>
+
+      <div class="objectif objectif-final">
+        <span class="icone-objectif">👑</span>
+        <span class="texte-objectif">
+          Passer le relais à la dernière fille éligible
+        </span>
+        <button>✓</button>
+      </div>
+    </div>
+  `;
+}
+  
+function transformerEnFicheBebe(prenom, nom, sexe, emplacement = null) {
+
+  const sim = emplacement || emplacementBebeChoisi || document.getElementById("sim-8");
+
+  if (!sim) {
+    return;
+  }
+
+  const symboleSexe = sexe === "femme" ? "♀" : "♂";
+
+const numeroBaby = prochainNumeroBaby();
+  
+  sim.className = "sim sim-modele";
+
+  sim.innerHTML = `
+    <!-- PHOTO + IDENTITÉ -->
+
+    <div class="entete-sim">
+
+      <div class="photo-sim petite-photo photo-modifiable"
+     onclick="choisirPhotoSim(this)"
+     title="Cliquer pour ajouter ou changer la photo">
+  <span>Photo</span>
+</div>
+
+      <div class="infos-sim">
+
+<button class="modifier-sim"
+        onclick="ouvrirModificationSim(this)"
+        title="Modifier les informations">
+  ✎
+</button>
+
+<span class="plumbob-deco" title="Sim actif">♦</span>
+
+<button class="croix-supprimer-sim"
+        onclick="supprimerBebeTest(this)"
+        title="Effacer ce bébé">
+  ×
+</button>
+
+        <div class="ligne-prenom">
+          <h3 class="prenom-sim">${prenom}</h3>
+          <span class="sexe-sim ${sexe}" title="${sexe === "femme" ? "Fille" : "Garçon"}">
+            ${symboleSexe}
+          </span>
+        </div>
+
+        <div class="nom-famille-sim">${nom}</div>
+
+        <div class="numero-baby">
+          <span class="trait-deco"></span>
+          <span class="baby-numero">♥ Baby n° ${numeroBaby} / 100 ♥</span>
+          <span class="trait-deco"></span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- IDENTITÉ -->
+
+    <div class="identite-sim">
+
+    <div class="ligne-identite-simple ligne-traits-temporaires">
+  <span class="icone-categorie">
+    <img src="icone-trait-age.png" alt="Traits en grandissant">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="temporaire">+</span>
+</div>
+
+
+<div class="ligne-identite-simple ligne-acquis">
+  <span class="icone-categorie">
+    <img src="icone-acquis-vie.png" alt="Acquis de vie">
+  </span>
+
+  <div class="cases-acquis">
+    <span class="icone-identite vide"
+          data-categorie-ligne="acquis">+</span>
+  </div>
+</div>
+
+
+<div class="ligne-identite-simple ligne-traits-definitifs">
+  <span class="icone-categorie">
+    <img src="icone-traits-definitifs.png"
+         alt="Traits et aspiration">
+  </span>
+
+  <span class="icone-identite vide"
+        data-categorie-ligne="definitif">+</span>
+</div>
+
+    <!-- ÉTAPE DE VIE -->
+
+<div class="bloc-age">
+
+  <div class="logo-age">
+    👶
+  </div>
+
+  <div class="texte-age">
+    <strong class="age-nom">NOUVEAU-NÉ</strong>
+    <span class="age-sous-titre">Étape de vie actuelle</span>
+  </div>
+
+  <div class="icone-age-droite">
+    🍼
+  </div>
+
+</div>
+
+<div class="separateur-coeur">
+  <span></span>
+  ♥
+  <span></span>
+</div>
+
+
+    <div class="titre-objectifs">
+      Objectifs de cette étape
+    </div>
+
+       <div class="objectifs-sim"></div>
+
+`;
+
+  afficherAge(sim, "nouveauNe");
+  verifierGrandir(sim);
+}
+
+function supprimerBebeTest(bouton) {
+
+  const sim = bouton.closest(".sim");
+
+  if (!sim) {
+    return;
+  }
+
+  const prenom = sim.querySelector(".prenom-sim");
+  const nomBebe = prenom ? prenom.textContent.trim() : "ce bébé";
+
+  const confirmation = confirm(
+    "🗑️ Oups ! Effacer " + nomBebe + " ?\n\n" +
+    "Cette fiche sera supprimée et l'emplacement redeviendra libre."
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  sim.className = "sim sim-emplacement-libre";
+
+  sim.innerHTML = `
+    <div class="carte-naissance-cliquable" onclick="ouvrirCreationBebe(this)">
+      <img
+        src="carte-naissance.png"
+        alt="Un nouveau bébé est arrivé"
+        class="image-carte-naissance"
+      >
+    </div>
+  `;
+
+modifierCompteurMatriarche(-1);
+  
+  sauvegarderChallenge();
+}
+
+function supprimerMatriarcheTest(bouton) {
+
+  const sim = bouton.closest(".sim");
+
+  if (!sim) {
+    return;
+  }
+
+  const confirmation = confirm(
+    "👑 Oups ! Effacer cette Matriarche de test ?\n\n" +
+    "Sa fiche sera supprimée et la carte de création reviendra."
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  sim.className = "sim sim-emplacement-matriarche";
+
+  sim.innerHTML = `
+    <div class="carte-naissance-cliquable"
+         onclick="ouvrirCreationMatriarche()">
+
+      <img
+        src="carte-matriarche.png"
+        alt="Créer ma Matriarche"
+        class="image-carte-naissance"
+      >
+
+    </div>
+  `;
+
+  creationMatriarcheEnCours = false;
+
+  sauvegarderChallenge();
+}
+
+function afficherCompteurMatriarche() {
+
+  const compteur =
+    document.getElementById("compteur-matriarche");
+
+  if (compteur) {
+    compteur.textContent = compteurMatriarcheValeur;
+  }
+}
+
+
+function modifierCompteurMatriarche(changement) {
+
+  compteurMatriarcheValeur =
+    Math.max(
+      0,
+      compteurMatriarcheValeur + changement
+    );
+
+  afficherCompteurMatriarche();
+}
+function creerNouveauBebe() {
+
+  const prenom = document.getElementById("bebe-prenom").value.trim();
+  const nom = document.getElementById("bebe-nom").value.trim();
+  const sexe = document.getElementById("bebe-sexe").value;
+
+if (creationMatriarcheEnCours) {
+
+  if (!prenom || !nom) {
+    alert("👑 Il manque le prénom ou le nom de la Matriarche !");
+    return;
+  }
+
+  transformerEnFicheMatriarche(prenom, nom);
+
+  creationMatriarcheEnCours = false;
+
+  fermerCreationBebe();
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+
+  sauvegarderChallenge();
+
+  return;
+}
+  
+  if (!prenom || !nom) {
+    alert("💕 Il manque le prénom ou le nom de ce petit cœur !");
+    return;
+  }
+
+if (simEnModification) {
+
+  const symboleSexe = sexe === "femme" ? "♀" : "♂";
+
+  simEnModification.querySelector(".prenom-sim").textContent = prenom;
+  simEnModification.querySelector(".nom-famille-sim").textContent = nom;
+
+  const zoneSexe = simEnModification.querySelector(".sexe-sim");
+
+  zoneSexe.className = "sexe-sim " + sexe;
+  zoneSexe.textContent = symboleSexe;
+  zoneSexe.title = sexe === "femme" ? "Fille" : "Garçon";
+
+  const zoneTrait = simEnModification.querySelector(".trait-bebe");
+
+  if (zoneTrait) {
+    zoneTrait.title = trait;
+    zoneTrait.textContent = trait || "+";
+  }
+
+  fermerCreationBebe();
+
+  simEnModification = null;
+
+  document.querySelector(".fenetre-bebe h2").textContent =
+    "💕 Bienvenue petit cœur 💕";
+
+  document.querySelector(".bouton-bienvenue").textContent =
+    "💕 Bienvenue dans la famille 💕";
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+  
+sauvegarderChallenge();
+  
+  return;
+}
+  
+transformerEnFicheBebe(
+  prenom,
+  nom,
+  sexe,
+  emplacementBebeChoisi
+);
+
+emplacementBebeChoisi = null;
+
+modifierCompteurMatriarche(1);
+
+sauvegarderChallenge();
+  
+sauvegarderChallenge();
+  
+  fermerCreationBebe();
+
+  document.getElementById("bebe-prenom").value = "";
+  document.getElementById("bebe-nom").value = "";
+}
+
+function choisirPhotoSim(zonePhoto) {
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = function() {
+
+    const fichier = input.files[0];
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      zonePhoto.innerHTML = "";
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+      image.alt = "Photo du Sim";
+
+      image.style.width = "100%";
+      image.style.height = "100%";
+      image.style.objectFit = "cover";
+      image.style.borderRadius = "12px";
+
+      zonePhoto.appendChild(image);
+    };
+
+sauvegarderChallenge();
+    
+    lecteur.readAsDataURL(fichier);
+  };
+
+  input.click();
+}
+
+let simEnModification = null;
+let emplacementBebeChoisi = null;
+let creationMatriarcheEnCours = false;
+  
+function ouvrirModificationSim(bouton) {
+
+  const sim = bouton.closest(".sim-modele");
+
+  if (!sim) {
+    sauvegarderChallenge();
+    return;
+  }
+
+  simEnModification = sim;
+
+  const prenom = sim.querySelector(".prenom-sim");
+  const nom = sim.querySelector(".nom-famille-sim");
+  const sexe = sim.querySelector(".sexe-sim");
+  const trait = sim.querySelector(".trait-bebe");
+
+  document.getElementById("bebe-prenom").value =
+    prenom ? prenom.textContent.trim() : "";
+
+  document.getElementById("bebe-nom").value =
+    nom ? nom.textContent.trim() : "";
+
+  document.getElementById("bebe-sexe").value =
+    sexe && sexe.classList.contains("homme") ? "homme" : "femme";
+
+  document.querySelector(".fenetre-bebe h2").textContent =
+    "💕 Modifier la fiche 💕";
+
+  document.querySelector(".bouton-bienvenue").textContent =
+    "💕 Enregistrer les modifications 💕";
+
+  ouvrirCreationBebe();
+}
+
+/* =========================================
+   BIBLIOTHÈQUE D'ICÔNES
+========================================= */
+
+let caseIconeChoisie = null;
+
+function ouvrirBibliothequeIcones(caseIcone) {
+
+  caseIconeChoisie = caseIcone;
+
+  const fond =
+    document.getElementById("fond-bibliotheque-icones");
+
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  recherche.value = "";
+
+  resultats.textContent =
+    "Commence à écrire le nom d'une icône…";
+
+  fond.classList.add("ouverte");
+
+  recherche.focus();
+}
+
+function fermerBibliothequeIcones() {
+
+  document
+    .getElementById("fond-bibliotheque-icones")
+    .classList.remove("ouverte");
+
+  caseIconeChoisie = null;
+}
+
+  async function rechercherIconesBibliotheque() {
+
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  const terme = recherche.value.trim();
+
+  if (terme.length === 0) {
+    resultats.textContent =
+      "Commence à écrire le nom d'une icône…";
+    return;
+  }
+
+  resultats.textContent = "Recherche en cours...";
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    resultats.textContent =
+      "Tu dois être connectée pour utiliser la bibliothèque.";
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const { data, error } =
+    await supabaseClient
+      .from("icon_library")
+      .select("id, nom, categorie, image")
+      .eq("user_id", user.id)
+      .ilike("nom", "%" + terme + "%")
+      .order("nom", { ascending: true });
+
+  if (error) {
+    console.error(
+      "Erreur recherche bibliothèque :",
+      error
+    );
+
+    resultats.textContent =
+      "Erreur pendant la recherche.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    resultats.textContent =
+      "Aucune icône trouvée dans ta bibliothèque.";
+    return;
+  }
+
+  afficherResultatsIcones(data);
+}
+
+function afficherResultatsIcones(icones) {
+
+  const resultats =
+    document.getElementById("resultats-icones");
+
+  resultats.innerHTML = "";
+
+  icones.forEach(function(icone) {
+
+    const bouton =
+      document.createElement("button");
+
+    bouton.type = "button";
+    bouton.className = "resultat-icone";
+
+    bouton.innerHTML = `
+      <img src="${icone.image}"
+           alt="${icone.nom}">
+
+      <span>
+        <strong>${icone.nom}</strong>
+        <small>${icone.categorie}</small>
+      </span>
+    `;
+
+bouton.addEventListener("click", function() {
+  ajouterIconeSurFiche(icone);
+});
+    
+    resultats.appendChild(bouton);
+
+function ajouterIconeSurFiche(icone) {
+
+  if (!caseIconeChoisie) {
+    return;
+  }
+
+  const caseActuelle = caseIconeChoisie;
+
+  /* On mémorise à quelle ligne appartient le + */
+  const categorieLigne =
+    caseActuelle.dataset.categorieLigne;
+
+  /* Le + devient l'icône choisie */
+  caseActuelle.classList.remove("vide");
+
+  caseActuelle.innerHTML = `
+    <img src="${icone.image}"
+         alt="${icone.nom}">
+  `;
+
+  /* Nom visible quand on passe la souris */
+  caseActuelle.title = icone.nom;
+
+  /* On garde les informations de l'icône */
+  caseActuelle.dataset.iconeId = icone.id;
+  caseActuelle.dataset.iconeNom = icone.nom;
+
+  /* Le + actuel n'est plus un emplacement vide */
+  delete caseActuelle.dataset.categorieLigne;
+
+
+  /* Création du prochain + */
+  const nouveauPlus =
+    document.createElement("span");
+
+  nouveauPlus.className =
+    "icone-identite vide";
+
+  nouveauPlus.textContent = "+";
+
+  nouveauPlus.dataset.categorieLigne =
+    categorieLigne;
+
+
+  /* Ligne des acquis = le + est dans cases-acquis */
+  if (categorieLigne === "acquis") {
+
+    caseActuelle.parentElement.appendChild(
+      nouveauPlus
+    );
+
+  } else {
+
+    caseActuelle.parentElement.appendChild(
+      nouveauPlus
+    );
+  }
+
+
+  fermerBibliothequeIcones();
+   sauvegarderChallenge();
+}
+    
+  });
+}
+
+  function supprimerIconeDeFiche(caseIcone) {
+
+  if (
+    !caseIcone ||
+    caseIcone.classList.contains("vide")
+  ) {
+    return;
+  }
+
+  const nom =
+    caseIcone.dataset.iconeNom || "ce trait";
+
+  const confirmation = confirm(
+    "Retirer « " + nom + " » de cette fiche ?"
+  );
+
+  if (!confirmation) {
+    return;
+  }
+
+  caseIcone.remove();
+
+  sauvegarderChallenge();
+}
+
+function afficherFormulaireNouvelleIcone() {
+
+  const formulaire =
+    document.getElementById("formulaire-nouvelle-icone");
+
+  const recherche =
+    document.getElementById("recherche-icone");
+
+  const nom =
+    document.getElementById("nouvelle-icone-nom");
+
+  formulaire.classList.toggle("ouvert");
+
+  /* Si on avait déjà tapé Créatif dans la recherche,
+     on récupère automatiquement ce nom */
+
+  if (
+    formulaire.classList.contains("ouvert") &&
+    recherche.value.trim()
+  ) {
+    nom.value = recherche.value.trim();
+  }
+}
+
+document
+  .getElementById("nouvelle-icone-image")
+  .addEventListener("change", function() {
+
+    const fichier = this.files[0];
+
+    const apercu =
+      document.getElementById("apercu-nouvelle-icone");
+
+    apercu.innerHTML = "";
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+
+      apercu.appendChild(image);
+    };
+
+    lecteur.readAsDataURL(fichier);
+
+  });
+
+async function enregistrerNouvelleIcone() {
+
+  const nom =
+    document
+      .getElementById("nouvelle-icone-nom")
+      .value
+      .trim();
+
+  const categorie =
+    document
+      .getElementById("nouvelle-icone-categorie")
+      .value;
+
+  const inputImage =
+    document.getElementById("nouvelle-icone-image");
+
+  const message =
+    document.getElementById("message-nouvelle-icone");
+
+  if (!nom) {
+    message.textContent =
+      "Écris d'abord le nom de l'icône.";
+    return;
+  }
+
+  if (!inputImage.files[0]) {
+    message.textContent =
+      "Choisis l'image de l'icône.";
+    return;
+  }
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+  const fichier = inputImage.files[0];
+
+  const lecteur = new FileReader();
+
+  lecteur.onload = async function(event) {
+
+    const image = event.target.result;
+
+    const { error } =
+      await supabaseClient
+        .from("icon_library")
+        .insert({
+          user_id: user.id,
+          nom: nom,
+          categorie: categorie,
+          image: image
+        });
+
+    if (error) {
+
+      console.error(
+        "Erreur ajout icône :",
+        error
+      );
+
+      message.textContent =
+        "Impossible d'enregistrer l'icône.";
+
+      return;
+    }
+
+    message.textContent =
+      "Icône ajoutée à la bibliothèque !";
+
+    document.getElementById(
+      "recherche-icone"
+    ).value = nom;
+
+    await rechercherIconesBibliotheque();
+
+  };
+
+  lecteur.readAsDataURL(fichier);
+}
+  
+  document
+  .getElementById("recherche-icone")
+  .addEventListener(
+    "input",
+    rechercherIconesBibliotheque
+  );
+  
+/* Détecte automatiquement tous les + des fiches */
+
+document.addEventListener("click", function(event) {
+
+  const caseVide =
+    event.target.closest(".icone-identite.vide");
+
+  if (!caseVide) {
+    return;
+  }
+
+  ouvrirBibliothequeIcones(caseVide);
+
+});
+
+document.addEventListener("click", function(event) {
+
+  const icone =
+    event.target.closest(".icone-identite");
+
+  if (!icone) {
+    return;
+  }
+
+  /* Un + reste géré par la bibliothèque */
+  if (icone.classList.contains("vide")) {
+    return;
+  }
+
+  supprimerIconeDeFiche(icone);
+});
+
+  /* =========================
+   TIRAGE MOTRICITÉ GLOBALE
+========================= */
+
+function tirerMotriciteGlobale(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesMotriciteGlobale.length
+    );
+
+  carteNourrissonTiree =
+    cartesMotriciteGlobale[index];
+
+  /* 7 cartes pour faire un vrai éventail */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-motricite-globale.jpeg"
+            alt="Dos Motricité globale">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  fond.classList.add("ouvert");
+
+  /* 1 — le paquet s'ouvre */
+  setTimeout(function() {
+    paquet.classList.add("eventail");
+  }, 350);
+
+  /* Carte centrale choisie */
+  const choisie =
+    paquet.querySelector(".carte-4");
+
+  /* 2 — elle s'envole */
+  setTimeout(function() {
+
+    choisie.classList.add("choisie");
+
+  }, 1500);
+
+  /* 3 — les autres cartes disparaissent */
+  setTimeout(function() {
+
+    paquet.classList.add("selection-faite");
+
+  }, 2050);
+
+  /* 4 — elle revient et se retourne */
+  setTimeout(function() {
+
+    choisie.classList.add("retournee");
+
+  }, 2700);
+
+  /* 5 — bouton seulement après la révélation */
+  setTimeout(function() {
+
+    bouton.classList.add("visible");
+
+  }, 3750);
+}
+
+function tirerPremiereFois(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesPremiereFois.length
+    );
+
+  carteNourrissonTiree =
+    cartesPremiereFois[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-premiere-fois.jpeg"
+            alt="Dos Première fois">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+function tirerMotriciteFine(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesMotriciteFine.length
+    );
+
+  carteNourrissonTiree =
+    cartesMotriciteFine[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-motricite-fine.jpeg"
+            alt="Dos Motricité fine">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+function tirerSocial(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  objectifTirageEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesSocial.length
+    );
+
+  carteNourrissonTiree =
+    cartesSocial[index];
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="dos-social.jpeg"
+            alt="Dos Social">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteNourrissonTiree.image}"
+            alt="${carteNourrissonTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+function lancerAnimationTirageNourrisson(
+  fond,
+  paquet,
+  bouton
+) {
+
+  fond.classList.add("ouvert");
+
+  /* 1 — le paquet s'ouvre */
+  setTimeout(function() {
+    paquet.classList.add("eventail");
+  }, 350);
+
+  /* Carte centrale choisie */
+  const choisie =
+    paquet.querySelector(".carte-4");
+
+  /* 2 — elle s'envole */
+  setTimeout(function() {
+
+    choisie.classList.add("choisie");
+
+  }, 1500);
+
+  /* 3 — les autres cartes disparaissent */
+  setTimeout(function() {
+
+    paquet.classList.add("selection-faite");
+
+  }, 2050);
+
+  /* 4 — elle revient et se retourne */
+  setTimeout(function() {
+
+    choisie.classList.add("retournee");
+
+  }, 2700);
+
+  /* 5 — bouton après la révélation */
+  setTimeout(function() {
+
+    bouton.classList.add("visible");
+
+  }, 3750);
+}
+  
+function fermerTirageNourrisson() {
+
+  if (
+    objectifTirageEnCours &&
+    carteNourrissonTiree
+  ) {
+
+    const texte =
+      objectifTirageEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      objectifTirageEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    texte.textContent =
+      carteNourrissonTiree.nom;
+
+    image.src =
+      carteNourrissonTiree.image;
+
+    image.alt =
+      carteNourrissonTiree.nom;
+
+    objectifTirageEnCours.dataset.carteTiree =
+      "oui";
+
+    objectifTirageEnCours.onclick = null;
+  }
+
+  document
+    .getElementById("fond-tirage-nourrisson")
+    .classList.remove("ouvert");
+
+  document
+    .getElementById("paquet-nourrisson")
+    .innerHTML = "";
+
+  objectifTirageEnCours = null;
+  carteNourrissonTiree = null;
+
+  sauvegarderChallenge();
+}
+  
+
+/* =========================
+   TIRAGE DES COMPÉTENCES BAMBIN
+========================= */
+
+let simTirageDesBambin = null;
+let resultatsDesBambin = null;
+let tirageDesBambinEnCours = false;
+
+const configDesBambin = {
+  communication: {
+    nom: "Communication",
+    dossier: "communication",
+    valeurs: [2, 3, 4, 5]
+  },
+  imagination: {
+    nom: "Imagination",
+    dossier: "imagination",
+    valeurs: [2, 3, 4, 5]
+  },
+  mouvements: {
+    nom: "Mouvements",
+    dossier: "mouvements",
+    valeurs: [2, 3, 4, 5]
+  },
+  pot: {
+    nom: "Pot",
+    dossier: "pot",
+    valeurs: [2, 3]
+  },
+  reflexion: {
+    nom: "Réflexion",
+    dossier: "reflexion",
+    valeurs: [2, 3, 4, 5]
+  }
+};
+
+function cheminDeBambin(competence, face) {
+  const c = configDesBambin[competence];
+  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-${face}.png`;
+}
+
+function cheminDessinDeBambin(competence) {
+  const c = configDesBambin[competence];
+  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-dessin.png`;
+}
+
+function lireNiveauDansTexte(texte) {
+  const match = (texte || "").match(/niveau\s+([2-5])/i);
+  return match ? Number(match[1]) : null;
+}
+
+function orientationCubeBambin(competence, niveau) {
+  if (!niveau) {
+    return "rotateX(-22deg) rotateY(32deg)";
+  }
+
+  if (competence === "pot") {
+    return niveau === 3
+      ? "rotateX(-22deg) rotateY(-58deg)"
+      : "rotateX(-22deg) rotateY(32deg)";
+  }
+
+  const orientations = {
+    2: "rotateX(-22deg) rotateY(32deg)",
+    3: "rotateX(-22deg) rotateY(-58deg)",
+    4: "rotateX(-22deg) rotateY(-148deg)",
+    5: "rotateX(-22deg) rotateY(122deg)"
+  };
+
+  return orientations[niveau] || orientations[2];
+}
+
+function placerCubeBambin(competence, niveau) {
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  if (!fond) return;
+
+  const ligne = fond.querySelector(
+    `.ligne-de-bambin[data-competence="${competence}"]`
+  );
+  if (!ligne) return;
+
+  const cube = ligne.querySelector(".cube-bambin");
+  if (!cube) return;
+
+  cube.classList.remove("en-lancer");
+  cube.style.animation = "";
+  cube.style.transition = "transform 0.45s ease";
+  cube.style.transform = orientationCubeBambin(competence, niveau);
+}
+
+function ouvrirTirageDesBambin(element) {
+  simTirageDesBambin = element.closest(".sim-modele");
+  if (!simTirageDesBambin) return;
+
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  const boutonLancer = document.getElementById("bouton-lancer-des-bambin");
+  const boutonValider = document.getElementById("bouton-valider-des-bambin");
+
+  if (!fond || !boutonLancer || !boutonValider) return;
+
+  resultatsDesBambin = {};
+  let tousDejaTires = true;
+
+  Object.keys(configDesBambin).forEach(function(competence) {
+    const objectif = simTirageDesBambin.querySelector(
+      `.objectif-competence-bambin[data-competence="${competence}"]`
+    );
+    const ligneZoom = fond.querySelector(
+      `.ligne-de-bambin[data-competence="${competence}"]`
+    );
+
+    if (!objectif || !ligneZoom) return;
+
+    const texte = objectif.querySelector(".texte-objectif");
+    const niveau = lireNiveauDansTexte(texte ? texte.textContent : "");
+    const resultatZoom = ligneZoom.querySelector(".resultat-de-bambin");
+
+    if (niveau) {
+      resultatsDesBambin[competence] = niveau;
+      if (resultatZoom) resultatZoom.textContent = "Niveau " + niveau;
+      placerCubeBambin(competence, niveau);
+    } else {
+      tousDejaTires = false;
+      if (resultatZoom) resultatZoom.textContent = "À tirer";
+      placerCubeBambin(competence, null);
+    }
+  });
+
+  boutonLancer.disabled = false;
+  boutonLancer.style.display = tousDejaTires ? "none" : "inline-block";
+  boutonValider.classList.toggle("visible", tousDejaTires);
+  boutonValider.textContent =
+    tousDejaTires ? "Fermer" : "Valider les niveaux";
+
+  fond.classList.add("ouvert");
+}
+
+function tirerNiveauBambin(competence) {
+  if (competence === "pot") {
+    return Math.random() < 0.65 ? 3 : 2;
+  }
+
+  const valeurs = [2, 3, 4, 5];
+  return valeurs[Math.floor(Math.random() * valeurs.length)];
+}
+
+function lancerDesBambin() {
+  if (tirageDesBambinEnCours || !simTirageDesBambin) return;
+
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  const boutonLancer = document.getElementById("bouton-lancer-des-bambin");
+  const boutonValider = document.getElementById("bouton-valider-des-bambin");
+
+  if (!fond || !boutonLancer || !boutonValider) return;
+
+  tirageDesBambinEnCours = true;
+  resultatsDesBambin = {};
+
+  const ordre = [
+    "communication",
+    "imagination",
+    "mouvements",
+    "pot",
+    "reflexion"
+  ];
+
+  ordre.forEach(function(competence) {
+    resultatsDesBambin[competence] = tirerNiveauBambin(competence);
+  });
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  ordre.forEach(function(competence) {
+    const ligne = fond.querySelector(
+      `.ligne-de-bambin[data-competence="${competence}"]`
+    );
+    if (!ligne) return;
+
+    const cube = ligne.querySelector(".cube-bambin");
+    const texte = ligne.querySelector(".resultat-de-bambin");
+
+    if (cube) {
+      cube.style.animation = "";
+      cube.style.transition = "";
+      cube.style.transform = "";
+      cube.classList.add("en-lancer");
+    }
+
+    if (texte) {
+      texte.textContent = "...";
+    }
+  });
+
+  ordre.forEach(function(competence, index) {
+    setTimeout(function() {
+      const ligne = fond.querySelector(
+        `.ligne-de-bambin[data-competence="${competence}"]`
+      );
+      if (!ligne) return;
+
+      const cube = ligne.querySelector(".cube-bambin");
+      const texte = ligne.querySelector(".resultat-de-bambin");
+      const niveau = resultatsDesBambin[competence];
+
+      if (cube) {
+        const positionActuelle = getComputedStyle(cube).transform;
+
+        cube.style.animation = "none";
+        cube.classList.remove("en-lancer");
+        cube.style.transition = "none";
+        cube.style.transform = positionActuelle;
+
+        void cube.offsetWidth;
+
+        cube.style.transition =
+          "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+        cube.style.transform =
+          orientationCubeBambin(competence, niveau);
+      }
+
+      if (texte) {
+        texte.textContent = "Niveau " + niveau;
+      }
+
+      if (index === ordre.length - 1) {
+        tirageDesBambinEnCours = false;
+        boutonLancer.disabled = false;
+        boutonLancer.style.display = "none";
+        boutonValider.textContent = "Valider les niveaux";
+        boutonValider.classList.add("visible");
+      }
+    }, 1400 + index * 600);
+  });
+}
+
+function validerDesBambin() {
+  if (!simTirageDesBambin || tirageDesBambinEnCours) return;
+
+  if (resultatsDesBambin) {
+    Object.keys(resultatsDesBambin).forEach(function(competence) {
+      const niveau = resultatsDesBambin[competence];
+      const objectif = simTirageDesBambin.querySelector(
+        `.objectif-competence-bambin[data-competence="${competence}"]`
+      );
+
+      if (!objectif) return;
+
+      const texte = objectif.querySelector(".texte-objectif");
+      const image = objectif.querySelector(".de-competence-bambin img");
+      const config = configDesBambin[competence];
+
+      if (texte) {
+        texte.textContent = `${config.nom} — niveau ${niveau}`;
+      }
+
+      if (image) {
+        image.src = cheminDeBambin(competence, niveau);
+        image.alt = `${config.nom} — niveau ${niveau}`;
+      }
+    });
+
+    sauvegarderChallenge();
+  }
+
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  simTirageDesBambin = null;
+}
+
+
+verifierConnexion(); 
+  chargerChallenge();
+  
+</script>
+</body>
+</html>
