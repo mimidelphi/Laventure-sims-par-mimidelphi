@@ -3430,9 +3430,27 @@ objectifs: `
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
+
+ <div class="objectif objectif-tirage objectif-activite-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageActiviteEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/activite/dos-carte-activite.png"
+      alt="Tirage activité enfant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Activité — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+    
       <div class="objectif">
         <span class="icone-objectif">🎲</span>
-        <span class="texte-objectif">Terminer l'enfance avec la moyenne tirée : A / B / C</span>
+        <span class="texte-objectif">Terminer l'enfance avec la moyenne tirée : A / B / C / D / E / F </span>
         <button>✓</button>
       </div>
 
@@ -3460,11 +3478,7 @@ objectifs: `
         <button>✓</button>
       </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Activité : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+     
 
      <div class="objectif objectif-bloque objectif-qualite-enfant">
         <span class="icone-objectif">🌱</span>
