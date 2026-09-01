@@ -2772,11 +2772,129 @@ if (estBambin) {
   }
 }
     
-    let objectifs =
+   /* =========================
+   RESTAURER LES QUALITÉS
+   SUR LA FICHE ENFANT
+========================= */
+
+const estEnfant =
+  ageNom &&
+  ageNom.textContent.trim() === "ENFANT";
+
+if (estEnfant) {
+
+  const zoneObjectifs =
+    sim.querySelector(".objectifs-sim");
+
+  const qualitesEnfantSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+  if (zoneObjectifs) {
+
+    /* Sécurité : aucune ancienne ligne qualité */
+    zoneObjectifs
+      .querySelectorAll(".objectif-qualite-enfant")
+      .forEach(function(ligne) {
+        ligne.remove();
+      });
+
+    /* On remet uniquement les vraies qualités tirées */
+    qualitesEnfantSauvegardees
+      .slice()
+      .reverse()
+      .forEach(function(qualite) {
+
+        const ligne =
+          document.createElement("div");
+
+        ligne.className =
+          "objectif objectif-bloque objectif-qualite-enfant";
+
+        ligne.innerHTML = `
+          <span class="icone-objectif">
+            <img
+              src="${qualite.image}"
+              alt="${qualite.imageAlt || ""}"
+            >
+          </span>
+
+          <span class="texte-objectif">
+            ${qualite.texte}
+          </span>
+
+          <span class="icone-bloque">🔒</span>
+        `;
+
+        zoneObjectifs.prepend(ligne);
+
+      });
+
+  }
+
+}
+
+
+let objectifs =
   Array.from(sim.querySelectorAll(".objectif"));
 
 let objectifsSauvegardes =
   etat.objectifs;
+
+
+/* =========================
+   ENFANT :
+   LES QUALITÉS NE PARTICIPENT PAS
+   À LA RESTAURATION PAR POSITION
+========================= */
+
+if (estEnfant) {
+
+  objectifs =
+    objectifs.filter(function(objectif) {
+
+      return !objectif.classList.contains(
+        "objectif-qualite-enfant"
+      );
+
+    });
+
+  objectifsSauvegardes =
+    objectifsSauvegardes.filter(function(obj) {
+
+      const texte =
+        obj.texte || "";
+
+      const estVraieQualite =
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        );
+
+      const estAncienEmplacementQualite =
+        texte.includes(
+          "Qualité personnelle tirée n°"
+        );
+
+      return (
+        !estVraieQualite &&
+        !estAncienEmplacementQualite
+      );
+
+    });
+
+}
 
 
 /* Pour la Matriarche :
@@ -3510,38 +3628,6 @@ objectifs: `
         <span class="icone-objectif">🃏</span>
         <span class="texte-objectif">Moment déterminant tiré n°4</span>
         <button>✓</button>
-      </div>
-
-     
-
-     <div class="objectif objectif-bloque objectif-qualite-enfant">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°1 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque objectif-qualite-enfant">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°2 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque objectif-qualite-enfant">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°3 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque objectif-qualite-enfant">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°4 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-     <div class="objectif objectif-bloque objectif-qualite-enfant">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°5 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
       </div>
 
       <div class="objectif">
