@@ -1649,6 +1649,58 @@ justify-content: center;
     min-height: 190px;
   }
 }   
+
+/* =========================
+   PAILLETTES DU CURSEUR
+========================= */
+
+.paillette-curseur {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+
+  width: 6px;
+  height: 6px;
+
+  background: white;
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 5px rgba(255, 255, 255, 0.95),
+    0 0 9px rgba(205, 178, 231, 0.75);
+
+  animation: disparition-paillette 700ms ease-out forwards;
+}
+
+.paillette-curseur.etoile {
+  width: auto;
+  height: auto;
+  background: transparent;
+  border-radius: 0;
+
+  color: #c8a7e8;
+  font-size: 12px;
+
+  box-shadow: none;
+}
+
+@keyframes disparition-paillette {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--deplacement-x)),
+        calc(-50% + var(--deplacement-y))
+      )
+      scale(0.2)
+      rotate(45deg);
+  }
+}
     
   </style>
 </head>
@@ -6532,6 +6584,54 @@ if (cube) {
 
 verifierConnexion(); 
   chargerChallenge();
+
+/* =========================
+   PAILLETTES DU CURSEUR
+========================= */
+
+let dernierePaillette = 0;
+
+document.addEventListener("mousemove", function (event) {
+
+  const maintenant = Date.now();
+
+  // Évite de créer trop de particules
+  if (maintenant - dernierePaillette < 35) return;
+  dernierePaillette = maintenant;
+
+  const paillette = document.createElement("span");
+  paillette.className = "paillette-curseur";
+
+  // De temps en temps : une petite étoile
+  if (Math.random() < 0.35) {
+    paillette.classList.add("etoile");
+    paillette.textContent = Math.random() < 0.5 ? "✦" : "✧";
+  }
+
+  // Petit décalage aléatoire autour du curseur
+  const decalageX = (Math.random() - 0.5) * 14;
+  const decalageY = (Math.random() - 0.5) * 14;
+
+  paillette.style.left = (event.clientX + decalageX) + "px";
+  paillette.style.top = (event.clientY + decalageY) + "px";
+
+  // Direction de disparition légèrement différente à chaque fois
+  paillette.style.setProperty(
+    "--deplacement-x",
+    ((Math.random() - 0.5) * 22) + "px"
+  );
+
+  paillette.style.setProperty(
+    "--deplacement-y",
+    (8 + Math.random() * 18) + "px"
+  );
+
+  document.body.appendChild(paillette);
+
+  setTimeout(function () {
+    paillette.remove();
+  }, 750);
+});
   
 </script>
 </body>
