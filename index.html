@@ -2772,10 +2772,41 @@ if (estBambin) {
   }
 }
     
-    const objectifs =
-      sim.querySelectorAll(".objectif");
+    let objectifs =
+  Array.from(sim.querySelectorAll(".objectif"));
 
-    etat.objectifs.forEach(function(objectifSauvegarde, index) {
+let objectifsSauvegardes =
+  etat.objectifs;
+
+
+/* Pour la Matriarche :
+   la ville et le compteur sont des informations,
+   pas des objectifs à restaurer par position */
+if (sim.classList.contains("matriarche")) {
+
+  objectifs = objectifs.filter(function(objectif) {
+    return (
+      !objectif.classList.contains("compteur-matriarche") &&
+      !objectif.classList.contains("ville-matriarche")
+    );
+  });
+
+  objectifsSauvegardes =
+    etat.objectifs.filter(function(objectif) {
+
+      const texte =
+        objectif.texte || "";
+
+      return (
+        !texte.includes("Enfants de cette Matriarche") &&
+        !texte.includes("Ville actuelle")
+      );
+
+    });
+}
+
+
+objectifsSauvegardes.forEach(function(objectifSauvegarde, index) {
 
       const objectif = objectifs[index];
 
