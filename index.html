@@ -1992,6 +1992,108 @@ box-shadow:
   </div>
 
 </div>
+
+<!-- =========================
+     BIBLIOTHÈQUE DES ACTIVITÉS
+========================= -->
+
+<div id="fond-bibliotheque-activites"
+     class="fond-bibliotheque-activites">
+
+  <div class="fenetre-bibliotheque-activites">
+
+    <button type="button"
+            class="fermer-bibliotheque-activites">
+      ×
+    </button>
+
+    <h2>Bibliothèque des activités</h2>
+
+    <p>
+      Ajoute et gère les activités disponibles pour tes Sims.
+    </p>
+
+<label for="nouvelle-activite-nom">
+  Nom de l'activité
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-nom"
+  placeholder="Ex : Cours de natation"
+>
+
+<label for="nouvelle-activite-age">
+  Âge
+</label>
+
+<select id="nouvelle-activite-age">
+  <option value="enfant">Enfant</option>
+  <option value="ado">Ado</option>
+  <option value="enfant-ado">Enfant et ado</option>
+</select>
+
+<label for="nouvelle-activite-categorie">
+  Catégorie
+</label>
+
+<select id="nouvelle-activite-categorie">
+  <option value="existante">
+    Activité existante EA
+  </option>
+
+  <option value="ville">
+    Activité de la ville
+  </option>
+</select>
+
+<label for="nouvelle-activite-ville">
+  Ville
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-ville"
+  placeholder="Ex : Windenburg"
+>
+
+<label for="nouvelle-activite-image">
+  Chemin de la carte sur GitHub
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-image"
+  placeholder="Ex : images/activites/cours-natation.png"
+>
+
+<label>
+  <input
+    type="checkbox"
+    id="nouvelle-activite-actif"
+    checked
+  >
+  Activité disponible
+</label>
+
+<button
+  type="button"
+  class="bouton bouton-enregistrer-activite">
+  Enregistrer l'activité
+</button>
+
+<p id="message-nouvelle-activite"></p>
+    
+  </div>
+
+</div>
+
+<button
+  type="button"
+  class="bouton bouton-ouvrir-activites"
+  onclick="ouvrirBibliothequeActivites()">
+  🎴 Gérer les activités
+</button>
     
   </main>
 
@@ -5141,6 +5243,193 @@ document.addEventListener("click", function(event) {
   supprimerIconeDeFiche(icone);
 });
 
+/* =========================================
+   BIBLIOTHÈQUE DES ACTIVITÉS
+========================================= */
+
+function ouvrirBibliothequeActivites() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-activites"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.add("ouverte");
+}
+
+
+function fermerBibliothequeActivites() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-activites"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.remove("ouverte");
+}
+
+
+async function enregistrerNouvelleActivite() {
+
+  const nom =
+    document
+      .getElementById("nouvelle-activite-nom")
+      .value
+      .trim();
+
+  const age =
+    document
+      .getElementById("nouvelle-activite-age")
+      .value;
+
+  const categorie =
+    document
+      .getElementById("nouvelle-activite-categorie")
+      .value;
+
+  const ville =
+    document
+      .getElementById("nouvelle-activite-ville")
+      .value
+      .trim();
+
+  const image =
+    document
+      .getElementById("nouvelle-activite-image")
+      .value
+      .trim();
+
+  const actif =
+    document
+      .getElementById("nouvelle-activite-actif")
+      .checked;
+
+  const message =
+    document.getElementById(
+      "message-nouvelle-activite"
+    );
+
+
+  if (!nom) {
+    message.textContent =
+      "Écris le nom de l'activité.";
+    return;
+  }
+
+
+  if (!image) {
+    message.textContent =
+      "Indique le chemin de la carte.";
+    return;
+  }
+
+
+  if (
+    categorie === "ville" &&
+    !ville
+  ) {
+    message.textContent =
+      "Indique la ville de cette activité.";
+    return;
+  }
+
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("activity_library")
+      .insert({
+        nom: nom,
+        age: age,
+        categorie: categorie,
+        ville:
+          categorie === "ville"
+            ? ville
+            : null,
+        image: image,
+        actif: actif
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Erreur ajout activité :",
+      error
+    );
+
+    message.textContent =
+      "Impossible d'enregistrer l'activité.";
+
+    return;
+  }
+
+
+  message.textContent =
+    "Activité ajoutée !";
+
+
+  document.getElementById(
+    "nouvelle-activite-nom"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-ville"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-image"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-actif"
+  ).checked = true;
+}
+
+
+/* Bouton fermer */
+document
+  .querySelector(
+    ".fermer-bibliotheque-activites"
+  )
+  .addEventListener(
+    "click",
+    fermerBibliothequeActivites
+  );
+
+
+/* Bouton enregistrer */
+document
+  .querySelector(
+    ".bouton-enregistrer-activite"
+  )
+  .addEventListener(
+    "click",
+    enregistrerNouvelleActivite
+  );
+  
   /* =========================
    TIRAGE MOTRICITÉ GLOBALE
 ========================= */
