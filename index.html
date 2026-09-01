@@ -5388,6 +5388,210 @@ function fermerTirageNourrisson() {
   sauvegarderChallenge();
 }
 
+/* =========================
+   ACTIVITÉ ENFANT
+========================= */
+
+const cartesPremierTirageActiviteEnfant = [
+
+  {
+    nom: "Activité existante",
+    type: "existante",
+    image: "images/enfant/activite/1er-tirage/carte-activite-existante-enfant.png"
+  },
+
+  {
+    nom: "Activité de la ville",
+    type: "ville",
+    image: "images/enfant/activite/1er-tirage/carte-activite-ville.png"
+  },
+
+  {
+    nom: "Pas d'activité",
+    type: "aucune",
+    image: "images/enfant/activite/1er-tirage/carte-pas-dactivite.png"
+  }
+
+];
+
+  let ligneActiviteEnfantEnCours = null;
+let carteActiviteEnfantTiree = null;
+
+
+/* -------------------------
+   PREMIER TIRAGE ACTIVITÉ
+------------------------- */
+
+function ouvrirTirageActiviteEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneActiviteEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Remise à zéro de la fenêtre */
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+
+  /* Tirage parmi les 3 catégories */
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesPremierTirageActiviteEnfant.length
+    );
+
+  carteActiviteEnfantTiree =
+    cartesPremierTirageActiviteEnfant[index];
+
+
+  /* Le bouton devient temporairement
+     le bouton du tirage Activité */
+  bouton.textContent =
+    "Valider ce résultat";
+
+  bouton.onclick =
+    validerPremierTirageActiviteEnfant;
+
+
+  /* Même animation que Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/enfant/activite/dos-carte-activite.png"
+            alt="Dos carte activité">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteEnfantTiree.image}"
+            alt="${carteActiviteEnfantTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+
+}
+
+function validerPremierTirageActiviteEnfant() {
+
+  if (
+    !ligneActiviteEnfantEnCours ||
+    !carteActiviteEnfantTiree
+  ) {
+    return;
+  }
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Cas 1 : aucune activité */
+  if (carteActiviteEnfantTiree.type === "aucune") {
+
+    const texte =
+      ligneActiviteEnfantEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      ligneActiviteEnfantEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    if (texte) {
+      texte.textContent = "Pas d'activité";
+    }
+
+    if (image) {
+      image.src =
+        carteActiviteEnfantTiree.image;
+
+      image.alt =
+        carteActiviteEnfantTiree.nom;
+    }
+
+    ligneActiviteEnfantEnCours.dataset.carteTiree =
+      "oui";
+
+    ligneActiviteEnfantEnCours.onclick = null;
+
+    fond.classList.remove("ouvert");
+    paquet.innerHTML = "";
+
+    bouton.classList.remove("visible");
+    bouton.textContent = "Valider cette étape";
+    bouton.onclick = fermerTirageNourrisson;
+
+    ligneActiviteEnfantEnCours = null;
+    carteActiviteEnfantTiree = null;
+
+    sauvegarderChallenge();
+
+    return;
+  }
+
+
+  /* Pour activité existante ou ville :
+     on ne ferme PAS la fenêtre.
+     Le deuxième tirage viendra juste après. */
+
+}
+  
   /* =========================
    DÉ DES QUALITÉS PERSONNELLES
 ========================= */
