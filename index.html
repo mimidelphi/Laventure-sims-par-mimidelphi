@@ -4154,6 +4154,23 @@ function transformerEnFicheMatriarche(prenom, nom) {
         </span>
       </div>
 
+<div class="objectif ville-matriarche">
+  <span class="icone-objectif">🏡</span>
+
+  <span class="texte-objectif">
+    Ville actuelle :
+    <strong id="ville-matriarche">Windenburg</strong>
+  </span>
+
+  <button
+    type="button"
+    class="modifier-ville-matriarche"
+    onclick="modifierVilleMatriarche(event)"
+    title="Changer de ville">
+    ✎
+  </button>
+</div>
+
       <div class="objectif">
         <span class="icone-objectif">👵</span>
         <span class="texte-objectif">
@@ -4381,6 +4398,35 @@ function supprimerMatriarcheTest(bouton) {
   sauvegarderChallenge();
 }
 
+function modifierVilleMatriarche(event) {
+
+  event.stopPropagation();
+
+  const villeElement =
+    document.getElementById("ville-matriarche");
+
+  if (!villeElement) {
+    return;
+  }
+
+  const villeActuelle =
+    villeElement.textContent.trim();
+
+  const nouvelleVille = prompt(
+    "🏡 Dans quelle ville vit actuellement la Matriarche ?",
+    villeActuelle
+  );
+
+  if (!nouvelleVille || !nouvelleVille.trim()) {
+    return;
+  }
+
+  villeElement.textContent =
+    nouvelleVille.trim();
+
+  sauvegarderChallenge();
+}
+  
 function afficherCompteurMatriarche() {
 
   const compteur =
