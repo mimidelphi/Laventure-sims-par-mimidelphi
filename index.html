@@ -2781,7 +2781,10 @@ if (estBambin) {
 
       if (!objectif) return;
 
-      if (objectif.classList.contains("compteur-matriarche")) {
+     if (
+  objectif.classList.contains("compteur-matriarche") ||
+  objectif.classList.contains("ville-matriarche")
+) {
   return;
 }
 
