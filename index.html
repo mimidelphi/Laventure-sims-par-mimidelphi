@@ -5385,11 +5385,17 @@ function fermerBibliothequeActivites() {
 
 async function enregistrerNouvelleActivite() {
 
-  const nom =
-    document
-      .getElementById("nouvelle-activite-nom")
-      .value
-      .trim();
+ const nomSaisi =
+  document
+    .getElementById("nouvelle-activite-nom")
+    .value
+    .trim();
+
+const nom =
+  nomSaisi
+    ? nomSaisi.charAt(0).toUpperCase() +
+      nomSaisi.slice(1)
+    : "";
 
   const age =
     document
