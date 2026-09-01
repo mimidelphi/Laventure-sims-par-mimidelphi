@@ -1702,6 +1702,112 @@ box-shadow:
       rotate(45deg);
   }
 }
+
+/* =========================================
+   BIBLIOTHÈQUE DES ACTIVITÉS
+========================================= */
+
+.fond-bibliotheque-activites {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(40, 30, 50, 0.45);
+
+  z-index: 10000;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.fond-bibliotheque-activites.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-activites {
+  position: relative;
+
+  width: min(620px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  background: #fffaf3;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.fenetre-bibliotheque-activites h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.fenetre-bibliotheque-activites label {
+  display: block;
+
+  margin-top: 16px;
+  margin-bottom: 6px;
+
+  font-weight: 600;
+}
+
+.fenetre-bibliotheque-activites input[type="text"],
+.fenetre-bibliotheque-activites select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8cedf;
+  border-radius: 10px;
+
+  font: inherit;
+
+  background: white;
+}
+
+.fenetre-bibliotheque-activites
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 7px;
+}
+
+.fermer-bibliotheque-activites {
+  position: absolute;
+
+  top: 14px;
+  right: 16px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 22px;
+  line-height: 1;
+
+  background: #eee7f2;
+}
+
+.bouton-enregistrer-activite {
+  margin-top: 22px;
+}
+
+#message-nouvelle-activite {
+  margin-top: 12px;
+  font-weight: 600;
+}
     
   </style>
 </head>
