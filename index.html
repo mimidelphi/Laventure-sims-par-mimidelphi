@@ -1808,6 +1808,104 @@ input[type="checkbox"] {
   margin-top: 12px;
   font-weight: 600;
 }
+
+/* Liste des activités enregistrées */
+
+.separateur-bibliotheque-activites {
+  margin: 28px 0 20px;
+  border: none;
+  border-top: 1px solid #ded3e5;
+}
+
+#liste-activites-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.activite-bibliotheque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #e1d7e8;
+  border-radius: 12px;
+}
+
+.activite-bibliotheque.inactive {
+  opacity: 0.55;
+}
+
+.apercu-activite-bibliotheque {
+  width: 42px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  border-radius: 6px;
+}
+
+.infos-activite-bibliotheque {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.nom-activite-bibliotheque {
+  display: block;
+
+  color: #6c3eb1;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.details-activite-bibliotheque {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.bouton-etat-activite {
+  flex-shrink: 0;
+
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bouton-etat-activite.actif {
+  background: #e4f4e7;
+  color: #367344;
+}
+
+.bouton-etat-activite.inactif {
+  background: #eee9f0;
+  color: #777;
+}
+
+.message-liste-activites {
+  color: #777;
+  font-size: 12px;
+}
     
   </style>
 </head>
@@ -2189,6 +2287,15 @@ input[type="checkbox"] {
 </button>
 
 <p id="message-nouvelle-activite"></p>
+<hr class="separateur-bibliotheque-activites">
+
+<h3>Activités enregistrées</h3>
+
+<div id="liste-activites-bibliotheque">
+  <p class="message-liste-activites">
+    Chargement des activités...
+  </p>
+</div>
     
   </div>
 
@@ -5353,8 +5460,280 @@ document.addEventListener("click", function(event) {
    BIBLIOTHÈQUE DES ACTIVITÉS
 ========================================= */
 
-function ouvrirBibliothequeActivites() {
+async function ouvrirBibliothequeActivites() {
 
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-activites"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.add("ouverte");
+
+  await chargerActivitesBibliotheque();
+}
+
+async function chargerActivitesBibliotheque() {
+
+  const zone =
+    document.getElementById(
+      "liste-activites-bibliotheque"
+    );
+
+  if (!zone) {
+    return;
+  }
+
+
+  zone.innerHTML =
+    '<p class="message-liste-activites">' +
+    'Chargement des activités...' +
+    '</p>';
+
+
+  const { data: activites, error } =
+    await supabaseClient
+      .from("activity_library")
+      .select(
+        "id, nom, age, categorie, ville, image, actif"
+      )
+      .order("nom", {
+        ascending: true
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement activités :",
+      error
+    );
+
+    zone.innerHTML =
+      '<p class="message-liste-activites">' +
+      'Impossible de charger les activités.' +
+      '</p>';
+
+    return;
+  }
+
+
+  zone.innerHTML = "";
+
+
+  if (!activites || activites.length === 0) {
+
+    zone.innerHTML =
+      '<p class="message-liste-activites">' +
+      'Aucune activité enregistrée.' +
+      '</p>';
+
+    return;
+  }
+
+
+  activites.forEach(function(activite) {
+
+    const ligne =
+      document.createElement("div");
+
+    ligne.className =
+      "activite-bibliotheque";
+
+    if (!activite.actif) {
+      ligne.classList.add("inactive");
+    }
+
+
+    /* Image de la carte */
+
+    const image =
+      document.createElement("img");
+
+    image.className =
+      "apercu-activite-bibliotheque";
+
+    image.src = activite.image;
+    image.alt = activite.nom;
+
+
+    /* Informations */
+
+    const infos =
+      document.createElement("div");
+
+    infos.className =
+      "infos-activite-bibliotheque";
+
+
+    const nom =
+      document.createElement("span");
+
+    nom.className =
+      "nom-activite-bibliotheque";
+
+    nom.textContent =
+      activite.nom;
+
+
+    const details =
+      document.createElement("span");
+
+    details.className =
+      "details-activite-bibliotheque";
+
+
+    let ageTexte =
+      activite.age;
+
+    if (activite.age === "enfant") {
+      ageTexte = "Enfant";
+    }
+
+    if (activite.age === "ado") {
+      ageTexte = "Ado";
+    }
+
+    if (activite.age === "enfant-ado") {
+      ageTexte = "Enfant et ado";
+    }
+
+
+    let categorieTexte =
+      activite.categorie === "ville"
+        ? "Activité de la ville"
+        : "Activité EA";
+
+
+    let detailsTexte =
+      ageTexte +
+      " • " +
+      categorieTexte;
+
+
+    /*
+      La ville est affichée UNIQUEMENT
+      pour les activités de la ville.
+
+      Les activités EA sont disponibles
+      partout.
+    */
+
+    if (
+      activite.categorie === "ville" &&
+      activite.ville
+    ) {
+
+      detailsTexte +=
+        " • " +
+        activite.ville;
+    }
+
+
+    details.textContent =
+      detailsTexte;
+
+
+    infos.appendChild(nom);
+    infos.appendChild(details);
+
+
+    /* Bouton actif / inactif */
+
+    const bouton =
+      document.createElement("button");
+
+    bouton.type = "button";
+
+    bouton.className =
+      "bouton-etat-activite " +
+      (
+        activite.actif
+          ? "actif"
+          : "inactif"
+      );
+
+    bouton.textContent =
+      activite.actif
+        ? "✓ Active"
+        : "Inactive";
+
+
+    bouton.addEventListener(
+      "click",
+      function() {
+
+        changerEtatActivite(
+          activite.id,
+          !activite.actif
+        );
+      }
+    );
+
+
+    ligne.appendChild(image);
+    ligne.appendChild(infos);
+    ligne.appendChild(bouton);
+
+    zone.appendChild(ligne);
+  });
+}
+
+
+async function changerEtatActivite(
+  idActivite,
+  nouvelEtat
+) {
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+
+  if (!sessionData.session) {
+
+    alert(
+      "Tu dois être connectée."
+    );
+
+    return;
+  }
+
+
+  const { error } =
+    await supabaseClient
+      .from("activity_library")
+      .update({
+        actif: nouvelEtat
+      })
+      .eq(
+        "id",
+        idActivite
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Erreur modification activité :",
+      error
+    );
+
+    alert(
+      "Impossible de modifier cette activité."
+    );
+
+    return;
+  }
+
+
+  await chargerActivitesBibliotheque();
+}
+
+  
+  
   const fond =
     document.getElementById(
       "fond-bibliotheque-activites"
@@ -5501,7 +5880,7 @@ const nom =
 
   message.textContent =
     "Activité ajoutée !";
-
+await chargerActivitesBibliotheque();
 
   document.getElementById(
     "nouvelle-activite-nom"
