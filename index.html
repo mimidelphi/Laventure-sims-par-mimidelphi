@@ -11,9 +11,20 @@
       font-family: Arial, sans-serif;
       background: #1ebdf7;
       color: #333;
-      cursor: url("curseur-plumbob.svg") 8 2, auto;
+      cursor: url("curseur-plumbob-petit-inverse.svg") 2 2, auto;
     }
 
+button,
+a,
+input,
+select,
+label,
+[onclick],
+[role="button"],
+[style*="cursor"] {
+  cursor: url("curseur-plumbob-petit-inverse.svg") 2 2, auto !important;
+}
+    
     header {
       background: #73c66b;
       color: white;
@@ -1660,36 +1671,38 @@ justify-content: center;
   pointer-events: none;
   z-index: 99999;
 
-  width: 6px;
-  height: 6px;
-
- background: #b875e6;
-border-radius: 50%;
-
-box-shadow:
-  0 0 4px rgba(184, 117, 230, 1),
-  0 0 9px rgba(151, 83, 205, 0.85),
-  0 0 14px rgba(205, 178, 231, 0.65);
-  
-  animation: disparition-paillette 700ms ease-out forwards;
-}
-
-.paillette-curseur.etoile {
   width: auto;
   height: auto;
   background: transparent;
-  border-radius: 0;
 
-  color: #9f5bd1;
-  font-size: 12px;
+  color: #1ebdf7;
+  font-size: var(--taille-paillette, 12px);
+  line-height: 1;
 
-  box-shadow: none;
+  text-shadow:
+    0 0 4px rgba(30, 189, 247, 1),
+    0 0 8px rgba(30, 189, 247, 0.9),
+    0 0 13px rgba(30, 189, 247, 0.6);
+
+  animation: disparition-paillette 800ms ease-out forwards;
+}
+
+.paillette-curseur.blanche {
+  color: white;
+
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 1),
+    0 0 9px rgba(255, 255, 255, 0.9),
+    0 0 14px rgba(30, 189, 247, 0.8);
 }
 
 @keyframes disparition-paillette {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform:
+      translate(-50%, -50%)
+      scale(1)
+      rotate(0deg);
   }
 
   100% {
@@ -1699,11 +1712,11 @@ box-shadow:
         calc(-50% + var(--deplacement-x)),
         calc(-50% + var(--deplacement-y))
       )
-      scale(0.2)
-      rotate(45deg);
+      scale(0.15)
+      rotate(var(--rotation));
   }
 }
-
+    
 /* =========================================
    BIBLIOTHÈQUE DES ACTIVITÉS
 ========================================= */
@@ -7847,42 +7860,66 @@ document.addEventListener("mousemove", function (event) {
 
   const maintenant = Date.now();
 
-  // Évite de créer trop de particules
-  if (maintenant - dernierePaillette < 35) return;
+  // Traînée beaucoup plus dense
+  if (maintenant - dernierePaillette < 16) return;
   dernierePaillette = maintenant;
 
-  const paillette = document.createElement("span");
-  paillette.className = "paillette-curseur";
+  // Plusieurs étoiles à chaque passage
+  const nombrePaillettes = 3;
 
-  // De temps en temps : une petite étoile
-  if (Math.random() < 0.70) {
-    paillette.classList.add("etoile");
-    paillette.textContent = Math.random() < 0.5 ? "✦" : "✧";
+  for (let i = 0; i < nombrePaillettes; i++) {
+
+    const paillette = document.createElement("span");
+    paillette.className = "paillette-curseur";
+
+    const formes = ["✦", "✧", "⋆"];
+    paillette.textContent =
+      formes[Math.floor(Math.random() * formes.length)];
+
+    // Quelques étoiles blanches au milieu des bleues
+    if (Math.random() < 0.25) {
+      paillette.classList.add("blanche");
+    }
+
+    // Tailles variées
+    const taille = 7 + Math.random() * 9;
+    paillette.style.setProperty(
+      "--taille-paillette",
+      taille + "px"
+    );
+
+    // Dispersion autour du curseur
+    const decalageX = (Math.random() - 0.5) * 24;
+    const decalageY = (Math.random() - 0.5) * 24;
+
+    paillette.style.left =
+      (event.clientX + decalageX) + "px";
+
+    paillette.style.top =
+      (event.clientY + decalageY) + "px";
+
+    // Petit mouvement pendant la disparition
+    paillette.style.setProperty(
+      "--deplacement-x",
+      ((Math.random() - 0.5) * 30) + "px"
+    );
+
+    paillette.style.setProperty(
+      "--deplacement-y",
+      ((Math.random() - 0.5) * 30) + "px"
+    );
+
+    paillette.style.setProperty(
+      "--rotation",
+      ((Math.random() - 0.5) * 100) + "deg"
+    );
+
+    document.body.appendChild(paillette);
+
+    setTimeout(function () {
+      paillette.remove();
+    }, 850);
   }
-
-  // Petit décalage aléatoire autour du curseur
-  const decalageX = (Math.random() - 0.5) * 14;
-  const decalageY = (Math.random() - 0.5) * 14;
-
-  paillette.style.left = (event.clientX + decalageX) + "px";
-  paillette.style.top = (event.clientY + decalageY) + "px";
-
-  // Direction de disparition légèrement différente à chaque fois
-  paillette.style.setProperty(
-    "--deplacement-x",
-    ((Math.random() - 0.5) * 22) + "px"
-  );
-
-  paillette.style.setProperty(
-    "--deplacement-y",
-    (8 + Math.random() * 18) + "px"
-  );
-
-  document.body.appendChild(paillette);
-
-  setTimeout(function () {
-    paillette.remove();
-  }, 750);
 });
   
 </script>
