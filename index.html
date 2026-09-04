@@ -1153,6 +1153,21 @@ justify-content: center;
   display: inline-block;
 }
 
+#bouton-lancer-moyenne-enfant {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-moyenne-enfant {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-moyenne-enfant.visible {
+  display: inline-block;
+}
+    
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
 ========================= */
@@ -2422,6 +2437,83 @@ input[type="checkbox"] {
 
       <button id="bouton-valider-qualites-bambin"
               onclick="validerDeQualitesBambin()">
+        Valider
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     TIRAGE DU DÉ MOYENNE ENFANT
+========================= -->
+
+<div id="fond-tirage-moyenne-enfant"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 MOYENNE SCOLAIRE 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Quelle moyenne devra atteindre cet enfant ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-moyenne-enfant"
+           class="resultat-qualites-bambin">
+        Moyenne actuelle : C
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-moyenne-enfant"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/face-C.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/face-B.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/face-D.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/face-E.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/face-A.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/face-F.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-moyenne-enfant"
+              onclick="lancerDeMoyenneEnfant()">
+        Lancer le dé 🎲
+      </button>
+
+      <button id="bouton-valider-moyenne-enfant"
+              onclick="validerDeMoyenneEnfant()">
         Valider
       </button>
 
@@ -3935,11 +4027,22 @@ objectifs: `
   <button>✓</button>
 </div>
     
-      <div class="objectif">
-        <span class="icone-objectif">🎲</span>
-        <span class="texte-objectif">Terminer l'enfance avec la moyenne tirée : A / B / C / D / E / F </span>
-        <button>✓</button>
-      </div>
+     <div class="objectif objectif-moyenne-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMoyenneEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/bambin/des/face-C.png"
+      alt="Moyenne actuelle : C"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Terminer l'enfance avec la moyenne : C
+  </span>
+
+  <button>✓</button>
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🃏</span>
@@ -6806,6 +6909,277 @@ function validerDeuxiemeTirageActiviteEnfant() {
 
   sauvegarderChallenge();
 } 
+
+/* =========================
+   DÉ DE LA MOYENNE ENFANT
+========================= */
+
+let ligneMoyenneEnfantEnCours = null;
+let resultatMoyenneEnfant = null;
+let tirageMoyenneEnfantEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageMoyenneEnfant(ligne) {
+
+  ligneMoyenneEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-moyenne-enfant");
+
+  const resultat =
+    document.getElementById("resultat-moyenne-enfant");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-moyenne-enfant");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-moyenne-enfant");
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  if (
+    !fond ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider ||
+    !cube
+  ) {
+    return;
+  }
+
+  resultatMoyenneEnfant = null;
+  tirageMoyenneEnfantEnCours = false;
+
+  resultat.textContent = "Moyenne actuelle : C";
+
+  cube.classList.remove("en-lancer");
+
+  boutonLancer.style.display = "inline-block";
+  boutonLancer.disabled = false;
+
+  boutonValider.classList.remove("visible");
+
+  fond.classList.add("ouvert");
+}
+
+/* -------------------------
+   TIRAGE DE LA LETTRE
+------------------------- */
+
+function tirerMoyenneEnfant() {
+
+  const tirage = Math.random() * 100;
+
+  if (tirage < 20) return "A";
+  if (tirage < 40) return "B";
+  if (tirage < 60) return "C";
+  if (tirage < 80) return "D";
+  if (tirage < 90) return "E";
+
+  return "F";
+}
+
+
+/* -------------------------
+   LANCEMENT DU DÉ
+------------------------- */
+
+/* -------------------------
+   PRÉPARE LE DÉ FINAL
+   résultat dessus
+------------------------- */
+
+function preparerFacesMoyenneEnfant(lettre) {
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  if (!cube) return;
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+  dessus.src =
+    `images/bambin/des/face-${lettre}.png`;
+
+  const autres =
+    ["A", "B", "C", "D", "E", "F"].filter(
+      l => l !== lettre
+    );
+
+  avant.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  droite.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[4]}.png`;
+}
+  
+function lancerDeMoyenneEnfant() {
+
+  if (
+    tirageMoyenneEnfantEnCours ||
+    !ligneMoyenneEnfantEnCours
+  ) {
+    return;
+  }
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  const resultat =
+    document.getElementById("resultat-moyenne-enfant");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-moyenne-enfant");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-moyenne-enfant");
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+  tirageMoyenneEnfantEnCours = true;
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  resultat.textContent = "Le dé roule… 🎲";
+
+  cube.style.transition = "none";
+  cube.classList.add("en-lancer");
+
+  resultatMoyenneEnfant = tirerMoyenneEnfant();
+
+  setTimeout(function() {
+
+    const positionActuelle =
+      getComputedStyle(cube).transform;
+
+    cube.style.animation = "none";
+    cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+    void cube.offsetWidth;
+
+preparerFacesMoyenneEnfant(
+  resultatMoyenneEnfant
+);
+
+cube.style.transition =
+  "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+cube.style.transform =
+  "rotateX(-22deg) rotateY(32deg)";
+    
+    tirageMoyenneEnfantEnCours = false;
+
+    boutonLancer.style.display = "none";
+    boutonLancer.disabled = false;
+
+    boutonValider.textContent = "Valider";
+    boutonValider.classList.add("visible");
+
+    resultat.textContent =
+      "Moyenne à atteindre : " + resultatMoyenneEnfant;
+
+  }, 1900);
+}
+
+/* -------------------------
+   VALIDATION DE LA MOYENNE
+------------------------- */
+
+function validerDeMoyenneEnfant() {
+
+  if (
+    !ligneMoyenneEnfantEnCours ||
+    !resultatMoyenneEnfant ||
+    tirageMoyenneEnfantEnCours
+  ) {
+    return;
+  }
+
+  const texte =
+    ligneMoyenneEnfantEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneMoyenneEnfantEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+  if (texte) {
+    texte.textContent =
+      "Terminer l'enfance avec la moyenne : " +
+      resultatMoyenneEnfant;
+  }
+
+  if (image) {
+    image.src =
+      `images/bambin/des/face-${resultatMoyenneEnfant}.png`;
+
+    image.alt =
+      "Moyenne tirée : " +
+      resultatMoyenneEnfant;
+  }
+
+  ligneMoyenneEnfantEnCours.dataset.carteTiree = "oui";
+
+  ligneMoyenneEnfantEnCours.onclick = null;
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-moyenne-enfant"
+    );
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  ligneMoyenneEnfantEnCours = null;
+  resultatMoyenneEnfant = null;
+  tirageMoyenneEnfantEnCours = false;
+
+  sauvegarderChallenge();
+}
   
   /* =========================
    DÉ DES QUALITÉS PERSONNELLES
