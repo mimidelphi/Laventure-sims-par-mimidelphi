@@ -4027,14 +4027,39 @@ objectifs: `
   <button>✓</button>
 </div>
     
-     <div class="objectif objectif-moyenne-enfant"
+    <div class="objectif objectif-moyenne-enfant"
      onclick="if (!event.target.closest('button')) ouvrirTirageMoyenneEnfant(this)">
 
-  <span class="icone-objectif">
-    <img
-      src="images/bambin/des/face-C.png"
-      alt="Moyenne actuelle : C"
-    >
+  <span class="icone-objectif de-competence-bambin">
+
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/face-C.png" alt="">
+      </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/face-B.png" alt="">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/face-D.png" alt="">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/face-E.png" alt="">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/face-C.png" alt="">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/face-F.png" alt="">
+      </span>
+
+    </span>
+
   </span>
 
   <span class="texte-objectif">
@@ -7141,10 +7166,10 @@ function validerDeMoyenneEnfant() {
       ".texte-objectif"
     );
 
-  const image =
-    ligneMoyenneEnfantEnCours.querySelector(
-      ".icone-objectif img"
-    );
+ const cubeFiche =
+  ligneMoyenneEnfantEnCours.querySelector(
+    ".de-competence-bambin .cube-bambin"
+  );
 
   if (texte) {
     texte.textContent =
@@ -7152,14 +7177,49 @@ function validerDeMoyenneEnfant() {
       resultatMoyenneEnfant;
   }
 
-  if (image) {
-    image.src =
-      `images/bambin/des/face-${resultatMoyenneEnfant}.png`;
+  if (cubeFiche) {
 
-    image.alt =
-      "Moyenne tirée : " +
-      resultatMoyenneEnfant;
-  }
+  const avant =
+    cubeFiche.querySelector(".face-avant img");
+
+  const droite =
+    cubeFiche.querySelector(".face-droite img");
+
+  const arriere =
+    cubeFiche.querySelector(".face-arriere img");
+
+  const gauche =
+    cubeFiche.querySelector(".face-gauche img");
+
+  const dessus =
+    cubeFiche.querySelector(".face-dessus img");
+
+  const dessous =
+    cubeFiche.querySelector(".face-dessous img");
+
+  const autres =
+    ["A", "B", "C", "D", "E", "F"].filter(
+      l => l !== resultatMoyenneEnfant
+    );
+
+  dessus.src =
+    `images/bambin/des/face-${resultatMoyenneEnfant}.png`;
+
+  avant.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  droite.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[4]}.png`;
+}
 
   ligneMoyenneEnfantEnCours.dataset.carteTiree = "oui";
 
