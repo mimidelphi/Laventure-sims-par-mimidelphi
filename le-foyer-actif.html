@@ -9,10 +9,22 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f3f7;
+      background: #1ebdf7;
       color: #333;
+      cursor: url("curseur-plumbob-petit-inverse.svg") 2 2, auto;
     }
 
+button,
+a,
+input,
+select,
+label,
+[onclick],
+[role="button"],
+[style*="cursor"] {
+  cursor: url("curseur-plumbob-petit-inverse.svg") 2 2, auto !important;
+}
+    
     header {
       background: #73c66b;
       color: white;
@@ -67,8 +79,8 @@
 
 
 .sim {
-  background: #f5f3f7;
-  border: 1px solid #e7dfed;
+  background: #f59af0;
+  border: 2px solid #39234f;
   border-radius: 15px;
   padding: 10px;
   text-align: center;
@@ -985,28 +997,250 @@ justify-content: center;
 .bouton-fermer-tirage.visible {
   display: block;
 }
-    
 
+    /* =========================
+   TIRAGE DU DÉ QUALITÉS PERSONNELLES
+========================= */
+
+.fond-tirage-qualites-bambin {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3950;
+  background: rgba(45, 32, 55, 0.78);
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.fond-tirage-qualites-bambin.ouvert {
+  display: flex;
+}
+
+.fenetre-tirage-qualites-bambin {
+  width: min(430px, 94vw);
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fffafd, #f4ecfb);
+  border: 2px solid #d9c2eb;
+  border-radius: 24px;
+  padding: 24px 22px 20px;
+  box-shadow: 0 20px 60px rgba(40, 25, 55, 0.35);
+  text-align: center;
+}
+
+.titre-tirage-qualites-bambin {
+  margin: 0 0 6px;
+  color: #6c3eb1;
+  font-size: 22px;
+}
+
+.sous-titre-tirage-qualites-bambin {
+  margin: 0 0 22px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.carte-de-qualites-bambin {
+  width: 190px;
+  min-height: 190px;
+  margin: 0 auto;
+  padding: 18px 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5d4ef;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 14px rgba(75, 47, 100, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  box-sizing: border-box;
+}
+
+.resultat-qualites-bambin {
+  min-height: 30px;
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #6c3eb1;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.de-3d-qualites-bambin {
+  width: 110px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  perspective: 600px;
+}
+
+/* Dé un peu plus grand que ceux des compétences */
+.de-3d-qualites-bambin .cube-bambin {
+  width: 64px;
+  height: 64px;
+}
+
+.de-3d-qualites-bambin .face-de {
+  width: 64px;
+  height: 64px;
+  border-radius: 9px;
+}
+
+.de-3d-qualites-bambin .face-avant {
+  transform: translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-arriere {
+  transform: rotateY(180deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-droite {
+  transform: rotateY(90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-gauche {
+  transform: rotateY(-90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-dessus {
+  transform: rotateX(90deg) translateZ(32px);
+}
+
+.de-3d-qualites-bambin .face-dessous {
+  transform: rotateX(-90deg) translateZ(32px);
+}
+
+.actions-tirage-qualites-bambin {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.actions-tirage-qualites-bambin button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#bouton-lancer-qualites-bambin {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-qualites-bambin {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-qualites-bambin.visible {
+  display: inline-block;
+}
+
+#bouton-lancer-moyenne-enfant {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-moyenne-enfant {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-moyenne-enfant.visible {
+  display: inline-block;
+}
+    
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
 ========================= */
 
 .de-competence-bambin {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 350px;
   cursor: pointer;
+  z-index: 5;
 }
 
-.de-competence-bambin img {
-  width: 30px;
-  height: 30px;
+/* Petit vrai dé 3D affiché dans la fiche Bambin */
+.de-competence-bambin .cube-bambin {
+  width: 28px;
+  height: 28px;
+  transform: rotateX(-22deg) rotateY(32deg);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease;
+}
+
+.de-competence-bambin .face-de {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.de-competence-bambin .face-de img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  border-radius: 6px;
-  transform: none !important;
-  box-shadow: none !important;
+  border-radius: 4px;
+  display: block;
+  pointer-events: none;
 }
 
-.de-competence-bambin img:hover {
-  transform: scale(2.4) !important;
+/* Profondeur adaptée au petit dé */
+.de-competence-bambin .face-avant {
+  transform: translateZ(14px);
+}
+
+.de-competence-bambin .face-arriere {
+  transform: rotateY(180deg) translateZ(14px);
+}
+
+.de-competence-bambin .face-droite {
+  transform: rotateY(90deg) translateZ(14px);
+}
+
+.de-competence-bambin .face-gauche {
+  transform: rotateY(-90deg) translateZ(14px);
+}
+
+.de-competence-bambin .face-dessus {
+  transform: rotateX(90deg) translateZ(14px);
+}
+
+.de-competence-bambin .face-dessous {
+  transform: rotateX(-90deg) translateZ(14px);
+}
+
+/* Agrandissement au survol */
+.de-competence-bambin:hover {
   z-index: 1000;
+}
+
+.de-competence-bambin:hover .cube-bambin {
+  transform: rotateX(-22deg) rotateY(32deg) scale(2.2);
 }
 
 .fond-tirage-des-bambin {
@@ -1187,19 +1421,93 @@ justify-content: center;
   transform: rotateX(-90deg) translateZ(24px);
 }
 
+@keyframes trajet-de-communication {
+  0% {
+    transform: translateX(var(--depart-de, -250px)) translateY(0);
+  }
+
+  20% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.78)) translateY(-12px);
+  }
+
+  42% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.52)) translateY(2px);
+  }
+
+  60% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.32)) translateY(-8px);
+  }
+
+  78% {
+    transform: translateX(calc(var(--depart-de, -250px) * 0.15)) translateY(1px);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+    
 .cube-bambin.en-lancer {
   transition: none;
-  animation: lancer-cube-bambin 0.72s linear infinite;
+  animation: rouler-cube-bambin 0.9s linear infinite;
 }
 
-@keyframes lancer-cube-bambin {
-  0%   { transform: rotateX(-22deg) rotateY(32deg) rotateZ(0deg); }
-  25%  { transform: rotateX(158deg) rotateY(212deg) rotateZ(35deg); }
-  50%  { transform: rotateX(338deg) rotateY(392deg) rotateZ(70deg); }
-  75%  { transform: rotateX(518deg) rotateY(572deg) rotateZ(105deg); }
-  100% { transform: rotateX(698deg) rotateY(752deg) rotateZ(140deg); }
-}
+@keyframes rouler-cube-bambin {
 
+  0% {
+    transform:
+      translateX(-30px)
+      translateY(0)
+      rotateX(0deg)
+      rotateY(0deg)
+      rotateZ(0deg);
+  }
+
+  20% {
+    transform:
+      translateX(-15px)
+      translateY(-18px)
+      rotateX(180deg)
+      rotateY(140deg)
+      rotateZ(90deg);
+  }
+
+  40% {
+    transform:
+      translateX(5px)
+      translateY(-4px)
+      rotateX(360deg)
+      rotateY(300deg)
+      rotateZ(180deg);
+  }
+
+  60% {
+    transform:
+      translateX(28px)
+      translateY(-14px)
+      rotateX(540deg)
+      rotateY(470deg)
+      rotateZ(270deg);
+  }
+
+  80% {
+    transform:
+      translateX(12px)
+      translateY(1px)
+      rotateX(720deg)
+      rotateY(620deg)
+      rotateZ(360deg);
+  }
+
+  100% {
+    transform:
+      translateX(-30px)
+      translateY(0)
+      rotateX(900deg)
+      rotateY(780deg)
+      rotateZ(450deg);
+  }
+}
 @media (max-width: 650px) {
   .fenetre-tirage-des-bambin {
     padding: 14px;
@@ -1222,6 +1530,417 @@ justify-content: center;
   }
 }
 
+ /* =========================
+   NOUVEAU VISUEL TIRAGE BAMBIN
+   5 CARTES CÔTE À CÔTE
+========================= */
+
+.fenetre-tirage-des-bambin {
+  width: min(1050px, 96vw);
+  padding: 24px 26px 22px;
+  background: linear-gradient(180deg, #fffafd 0%, #f5eefb 100%);
+  border: 2px solid #d9c2eb;
+  border-radius: 26px;
+}
+
+.titre-tirage-des-bambin {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+.sous-titre-tirage-des-bambin {
+  margin-bottom: 22px;
+  font-size: 13px;
+}
+
+/* Les 5 compétences */
+.liste-des-bambin {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(145px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* Une carte par compétence */
+.ligne-de-bambin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 0;
+  min-height: 205px;
+
+  padding: 14px 10px 16px;
+
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e5d4ef;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 14px rgba(75, 47, 100, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  box-sizing: border-box;
+}
+
+/* Icône officielle + nom */
+.entete-carte-de-bambin {
+  width: 100%;
+  min-height: 70px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 5px;
+  margin-bottom: 8px;
+
+  text-align: center;
+}
+
+.icone-officielle-bambin {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+}
+
+.nom-de-bambin {
+  font-size: 14px;
+  font-weight: 800;
+  color: #5f3a84;
+  text-align: center;
+}
+
+/* Zone du vrai dé :
+   on garde entièrement notre cube 3D actuel */
+.ligne-de-bambin .de-3d-bambin {
+  margin: 7px auto 12px;
+  justify-self: auto;
+  flex-shrink: 0;
+}
+
+/* Résultat sous le dé */
+.resultat-de-bambin {
+  margin-top: auto;
+  min-height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 800;
+  color: #6c3eb1;
+  text-align: center;
+}
+
+/* Boutons en dessous des 5 cartes */
+.actions-tirage-des-bambin {
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.actions-tirage-des-bambin button {
+  min-width: 150px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+/* Écrans plus étroits */
+@media (max-width: 850px) {
+
+  .fenetre-tirage-des-bambin {
+    width: min(720px, 96vw);
+  }
+
+  .liste-des-bambin {
+    grid-template-columns: repeat(2, minmax(145px, 1fr));
+  }
+
+  .ligne-de-bambin {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .liste-des-bambin {
+    grid-template-columns: 1fr;
+  }
+
+  .ligne-de-bambin {
+    min-height: 190px;
+  }
+}   
+
+/* =========================
+   PAILLETTES DU CURSEUR
+========================= */
+
+.paillette-curseur {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+
+  width: auto;
+  height: auto;
+  background: transparent;
+
+  color: #1ebdf7;
+  font-size: var(--taille-paillette, 12px);
+  line-height: 1;
+
+  text-shadow:
+    0 0 4px rgba(30, 189, 247, 1),
+    0 0 8px rgba(30, 189, 247, 0.9),
+    0 0 13px rgba(30, 189, 247, 0.6);
+
+  animation: disparition-paillette 800ms ease-out forwards;
+}
+
+.paillette-curseur.blanche {
+  color: white;
+
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 1),
+    0 0 9px rgba(255, 255, 255, 0.9),
+    0 0 14px rgba(30, 189, 247, 0.8);
+}
+
+@keyframes disparition-paillette {
+  0% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1)
+      rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--deplacement-x)),
+        calc(-50% + var(--deplacement-y))
+      )
+      scale(0.15)
+      rotate(var(--rotation));
+  }
+}
+    
+/* =========================================
+   BIBLIOTHÈQUE DES ACTIVITÉS
+========================================= */
+
+.fond-bibliotheque-activites {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(40, 30, 50, 0.45);
+
+  z-index: 10000;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.fond-bibliotheque-activites.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-activites {
+  position: relative;
+
+  width: min(620px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  background: #fffaf3;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.fenetre-bibliotheque-activites h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.fenetre-bibliotheque-activites label {
+  display: block;
+
+  margin-top: 16px;
+  margin-bottom: 6px;
+
+  font-weight: 600;
+}
+
+.fenetre-bibliotheque-activites input[type="text"],
+.fenetre-bibliotheque-activites select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8cedf;
+  border-radius: 10px;
+
+  font: inherit;
+
+  background: white;
+}
+
+.fenetre-bibliotheque-activites
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 7px;
+}
+
+.fermer-bibliotheque-activites {
+  position: absolute;
+
+  top: 14px;
+  right: 16px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 22px;
+  line-height: 1;
+
+  background: #eee7f2;
+}
+
+.bouton-enregistrer-activite {
+  margin-top: 22px;
+}
+
+#message-nouvelle-activite {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+/* Liste des activités enregistrées */
+
+.separateur-bibliotheque-activites {
+  margin: 28px 0 20px;
+  border: none;
+  border-top: 1px solid #ded3e5;
+}
+
+#liste-activites-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.activite-bibliotheque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #e1d7e8;
+  border-radius: 12px;
+}
+
+.activite-bibliotheque.inactive {
+  opacity: 0.55;
+}
+
+.apercu-activite-bibliotheque {
+  width: 42px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  border-radius: 6px;
+}
+
+.infos-activite-bibliotheque {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.nom-activite-bibliotheque {
+  display: block;
+
+  color: #6c3eb1;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.details-activite-bibliotheque {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.bouton-etat-activite {
+  flex-shrink: 0;
+
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bouton-etat-activite.actif {
+  background: #e4f4e7;
+  color: #367344;
+}
+
+.bouton-etat-activite.inactif {
+  background: #eee9f0;
+  color: #777;
+}
+
+.message-liste-activites {
+  color: #777;
+  font-size: 12px;
+}
+
+*,
+*::before,
+*::after {
+  cursor: url("curseur-plumbob-petit-inverse.svg") 2 2, auto !important;
+}
     
   </style>
 </head>
@@ -1512,6 +2231,117 @@ justify-content: center;
   </div>
 
 </div>
+
+<!-- =========================
+     BIBLIOTHÈQUE DES ACTIVITÉS
+========================= -->
+
+<div id="fond-bibliotheque-activites"
+     class="fond-bibliotheque-activites">
+
+  <div class="fenetre-bibliotheque-activites">
+
+    <button type="button"
+            class="fermer-bibliotheque-activites">
+      ×
+    </button>
+
+    <h2>Bibliothèque des activités</h2>
+
+    <p>
+      Ajoute et gère les activités disponibles pour tes Sims.
+    </p>
+
+<label for="nouvelle-activite-nom">
+  Nom de l'activité
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-nom"
+  placeholder="Ex : Cours de natation"
+>
+
+<label for="nouvelle-activite-age">
+  Âge
+</label>
+
+<select id="nouvelle-activite-age">
+  <option value="enfant">Enfant</option>
+  <option value="ado">Ado</option>
+  <option value="enfant-ado">Enfant et ado</option>
+</select>
+
+<label for="nouvelle-activite-categorie">
+  Catégorie
+</label>
+
+<select id="nouvelle-activite-categorie">
+  <option value="existante">
+    Activité existante EA
+  </option>
+
+  <option value="ville">
+    Activité de la ville
+  </option>
+</select>
+
+<label for="nouvelle-activite-ville">
+  Ville
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-ville"
+  placeholder="Ex : Windenburg"
+>
+
+<label for="nouvelle-activite-image">
+  Chemin de la carte sur GitHub
+</label>
+
+<input
+  type="text"
+  id="nouvelle-activite-image"
+  placeholder="Ex : images/activites/cours-natation.png"
+>
+
+<label>
+  <input
+    type="checkbox"
+    id="nouvelle-activite-actif"
+    checked
+  >
+  Activité disponible
+</label>
+
+<button
+  type="button"
+  class="bouton bouton-enregistrer-activite">
+  Enregistrer l'activité
+</button>
+
+<p id="message-nouvelle-activite"></p>
+<hr class="separateur-bibliotheque-activites">
+
+<h3>Activités enregistrées</h3>
+
+<div id="liste-activites-bibliotheque">
+  <p class="message-liste-activites">
+    Chargement des activités...
+  </p>
+</div>
+    
+  </div>
+
+</div>
+
+<button
+  type="button"
+  class="bouton bouton-ouvrir-activites"
+  onclick="ouvrirBibliothequeActivites()">
+  🎴 Gérer les activités
+</button>
     
   </main>
 
@@ -1539,157 +2369,346 @@ justify-content: center;
 
 </div>
   
+<!-- =========================
+     TIRAGE DU DÉ QUALITÉS PERSONNELLES
+========================= -->
 
+<div id="fond-tirage-qualites-bambin"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 QUALITÉS PERSONNELLES 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Combien de qualités personnelles devra commencer à travailler ce bambin ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-qualites-bambin"
+           class="resultat-qualites-bambin">
+        À tirer
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-qualites-bambin"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/face-qualite.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/face-2.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/face-3.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/face-4.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/face-1.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/face-5.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-qualites-bambin"
+              onclick="lancerDeQualitesBambin()">
+        Lancer le dé 🎲
+      </button>
+
+      <button id="bouton-valider-qualites-bambin"
+              onclick="validerDeQualitesBambin()">
+        Valider
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     TIRAGE DU DÉ MOYENNE ENFANT
+========================= -->
+
+<div id="fond-tirage-moyenne-enfant"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 MOYENNE SCOLAIRE 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Quelle moyenne devra atteindre cet enfant ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-moyenne-enfant"
+           class="resultat-qualites-bambin">
+        Moyenne actuelle : C
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-moyenne-enfant"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/face-C.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/face-B.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/face-D.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/face-E.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/face-A.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/face-F.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-moyenne-enfant"
+              onclick="lancerDeMoyenneEnfant()">
+        Lancer le dé 🎲
+      </button>
+
+      <button id="bouton-valider-moyenne-enfant"
+              onclick="validerDeMoyenneEnfant()">
+        Valider
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
 <!-- =========================
      TIRAGE DES COMPÉTENCES BAMBIN
 ========================= -->
 <div id="fond-tirage-des-bambin" class="fond-tirage-des-bambin">
   <div class="fenetre-tirage-des-bambin">
-    <h2 class="titre-tirage-des-bambin">🎲 Dés Bambin — par compétence</h2>
-    <p class="sous-titre-tirage-des-bambin">Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.</p>
+   <h2 class="titre-tirage-des-bambin">
+  💚 TIRAGE DES COMPÉTENCES DU BAMBIN 💚
+</h2>
+
+<p class="sous-titre-tirage-des-bambin">
+  🎲 Les 5 dés se lancent ensemble puis s'arrêtent l'un après l'autre.
+</p>
 
     <div class="liste-des-bambin">
       <div class="ligne-de-bambin" data-competence="communication">
-        <span class="nom-de-bambin">Communication</span>
+       <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-communication.png"
+       alt="Communication">
+  <span class="nom-de-bambin">Communication</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Communication">
-          <div class="cube-bambin">
-            <div class="face-de face-avant">
-              <img src="images/bambin/competences/des/communication/communication-2.png" alt="">
-            </div>
-            <div class="face-de face-droite">
-              <img src="images/bambin/competences/des/communication/communication-3.png" alt="">
-            </div>
-            <div class="face-de face-arriere">
-              <img src="images/bambin/competences/des/communication/communication-4.png" alt="">
-            </div>
-            <div class="face-de face-gauche">
-              <img src="images/bambin/competences/des/communication/communication-5.png" alt="">
-            </div>
-            <div class="face-de face-dessus">
-              <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
-            </div>
-            <div class="face-de face-dessous">
-              <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="">
-            </div>
-          </div>
-        </div>
+  <div class="cube-bambin">
+
+    <div class="face-de face-avant">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+
+    <div class="face-de face-droite">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+
+    <div class="face-de face-arriere">
+      <img src="images/bambin/des/face-4.png" alt="">
+    </div>
+
+    <div class="face-de face-gauche">
+      <img src="images/bambin/des/face-5.png" alt="">
+    </div>
+
+    <div class="face-de face-dessus">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </div>
+
+    <div class="face-de face-dessous">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </div>
+
+  </div>
+</div>
 
         <span class="resultat-de-bambin">À tirer</span>
       </div>
 
       <div class="ligne-de-bambin" data-competence="imagination">
-        <span class="nom-de-bambin">Imagination</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-imagination.png"
+       alt="Imagination">
+  <span class="nom-de-bambin">Imagination</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Imagination">
-          <div class="cube-bambin">
-            <div class="face-de face-avant">
-              <img src="images/bambin/competences/des/imagination/imagination-2.png" alt="">
-            </div>
-            <div class="face-de face-droite">
-              <img src="images/bambin/competences/des/imagination/imagination-3.png" alt="">
-            </div>
-            <div class="face-de face-arriere">
-              <img src="images/bambin/competences/des/imagination/imagination-4.png" alt="">
-            </div>
-            <div class="face-de face-gauche">
-              <img src="images/bambin/competences/des/imagination/imagination-5.png" alt="">
-            </div>
-            <div class="face-de face-dessus">
-              <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="">
-            </div>
-            <div class="face-de face-dessous">
-              <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="">
-            </div>
-          </div>
-        </div>
+  <div class="cube-bambin">
+    <div class="face-de face-avant">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+    <div class="face-de face-droite">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+    <div class="face-de face-arriere">
+      <img src="images/bambin/des/face-4.png" alt="">
+    </div>
+    <div class="face-de face-gauche">
+      <img src="images/bambin/des/face-5.png" alt="">
+    </div>
+    <div class="face-de face-dessus">
+      <img src="images/bambin/des/face-imagination.png" alt="">
+    </div>
+    <div class="face-de face-dessous">
+      <img src="images/bambin/des/face-imagination.png" alt="">
+    </div>
+  </div>
+</div>
 
         <span class="resultat-de-bambin">À tirer</span>
       </div>
 
       <div class="ligne-de-bambin" data-competence="mouvements">
-        <span class="nom-de-bambin">Mouvements</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-mouvement.png"
+       alt="Mouvement">
+  <span class="nom-de-bambin">Mouvements</span>
+</div>
 
         <div class="de-3d-bambin" aria-label="Dé Mouvements">
-          <div class="cube-bambin">
-            <div class="face-de face-avant">
-              <img src="images/bambin/competences/des/mouvements/mouvements-2.png" alt="">
-            </div>
-            <div class="face-de face-droite">
-              <img src="images/bambin/competences/des/mouvements/mouvements-3.png" alt="">
-            </div>
-            <div class="face-de face-arriere">
-              <img src="images/bambin/competences/des/mouvements/mouvements-4.png" alt="">
-            </div>
-            <div class="face-de face-gauche">
-              <img src="images/bambin/competences/des/mouvements/mouvements-5.png" alt="">
-            </div>
-            <div class="face-de face-dessus">
-              <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="">
-            </div>
-            <div class="face-de face-dessous">
-              <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="">
-            </div>
-          </div>
-        </div>
-
+  <div class="cube-bambin">
+    <div class="face-de face-avant">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+    <div class="face-de face-droite">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+    <div class="face-de face-arriere">
+      <img src="images/bambin/des/face-4.png" alt="">
+    </div>
+    <div class="face-de face-gauche">
+      <img src="images/bambin/des/face-5.png" alt="">
+    </div>
+    <div class="face-de face-dessus">
+      <img src="images/bambin/des/face-mouvement.png" alt="">
+    </div>
+    <div class="face-de face-dessous">
+      <img src="images/bambin/des/face-mouvement.png" alt="">
+    </div>
+  </div>
+</div>
         <span class="resultat-de-bambin">À tirer</span>
       </div>
 
       <div class="ligne-de-bambin" data-competence="pot">
-        <span class="nom-de-bambin">Pot</span>
-
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-pot.png"
+       alt="Pot">
+  <span class="nom-de-bambin">Pot</span>
+</div>
         <div class="de-3d-bambin" aria-label="Dé Pot">
-          <div class="cube-bambin">
-            <div class="face-de face-avant">
-              <img src="images/bambin/competences/des/pot/pot-2.png" alt="">
-            </div>
-            <div class="face-de face-droite">
-              <img src="images/bambin/competences/des/pot/pot-3.png" alt="">
-            </div>
-            <div class="face-de face-arriere">
-              <img src="images/bambin/competences/des/pot/pot-2.png" alt="">
-            </div>
-            <div class="face-de face-gauche">
-              <img src="images/bambin/competences/des/pot/pot-3.png" alt="">
-            </div>
-            <div class="face-de face-dessus">
-              <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="">
-            </div>
-            <div class="face-de face-dessous">
-              <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="">
-            </div>
-          </div>
-        </div>
+  <div class="cube-bambin">
+    <div class="face-de face-avant">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+    <div class="face-de face-droite">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+    <div class="face-de face-arriere">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+    <div class="face-de face-gauche">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+    <div class="face-de face-dessus">
+      <img src="images/bambin/des/face-pot.png" alt="">
+    </div>
+    <div class="face-de face-dessous">
+      <img src="images/bambin/des/face-pot.png" alt="">
+    </div>
+  </div>
+</div>
 
         <span class="resultat-de-bambin">À tirer</span>
       </div>
 
       <div class="ligne-de-bambin" data-competence="reflexion">
-        <span class="nom-de-bambin">Réflexion</span>
+        <div class="entete-carte-de-bambin">
+  <img class="icone-officielle-bambin"
+       src="images/bambin/icone-officiel/icone-reflexion.png"
+       alt="Réflexion">
+  <span class="nom-de-bambin">Réflexion</span>
+</div>
+      
 
-        <div class="de-3d-bambin" aria-label="Dé Réflexion">
-          <div class="cube-bambin">
-            <div class="face-de face-avant">
-              <img src="images/bambin/competences/des/reflexion/reflexion-2.png" alt="">
-            </div>
-            <div class="face-de face-droite">
-              <img src="images/bambin/competences/des/reflexion/reflexion-3.png" alt="">
-            </div>
-            <div class="face-de face-arriere">
-              <img src="images/bambin/competences/des/reflexion/reflexion-4.png" alt="">
-            </div>
-            <div class="face-de face-gauche">
-              <img src="images/bambin/competences/des/reflexion/reflexion-5.png" alt="">
-            </div>
-            <div class="face-de face-dessus">
-              <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="">
-            </div>
-            <div class="face-de face-dessous">
-              <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="">
-            </div>
-          </div>
-        </div>
+       <div class="de-3d-bambin" aria-label="Dé Réflexion">
+  <div class="cube-bambin">
+    <div class="face-de face-avant">
+      <img src="images/bambin/des/face-2.png" alt="">
+    </div>
+    <div class="face-de face-droite">
+      <img src="images/bambin/des/face-3.png" alt="">
+    </div>
+    <div class="face-de face-arriere">
+      <img src="images/bambin/des/face-4.png" alt="">
+    </div>
+    <div class="face-de face-gauche">
+      <img src="images/bambin/des/face-5.png" alt="">
+    </div>
+    <div class="face-de face-dessus">
+      <img src="images/bambin/des/face-reflexion.png" alt="">
+    </div>
+    <div class="face-de face-dessous">
+      <img src="images/bambin/des/face-reflexion.png" alt="">
+    </div>
+  </div>
+</div>
 
         <span class="resultat-de-bambin">À tirer</span>
       </div>
@@ -1926,7 +2945,7 @@ let carteNourrissonTiree = null;
 
     const user = sessionData.session.user;
 
-    const { error } = await supabaseClient
+   const { error } = await supabaseClient
     .from("app_data")
     .upsert({
         user_id: user.id,
@@ -2136,16 +3155,212 @@ if (version < 4) {
   // Restaurer l'état des objectifs
   if (etat.objectifs) {
 
-    const objectifs =
-      sim.querySelectorAll(".objectif");
+/* =========================
+   RECRÉER LES LIGNES QUALITÉS
+   AVANT LA RESTAURATION BAMBIN
+========================= */
 
-    etat.objectifs.forEach(function(objectifSauvegarde, index) {
+const ageNom =
+  sim.querySelector(".age-nom");
+
+const estBambin =
+  ageNom &&
+  ageNom.textContent.trim() === "BAMBIN";
+
+
+if (estBambin) {
+
+  const qualitesSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+
+  if (qualitesSauvegardees.length > 0) {
+
+    simTirageQualitesBambin = sim;
+
+    creerLignesQualitesBambin(
+      qualitesSauvegardees.length
+    );
+
+    simTirageQualitesBambin = null;
+
+  }
+}
+    
+   /* =========================
+   RESTAURER LES QUALITÉS
+   SUR LA FICHE ENFANT
+========================= */
+
+const estEnfant =
+  ageNom &&
+  ageNom.textContent.trim() === "ENFANT";
+
+if (estEnfant) {
+
+  const zoneObjectifs =
+    sim.querySelector(".objectifs-sim");
+
+  const qualitesEnfantSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+  if (zoneObjectifs) {
+
+    /* Sécurité : aucune ancienne ligne qualité */
+    zoneObjectifs
+      .querySelectorAll(".objectif-qualite-enfant")
+      .forEach(function(ligne) {
+        ligne.remove();
+      });
+
+    /* On remet uniquement les vraies qualités tirées */
+    qualitesEnfantSauvegardees
+      .slice()
+      .reverse()
+      .forEach(function(qualite) {
+
+        const ligne =
+          document.createElement("div");
+
+        ligne.className =
+          "objectif objectif-bloque objectif-qualite-enfant";
+
+        ligne.innerHTML = `
+          <span class="icone-objectif">
+            <img
+              src="${qualite.image}"
+              alt="${qualite.imageAlt || ""}"
+            >
+          </span>
+
+          <span class="texte-objectif">
+            ${qualite.texte}
+          </span>
+
+          <span class="icone-bloque">🔒</span>
+        `;
+
+        zoneObjectifs.prepend(ligne);
+
+      });
+
+  }
+
+}
+
+
+let objectifs =
+  Array.from(sim.querySelectorAll(".objectif"));
+
+let objectifsSauvegardes =
+  etat.objectifs;
+
+
+/* =========================
+   ENFANT :
+   LES QUALITÉS NE PARTICIPENT PAS
+   À LA RESTAURATION PAR POSITION
+========================= */
+
+if (estEnfant) {
+
+  objectifs =
+    objectifs.filter(function(objectif) {
+
+      return !objectif.classList.contains(
+        "objectif-qualite-enfant"
+      );
+
+    });
+
+  objectifsSauvegardes =
+    objectifsSauvegardes.filter(function(obj) {
+
+      const texte =
+        obj.texte || "";
+
+      const estVraieQualite =
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        );
+
+      const estAncienEmplacementQualite =
+        texte.includes(
+          "Qualité personnelle tirée n°"
+        );
+
+      return (
+        !estVraieQualite &&
+        !estAncienEmplacementQualite
+      );
+
+    });
+
+}
+
+
+/* Pour la Matriarche :
+   la ville et le compteur sont des informations,
+   pas des objectifs à restaurer par position */
+if (sim.classList.contains("matriarche")) {
+
+  objectifs = objectifs.filter(function(objectif) {
+    return (
+      !objectif.classList.contains("compteur-matriarche") &&
+      !objectif.classList.contains("ville-matriarche")
+    );
+  });
+
+  objectifsSauvegardes =
+    etat.objectifs.filter(function(objectif) {
+
+      const texte =
+        objectif.texte || "";
+
+      return (
+        !texte.includes("Enfants de cette Matriarche") &&
+        !texte.includes("Ville actuelle")
+      );
+
+    });
+}
+
+
+objectifsSauvegardes.forEach(function(objectifSauvegarde, index) {
 
       const objectif = objectifs[index];
 
       if (!objectif) return;
 
-      if (objectif.classList.contains("compteur-matriarche")) {
+     if (
+  objectif.classList.contains("compteur-matriarche") ||
+  objectif.classList.contains("ville-matriarche")
+) {
   return;
 }
 
@@ -2626,43 +3841,146 @@ bambin: {
   sousTitre: "Étape de vie actuelle",
   titreObjectifs: "Objectifs de cette étape",
 
-  objectifs: `
-    <div class="objectif objectif-competence-bambin" data-competence="communication">
-      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/communication/communication-dessin.png" alt="Dé Communication">
+objectifs: `
+    
+    <div class="objectif objectif-bloque objectif-qualites-bambin">
+    
+  <span class="icone-objectif de-competence-bambin"
+        onclick="event.stopPropagation(); ouvrirTirageQualitesBambin(this)">
+
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/face-qualite.png" alt="">
       </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/face-qualite.png" alt="">
+      </span>
+
+    </span>
+
+  </span>
+
+  <span class="texte-objectif">
+    Qualités personnelles — à tirer
+  </span>
+
+  <span class="icone-bloque">🔒</span>
+
+</div>
+    
+    <div class="objectif objectif-competence-bambin" data-competence="communication">
+     <span class="icone-objectif de-competence-bambin"
+      onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+
+  <span class="cube-bambin">
+    <span class="face-de face-avant">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+
+    <span class="face-de face-droite">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+
+    <span class="face-de face-arriere">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+
+    <span class="face-de face-gauche">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+
+    <span class="face-de face-dessus">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+
+    <span class="face-de face-dessous">
+      <img src="images/bambin/des/face-communication.png" alt="">
+    </span>
+  </span>
+
+</span>
       <span class="texte-objectif">Communication — à tirer</span>
       <button>✓</button>
     </div>
 
     <div class="objectif objectif-competence-bambin" data-competence="imagination">
-      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/imagination/imagination-dessin.png" alt="Dé Imagination">
-      </span>
+     <span class="icone-objectif de-competence-bambin"
+      onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+  <span class="cube-bambin">
+    <span class="face-de face-avant"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+    <span class="face-de face-droite"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+    <span class="face-de face-arriere"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+    <span class="face-de face-gauche"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+    <span class="face-de face-dessus"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+    <span class="face-de face-dessous"><img src="images/bambin/des/face-imagination.png" alt=""></span>
+  </span>
+</span>
       <span class="texte-objectif">Imagination — à tirer</span>
       <button>✓</button>
     </div>
 
     <div class="objectif objectif-competence-bambin" data-competence="mouvements">
-      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/mouvements/mouvements-dessin.png" alt="Dé Mouvements">
-      </span>
+     <span class="icone-objectif de-competence-bambin"
+      onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+  <span class="cube-bambin">
+    <span class="face-de face-avant"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+    <span class="face-de face-droite"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+    <span class="face-de face-arriere"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+    <span class="face-de face-gauche"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+    <span class="face-de face-dessus"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+    <span class="face-de face-dessous"><img src="images/bambin/des/face-mouvement.png" alt=""></span>
+  </span>
+</span>
       <span class="texte-objectif">Mouvements — à tirer</span>
       <button>✓</button>
     </div>
 
     <div class="objectif objectif-competence-bambin" data-competence="pot">
-      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/pot/pot-dessin.png" alt="Dé Pot">
-      </span>
+     <span class="icone-objectif de-competence-bambin"
+      onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+  <span class="cube-bambin">
+    <span class="face-de face-avant"><img src="images/bambin/des/face-pot.png" alt=""></span>
+    <span class="face-de face-droite"><img src="images/bambin/des/face-pot.png" alt=""></span>
+    <span class="face-de face-arriere"><img src="images/bambin/des/face-pot.png" alt=""></span>
+    <span class="face-de face-gauche"><img src="images/bambin/des/face-pot.png" alt=""></span>
+    <span class="face-de face-dessus"><img src="images/bambin/des/face-pot.png" alt=""></span>
+    <span class="face-de face-dessous"><img src="images/bambin/des/face-pot.png" alt=""></span>
+  </span>
+</span>
       <span class="texte-objectif">Pot — à tirer</span>
       <button>✓</button>
     </div>
 
     <div class="objectif objectif-competence-bambin" data-competence="reflexion">
-      <span class="icone-objectif de-competence-bambin" onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
-        <img src="images/bambin/competences/des/reflexion/reflexion-dessin.png" alt="Dé Réflexion">
-      </span>
+      <span class="icone-objectif de-competence-bambin"
+      onclick="event.stopPropagation(); ouvrirTirageDesBambin(this)">
+  <span class="cube-bambin">
+    <span class="face-de face-avant"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+    <span class="face-de face-droite"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+    <span class="face-de face-arriere"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+    <span class="face-de face-gauche"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+    <span class="face-de face-dessus"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+    <span class="face-de face-dessous"><img src="images/bambin/des/face-reflexion.png" alt=""></span>
+  </span>
+</span>
       <span class="texte-objectif">Réflexion — à tirer</span>
       <button>✓</button>
     </div>
@@ -2691,11 +4009,65 @@ bambin: {
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
-      <div class="objectif">
-        <span class="icone-objectif">🎲</span>
-        <span class="texte-objectif">Terminer l'enfance avec la moyenne tirée : A / B / C</span>
-        <button>✓</button>
-      </div>
+
+ <div class="objectif objectif-tirage objectif-activite-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageActiviteEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/activite/dos-carte-activite.png"
+      alt="Tirage activité enfant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Activité — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+    
+    <div class="objectif objectif-moyenne-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMoyenneEnfant(this)">
+
+  <span class="icone-objectif de-competence-bambin">
+
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/face-C.png" alt="">
+      </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/face-B.png" alt="">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/face-D.png" alt="">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/face-E.png" alt="">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/face-C.png" alt="">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/face-F.png" alt="">
+      </span>
+
+    </span>
+
+  </span>
+
+  <span class="texte-objectif">
+    Terminer l'enfance avec la moyenne : C
+  </span>
+
+  <button>✓</button>
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🃏</span>
@@ -2719,42 +4091,6 @@ bambin: {
         <span class="icone-objectif">🃏</span>
         <span class="texte-objectif">Moment déterminant tiré n°4</span>
         <button>✓</button>
-      </div>
-
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Activité : résultat du tirage</span>
-        <button>✓</button>
-      </div>
-
-      <div class="objectif objectif-bloque">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°1 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°2 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°3 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°4 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
-      </div>
-
-      <div class="objectif objectif-bloque">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualité personnelle tirée n°5 — à travailler</span>
-        <span class="icone-bloque">🔒</span>
       </div>
 
       <div class="objectif">
@@ -2949,7 +4285,6 @@ function faireGrandir(sim) {
   }
 
   const nomAgeActuel = ageNom.textContent.trim();
-
   const cleAgeActuel = trouverCleAge(nomAgeActuel);
 
   if (!cleAgeActuel) {
@@ -2964,9 +4299,108 @@ function faireGrandir(sim) {
     return;
   }
 
-  afficherAge(sim, ageActuel.suivant);
-}
 
+  /* =========================================
+     SI LE BAMBIN DEVIENT ENFANT :
+     ON GARDE SES QUALITÉS PERSONNELLES
+  ========================================= */
+
+  let qualitesBambin = [];
+
+  if (
+    cleAgeActuel === "bambin" &&
+    ageActuel.suivant === "enfant"
+  ) {
+
+    const lignesQualites =
+      sim.querySelectorAll(
+        ".objectif-carte-qualite-bambin[data-carte-tiree='oui']"
+      );
+
+    lignesQualites.forEach(function(ligne) {
+
+      const texte =
+        ligne.querySelector(".texte-objectif");
+
+      const image =
+        ligne.querySelector(".icone-objectif img");
+
+      if (!texte || !image) return;
+
+      qualitesBambin.push({
+        texte: texte.textContent,
+        image: image.src,
+        imageAlt: image.alt
+      });
+
+    });
+
+  }
+
+
+  /* Affichage du nouvel âge */
+  afficherAge(sim, ageActuel.suivant);
+
+
+  /* =========================================
+     REMETTRE LES QUALITÉS EN HAUT
+     DES OBJECTIFS ENFANT
+  ========================================= */
+
+  if (
+    ageActuel.suivant === "enfant" &&
+    qualitesBambin.length > 0
+  ) {
+
+    const zoneObjectifs =
+      sim.querySelector(".objectifs-sim");
+
+    if (zoneObjectifs) {
+
+      /* On enlève les 5 anciennes lignes génériques */
+      zoneObjectifs
+        .querySelectorAll(".objectif-qualite-enfant")
+        .forEach(function(ligne) {
+          ligne.remove();
+        });
+
+
+      /* On ajoute uniquement les vraies qualités tirées */
+      qualitesBambin
+        .slice()
+        .reverse()
+        .forEach(function(qualite) {
+
+          const ligne =
+            document.createElement("div");
+
+          ligne.className =
+            "objectif objectif-bloque objectif-qualite-enfant";
+
+          ligne.innerHTML = `
+            <span class="icone-objectif">
+              <img
+                src="${qualite.image}"
+                alt="${qualite.imageAlt || ""}"
+              >
+            </span>
+
+            <span class="texte-objectif">
+              ${qualite.texte}
+            </span>
+
+            <span class="icone-bloque">🔒</span>
+          `;
+
+          zoneObjectifs.prepend(ligne);
+
+        });
+
+    }
+
+  }
+
+}
 
 /* =========================================
    GÉRER LES CLICS SUR LES ✓
@@ -3292,16 +4726,35 @@ function transformerEnFicheMatriarche(prenom, nom) {
       Objectifs de la Matriarche
     </div>
 
-    <div class="objectifs-sim" id="objectifs-sim-1">
+  <div class="objectifs-sim" id="objectifs-sim-1">
 
-      <div class="objectif compteur-matriarche">
-        <span class="icone-objectif">👶</span>
+  <div class="objectif compteur-matriarche ville-matriarche">
+    <span class="icone-objectif">🏡</span>
 
-        <span class="texte-objectif">
-          Enfants de cette Matriarche :
-          <strong id="compteur-matriarche">0</strong>
-        </span>
-      </div>
+    <span class="texte-objectif">
+      Ville actuelle :
+      <strong id="ville-matriarche">Windenburg</strong>
+    </span>
+
+    <button
+      type="button"
+      class="modifier-ville-matriarche"
+      onclick="modifierVilleMatriarche(event)"
+      title="Changer de ville">
+      ✎
+    </button>
+  </div>
+
+
+  <div class="objectif compteur-matriarche">
+    <span class="icone-objectif">👶</span>
+
+    <span class="texte-objectif">
+      Enfants de cette Matriarche :
+      <strong id="compteur-matriarche">0</strong>
+    </span>
+  </div>
+
 
       <div class="objectif">
         <span class="icone-objectif">👵</span>
@@ -3530,6 +4983,35 @@ function supprimerMatriarcheTest(bouton) {
   sauvegarderChallenge();
 }
 
+function modifierVilleMatriarche(event) {
+
+  event.stopPropagation();
+
+  const villeElement =
+    document.getElementById("ville-matriarche");
+
+  if (!villeElement) {
+    return;
+  }
+
+  const villeActuelle =
+    villeElement.textContent.trim();
+
+  const nouvelleVille = prompt(
+    "🏡 Dans quelle ville vit actuellement la Matriarche ?",
+    villeActuelle
+  );
+
+  if (!nouvelleVille || !nouvelleVille.trim()) {
+    return;
+  }
+
+  villeElement.textContent =
+    nouvelleVille.trim();
+
+  sauvegarderChallenge();
+}
+  
 function afficherCompteurMatriarche() {
 
   const compteur =
@@ -4122,6 +5604,456 @@ document.addEventListener("click", function(event) {
   supprimerIconeDeFiche(icone);
 });
 
+/* =========================================
+   BIBLIOTHÈQUE DES ACTIVITÉS
+========================================= */
+
+async function ouvrirBibliothequeActivites() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-activites"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.add("ouverte");
+
+  await chargerActivitesBibliotheque();
+}
+
+async function chargerActivitesBibliotheque() {
+
+  const zone =
+    document.getElementById(
+      "liste-activites-bibliotheque"
+    );
+
+  if (!zone) {
+    return;
+  }
+
+
+  zone.innerHTML =
+    '<p class="message-liste-activites">' +
+    'Chargement des activités...' +
+    '</p>';
+
+
+  const { data: activites, error } =
+    await supabaseClient
+      .from("activity_library")
+      .select(
+        "id, nom, age, categorie, ville, image, actif"
+      )
+      .order("nom", {
+        ascending: true
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement activités :",
+      error
+    );
+
+    zone.innerHTML =
+      '<p class="message-liste-activites">' +
+      'Impossible de charger les activités.' +
+      '</p>';
+
+    return;
+  }
+
+
+  zone.innerHTML = "";
+
+
+  if (!activites || activites.length === 0) {
+
+    zone.innerHTML =
+      '<p class="message-liste-activites">' +
+      'Aucune activité enregistrée.' +
+      '</p>';
+
+    return;
+  }
+
+
+  activites.forEach(function(activite) {
+
+    const ligne =
+      document.createElement("div");
+
+    ligne.className =
+      "activite-bibliotheque";
+
+    if (!activite.actif) {
+      ligne.classList.add("inactive");
+    }
+
+
+    /* Image de la carte */
+
+    const image =
+      document.createElement("img");
+
+    image.className =
+      "apercu-activite-bibliotheque";
+
+    image.src = activite.image;
+    image.alt = activite.nom;
+
+
+    /* Informations */
+
+    const infos =
+      document.createElement("div");
+
+    infos.className =
+      "infos-activite-bibliotheque";
+
+
+    const nom =
+      document.createElement("span");
+
+    nom.className =
+      "nom-activite-bibliotheque";
+
+    nom.textContent =
+      activite.nom;
+
+
+    const details =
+      document.createElement("span");
+
+    details.className =
+      "details-activite-bibliotheque";
+
+
+    let ageTexte =
+      activite.age;
+
+    if (activite.age === "enfant") {
+      ageTexte = "Enfant";
+    }
+
+    if (activite.age === "ado") {
+      ageTexte = "Ado";
+    }
+
+    if (activite.age === "enfant-ado") {
+      ageTexte = "Enfant et ado";
+    }
+
+
+    let categorieTexte =
+      activite.categorie === "ville"
+        ? "Activité de la ville"
+        : "Activité EA";
+
+
+    let detailsTexte =
+      ageTexte +
+      " • " +
+      categorieTexte;
+
+
+    /*
+      La ville est affichée UNIQUEMENT
+      pour les activités de la ville.
+
+      Les activités EA sont disponibles
+      partout.
+    */
+
+    if (
+      activite.categorie === "ville" &&
+      activite.ville
+    ) {
+
+      detailsTexte +=
+        " • " +
+        activite.ville;
+    }
+
+
+    details.textContent =
+      detailsTexte;
+
+
+    infos.appendChild(nom);
+    infos.appendChild(details);
+
+
+    /* Bouton actif / inactif */
+
+    const bouton =
+      document.createElement("button");
+
+    bouton.type = "button";
+
+    bouton.className =
+      "bouton-etat-activite " +
+      (
+        activite.actif
+          ? "actif"
+          : "inactif"
+      );
+
+    bouton.textContent =
+      activite.actif
+        ? "✓ Active"
+        : "Inactive";
+
+
+    bouton.addEventListener(
+      "click",
+      function() {
+
+        changerEtatActivite(
+          activite.id,
+          !activite.actif
+        );
+      }
+    );
+
+
+    ligne.appendChild(image);
+    ligne.appendChild(infos);
+    ligne.appendChild(bouton);
+
+    zone.appendChild(ligne);
+  });
+}
+
+
+async function changerEtatActivite(
+  idActivite,
+  nouvelEtat
+) {
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+
+  if (!sessionData.session) {
+
+    alert(
+      "Tu dois être connectée."
+    );
+
+    return;
+  }
+
+
+  const { error } =
+    await supabaseClient
+      .from("activity_library")
+      .update({
+        actif: nouvelEtat
+      })
+      .eq(
+        "id",
+        idActivite
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Erreur modification activité :",
+      error
+    );
+
+    alert(
+      "Impossible de modifier cette activité."
+    );
+
+    return;
+  }
+
+
+  await chargerActivitesBibliotheque();
+}
+
+function fermerBibliothequeActivites() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-activites"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.remove("ouverte");
+}
+
+
+async function enregistrerNouvelleActivite() {
+
+ const nomSaisi =
+  document
+    .getElementById("nouvelle-activite-nom")
+    .value
+    .trim();
+
+const nom =
+  nomSaisi
+    ? nomSaisi.charAt(0).toUpperCase() +
+      nomSaisi.slice(1)
+    : "";
+
+  const age =
+    document
+      .getElementById("nouvelle-activite-age")
+      .value;
+
+  const categorie =
+    document
+      .getElementById("nouvelle-activite-categorie")
+      .value;
+
+  const ville =
+    document
+      .getElementById("nouvelle-activite-ville")
+      .value
+      .trim();
+
+  const image =
+    document
+      .getElementById("nouvelle-activite-image")
+      .value
+      .trim();
+
+  const actif =
+    document
+      .getElementById("nouvelle-activite-actif")
+      .checked;
+
+  const message =
+    document.getElementById(
+      "message-nouvelle-activite"
+    );
+
+
+  if (!nom) {
+    message.textContent =
+      "Écris le nom de l'activité.";
+    return;
+  }
+
+
+  if (!image) {
+    message.textContent =
+      "Indique le chemin de la carte.";
+    return;
+  }
+
+
+  if (
+    categorie === "ville" &&
+    !ville
+  ) {
+    message.textContent =
+      "Indique la ville de cette activité.";
+    return;
+  }
+
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("activity_library")
+      .insert({
+        nom: nom,
+        age: age,
+        categorie: categorie,
+        ville:
+          categorie === "ville"
+            ? ville
+            : null,
+        image: image,
+        actif: actif
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Erreur ajout activité :",
+      error
+    );
+
+    message.textContent =
+      "Impossible d'enregistrer l'activité.";
+
+    return;
+  }
+
+
+  message.textContent =
+    "Activité ajoutée !";
+await chargerActivitesBibliotheque();
+
+  document.getElementById(
+    "nouvelle-activite-nom"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-ville"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-image"
+  ).value = "";
+
+  document.getElementById(
+    "nouvelle-activite-actif"
+  ).checked = true;
+}
+
+
+/* Bouton fermer */
+document
+  .querySelector(
+    ".fermer-bibliotheque-activites"
+  )
+  .addEventListener(
+    "click",
+    fermerBibliothequeActivites
+  );
+
+
+/* Bouton enregistrer */
+document
+  .querySelector(
+    ".bouton-enregistrer-activite"
+  )
+  .addEventListener(
+    "click",
+    enregistrerNouvelleActivite
+  );
+  
   /* =========================
    TIRAGE MOTRICITÉ GLOBALE
 ========================= */
@@ -4536,7 +6468,1719 @@ function fermerTirageNourrisson() {
 
   sauvegarderChallenge();
 }
+
+/* =========================
+   ACTIVITÉ ENFANT
+========================= */
+
+const cartesPremierTirageActiviteEnfant = [
+
+  {
+    nom: "Activité existante",
+    type: "existante",
+    image: "images/activite/1er-tirage/carte-activite-existante-enfant.png"
+  },
+
+  {
+    nom: "Activité de la ville",
+    type: "ville",
+    image: "images/activite/1er-tirage/carte-activite-ville.png"
+  },
+
+  {
+    nom: "Pas d'activité",
+    type: "aucune",
+    image: "images/activite/1er-tirage/carte-pas-dactivite.png"
+  }
+
+];
+
   
+  let ligneActiviteEnfantEnCours = null;
+let carteActiviteEnfantTiree = null;
+
+
+/* -------------------------
+   PREMIER TIRAGE ACTIVITÉ
+------------------------- */
+
+function ouvrirTirageActiviteEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneActiviteEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Remise à zéro de la fenêtre */
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+
+  /* Tirage parmi les 3 catégories */
+  const index =
+    Math.floor(
+      Math.random() *
+      cartesPremierTirageActiviteEnfant.length
+    );
+
+  carteActiviteEnfantTiree =
+    cartesPremierTirageActiviteEnfant[index];
+
+
+  /* Le bouton devient temporairement
+     le bouton du tirage Activité */
+  bouton.textContent =
+    "Valider ce résultat";
+
+  bouton.onclick =
+    validerPremierTirageActiviteEnfant;
+
+
+  /* Même animation que Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteEnfantTiree.image}"
+            alt="${carteActiviteEnfantTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+
+}
+
+async function validerPremierTirageActiviteEnfant() {
+  
+  if (
+    !ligneActiviteEnfantEnCours ||
+    !carteActiviteEnfantTiree
+  ) {
+    return;
+  }
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Cas 1 : aucune activité */
+  if (carteActiviteEnfantTiree.type === "aucune") {
+
+    const texte =
+      ligneActiviteEnfantEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      ligneActiviteEnfantEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    if (texte) {
+      texte.textContent = "Pas d'activité";
+    }
+
+    if (image) {
+      image.src =
+        carteActiviteEnfantTiree.image;
+
+      image.alt =
+        carteActiviteEnfantTiree.nom;
+    }
+
+    ligneActiviteEnfantEnCours.dataset.carteTiree =
+      "oui";
+
+    ligneActiviteEnfantEnCours.onclick = null;
+
+    fond.classList.remove("ouvert");
+    paquet.innerHTML = "";
+
+    bouton.classList.remove("visible");
+    bouton.textContent = "Valider cette étape";
+    bouton.onclick = fermerTirageNourrisson;
+
+    ligneActiviteEnfantEnCours = null;
+    carteActiviteEnfantTiree = null;
+
+    sauvegarderChallenge();
+
+    return;
+  }
+
+  /* Pour activité existante ou ville :
+     on enchaîne directement avec le deuxième tirage */
+
+  await ouvrirDeuxiemeTirageActiviteEnfant(
+    carteActiviteEnfantTiree.type
+  );
+
+}
+
+ /* -------------------------
+   DEUXIÈME TIRAGE ACTIVITÉ
+------------------------- */
+
+async function ouvrirDeuxiemeTirageActiviteEnfant(categorie) {
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* On prépare le filtre Supabase */
+
+  let requete =
+    supabaseClient
+      .from("activity_library")
+      .select(
+        "id, nom, age, categorie, ville, image, actif"
+      )
+      .eq("actif", true)
+      .eq("categorie", categorie)
+      .in(
+        "age",
+        ["enfant", "enfant-ado"]
+      );
+
+
+  /* Activités de la ville :
+     uniquement la ville actuelle de la Matriarche */
+
+  if (categorie === "ville") {
+
+    const villeElement =
+      document.getElementById("ville-matriarche");
+
+    const villeActuelle =
+      villeElement
+        ? villeElement.textContent.trim()
+        : "";
+
+    if (!villeActuelle) {
+
+      alert(
+        "Impossible de connaître la ville actuelle de la Matriarche."
+      );
+
+      return;
+    }
+
+    requete =
+      requete.ilike(
+        "ville",
+        villeActuelle
+      );
+  }
+
+
+  const { data: activites, error } =
+    await requete;
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement activités pour le tirage :",
+      error
+    );
+
+    alert(
+      "Impossible de charger les activités disponibles."
+    );
+
+    return;
+  }
+
+
+  if (!activites || activites.length === 0) {
+
+    alert(
+      categorie === "ville"
+        ? "Aucune activité active n'est disponible dans cette ville."
+        : "Aucune activité EA active n'est disponible pour les enfants."
+    );
+
+    return;
+  }
+
+
+  /* Tirage aléatoire parmi les activités disponibles */
+
+  const index =
+    Math.floor(
+      Math.random() * activites.length
+    );
+
+  carteActiviteEnfantTiree =
+    activites[index];
+
+
+  /* On garde exactement la même fenêtre
+     et on remet l'animation à zéro */
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider cette activité";
+
+  bouton.onclick =
+    validerDeuxiemeTirageActiviteEnfant;
+
+
+  /* Création des 7 dos de cartes */
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteEnfantTiree.image}"
+            alt="${carteActiviteEnfantTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  /* On reste dans la fenêtre déjà ouverte
+     et on relance directement l'animation */
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+/* -------------------------
+   VALIDATION DU 2e TIRAGE
+------------------------- */
+
+function validerDeuxiemeTirageActiviteEnfant() {
+
+  if (
+    !ligneActiviteEnfantEnCours ||
+    !carteActiviteEnfantTiree
+  ) {
+    return;
+  }
+
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+
+  const texte =
+    ligneActiviteEnfantEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneActiviteEnfantEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+
+    texte.textContent =
+      carteActiviteEnfantTiree.nom;
+  }
+
+
+  if (image) {
+
+    image.src =
+      carteActiviteEnfantTiree.image;
+
+    image.alt =
+      carteActiviteEnfantTiree.nom;
+  }
+
+
+  /* La ligne activité est maintenant terminée */
+
+  ligneActiviteEnfantEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneActiviteEnfantEnCours.onclick = null;
+
+
+  /* Seulement maintenant on revient à la fiche */
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneActiviteEnfantEnCours = null;
+  carteActiviteEnfantTiree = null;
+
+
+  sauvegarderChallenge();
+} 
+
+/* =========================
+   DÉ DE LA MOYENNE ENFANT
+========================= */
+
+let ligneMoyenneEnfantEnCours = null;
+let resultatMoyenneEnfant = null;
+let tirageMoyenneEnfantEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageMoyenneEnfant(ligne) {
+
+  ligneMoyenneEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-moyenne-enfant");
+
+  const resultat =
+    document.getElementById("resultat-moyenne-enfant");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-moyenne-enfant");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-moyenne-enfant");
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  if (
+    !fond ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider ||
+    !cube
+  ) {
+    return;
+  }
+
+  resultatMoyenneEnfant = null;
+  tirageMoyenneEnfantEnCours = false;
+
+  resultat.textContent = "Moyenne actuelle : C";
+
+  cube.classList.remove("en-lancer");
+
+  boutonLancer.style.display = "inline-block";
+  boutonLancer.disabled = false;
+
+  boutonValider.classList.remove("visible");
+
+  fond.classList.add("ouvert");
+}
+
+/* -------------------------
+   TIRAGE DE LA LETTRE
+------------------------- */
+
+function tirerMoyenneEnfant() {
+
+  const tirage = Math.random() * 100;
+
+  if (tirage < 20) return "A";
+  if (tirage < 40) return "B";
+  if (tirage < 60) return "C";
+  if (tirage < 80) return "D";
+  if (tirage < 90) return "E";
+
+  return "F";
+}
+
+
+/* -------------------------
+   LANCEMENT DU DÉ
+------------------------- */
+
+/* -------------------------
+   PRÉPARE LE DÉ FINAL
+   résultat dessus
+------------------------- */
+
+function preparerFacesMoyenneEnfant(lettre) {
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  if (!cube) return;
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+  dessus.src =
+    `images/bambin/des/face-${lettre}.png`;
+
+  const autres =
+    ["A", "B", "C", "D", "E", "F"].filter(
+      l => l !== lettre
+    );
+
+  avant.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  droite.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[4]}.png`;
+}
+  
+function lancerDeMoyenneEnfant() {
+
+  if (
+    tirageMoyenneEnfantEnCours ||
+    !ligneMoyenneEnfantEnCours
+  ) {
+    return;
+  }
+
+  const cube =
+    document.getElementById("cube-moyenne-enfant");
+
+  const resultat =
+    document.getElementById("resultat-moyenne-enfant");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-moyenne-enfant");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-moyenne-enfant");
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+  tirageMoyenneEnfantEnCours = true;
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  resultat.textContent = "Le dé roule… 🎲";
+
+  cube.style.transition = "none";
+  cube.classList.add("en-lancer");
+
+  resultatMoyenneEnfant = tirerMoyenneEnfant();
+
+  setTimeout(function() {
+
+    const positionActuelle =
+      getComputedStyle(cube).transform;
+
+    cube.style.animation = "none";
+    cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+    void cube.offsetWidth;
+
+preparerFacesMoyenneEnfant(
+  resultatMoyenneEnfant
+);
+
+cube.style.transition =
+  "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+cube.style.transform =
+  "rotateX(-22deg) rotateY(32deg)";
+    
+    tirageMoyenneEnfantEnCours = false;
+
+    boutonLancer.style.display = "none";
+    boutonLancer.disabled = false;
+
+    boutonValider.textContent = "Valider";
+    boutonValider.classList.add("visible");
+
+    resultat.textContent =
+      "Moyenne à atteindre : " + resultatMoyenneEnfant;
+
+  }, 1900);
+}
+
+/* -------------------------
+   VALIDATION DE LA MOYENNE
+------------------------- */
+
+function validerDeMoyenneEnfant() {
+
+  if (
+    !ligneMoyenneEnfantEnCours ||
+    !resultatMoyenneEnfant ||
+    tirageMoyenneEnfantEnCours
+  ) {
+    return;
+  }
+
+  const texte =
+    ligneMoyenneEnfantEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+ const cubeFiche =
+  ligneMoyenneEnfantEnCours.querySelector(
+    ".de-competence-bambin .cube-bambin"
+  );
+
+  if (texte) {
+    texte.textContent =
+      "Terminer l'enfance avec la moyenne : " +
+      resultatMoyenneEnfant;
+  }
+
+  if (cubeFiche) {
+
+  const avant =
+    cubeFiche.querySelector(".face-avant img");
+
+  const droite =
+    cubeFiche.querySelector(".face-droite img");
+
+  const arriere =
+    cubeFiche.querySelector(".face-arriere img");
+
+  const gauche =
+    cubeFiche.querySelector(".face-gauche img");
+
+  const dessus =
+    cubeFiche.querySelector(".face-dessus img");
+
+  const dessous =
+    cubeFiche.querySelector(".face-dessous img");
+
+  const autres =
+    ["A", "B", "C", "D", "E", "F"].filter(
+      l => l !== resultatMoyenneEnfant
+    );
+
+  dessus.src =
+    `images/bambin/des/face-${resultatMoyenneEnfant}.png`;
+
+  avant.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  droite.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[4]}.png`;
+}
+
+  ligneMoyenneEnfantEnCours.dataset.carteTiree = "oui";
+
+  ligneMoyenneEnfantEnCours.onclick = null;
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-moyenne-enfant"
+    );
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  ligneMoyenneEnfantEnCours = null;
+  resultatMoyenneEnfant = null;
+  tirageMoyenneEnfantEnCours = false;
+
+  sauvegarderChallenge();
+}
+  
+  /* =========================
+   DÉ DES QUALITÉS PERSONNELLES
+========================= */
+
+let simTirageQualitesBambin = null;
+let resultatQualitesBambin = null;
+let tirageQualitesBambinEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageQualitesBambin(element) {
+
+  simTirageQualitesBambin = element.closest(".sim-modele");
+
+  if (!simTirageQualitesBambin) return;
+
+  const fond =
+    document.getElementById("fond-tirage-qualites-bambin");
+
+  const resultat =
+    document.getElementById("resultat-qualites-bambin");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-qualites-bambin");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-qualites-bambin");
+
+  if (!fond || !resultat || !boutonLancer || !boutonValider) {
+    return;
+  }
+
+
+  /* Vérifie si ce dé a déjà été tiré */
+  const objectif =
+    simTirageQualitesBambin.querySelector(
+      ".objectif-qualites-bambin"
+    );
+
+  const texte =
+    objectif
+      ? objectif.querySelector(".texte-objectif")
+      : null;
+
+  const match =
+    texte
+      ? texte.textContent.match(/([1-5])\s+qualit/i)
+      : null;
+
+
+  if (match) {
+
+    resultatQualitesBambin = Number(match[1]);
+
+    resultat.textContent =
+      resultatQualitesBambin +
+      (resultatQualitesBambin === 1
+        ? " qualité personnelle"
+        : " qualités personnelles");
+
+    preparerFacesQualitesBambin(
+      resultatQualitesBambin
+    );
+
+    boutonLancer.style.display = "none";
+
+    boutonValider.textContent = "Fermer";
+    boutonValider.classList.add("visible");
+
+  } else {
+
+    resultatQualitesBambin = null;
+
+    resultat.textContent = "À tirer";
+
+    preparerFacesInitialesQualitesBambin();
+
+    boutonLancer.style.display = "inline-block";
+    boutonLancer.disabled = false;
+
+    boutonValider.classList.remove("visible");
+    boutonValider.textContent = "Valider";
+
+  }
+
+  fond.classList.add("ouvert");
+}
+
+
+/* -------------------------
+   FACES AVANT LE TIRAGE
+------------------------- */
+
+function preparerFacesInitialesQualitesBambin() {
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  if (!cube) return;
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+
+  avant.src =
+    "images/bambin/des/face-qualite.png";
+
+  droite.src =
+    "images/bambin/des/face-2.png";
+
+  arriere.src =
+    "images/bambin/des/face-3.png";
+
+  gauche.src =
+    "images/bambin/des/face-4.png";
+
+  dessus.src =
+    "images/bambin/des/face-1.png";
+
+  dessous.src =
+    "images/bambin/des/face-5.png";
+
+
+  cube.classList.remove("en-lancer");
+
+  cube.style.animation = "";
+  cube.style.transition = "transform 0.45s ease";
+
+  cube.style.transform =
+    "rotateX(-22deg) rotateY(32deg)";
+}
+
+
+/* -------------------------
+   TIRAGE AVEC NOS POURCENTAGES
+------------------------- */
+
+function tirerNombreQualitesBambin() {
+
+  const hasard = Math.random() * 100;
+
+  if (hasard < 15) {
+    return 1;
+  }
+
+  if (hasard < 45) {
+    return 2;
+  }
+
+  if (hasard < 75) {
+    return 3;
+  }
+
+  if (hasard < 90) {
+    return 4;
+  }
+
+  return 5;
+}
+
+
+/* -------------------------
+   PRÉPARE LE DÉ FINAL
+   résultat dessus
+   logo devant
+------------------------- */
+
+function preparerFacesQualitesBambin(nombre) {
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  if (!cube) return;
+
+  const dessus =
+    cube.querySelector(".face-dessus img");
+
+  const avant =
+    cube.querySelector(".face-avant img");
+
+  const droite =
+    cube.querySelector(".face-droite img");
+
+  const arriere =
+    cube.querySelector(".face-arriere img");
+
+  const gauche =
+    cube.querySelector(".face-gauche img");
+
+  const dessous =
+    cube.querySelector(".face-dessous img");
+
+
+  /* Résultat sur le dessus */
+  dessus.src =
+    `images/bambin/des/face-${nombre}.png`;
+
+
+  /* Notre logo Qualités à l'avant */
+  avant.src =
+    "images/bambin/des/face-qualite.png";
+
+
+  /*
+    Les quatre autres nombres
+    remplissent les autres faces.
+  */
+  const autres =
+    [1, 2, 3, 4, 5].filter(
+      n => n !== nombre
+    );
+
+
+  droite.src =
+    `images/bambin/des/face-${autres[0]}.png`;
+
+  arriere.src =
+    `images/bambin/des/face-${autres[1]}.png`;
+
+  gauche.src =
+    `images/bambin/des/face-${autres[2]}.png`;
+
+  dessous.src =
+    `images/bambin/des/face-${autres[3]}.png`;
+}
+
+
+/* -------------------------
+   LANCEMENT DU DÉ
+------------------------- */
+
+function lancerDeQualitesBambin() {
+
+  if (
+    tirageQualitesBambinEnCours ||
+    !simTirageQualitesBambin
+  ) {
+    return;
+  }
+
+  const cube =
+    document.getElementById("cube-qualites-bambin");
+
+  const resultat =
+    document.getElementById("resultat-qualites-bambin");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-qualites-bambin");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-qualites-bambin");
+
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+
+  tirageQualitesBambinEnCours = true;
+
+  boutonLancer.disabled = true;
+  boutonValider.classList.remove("visible");
+
+  resultat.textContent = "Le dé roule… 🎲";
+
+
+  /* On utilise l'animation déjà créée
+     pour les dés Bambin */
+  cube.style.transition = "none";
+  cube.classList.add("en-lancer");
+
+
+  resultatQualitesBambin =
+    tirerNombreQualitesBambin();
+
+
+  setTimeout(function() {
+
+    const positionActuelle =
+      getComputedStyle(cube).transform;
+
+
+    cube.style.animation = "none";
+    cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+
+    /* Force le navigateur à garder
+       la dernière position du roulement */
+    void cube.offsetWidth;
+
+
+    preparerFacesQualitesBambin(
+      resultatQualitesBambin
+    );
+
+
+    cube.style.transition =
+      "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+    cube.style.transform =
+      "rotateX(-22deg) rotateY(32deg)";
+
+
+    resultat.textContent =
+      resultatQualitesBambin +
+      (resultatQualitesBambin === 1
+        ? " qualité personnelle"
+        : " qualités personnelles");
+
+
+    tirageQualitesBambinEnCours = false;
+
+    boutonLancer.style.display = "none";
+    boutonLancer.disabled = false;
+
+    boutonValider.textContent = "Valider";
+    boutonValider.classList.add("visible");
+
+  }, 1900);
+}
+
+
+/* -------------------------
+   VALIDATION
+------------------------- */
+
+/* -------------------------
+   CRÉATION DES LIGNES
+   QUALITÉS PERSONNELLES
+------------------------- */
+
+function creerLignesQualitesBambin(nombre) {
+
+  if (!simTirageQualitesBambin) return;
+
+  const objectifDe =
+    simTirageQualitesBambin.querySelector(
+      ".objectif-qualites-bambin"
+    );
+
+  if (!objectifDe) return;
+
+
+  /* Sécurité :
+     si les lignes existent déjà,
+     on ne les duplique pas */
+  simTirageQualitesBambin
+    .querySelectorAll(".objectif-carte-qualite-bambin")
+    .forEach(function(ligne) {
+      ligne.remove();
+    });
+
+
+  let pointInsertion = objectifDe;
+
+
+  for (let i = 1; i <= nombre; i++) {
+
+    const ligne = document.createElement("div");
+
+    ligne.className =
+  "objectif objectif-bloque objectif-carte-qualite-bambin";
+
+    ligne.dataset.numeroQualite = i;
+
+
+   ligne.innerHTML = `
+  <span class="icone-objectif">
+    <img
+      src="images/bambin/carte-qualite/dos-carte-qualite.png"
+      alt="Qualité personnelle à tirer"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Qualité personnelle n°${i} — à tirer
+  </span>
+
+  <span class="icone-bloque">🔒</span>
+`;
+
+    ligne.onclick = function() {
+  tirerCarteQualiteBambin(this);
+};
+
+
+    pointInsertion.after(ligne);
+
+    pointInsertion = ligne;
+  }
+}
+
+/* =========================
+   CARTES QUALITÉS PERSONNELLES
+========================= */
+
+const cartesQualitesBambin = [
+
+  {
+    categorie: "manieres",
+    positif: {
+      nom: "Bien élevé",
+      image: "images/bambin/carte-qualite/carte-bien-eleve.png"
+    },
+    negatif: {
+      nom: "Mal élevé",
+      image: "images/bambin/carte-qualite/carte-mal-eleve.png"
+    }
+  },
+
+  {
+    categorie: "empathie",
+    positif: {
+      nom: "Compatissant",
+      image: "images/bambin/carte-qualite/carte-compatissant.png"
+    },
+    negatif: {
+      nom: "Insensible",
+      image: "images/bambin/carte-qualite/carte-insensible.png"
+    }
+  },
+
+  {
+    categorie: "emotions",
+    positif: {
+      nom: "Contrôle des émotions",
+      image: "images/bambin/carte-qualite/carte-controle-des-emotions.png"
+    },
+    negatif: {
+      nom: "Émotions incontrôlées",
+      image: "images/bambin/carte-qualite/carte-emotions-incontrolees.png"
+    }
+  },
+
+  {
+    categorie: "conflit",
+    positif: {
+      nom: "Médiateur",
+      image: "images/bambin/carte-qualite/carte-mediateur.png"
+    },
+    negatif: {
+      nom: "Enclin au conflit",
+      image: "images/bambin/carte-qualite/carte-enclin-au-conflit.png"
+    }
+  },
+
+  {
+    categorie: "responsabilite",
+    positif: {
+      nom: "Responsable",
+      image: "images/bambin/carte-qualite/carte-responsable.png"
+    },
+    negatif: {
+      nom: "Irresponsable",
+      image: "images/bambin/carte-qualite/carte-irresponsable.png"
+    }
+  }
+
+];
+
+
+let ligneQualiteBambinEnCours = null;
+let carteQualiteBambinTiree = null;
+
+
+/* -------------------------
+   TROUVE LES CATÉGORIES
+   DÉJÀ TIRÉES
+------------------------- */
+
+function categoriesQualitesDejaTirees(sim) {
+
+  const categories = [];
+
+  sim
+    .querySelectorAll(".objectif-carte-qualite-bambin")
+    .forEach(function(ligne) {
+
+      if (ligne.dataset.categorieQualite) {
+        categories.push(
+          ligne.dataset.categorieQualite
+        );
+      }
+
+    });
+
+  return categories;
+}
+
+
+/* -------------------------
+   TIRAGE 70 % / 30 %
+------------------------- */
+
+function choisirCarteQualiteBambin(sim) {
+
+  const dejaTirees =
+    categoriesQualitesDejaTirees(sim);
+
+
+  /* Une catégorie déjà utilisée disparaît
+     entièrement : positif ET négatif */
+  const disponibles =
+    cartesQualitesBambin.filter(function(categorie) {
+
+      return !dejaTirees.includes(
+        categorie.categorie
+      );
+
+    });
+
+
+  if (!disponibles.length) {
+    return null;
+  }
+
+
+  const categorie =
+    disponibles[
+      Math.floor(
+        Math.random() * disponibles.length
+      )
+    ];
+
+
+  /* 70 % positif / 30 % négatif */
+  const estPositive =
+    Math.random() < 0.70;
+
+
+  const carte =
+    estPositive
+      ? categorie.positif
+      : categorie.negatif;
+
+
+  return {
+    categorie: categorie.categorie,
+    nom: carte.nom,
+    image: carte.image,
+    type: estPositive
+      ? "positif"
+      : "negatif"
+  };
+}
+
+
+/* -------------------------
+   VÉRIFIE QUE C'EST BIEN
+   LA PROCHAINE LIGNE
+------------------------- */
+
+function ligneQualiteEstDisponible(ligne) {
+
+  const sim =
+    ligne.closest(".sim-modele");
+
+  if (!sim) return false;
+
+
+  const lignes =
+    Array.from(
+      sim.querySelectorAll(
+        ".objectif-carte-qualite-bambin"
+      )
+    );
+
+
+  const premiereNonTiree =
+    lignes.find(function(ligneTest) {
+
+      return (
+        ligneTest.dataset.carteTiree !== "oui"
+      );
+
+    });
+
+
+  return premiereNonTiree === ligne;
+}
+
+
+/* -------------------------
+   OUVERTURE DU TIRAGE
+------------------------- */
+
+function tirerCarteQualiteBambin(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+
+  /* Oblige à tirer dans l'ordre */
+  if (!ligneQualiteEstDisponible(ligne)) {
+    return;
+  }
+
+
+  const sim =
+    ligne.closest(".sim-modele");
+
+  if (!sim) return;
+
+
+  carteQualiteBambinTiree =
+    choisirCarteQualiteBambin(sim);
+
+
+  if (!carteQualiteBambinTiree) {
+    return;
+  }
+
+
+  ligneQualiteBambinEnCours = ligne;
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+
+  /* On transforme temporairement
+     le bouton Nourrisson en bouton Qualité */
+  bouton.textContent =
+    "Valider cette qualité";
+
+  bouton.onclick =
+    validerCarteQualiteBambin;
+
+
+  /* Même éventail de 7 cartes
+     que les tirages Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/bambin/carte-qualite/dos-carte-qualite.png"
+            alt="Dos carte qualité personnelle">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteQualiteBambinTiree.image}"
+            alt="${carteQualiteBambinTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+
+    paquet.appendChild(carte);
+  }
+
+
+  /* Réutilisation de TON animation Nourrisson */
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+/* -------------------------
+   VALIDATION DE LA CARTE
+------------------------- */
+
+function validerCarteQualiteBambin() {
+
+  if (
+    !ligneQualiteBambinEnCours ||
+    !carteQualiteBambinTiree
+  ) {
+    return;
+  }
+
+
+  const texte =
+    ligneQualiteBambinEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneQualiteBambinEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      carteQualiteBambinTiree.nom +
+      " — à travailler";
+  }
+
+
+  if (image) {
+
+    image.src =
+      carteQualiteBambinTiree.image;
+
+    image.alt =
+      carteQualiteBambinTiree.nom;
+  }
+
+
+  /* On mémorise le résultat */
+  ligneQualiteBambinEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneQualiteBambinEnCours.dataset.categorieQualite =
+    carteQualiteBambinTiree.categorie;
+
+  ligneQualiteBambinEnCours.dataset.typeQualite =
+    carteQualiteBambinTiree.type;
+
+
+  /* Cette ligne ne peut plus être retirée */
+  ligneQualiteBambinEnCours.onclick = null;
+
+
+  /* Fermeture de la fenêtre */
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+
+  /* Très important :
+     on rend au bouton sa fonction Nourrisson */
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneQualiteBambinEnCours = null;
+  carteQualiteBambinTiree = null;
+
+
+  sauvegarderChallenge();
+}
+  
+function validerDeQualitesBambin() {
+
+  if (
+    !simTirageQualitesBambin ||
+    tirageQualitesBambinEnCours
+  ) {
+    return;
+  }
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-qualites-bambin"
+    );
+
+
+  /*
+    Si le résultat existe,
+    on l'affiche dans la fiche.
+  */
+  if (resultatQualitesBambin) {
+
+    const objectif =
+      simTirageQualitesBambin.querySelector(
+        ".objectif-qualites-bambin"
+      );
+
+    if (objectif) {
+
+      const texte =
+        objectif.querySelector(".texte-objectif");
+
+      if (texte) {
+
+        texte.textContent =
+          resultatQualitesBambin +
+          (resultatQualitesBambin === 1
+            ? " qualité personnelle à travailler"
+            : " qualités personnelles à travailler");
+      }
+
+
+      /* Petit dé de la fiche */
+      const cube =
+        objectif.querySelector(".cube-bambin");
+
+      if (cube) {
+
+        const dessus =
+          cube.querySelector(".face-dessus img");
+
+        const avant =
+          cube.querySelector(".face-avant img");
+
+        const droite =
+          cube.querySelector(".face-droite img");
+
+        const arriere =
+          cube.querySelector(".face-arriere img");
+
+        const gauche =
+          cube.querySelector(".face-gauche img");
+
+        const dessous =
+          cube.querySelector(".face-dessous img");
+
+
+        const autres =
+          [1, 2, 3, 4, 5].filter(
+            n => n !== resultatQualitesBambin
+          );
+
+
+        dessus.src =
+          `images/bambin/des/face-${resultatQualitesBambin}.png`;
+
+        avant.src =
+          "images/bambin/des/face-qualite.png";
+
+        droite.src =
+          `images/bambin/des/face-${autres[0]}.png`;
+
+        arriere.src =
+          `images/bambin/des/face-${autres[1]}.png`;
+
+        gauche.src =
+          `images/bambin/des/face-${autres[2]}.png`;
+
+        dessous.src =
+          `images/bambin/des/face-${autres[3]}.png`;
+      }
+    }
+
+
+        creerLignesQualitesBambin(
+      resultatQualitesBambin
+    );
+    sauvegarderChallenge();
+  }
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  simTirageQualitesBambin = null;
+}
 
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
@@ -4574,42 +8218,76 @@ const configDesBambin = {
   }
 };
 
-function cheminDeBambin(competence, face) {
-  const c = configDesBambin[competence];
-  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-${face}.png`;
-}
-
-function cheminDessinDeBambin(competence) {
-  const c = configDesBambin[competence];
-  return `images/bambin/competences/des/${c.dossier}/${c.dossier}-dessin.png`;
-}
-
 function lireNiveauDansTexte(texte) {
   const match = (texte || "").match(/niveau\s+([2-5])/i);
   return match ? Number(match[1]) : null;
 }
 
-function orientationCubeBambin(competence, niveau) {
-  if (!niveau) {
-    return "rotateX(-22deg) rotateY(32deg)";
-  }
+function preparerFacesResultatBambin(competence, niveau) {
+  const fond = document.getElementById("fond-tirage-des-bambin");
+  if (!fond) return;
 
-  if (competence === "pot") {
-    return niveau === 3
-      ? "rotateX(-22deg) rotateY(-58deg)"
-      : "rotateX(-22deg) rotateY(32deg)";
-  }
+  const ligne = fond.querySelector(
+    `.ligne-de-bambin[data-competence="${competence}"]`
+  );
+  if (!ligne) return;
 
-  const orientations = {
-    2: "rotateX(-22deg) rotateY(32deg)",
-    3: "rotateX(-22deg) rotateY(-58deg)",
-    4: "rotateX(-22deg) rotateY(-148deg)",
-    5: "rotateX(-22deg) rotateY(122deg)"
+  const cube = ligne.querySelector(".cube-bambin");
+  if (!cube) return;
+
+  const dessus = cube.querySelector(".face-dessus img");
+  const dessous = cube.querySelector(".face-dessous img");
+  const avant = cube.querySelector(".face-avant img");
+  const droite = cube.querySelector(".face-droite img");
+  const arriere = cube.querySelector(".face-arriere img");
+  const gauche = cube.querySelector(".face-gauche img");
+
+  const logos = {
+    communication: "face-communication.png",
+    imagination: "face-imagination.png",
+    mouvements: "face-mouvement.png",
+    pot: "face-pot.png",
+    reflexion: "face-reflexion.png"
   };
 
-  return orientations[niveau] || orientations[2];
-}
+  const logo = logos[competence];
+  if (!logo) return;
 
+  /* Résultat = face du dessus */
+  dessus.src = `images/bambin/des/face-${niveau}.png`;
+
+  /* Logo de la compétence = côté visible */
+  avant.src = `images/bambin/des/${logo}`;
+
+  /* Deuxième logo sur la face opposée */
+  dessous.src = `images/bambin/des/${logo}`;
+
+  if (competence === "pot") {
+    /* Pot n'a que les résultats 2 et 3 */
+    droite.src = niveau === 2
+      ? "images/bambin/des/face-3.png"
+      : "images/bambin/des/face-2.png";
+
+    arriere.src = `images/bambin/des/${logo}`;
+
+    gauche.src = niveau === 2
+      ? "images/bambin/des/face-3.png"
+      : "images/bambin/des/face-2.png";
+
+  } else {
+    /* Autres compétences : niveaux 2, 3, 4 et 5 */
+    const autres = [2, 3, 4, 5].filter(n => n !== niveau);
+
+    droite.src = `images/bambin/des/face-${autres[0]}.png`;
+    arriere.src = `images/bambin/des/face-${autres[1]}.png`;
+    gauche.src = `images/bambin/des/face-${autres[2]}.png`;
+  }
+}
+  
+function orientationCubeBambin(competence, niveau) {
+  return "rotateX(-22deg) rotateY(32deg)";
+}
+  
 function placerCubeBambin(competence, niveau) {
   const fond = document.getElementById("fond-tirage-des-bambin");
   if (!fond) return;
@@ -4721,11 +8399,22 @@ function lancerDesBambin() {
     const texte = ligne.querySelector(".resultat-de-bambin");
 
     if (cube) {
-      cube.style.animation = "";
-      cube.style.transition = "";
-      cube.style.transform = "";
-      cube.classList.add("en-lancer");
-    }
+  cube.style.animation = "";
+  cube.style.transition = "";
+  cube.style.transform = "";
+  cube.classList.add("en-lancer");
+
+ /* Petit trajet de roulement dans chaque carte */
+const zoneDe = ligne.querySelector(".de-3d-bambin");
+
+if (zoneDe) {
+  zoneDe.classList.remove("en-roulement");
+
+  void zoneDe.offsetWidth;
+
+  zoneDe.classList.add("en-roulement");
+}
+}
 
     if (texte) {
       texte.textContent = "...";
@@ -4743,6 +8432,15 @@ function lancerDesBambin() {
       const texte = ligne.querySelector(".resultat-de-bambin");
       const niveau = resultatsDesBambin[competence];
 
+const zoneDe = ligne.querySelector(".de-3d-bambin");
+
+if (zoneDe) {
+  zoneDe.classList.remove("en-roulement");
+  zoneDe.style.transform = "";
+}
+
+preparerFacesResultatBambin(competence, niveau);
+      
       if (cube) {
         const positionActuelle = getComputedStyle(cube).transform;
 
@@ -4787,17 +8485,55 @@ function validerDesBambin() {
       if (!objectif) return;
 
       const texte = objectif.querySelector(".texte-objectif");
-      const image = objectif.querySelector(".de-competence-bambin img");
-      const config = configDesBambin[competence];
+const cube = objectif.querySelector(".de-competence-bambin .cube-bambin");
+const config = configDesBambin[competence];
 
-      if (texte) {
-        texte.textContent = `${config.nom} — niveau ${niveau}`;
-      }
+if (texte) {
+  texte.textContent = `${config.nom} — niveau ${niveau}`;
+}
 
-      if (image) {
-        image.src = cheminDeBambin(competence, niveau);
-        image.alt = `${config.nom} — niveau ${niveau}`;
-      }
+if (cube) {
+  const dessus = cube.querySelector(".face-dessus img");
+  const avant = cube.querySelector(".face-avant img");
+  const droite = cube.querySelector(".face-droite img");
+  const arriere = cube.querySelector(".face-arriere img");
+  const gauche = cube.querySelector(".face-gauche img");
+  const dessous = cube.querySelector(".face-dessous img");
+
+  const logos = {
+    communication: "face-communication.png",
+    imagination: "face-imagination.png",
+    mouvements: "face-mouvement.png",
+    pot: "face-pot.png",
+    reflexion: "face-reflexion.png"
+  };
+
+  const logo = `images/bambin/des/${logos[competence]}`;
+
+  /* Résultat sur le dessus */
+  dessus.src = `images/bambin/des/face-${niveau}.png`;
+
+  /* Logo visible sur un côté */
+  avant.src = logo;
+
+  /* Deuxième logo opposé au résultat */
+  dessous.src = logo;
+
+  if (competence === "pot") {
+    const autre = niveau === 2 ? 3 : 2;
+
+    droite.src = `images/bambin/des/face-${autre}.png`;
+    arriere.src = logo;
+    gauche.src = `images/bambin/des/face-${autre}.png`;
+
+  } else {
+    const autres = [2, 3, 4, 5].filter(n => n !== niveau);
+
+    droite.src = `images/bambin/des/face-${autres[0]}.png`;
+    arriere.src = `images/bambin/des/face-${autres[1]}.png`;
+    gauche.src = `images/bambin/des/face-${autres[2]}.png`;
+  }
+}
     });
 
     sauvegarderChallenge();
@@ -4814,6 +8550,78 @@ function validerDesBambin() {
 
 verifierConnexion(); 
   chargerChallenge();
+
+/* =========================
+   PAILLETTES DU CURSEUR
+========================= */
+
+let dernierePaillette = 0;
+
+document.addEventListener("mousemove", function (event) {
+
+  const maintenant = Date.now();
+
+  // Traînée beaucoup plus dense
+  if (maintenant - dernierePaillette < 16) return;
+  dernierePaillette = maintenant;
+
+  // Plusieurs étoiles à chaque passage
+  const nombrePaillettes = 3;
+
+  for (let i = 0; i < nombrePaillettes; i++) {
+
+    const paillette = document.createElement("span");
+    paillette.className = "paillette-curseur";
+
+    const formes = ["✦", "✧", "⋆"];
+    paillette.textContent =
+      formes[Math.floor(Math.random() * formes.length)];
+
+    // Quelques étoiles blanches au milieu des bleues
+    if (Math.random() < 0.25) {
+      paillette.classList.add("blanche");
+    }
+
+    // Tailles variées
+    const taille = 7 + Math.random() * 9;
+    paillette.style.setProperty(
+      "--taille-paillette",
+      taille + "px"
+    );
+
+    // Dispersion autour du curseur
+    const decalageX = (Math.random() - 0.5) * 24;
+    const decalageY = (Math.random() - 0.5) * 24;
+
+    paillette.style.left =
+      (event.clientX + decalageX) + "px";
+
+    paillette.style.top =
+      (event.clientY + decalageY) + "px";
+
+    // Petit mouvement pendant la disparition
+    paillette.style.setProperty(
+      "--deplacement-x",
+      ((Math.random() - 0.5) * 30) + "px"
+    );
+
+    paillette.style.setProperty(
+      "--deplacement-y",
+      ((Math.random() - 0.5) * 30) + "px"
+    );
+
+    paillette.style.setProperty(
+      "--rotation",
+      ((Math.random() - 0.5) * 100) + "deg"
+    );
+
+    document.body.appendChild(paillette);
+
+    setTimeout(function () {
+      paillette.remove();
+    }, 850);
+  }
+});
   
 </script>
 </body>
