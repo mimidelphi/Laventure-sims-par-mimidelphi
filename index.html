@@ -1989,6 +1989,130 @@ input[type="checkbox"] {
   font-size: 12px;
 }
 
+/* =========================================
+   BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+   Réutilise le style de la bibliothèque activités
+========================================= */
+
+.fond-bibliotheque-moments {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(40, 30, 50, 0.45);
+
+  z-index: 10000;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.fond-bibliotheque-moments.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-moments {
+  position: relative;
+
+  width: min(620px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  background: #fffaf3;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.fenetre-bibliotheque-moments h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.fenetre-bibliotheque-moments label {
+  display: block;
+
+  margin-top: 16px;
+  margin-bottom: 6px;
+
+  font-weight: 600;
+}
+
+.fenetre-bibliotheque-moments input[type="text"] {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8cedf;
+  border-radius: 10px;
+
+  font: inherit;
+
+  background: white;
+}
+
+.fenetre-bibliotheque-moments input[type="checkbox"] {
+  width: auto;
+  margin-right: 7px;
+}
+
+.fermer-bibliotheque-moments {
+  position: absolute;
+
+  top: 14px;
+  right: 16px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 22px;
+  line-height: 1;
+
+  background: #eee7f2;
+}
+
+.bouton-enregistrer-moment {
+  margin-top: 22px;
+}
+
+#message-nouveau-moment {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.separateur-bibliotheque-moments {
+  margin: 28px 0 20px;
+  border: none;
+  border-top: 1px solid #ded3e5;
+}
+
+#liste-moments-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.message-liste-moments {
+  color: #777;
+  font-size: 12px;
+}
+    
 *,
 *::before,
 *::after {
@@ -2395,6 +2519,102 @@ input[type="checkbox"] {
   onclick="ouvrirBibliothequeActivites()">
   🎴 Gérer les activités
 </button>
+
+<button
+  type="button"
+  class="bouton bouton-ouvrir-moments"
+  onclick="ouvrirBibliothequeMoments()">
+  ⭐ Gérer les moments déterminants
+</button>
+
+<!-- =========================
+     BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+========================= -->
+
+<div id="fond-bibliotheque-moments"
+     class="fond-bibliotheque-moments">
+
+  <div class="fenetre-bibliotheque-moments">
+
+    <button type="button"
+            class="fermer-bibliotheque-moments">
+      ×
+    </button>
+
+    <h2>Bibliothèque des moments déterminants</h2>
+
+    <p>
+      Ajoute et gère les moments déterminants disponibles pour les enfants.
+    </p>
+
+    <label for="nouveau-moment-code">
+      Code
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-code"
+      placeholder="Ex : M001"
+    >
+
+    <label for="nouveau-moment-nom">
+      Nom du moment
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-nom"
+      placeholder="Ex : Avoir un imaginaire"
+    >
+
+    <label for="nouveau-moment-image">
+      Chemin de la carte sur GitHub
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-image"
+      placeholder="Ex : images/enfant/moment-determinant/M001.png"
+    >
+
+    <label>
+      <input
+        type="checkbox"
+        id="nouveau-moment-verifie"
+      >
+      Nom vérifié dans le jeu
+    </label>
+
+    <label>
+      <input
+        type="checkbox"
+        id="nouveau-moment-actif"
+        checked
+      >
+      Moment disponible
+    </label>
+
+    <button
+      type="button"
+      class="bouton bouton-enregistrer-moment">
+      Enregistrer le moment
+    </button>
+
+    <p id="message-nouveau-moment"></p>
+
+    <hr class="separateur-bibliotheque-moments">
+
+    <h3>Moments enregistrés</h3>
+
+    <div id="liste-moments-bibliotheque">
+      <p class="message-liste-moments">
+        Chargement des moments...
+      </p>
+    </div>
+
+  </div>
+
+</div>
     
   </main>
 
@@ -5828,6 +6048,47 @@ document.addEventListener("click", function(event) {
   supprimerIconeDeFiche(icone);
 });
 
+/* =========================================
+   BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+========================================= */
+
+async function ouvrirBibliothequeMoments() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-moments"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.add("ouverte");
+}
+
+function fermerBibliothequeMoments() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-moments"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.remove("ouverte");
+}
+
+document
+  .querySelector(
+    ".fermer-bibliotheque-moments"
+  )
+  .addEventListener(
+    "click",
+    fermerBibliothequeMoments
+  );
+  
 /* =========================================
    BIBLIOTHÈQUE DES ACTIVITÉS
 ========================================= */
