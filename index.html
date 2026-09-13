@@ -6064,6 +6064,62 @@ async function ouvrirBibliothequeMoments() {
   }
 
   fond.classList.add("ouverte");
+
+await chargerMomentsBibliotheque();
+}
+
+  async function chargerMomentsBibliotheque() {
+
+  const zone =
+    document.getElementById(
+      "liste-moments-bibliotheque"
+    );
+
+  if (!zone) {
+    return;
+  }
+
+  zone.innerHTML =
+    '<p class="message-liste-moments">' +
+    'Chargement des moments...' +
+    '</p>';
+
+  const { data: moments, error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .select(
+        "id, code, nom, image, verifie, actif"
+      )
+      .order("code", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement moments :",
+      error
+    );
+
+    zone.innerHTML =
+      '<p class="message-liste-moments">' +
+      'Impossible de charger les moments.' +
+      '</p>';
+
+    return;
+  }
+
+  zone.innerHTML = "";
+
+  if (!moments || moments.length === 0) {
+
+    zone.innerHTML =
+      '<p class="message-liste-moments">' +
+      'Aucun moment enregistré.' +
+      '</p>';
+
+    return;
+  }
 }
 
 function fermerBibliothequeMoments() {
