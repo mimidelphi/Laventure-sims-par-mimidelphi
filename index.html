@@ -142,7 +142,7 @@ label,
   align-items: center;
   justify-content: center;
 
-  font-size: 18px;
+  font-size: 13px;
   color: #62b96b;
 }
 
@@ -2111,6 +2111,99 @@ input[type="checkbox"] {
 .message-liste-moments {
   color: #777;
   font-size: 12px;
+}
+
+.moment-bibliotheque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #e1d7e8;
+  border-radius: 12px;
+}
+
+.moment-bibliotheque.inactive {
+  opacity: 0.55;
+}
+
+.apercu-moment-bibliotheque {
+  width: 42px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  border-radius: 6px;
+}
+
+.infos-moment-bibliotheque {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.code-moment-bibliotheque {
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+}
+
+.nom-moment-bibliotheque {
+  margin-top: 2px;
+
+  color: #6c3eb1;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.statut-moment-bibliotheque {
+  margin-top: 3px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.actions-moment-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  flex-shrink: 0;
+}
+
+.bouton-modifier-moment,
+.bouton-etat-moment {
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bouton-modifier-moment {
+  background: #eee7f2;
+  color: #6c3eb1;
+}
+
+.bouton-etat-moment.actif {
+  background: #e4f4e7;
+  color: #367344;
+}
+
+.bouton-etat-moment.inactif {
+  background: #eee9f0;
+  color: #777;
 }
     
 *,
@@ -6120,8 +6213,203 @@ await chargerMomentsBibliotheque();
 
     return;
   }
+
+  moments.forEach(function(moment) {
+
+    const ligne =
+      document.createElement("div");
+
+    ligne.className =
+      "moment-bibliotheque";
+
+    if (!moment.actif) {
+      ligne.classList.add("inactive");
+    }
+
+    const image =
+      document.createElement("img");
+
+    image.className =
+      "apercu-moment-bibliotheque";
+
+    image.src = moment.image;
+    image.alt = moment.nom;
+
+    const infos =
+      document.createElement("div");
+
+    infos.className =
+      "infos-moment-bibliotheque";
+
+    const code =
+      document.createElement("span");
+
+    code.className =
+      "code-moment-bibliotheque";
+
+    code.textContent =
+      moment.code;
+
+    const nom =
+      document.createElement("span");
+
+    nom.className =
+      "nom-moment-bibliotheque";
+
+    nom.textContent =
+      moment.nom;
+
+    const statut =
+      document.createElement("span");
+
+    statut.className =
+      "statut-moment-bibliotheque";
+
+    statut.textContent =
+      moment.verifie
+        ? "✓ Nom vérifié"
+        : "À vérifier";
+
+    const actions =
+      document.createElement("div");
+
+    actions.className =
+      "actions-moment-bibliotheque";
+
+    const boutonModifier =
+      document.createElement("button");
+
+    boutonModifier.type = "button";
+    boutonModifier.className =
+      "bouton-modifier-moment";
+    boutonModifier.textContent =
+      "Modifier";
+
+boutonModifier.addEventListener(
+  "click",
+  function() {
+    modifierMomentDansFormulaire(moment);
+  }
+);
+    
+    const boutonEtat =
+      document.createElement("button");
+
+    boutonEtat.type = "button";
+    boutonEtat.className =
+      "bouton-etat-moment " +
+      (
+        moment.actif
+          ? "actif"
+          : "inactif"
+      );
+
+    boutonEtat.textContent =
+      moment.actif
+        ? "✓ Actif"
+        : "Inactif";
+
+boutonEtat.addEventListener(
+  "click",
+  function() {
+    changerEtatMoment(
+      moment.id,
+      !moment.actif
+    );
+  }
+);
+    
+    infos.appendChild(code);
+    infos.appendChild(nom);
+    infos.appendChild(statut);
+
+    actions.appendChild(
+      boutonModifier
+    );
+
+    actions.appendChild(
+      boutonEtat
+    );
+
+    ligne.appendChild(image);
+    ligne.appendChild(infos);
+    ligne.appendChild(actions);
+
+    zone.appendChild(ligne);
+  });
+    
+  }
+
+async function changerEtatMoment(
+  idMoment,
+  nouvelEtat
+) {
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    alert("Tu dois être connectée.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .update({
+        actif: nouvelEtat
+      })
+      .eq(
+        "id",
+        idMoment
+      );
+
+  if (error) {
+    console.error(
+      "Erreur modification moment :",
+      error
+    );
+
+    alert(
+      "Impossible de modifier ce moment."
+    );
+
+    return;
+  }
+
+  await chargerMomentsBibliotheque();
 }
 
+
+function modifierMomentDansFormulaire(moment) {
+
+  document.getElementById(
+    "nouveau-moment-code"
+  ).value = moment.code || "";
+
+  document.getElementById(
+    "nouveau-moment-nom"
+  ).value = moment.nom || "";
+
+  document.getElementById(
+    "nouveau-moment-image"
+  ).value = moment.image || "";
+
+  document.getElementById(
+    "nouveau-moment-verifie"
+  ).checked = !!moment.verifie;
+
+  document.getElementById(
+    "nouveau-moment-actif"
+  ).checked = !!moment.actif;
+
+  document.getElementById(
+    "message-nouveau-moment"
+  ).textContent =
+    "Modification de " +
+    moment.code;
+}
+  
 function fermerBibliothequeMoments() {
 
   const fond =
