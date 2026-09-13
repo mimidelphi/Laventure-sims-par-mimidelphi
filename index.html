@@ -6383,6 +6383,8 @@ async function changerEtatMoment(
 
 function modifierMomentDansFormulaire(moment) {
 
+idMomentEnModification = moment.id;
+  
   document.getElementById(
     "nouveau-moment-code"
   ).value = moment.code || "";
@@ -6424,6 +6426,8 @@ function fermerBibliothequeMoments() {
   fond.classList.remove("ouverte");
 }
 
+let idMomentEnModification = null;
+  
 async function enregistrerNouveauMoment() {
 
   const code =
@@ -6496,7 +6500,30 @@ async function enregistrerNouveauMoment() {
   message.textContent =
     "Enregistrement en cours...";
 
-  const { error } =
+ let error;
+
+if (idMomentEnModification) {
+
+  const resultat =
+    await supabaseClient
+      .from("determining_moments_library")
+      .update({
+        code: code,
+        nom: nom,
+        image: image,
+        verifie: verifie,
+        actif: actif
+      })
+      .eq(
+        "id",
+        idMomentEnModification
+      );
+
+  error = resultat.error;
+
+} else {
+
+  const resultat =
     await supabaseClient
       .from("determining_moments_library")
       .insert({
@@ -6506,6 +6533,9 @@ async function enregistrerNouveauMoment() {
         verifie: verifie,
         actif: actif
       });
+
+  error = resultat.error;
+}
 
   if (error) {
 
@@ -6520,11 +6550,15 @@ async function enregistrerNouveauMoment() {
     return;
   }
 
-  message.textContent =
-    "Moment ajouté !";
+ message.textContent =
+  idMomentEnModification
+    ? "Moment modifié !"
+    : "Moment ajouté !";
 
   await chargerMomentsBibliotheque();
 
+idMomentEnModification = null;
+  
   document.getElementById(
     "nouveau-moment-code"
   ).value = "";
