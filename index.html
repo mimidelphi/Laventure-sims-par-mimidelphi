@@ -6136,6 +6136,137 @@ function fermerBibliothequeMoments() {
   fond.classList.remove("ouverte");
 }
 
+async function enregistrerNouveauMoment() {
+
+  const code =
+    document
+      .getElementById("nouveau-moment-code")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const nomSaisi =
+    document
+      .getElementById("nouveau-moment-nom")
+      .value
+      .trim();
+
+  const nom =
+    nomSaisi
+      ? nomSaisi.charAt(0).toUpperCase() +
+        nomSaisi.slice(1)
+      : "";
+
+  const image =
+    document
+      .getElementById("nouveau-moment-image")
+      .value
+      .trim();
+
+  const verifie =
+    document
+      .getElementById("nouveau-moment-verifie")
+      .checked;
+
+  const actif =
+    document
+      .getElementById("nouveau-moment-actif")
+      .checked;
+
+  const message =
+    document.getElementById(
+      "message-nouveau-moment"
+    );
+
+  if (!code) {
+    message.textContent =
+      "Indique le code du moment.";
+    return;
+  }
+
+  if (!nom) {
+    message.textContent =
+      "Écris le nom du moment.";
+    return;
+  }
+
+  if (!image) {
+    message.textContent =
+      "Indique le chemin de la carte.";
+    return;
+  }
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+  const { error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .insert({
+        code: code,
+        nom: nom,
+        image: image,
+        verifie: verifie,
+        actif: actif
+      });
+
+  if (error) {
+
+    console.error(
+      "Erreur ajout moment :",
+      error
+    );
+
+    message.textContent =
+      "Impossible d'enregistrer le moment.";
+
+    return;
+  }
+
+  message.textContent =
+    "Moment ajouté !";
+
+  await chargerMomentsBibliotheque();
+
+  document.getElementById(
+    "nouveau-moment-code"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-nom"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-image"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-verifie"
+  ).checked = false;
+
+  document.getElementById(
+    "nouveau-moment-actif"
+  ).checked = true;
+}
+
+document
+  .querySelector(
+    ".bouton-enregistrer-moment"
+  )
+  .addEventListener(
+    "click",
+    enregistrerNouveauMoment
+  );
+  
 document
   .querySelector(
     ".fermer-bibliotheque-moments"
