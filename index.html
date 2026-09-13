@@ -145,6 +145,58 @@ label,
   font-size: 18px;
   color: #62b96b;
 }
+
+/* =========================
+   PARENTS DU SIM
+========================= */
+
+.parents-sim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 0 0 4px;
+  min-height: 32px;
+}
+
+.plumbob-parent {
+  color: #62b96b;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.photo-parent {
+  width: 29px;
+  height: 29px;
+  min-width: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  overflow: hidden;
+
+  background: #eee8f3;
+  border: 1px solid #cdb2e7;
+
+  font-size: 13px;
+  color: #8b65ad;
+
+  transition: transform 0.2s ease;
+}
+
+.photo-parent:hover {
+  transform: scale(1.35);
+  z-index: 20;
+}
+
+.photo-parent img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
     
 /* =========================
    PHOTO + NOM
@@ -3060,8 +3112,19 @@ if (etatSauvegarde) {
     const numero = sim.querySelector(".baby-numero");
     const age = sim.querySelector(".age-nom");
     const photo = sim.querySelector(".photo-sim img");
+const zoneMere = sim.querySelector(".photo-mere");
+const zonePere = sim.querySelector(".photo-pere");
 
-   sims.push({
+const photoMere = zoneMere
+  ? zoneMere.querySelector("img")
+  : null;
+
+const photoPere = zonePere
+  ? zonePere.querySelector("img")
+  : null;
+
+    
+  sims.push({
   id: sim.id,
   prenom: prenom ? prenom.textContent.trim() : "",
   nom: nom ? nom.textContent.trim() : "",
@@ -3069,8 +3132,26 @@ if (etatSauvegarde) {
   numeroBaby: numero ? numero.textContent.trim() : "",
   age: age ? age.textContent.trim() : "",
   photo: photo ? photo.src : "",
+
+  mere: {
+    nom: zoneMere
+      ? zoneMere.dataset.nomParent || ""
+      : "",
+    photo: photoMere
+      ? photoMere.src
+      : ""
+  },
+
+  pere: {
+    nom: zonePere
+      ? zonePere.dataset.nomParent || ""
+      : "",
+    photo: photoPere
+      ? photoPere.src
+      : ""
+  },
+
   etat: extraireEtatSim(sim),
-     
 });
 
   });
@@ -3684,6 +3765,69 @@ restaurerIconesSim(
       }
     }
 
+    // ==============================
+// 👨‍👩‍👧 RESTAURER LES PARENTS
+// ==============================
+
+const zoneMere =
+  emplacement.querySelector(".photo-mere");
+
+const zonePere =
+  emplacement.querySelector(".photo-pere");
+
+if (zoneMere && simSauvegarde.mere) {
+
+  zoneMere.dataset.nomParent =
+    simSauvegarde.mere.nom || "";
+
+  zoneMere.title =
+    simSauvegarde.mere.nom
+      ? "Mère : " + simSauvegarde.mere.nom
+      : "Mère";
+
+  if (simSauvegarde.mere.photo) {
+
+    zoneMere.innerHTML = "";
+
+    const imageMere =
+      document.createElement("img");
+
+    imageMere.src =
+      simSauvegarde.mere.photo;
+
+    imageMere.alt =
+      simSauvegarde.mere.nom || "Mère";
+
+    zoneMere.appendChild(imageMere);
+  }
+}
+
+if (zonePere && simSauvegarde.pere) {
+
+  zonePere.dataset.nomParent =
+    simSauvegarde.pere.nom || "";
+
+  zonePere.title =
+    simSauvegarde.pere.nom
+      ? "Père : " + simSauvegarde.pere.nom
+      : "Père";
+
+  if (simSauvegarde.pere.photo) {
+
+    zonePere.innerHTML = "";
+
+    const imagePere =
+      document.createElement("img");
+
+    imagePere.src =
+      simSauvegarde.pere.photo;
+
+    imagePere.alt =
+      simSauvegarde.pere.nom || "Père";
+
+    zonePere.appendChild(imagePere);
+  }
+}
 
     restaurerEtatSim(
   emplacement,
@@ -4816,6 +4960,26 @@ const numeroBaby = prochainNumeroBaby();
   ×
 </button>
 
+<div class="parents-sim">
+
+  <span class="plumbob-parent">♦</span>
+
+  <div class="photo-parent photo-mere"
+       title="Mère"
+       onclick="modifierParent(this, 'mere')">
+    M
+  </div>
+
+  <div class="photo-parent photo-pere"
+       title="Père"
+       onclick="modifierParent(this, 'pere')">
+    P
+  </div>
+
+  <span class="plumbob-parent">♦</span>
+
+</div>
+
         <div class="ligne-prenom">
           <h3 class="prenom-sim">${prenom}</h3>
           <span class="sexe-sim ${sexe}" title="${sexe === "femme" ? "Fille" : "Garçon"}">
@@ -5204,6 +5368,67 @@ function ouvrirModificationSim(bouton) {
   ouvrirCreationBebe();
 }
 
+function modifierParent(zoneParent, typeParent) {
+
+  const estMere = typeParent === "mere";
+  const role = estMere ? "Mère" : "Père";
+
+  const nomActuel =
+    zoneParent.dataset.nomParent || "";
+
+  const nomParent = prompt(
+    "Nom du " + role.toLowerCase() + " :",
+    nomActuel
+  );
+
+  if (nomParent === null) {
+    return;
+  }
+
+  const nomNettoye = nomParent.trim();
+
+  if (!nomNettoye) {
+    return;
+  }
+
+  zoneParent.dataset.nomParent = nomNettoye;
+  zoneParent.title = role + " : " + nomNettoye;
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = function() {
+
+    const fichier = input.files[0];
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      zoneParent.innerHTML = "";
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+      image.alt = nomNettoye;
+
+      zoneParent.appendChild(image);
+
+      sauvegarderChallenge();
+    };
+
+    lecteur.readAsDataURL(fichier);
+  };
+
+  input.click();
+}
+  
 /* =========================================
    BIBLIOTHÈQUE D'ICÔNES
 ========================================= */
