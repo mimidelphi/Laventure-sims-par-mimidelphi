@@ -4527,29 +4527,76 @@ objectifs: `
   <button>✓</button>
 </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°1</span>
-        <button>✓</button>
-      </div>
+     <div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°2</span>
-        <button>✓</button>
-      </div>
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°3</span>
-        <button>✓</button>
-      </div>
+  <span class="texte-objectif">
+    Moment déterminant n°1 — à tirer
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°4</span>
-        <button>✓</button>
-      </div>
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°2 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°3 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°4 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🎉</span>
@@ -7489,6 +7536,261 @@ const cartesPremierTirageActiviteEnfant = [
 
 ];
 
+/* =========================
+   MOMENTS DÉTERMINANTS ENFANT
+========================= */
+
+let ligneMomentEnfantEnCours = null;
+let momentEnfantTire = null;
+
+
+/* -------------------------
+   OUVERTURE DU TIRAGE
+------------------------- */
+
+async function ouvrirTirageMomentEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneMomentEnfantEnCours = ligne;
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* On récupère uniquement
+     les moments disponibles */
+
+  const { data: moments, error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .select(
+        "id, code, nom, image, verifie, actif"
+      )
+      .eq("actif", true);
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement moments pour le tirage :",
+      error
+    );
+
+    alert(
+      "Impossible de charger les moments déterminants."
+    );
+
+    return;
+  }
+
+
+  if (!moments || moments.length === 0) {
+
+    alert(
+      "Aucun moment déterminant actif n'est disponible."
+    );
+
+    return;
+  }
+
+
+  /* Tirage aléatoire */
+
+  momentEnfantTire =
+    moments[
+      Math.floor(
+        Math.random() * moments.length
+      )
+    ];
+
+
+  paquet.innerHTML = "";
+  paquet.className = "paquet-nourrisson";
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider ce moment";
+
+  bouton.onclick =
+    validerTirageMomentEnfant;
+
+
+  /* Création des 7 cartes
+     pour garder notre animation */
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/enfant/moment-determinant/dos-moment-determinant.png"
+            alt="Dos moment déterminant"
+          >
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${momentEnfantTire.image}"
+            alt="${momentEnfantTire.nom}"
+          >
+        </div>
+
+      </div>
+    `;
+
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+/* -------------------------
+   VALIDATION DU MOMENT
+------------------------- */
+
+function validerTirageMomentEnfant() {
+
+  if (
+    !ligneMomentEnfantEnCours ||
+    !momentEnfantTire
+  ) {
+    return;
+  }
+
+
+  const texte =
+    ligneMomentEnfantEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneMomentEnfantEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      momentEnfantTire.nom;
+  }
+
+
+  if (image) {
+
+    image.src =
+      momentEnfantTire.image;
+
+    image.alt =
+      momentEnfantTire.nom;
+  }
+
+
+  /* On mémorise le tirage */
+
+  ligneMomentEnfantEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneMomentEnfantEnCours.dataset.momentId =
+    momentEnfantTire.id;
+
+  ligneMomentEnfantEnCours.dataset.momentCode =
+    momentEnfantTire.code;
+
+
+  /* Plus aucun nouveau tirage
+     sur cette ligne */
+
+  ligneMomentEnfantEnCours.onclick = null;
+
+
+  /* Fermeture de la fenêtre */
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+
+  /* On remet le bouton dans son état normal
+     pour les autres tirages */
+
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneMomentEnfantEnCours = null;
+  momentEnfantTire = null;
+
+
+  sauvegarderChallenge();
+}
   
   let ligneActiviteEnfantEnCours = null;
 let carteActiviteEnfantTiree = null;
