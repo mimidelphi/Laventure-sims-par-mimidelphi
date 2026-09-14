@@ -7566,7 +7566,7 @@ const cartesPremierTirageActiviteEnfant = [
 
 let ligneMomentEnfantEnCours = null;
 let momentEnfantTire = null;
-
+let momentsEnfantCache = null;
 
 /* -------------------------
    OUVERTURE DU TIRAGE
@@ -7608,6 +7608,12 @@ async function ouvrirTirageMomentEnfant(ligne) {
   /* On récupère uniquement
      les moments disponibles */
 
+/* =========================
+   CHARGEMENT DES MOMENTS
+========================= */
+
+if (!momentsEnfantCache) {
+
   const { data: moments, error } =
     await supabaseClient
       .from("determining_moments_library")
@@ -7615,34 +7621,6 @@ async function ouvrirTirageMomentEnfant(ligne) {
         "id, code, nom, image, verifie, actif"
       )
       .eq("actif", true);
-
-  /* Moments déjà tirés par CET enfant */
-
-const ficheEnfant =
-  ligne.closest(".sim");
-
-const idsDejaTires =
-  ficheEnfant
-    ? Array.from(
-        ficheEnfant.querySelectorAll(
-          ".objectif-moment-enfant[data-moment-id]"
-        )
-      ).map(function(ligneMoment) {
-        return ligneMoment.dataset.momentId;
-      })
-    : [];
-
-
-/* On retire ces moments du prochain tirage */
-
-const momentsDisponibles =
-  moments
-    ? moments.filter(function(moment) {
-        return !idsDejaTires.includes(
-          String(moment.id)
-        );
-      })
-    : [];
 
   if (error) {
 
@@ -7658,11 +7636,47 @@ const momentsDisponibles =
     return;
   }
 
+  momentsEnfantCache = moments || [];
+}
 
- if (
-  !momentsDisponibles ||
-  momentsDisponibles.length === 0
-) {
+
+/* =========================
+   MOMENTS DÉJÀ TIRÉS
+   PAR CET ENFANT
+========================= */
+
+const ficheEnfant =
+  ligne.closest(".sim");
+
+const codesDejaTires =
+  ficheEnfant
+    ? Array.from(
+        ficheEnfant.querySelectorAll(
+          ".objectif-moment-enfant"
+        )
+      )
+        .map(function(ligneMoment) {
+          return ligneMoment.dataset.momentCode || "";
+        })
+        .filter(Boolean)
+    : [];
+
+
+/* =========================
+   CARTES ENCORE DISPONIBLES
+========================= */
+
+const momentsDisponibles =
+  momentsEnfantCache.filter(function(moment) {
+
+    return !codesDejaTires.includes(
+      String(moment.code)
+    );
+
+  });
+
+
+if (momentsDisponibles.length === 0) {
 
   alert(
     "Aucun autre moment déterminant n'est disponible."
@@ -7672,9 +7686,11 @@ const momentsDisponibles =
 }
 
 
-  /* Tirage aléatoire */
+/* =========================
+   TIRAGE ALÉATOIRE
+========================= */
 
- momentEnfantTire =
+momentEnfantTire =
   momentsDisponibles[
     Math.floor(
       Math.random() *
