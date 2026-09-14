@@ -3357,14 +3357,20 @@ let carteNourrissonTiree = null;
     valide:
       objectif.classList.contains("objectif-valide"),
 
-    carteTiree:
-      objectif.dataset.carteTiree === "oui",
+   carteTiree:
+  objectif.dataset.carteTiree === "oui",
 
-    image:
-      image ? image.getAttribute("src") : "",
+momentId:
+  objectif.dataset.momentId || "",
 
-    imageAlt:
-      image ? image.getAttribute("alt") : ""
+momentCode:
+  objectif.dataset.momentCode || "",
+
+image:
+  image ? image.getAttribute("src") : "",
+
+imageAlt:
+  image ? image.getAttribute("alt") : ""
   };
 });
 
@@ -3780,6 +3786,16 @@ if (objectifSauvegarde.carteTiree) {
 
   objectif.dataset.carteTiree = "oui";
 
+if (objectifSauvegarde.momentId) {
+  objectif.dataset.momentId =
+    objectifSauvegarde.momentId;
+}
+
+if (objectifSauvegarde.momentCode) {
+  objectif.dataset.momentCode =
+    objectifSauvegarde.momentCode;
+}
+  
   if (image && objectifSauvegarde.image) {
     image.src = objectifSauvegarde.image;
     image.alt =
@@ -7600,6 +7616,33 @@ async function ouvrirTirageMomentEnfant(ligne) {
       )
       .eq("actif", true);
 
+  /* Moments déjà tirés par CET enfant */
+
+const ficheEnfant =
+  ligne.closest(".sim");
+
+const idsDejaTires =
+  ficheEnfant
+    ? Array.from(
+        ficheEnfant.querySelectorAll(
+          ".objectif-moment-enfant[data-moment-id]"
+        )
+      ).map(function(ligneMoment) {
+        return ligneMoment.dataset.momentId;
+      })
+    : [];
+
+
+/* On retire ces moments du prochain tirage */
+
+const momentsDisponibles =
+  moments
+    ? moments.filter(function(moment) {
+        return !idsDejaTires.includes(
+          String(moment.id)
+        );
+      })
+    : [];
 
   if (error) {
 
@@ -7616,25 +7659,28 @@ async function ouvrirTirageMomentEnfant(ligne) {
   }
 
 
-  if (!moments || moments.length === 0) {
+ if (
+  !momentsDisponibles ||
+  momentsDisponibles.length === 0
+) {
 
-    alert(
-      "Aucun moment déterminant actif n'est disponible."
-    );
+  alert(
+    "Aucun autre moment déterminant n'est disponible."
+  );
 
-    return;
-  }
+  return;
+}
 
 
   /* Tirage aléatoire */
 
-  momentEnfantTire =
-    moments[
-      Math.floor(
-        Math.random() * moments.length
-      )
-    ];
-
+ momentEnfantTire =
+  momentsDisponibles[
+    Math.floor(
+      Math.random() *
+      momentsDisponibles.length
+    )
+  ];
 
   paquet.innerHTML = "";
   paquet.className = "paquet-nourrisson";
