@@ -142,8 +142,61 @@ label,
   align-items: center;
   justify-content: center;
 
-  font-size: 18px;
+  font-size: 15px;
   color: #62b96b;
+}
+
+/* =========================
+   PARENTS DU SIM
+========================= */
+
+.parents-sim {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 4px;
+  vertical-align: middle;
+  position: relative;
+  top: -3px;
+}
+    
+.plumbob-parent {
+  color: #62b96b;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.photo-parent {
+  width: 29px;
+  height: 29px;
+  min-width: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  overflow: hidden;
+
+  background: #eee8f3;
+  border: 1px solid #cdb2e7;
+
+  font-size: 13px;
+  color: #8b65ad;
+
+  transition: transform 0.2s ease;
+}
+
+.photo-parent:hover {
+  transform: scale(1.35);
+  z-index: 20;
+}
+
+.photo-parent img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
     
 /* =========================
@@ -829,6 +882,14 @@ label,
   transform-origin: left center;
 }
 
+/* =========================
+   MARQUE-PAGES MOMENTS DÉTERMINANTS
+========================= */
+
+.objectif-moment-enfant .icone-objectif img {
+  object-fit: contain;
+}
+    
 .icone-objectif img:hover {
   transform: scale(8);
   position: relative;
@@ -1936,6 +1997,223 @@ input[type="checkbox"] {
   font-size: 12px;
 }
 
+/* =========================================
+   BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+   Réutilise le style de la bibliothèque activités
+========================================= */
+
+.fond-bibliotheque-moments {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(40, 30, 50, 0.45);
+
+  z-index: 10000;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.fond-bibliotheque-moments.ouverte {
+  display: flex;
+}
+
+.fenetre-bibliotheque-moments {
+  position: relative;
+
+  width: min(620px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  background: #fffaf3;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.fenetre-bibliotheque-moments h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.fenetre-bibliotheque-moments label {
+  display: block;
+
+  margin-top: 16px;
+  margin-bottom: 6px;
+
+  font-weight: 600;
+}
+
+.fenetre-bibliotheque-moments input[type="text"] {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8cedf;
+  border-radius: 10px;
+
+  font: inherit;
+
+  background: white;
+}
+
+.fenetre-bibliotheque-moments input[type="checkbox"] {
+  width: auto;
+  margin-right: 7px;
+}
+
+.fermer-bibliotheque-moments {
+  position: absolute;
+
+  top: 14px;
+  right: 16px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 22px;
+  line-height: 1;
+
+  background: #eee7f2;
+}
+
+.bouton-enregistrer-moment {
+  margin-top: 22px;
+}
+
+#message-nouveau-moment {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.separateur-bibliotheque-moments {
+  margin: 28px 0 20px;
+  border: none;
+  border-top: 1px solid #ded3e5;
+}
+
+#liste-moments-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.message-liste-moments {
+  color: #777;
+  font-size: 12px;
+}
+
+.moment-bibliotheque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #e1d7e8;
+  border-radius: 12px;
+}
+
+.moment-bibliotheque.inactive {
+  opacity: 0.55;
+}
+
+.apercu-moment-bibliotheque {
+  width: 42px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  border-radius: 6px;
+}
+
+.infos-moment-bibliotheque {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.code-moment-bibliotheque {
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+}
+
+.nom-moment-bibliotheque {
+  margin-top: 2px;
+
+  color: #6c3eb1;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.statut-moment-bibliotheque {
+  margin-top: 3px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.actions-moment-bibliotheque {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  flex-shrink: 0;
+}
+
+.bouton-modifier-moment,
+.bouton-etat-moment {
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bouton-modifier-moment {
+  background: #eee7f2;
+  color: #6c3eb1;
+}
+
+.bouton-etat-moment.actif {
+  background: #e4f4e7;
+  color: #367344;
+}
+
+.bouton-etat-moment.inactif {
+  background: #eee9f0;
+  color: #777;
+}
+    
 *,
 *::before,
 *::after {
@@ -2342,6 +2620,102 @@ input[type="checkbox"] {
   onclick="ouvrirBibliothequeActivites()">
   🎴 Gérer les activités
 </button>
+
+<button
+  type="button"
+  class="bouton bouton-ouvrir-moments"
+  onclick="ouvrirBibliothequeMoments()">
+  ⭐ Gérer les moments déterminants
+</button>
+
+<!-- =========================
+     BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+========================= -->
+
+<div id="fond-bibliotheque-moments"
+     class="fond-bibliotheque-moments">
+
+  <div class="fenetre-bibliotheque-moments">
+
+    <button type="button"
+            class="fermer-bibliotheque-moments">
+      ×
+    </button>
+
+    <h2>Bibliothèque des moments déterminants</h2>
+
+    <p>
+      Ajoute et gère les moments déterminants disponibles pour les enfants.
+    </p>
+
+    <label for="nouveau-moment-code">
+      Code
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-code"
+      placeholder="Ex : M001"
+    >
+
+    <label for="nouveau-moment-nom">
+      Nom du moment
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-nom"
+      placeholder="Ex : Avoir un imaginaire"
+    >
+
+    <label for="nouveau-moment-image">
+      Chemin de la carte sur GitHub
+    </label>
+
+    <input
+      type="text"
+      id="nouveau-moment-image"
+      placeholder="Ex : images/enfant/moment-determinant/M001.png"
+    >
+
+    <label>
+      <input
+        type="checkbox"
+        id="nouveau-moment-verifie"
+      >
+      Nom vérifié dans le jeu
+    </label>
+
+    <label>
+      <input
+        type="checkbox"
+        id="nouveau-moment-actif"
+        checked
+      >
+      Moment disponible
+    </label>
+
+    <button
+      type="button"
+      class="bouton bouton-enregistrer-moment">
+      Enregistrer le moment
+    </button>
+
+    <p id="message-nouveau-moment"></p>
+
+    <hr class="separateur-bibliotheque-moments">
+
+    <h3>Moments enregistrés</h3>
+
+    <div id="liste-moments-bibliotheque">
+      <p class="message-liste-moments">
+        Chargement des moments...
+      </p>
+    </div>
+
+  </div>
+
+</div>
     
   </main>
 
@@ -2983,14 +3357,20 @@ let carteNourrissonTiree = null;
     valide:
       objectif.classList.contains("objectif-valide"),
 
-    carteTiree:
-      objectif.dataset.carteTiree === "oui",
+   carteTiree:
+  objectif.dataset.carteTiree === "oui",
 
-    image:
-      image ? image.getAttribute("src") : "",
+momentId:
+  objectif.dataset.momentId || "",
 
-    imageAlt:
-      image ? image.getAttribute("alt") : ""
+momentCode:
+  objectif.dataset.momentCode || "",
+
+image:
+  image ? image.getAttribute("src") : "",
+
+imageAlt:
+  image ? image.getAttribute("alt") : ""
   };
 });
 
@@ -3060,8 +3440,19 @@ if (etatSauvegarde) {
     const numero = sim.querySelector(".baby-numero");
     const age = sim.querySelector(".age-nom");
     const photo = sim.querySelector(".photo-sim img");
+const zoneMere = sim.querySelector(".photo-mere");
+const zonePere = sim.querySelector(".photo-pere");
 
-   sims.push({
+const photoMere = zoneMere
+  ? zoneMere.querySelector("img")
+  : null;
+
+const photoPere = zonePere
+  ? zonePere.querySelector("img")
+  : null;
+
+    
+  sims.push({
   id: sim.id,
   prenom: prenom ? prenom.textContent.trim() : "",
   nom: nom ? nom.textContent.trim() : "",
@@ -3069,8 +3460,26 @@ if (etatSauvegarde) {
   numeroBaby: numero ? numero.textContent.trim() : "",
   age: age ? age.textContent.trim() : "",
   photo: photo ? photo.src : "",
+
+  mere: {
+    nom: zoneMere
+      ? zoneMere.dataset.nomParent || ""
+      : "",
+    photo: photoMere
+      ? photoMere.src
+      : ""
+  },
+
+  pere: {
+    nom: zonePere
+      ? zonePere.dataset.nomParent || ""
+      : "",
+    photo: photoPere
+      ? photoPere.src
+      : ""
+  },
+
   etat: extraireEtatSim(sim),
-     
 });
 
   });
@@ -3377,6 +3786,16 @@ if (objectifSauvegarde.carteTiree) {
 
   objectif.dataset.carteTiree = "oui";
 
+if (objectifSauvegarde.momentId) {
+  objectif.dataset.momentId =
+    objectifSauvegarde.momentId;
+}
+
+if (objectifSauvegarde.momentCode) {
+  objectif.dataset.momentCode =
+    objectifSauvegarde.momentCode;
+}
+  
   if (image && objectifSauvegarde.image) {
     image.src = objectifSauvegarde.image;
     image.alt =
@@ -3684,6 +4103,69 @@ restaurerIconesSim(
       }
     }
 
+    // ==============================
+// 👨‍👩‍👧 RESTAURER LES PARENTS
+// ==============================
+
+const zoneMere =
+  emplacement.querySelector(".photo-mere");
+
+const zonePere =
+  emplacement.querySelector(".photo-pere");
+
+if (zoneMere && simSauvegarde.mere) {
+
+  zoneMere.dataset.nomParent =
+    simSauvegarde.mere.nom || "";
+
+  zoneMere.title =
+    simSauvegarde.mere.nom
+      ? "Mère : " + simSauvegarde.mere.nom
+      : "Mère";
+
+  if (simSauvegarde.mere.photo) {
+
+    zoneMere.innerHTML = "";
+
+    const imageMere =
+      document.createElement("img");
+
+    imageMere.src =
+      simSauvegarde.mere.photo;
+
+    imageMere.alt =
+      simSauvegarde.mere.nom || "Mère";
+
+    zoneMere.appendChild(imageMere);
+  }
+}
+
+if (zonePere && simSauvegarde.pere) {
+
+  zonePere.dataset.nomParent =
+    simSauvegarde.pere.nom || "";
+
+  zonePere.title =
+    simSauvegarde.pere.nom
+      ? "Père : " + simSauvegarde.pere.nom
+      : "Père";
+
+  if (simSauvegarde.pere.photo) {
+
+    zonePere.innerHTML = "";
+
+    const imagePere =
+      document.createElement("img");
+
+    imagePere.src =
+      simSauvegarde.pere.photo;
+
+    imagePere.alt =
+      simSauvegarde.pere.nom || "Père";
+
+    zonePere.appendChild(imagePere);
+  }
+}
 
     restaurerEtatSim(
   emplacement,
@@ -4069,29 +4551,76 @@ objectifs: `
   <button>✓</button>
 </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°1</span>
-        <button>✓</button>
-      </div>
+     <div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°2</span>
-        <button>✓</button>
-      </div>
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°3</span>
-        <button>✓</button>
-      </div>
+  <span class="texte-objectif">
+    Moment déterminant n°1 — à tirer
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Moment déterminant tiré n°4</span>
-        <button>✓</button>
-      </div>
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°2 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°3 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
+
+<div class="objectif objectif-moment-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageMomentEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/moment-determinant/dos-moment-determinant.png"
+      alt="Moment déterminant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Moment déterminant n°4 — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🎉</span>
@@ -4816,6 +5345,24 @@ const numeroBaby = prochainNumeroBaby();
   ×
 </button>
 
+<div class="parents-sim">
+
+  <div class="photo-parent photo-mere"
+       title="Mère"
+       onclick="modifierParent(this, 'mere')">
+    M
+  </div>
+
+  <div class="photo-parent photo-pere"
+       title="Père"
+       onclick="modifierParent(this, 'pere')">
+    P
+  </div>
+
+  <span class="plumbob-parent">♦</span>
+
+</div>
+
         <div class="ligne-prenom">
           <h3 class="prenom-sim">${prenom}</h3>
           <span class="sexe-sim ${sexe}" title="${sexe === "femme" ? "Fille" : "Garçon"}">
@@ -5204,6 +5751,67 @@ function ouvrirModificationSim(bouton) {
   ouvrirCreationBebe();
 }
 
+function modifierParent(zoneParent, typeParent) {
+
+  const estMere = typeParent === "mere";
+  const role = estMere ? "Mère" : "Père";
+
+  const nomActuel =
+    zoneParent.dataset.nomParent || "";
+
+  const nomParent = prompt(
+    "Nom du " + role.toLowerCase() + " :",
+    nomActuel
+  );
+
+  if (nomParent === null) {
+    return;
+  }
+
+  const nomNettoye = nomParent.trim();
+
+  if (!nomNettoye) {
+    return;
+  }
+
+  zoneParent.dataset.nomParent = nomNettoye;
+  zoneParent.title = role + " : " + nomNettoye;
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = function() {
+
+    const fichier = input.files[0];
+
+    if (!fichier) {
+      return;
+    }
+
+    const lecteur = new FileReader();
+
+    lecteur.onload = function(event) {
+
+      zoneParent.innerHTML = "";
+
+      const image = document.createElement("img");
+
+      image.src = event.target.result;
+      image.alt = nomNettoye;
+
+      zoneParent.appendChild(image);
+
+      sauvegarderChallenge();
+    };
+
+    lecteur.readAsDataURL(fichier);
+  };
+
+  input.click();
+}
+  
 /* =========================================
    BIBLIOTHÈQUE D'ICÔNES
 ========================================= */
@@ -5604,6 +6212,463 @@ document.addEventListener("click", function(event) {
   supprimerIconeDeFiche(icone);
 });
 
+/* =========================================
+   BIBLIOTHÈQUE DES MOMENTS DÉTERMINANTS
+========================================= */
+
+async function ouvrirBibliothequeMoments() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-moments"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.add("ouverte");
+
+await chargerMomentsBibliotheque();
+}
+
+  async function chargerMomentsBibliotheque() {
+
+  const zone =
+    document.getElementById(
+      "liste-moments-bibliotheque"
+    );
+
+  if (!zone) {
+    return;
+  }
+
+  zone.innerHTML =
+    '<p class="message-liste-moments">' +
+    'Chargement des moments...' +
+    '</p>';
+
+  const { data: moments, error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .select(
+        "id, code, nom, image, verifie, actif"
+      )
+      .order("code", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement moments :",
+      error
+    );
+
+    zone.innerHTML =
+      '<p class="message-liste-moments">' +
+      'Impossible de charger les moments.' +
+      '</p>';
+
+    return;
+  }
+
+  zone.innerHTML = "";
+
+  if (!moments || moments.length === 0) {
+
+    zone.innerHTML =
+      '<p class="message-liste-moments">' +
+      'Aucun moment enregistré.' +
+      '</p>';
+
+    return;
+  }
+
+  moments.forEach(function(moment) {
+
+    const ligne =
+      document.createElement("div");
+
+    ligne.className =
+      "moment-bibliotheque";
+
+    if (!moment.actif) {
+      ligne.classList.add("inactive");
+    }
+
+    const image =
+      document.createElement("img");
+
+    image.className =
+      "apercu-moment-bibliotheque";
+
+    image.src = moment.image;
+    image.alt = moment.nom;
+
+    const infos =
+      document.createElement("div");
+
+    infos.className =
+      "infos-moment-bibliotheque";
+
+    const code =
+      document.createElement("span");
+
+    code.className =
+      "code-moment-bibliotheque";
+
+    code.textContent =
+      moment.code;
+
+    const nom =
+      document.createElement("span");
+
+    nom.className =
+      "nom-moment-bibliotheque";
+
+    nom.textContent =
+      moment.nom;
+
+    const statut =
+      document.createElement("span");
+
+    statut.className =
+      "statut-moment-bibliotheque";
+
+    statut.textContent =
+      moment.verifie
+        ? "✓ Nom vérifié"
+        : "À vérifier";
+
+    const actions =
+      document.createElement("div");
+
+    actions.className =
+      "actions-moment-bibliotheque";
+
+    const boutonModifier =
+      document.createElement("button");
+
+    boutonModifier.type = "button";
+    boutonModifier.className =
+      "bouton-modifier-moment";
+    boutonModifier.textContent =
+      "Modifier";
+
+boutonModifier.addEventListener(
+  "click",
+  function() {
+    modifierMomentDansFormulaire(moment);
+  }
+);
+    
+    const boutonEtat =
+      document.createElement("button");
+
+    boutonEtat.type = "button";
+    boutonEtat.className =
+      "bouton-etat-moment " +
+      (
+        moment.actif
+          ? "actif"
+          : "inactif"
+      );
+
+    boutonEtat.textContent =
+      moment.actif
+        ? "✓ Actif"
+        : "Inactif";
+
+boutonEtat.addEventListener(
+  "click",
+  function() {
+    changerEtatMoment(
+      moment.id,
+      !moment.actif
+    );
+  }
+);
+    
+    infos.appendChild(code);
+    infos.appendChild(nom);
+    infos.appendChild(statut);
+
+    actions.appendChild(
+      boutonModifier
+    );
+
+    actions.appendChild(
+      boutonEtat
+    );
+
+    ligne.appendChild(image);
+    ligne.appendChild(infos);
+    ligne.appendChild(actions);
+
+    zone.appendChild(ligne);
+  });
+    
+  }
+
+async function changerEtatMoment(
+  idMoment,
+  nouvelEtat
+) {
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    alert("Tu dois être connectée.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .update({
+        actif: nouvelEtat
+      })
+      .eq(
+        "id",
+        idMoment
+      );
+
+  if (error) {
+    console.error(
+      "Erreur modification moment :",
+      error
+    );
+
+    alert(
+      "Impossible de modifier ce moment."
+    );
+
+    return;
+  }
+
+  await chargerMomentsBibliotheque();
+}
+
+
+function modifierMomentDansFormulaire(moment) {
+
+idMomentEnModification = moment.id;
+  
+  document.getElementById(
+    "nouveau-moment-code"
+  ).value = moment.code || "";
+
+  document.getElementById(
+    "nouveau-moment-nom"
+  ).value = moment.nom || "";
+
+  document.getElementById(
+    "nouveau-moment-image"
+  ).value = moment.image || "";
+
+  document.getElementById(
+    "nouveau-moment-verifie"
+  ).checked = !!moment.verifie;
+
+  document.getElementById(
+    "nouveau-moment-actif"
+  ).checked = !!moment.actif;
+
+  document.getElementById(
+    "message-nouveau-moment"
+  ).textContent =
+    "Modification de " +
+    moment.code;
+}
+  
+function fermerBibliothequeMoments() {
+
+  const fond =
+    document.getElementById(
+      "fond-bibliotheque-moments"
+    );
+
+  if (!fond) {
+    return;
+  }
+
+  fond.classList.remove("ouverte");
+}
+
+let idMomentEnModification = null;
+  
+async function enregistrerNouveauMoment() {
+
+  const code =
+    document
+      .getElementById("nouveau-moment-code")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const nomSaisi =
+    document
+      .getElementById("nouveau-moment-nom")
+      .value
+      .trim();
+
+  const nom =
+    nomSaisi
+      ? nomSaisi.charAt(0).toUpperCase() +
+        nomSaisi.slice(1)
+      : "";
+
+  const image =
+    document
+      .getElementById("nouveau-moment-image")
+      .value
+      .trim();
+
+  const verifie =
+    document
+      .getElementById("nouveau-moment-verifie")
+      .checked;
+
+  const actif =
+    document
+      .getElementById("nouveau-moment-actif")
+      .checked;
+
+  const message =
+    document.getElementById(
+      "message-nouveau-moment"
+    );
+
+  if (!code) {
+    message.textContent =
+      "Indique le code du moment.";
+    return;
+  }
+
+  if (!nom) {
+    message.textContent =
+      "Écris le nom du moment.";
+    return;
+  }
+
+  if (!image) {
+    message.textContent =
+      "Indique le chemin de la carte.";
+    return;
+  }
+
+  const { data: sessionData } =
+    await supabaseClient.auth.getSession();
+
+  if (!sessionData.session) {
+    message.textContent =
+      "Tu dois être connectée.";
+    return;
+  }
+
+  message.textContent =
+    "Enregistrement en cours...";
+
+ let error;
+
+if (idMomentEnModification) {
+
+  const resultat =
+    await supabaseClient
+      .from("determining_moments_library")
+      .update({
+        code: code,
+        nom: nom,
+        image: image,
+        verifie: verifie,
+        actif: actif
+      })
+      .eq(
+        "id",
+        idMomentEnModification
+      );
+
+  error = resultat.error;
+
+} else {
+
+  const resultat =
+    await supabaseClient
+      .from("determining_moments_library")
+      .insert({
+        code: code,
+        nom: nom,
+        image: image,
+        verifie: verifie,
+        actif: actif
+      });
+
+  error = resultat.error;
+}
+
+  if (error) {
+
+    console.error(
+      "Erreur ajout moment :",
+      error
+    );
+
+    message.textContent =
+      "Impossible d'enregistrer le moment.";
+
+    return;
+  }
+
+ message.textContent =
+  idMomentEnModification
+    ? "Moment modifié !"
+    : "Moment ajouté !";
+
+  await chargerMomentsBibliotheque();
+
+idMomentEnModification = null;
+  
+  document.getElementById(
+    "nouveau-moment-code"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-nom"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-image"
+  ).value = "";
+
+  document.getElementById(
+    "nouveau-moment-verifie"
+  ).checked = false;
+
+  document.getElementById(
+    "nouveau-moment-actif"
+  ).checked = true;
+}
+
+document
+  .querySelector(
+    ".bouton-enregistrer-moment"
+  )
+  .addEventListener(
+    "click",
+    enregistrerNouveauMoment
+  );
+  
+document
+  .querySelector(
+    ".fermer-bibliotheque-moments"
+  )
+  .addEventListener(
+    "click",
+    fermerBibliothequeMoments
+  );
+  
 /* =========================================
    BIBLIOTHÈQUE DES ACTIVITÉS
 ========================================= */
@@ -6495,6 +7560,307 @@ const cartesPremierTirageActiviteEnfant = [
 
 ];
 
+/* =========================
+   MOMENTS DÉTERMINANTS ENFANT
+========================= */
+
+let ligneMomentEnfantEnCours = null;
+let momentEnfantTire = null;
+let momentsEnfantCache = null;
+
+/* -------------------------
+   OUVERTURE DU TIRAGE
+------------------------- */
+
+async function ouvrirTirageMomentEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneMomentEnfantEnCours = ligne;
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* On récupère uniquement
+     les moments disponibles */
+
+/* =========================
+   CHARGEMENT DES MOMENTS
+========================= */
+
+if (!momentsEnfantCache) {
+
+  const { data: moments, error } =
+    await supabaseClient
+      .from("determining_moments_library")
+      .select(
+        "id, code, nom, image, verifie, actif"
+      )
+      .eq("actif", true);
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement moments pour le tirage :",
+      error
+    );
+
+    alert(
+      "Impossible de charger les moments déterminants."
+    );
+
+    return;
+  }
+
+  momentsEnfantCache = moments || [];
+}
+
+
+/* =========================
+   MOMENTS DÉJÀ TIRÉS
+   PAR CET ENFANT
+========================= */
+
+const ficheEnfant =
+  ligne.closest(".sim");
+
+const codesDejaTires =
+  ficheEnfant
+    ? Array.from(
+        ficheEnfant.querySelectorAll(
+          ".objectif-moment-enfant"
+        )
+      )
+        .map(function(ligneMoment) {
+          return ligneMoment.dataset.momentCode || "";
+        })
+        .filter(Boolean)
+    : [];
+
+
+/* =========================
+   CARTES ENCORE DISPONIBLES
+========================= */
+
+const momentsDisponibles =
+  momentsEnfantCache.filter(function(moment) {
+
+    return !codesDejaTires.includes(
+      String(moment.code)
+    );
+
+  });
+
+
+if (momentsDisponibles.length === 0) {
+
+  alert(
+    "Aucun autre moment déterminant n'est disponible."
+  );
+
+  return;
+}
+
+
+/* =========================
+   TIRAGE ALÉATOIRE
+========================= */
+
+momentEnfantTire =
+  momentsDisponibles[
+    Math.floor(
+      Math.random() *
+      momentsDisponibles.length
+    )
+  ];
+
+  paquet.innerHTML = "";
+  paquet.className = "paquet-nourrisson";
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider ce moment";
+
+  bouton.onclick =
+    validerTirageMomentEnfant;
+
+
+  /* Création des 7 cartes
+     pour garder notre animation */
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/enfant/moment-determinant/dos-moment-determinant.png"
+            alt="Dos moment déterminant"
+          >
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${momentEnfantTire.image}"
+            alt="${momentEnfantTire.nom}"
+          >
+        </div>
+
+      </div>
+    `;
+
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+/* -------------------------
+   VALIDATION DU MOMENT
+------------------------- */
+
+function validerTirageMomentEnfant() {
+
+  if (
+    !ligneMomentEnfantEnCours ||
+    !momentEnfantTire
+  ) {
+    return;
+  }
+
+
+  const texte =
+    ligneMomentEnfantEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneMomentEnfantEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      momentEnfantTire.nom;
+  }
+
+
+  if (image) {
+
+    image.src =
+      momentEnfantTire.image;
+
+    image.alt =
+      momentEnfantTire.nom;
+  }
+
+
+  /* On mémorise le tirage */
+
+  ligneMomentEnfantEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneMomentEnfantEnCours.dataset.momentId =
+    momentEnfantTire.id;
+
+  ligneMomentEnfantEnCours.dataset.momentCode =
+    momentEnfantTire.code;
+
+
+  /* Plus aucun nouveau tirage
+     sur cette ligne */
+
+  ligneMomentEnfantEnCours.onclick = null;
+
+
+  /* Fermeture de la fenêtre */
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+
+  /* On remet le bouton dans son état normal
+     pour les autres tirages */
+
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneMomentEnfantEnCours = null;
+  momentEnfantTire = null;
+
+
+  sauvegarderChallenge();
+}
   
   let ligneActiviteEnfantEnCours = null;
 let carteActiviteEnfantTiree = null;
