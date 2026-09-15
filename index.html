@@ -1228,6 +1228,45 @@ justify-content: center;
 #bouton-valider-moyenne-enfant.visible {
   display: inline-block;
 }
+
+/* =========================
+   BOUTONS DÉ BAL DE PROMO
+========================= */
+
+#bouton-lancer-bal-promo-ado {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-bal-promo-ado {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-bal-promo-ado.visible {
+  display: inline-block;
+}
+
+/* =========================
+   FACES DÉ BAL DE PROMO
+========================= */
+
+#cube-bal-promo-ado .face-de {
+  overflow: hidden;
+  background: white;
+}
+
+#cube-bal-promo-ado .face-de img {
+  width: 118%;
+  height: 118%;
+  max-width: none;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
     
 /* =========================
    TIRAGE DES COMPÉTENCES BAMBIN
@@ -2963,10 +3002,11 @@ input[type="checkbox"] {
         Lancer le dé 🎲
       </button>
 
-      <button id="bouton-valider-bal-promo-ado"
-              onclick="validerDeBalPromoAdo()">
-        Valider
-      </button>
+     <button id="bouton-valider-bal-promo-ado"
+        class="bouton-valider-qualites-bambin"
+        onclick="validerDeBalPromoAdo()">
+  Valider
+</button>
 
     </div>
 
