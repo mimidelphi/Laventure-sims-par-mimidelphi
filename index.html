@@ -3681,7 +3681,80 @@ if (estEnfant) {
 
 }
 
+/* =========================================
+   ADOLESCENT :
+   RESTAURER LES QUALITÉS PERSONNELLES
+   À VALIDER
+========================================= */
 
+const estAdolescent =
+  ageNom &&
+  ageNom.textContent.trim() === "ADOLESCENT";
+
+if (estAdolescent) {
+
+  const zoneObjectifs =
+    sim.querySelector(".objectifs-sim");
+
+  const qualitesAdoSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+  if (zoneObjectifs) {
+
+    /* Sécurité : aucune ancienne ligne qualité */
+    zoneObjectifs
+      .querySelectorAll(".objectif-qualite-ado")
+      .forEach(function(ligne) {
+        ligne.remove();
+      });
+
+    /* On remet les qualités sauvegardées */
+    qualitesAdoSauvegardees
+      .slice()
+      .reverse()
+      .forEach(function(qualite) {
+
+        const ligne =
+          document.createElement("div");
+
+        ligne.className =
+          "objectif objectif-qualite-ado";
+
+        ligne.innerHTML = `
+          <span class="icone-objectif">
+            <img
+              src="${qualite.image}"
+              alt="${qualite.imageAlt || ""}"
+            >
+          </span>
+
+          <span class="texte-objectif">
+            ${qualite.texte}
+          </span>
+
+          <button title="Valider cette qualité">✓</button>
+        `;
+
+        zoneObjectifs.prepend(ligne);
+
+      });
+
+  }
+
+}
+    
 let objectifs =
   Array.from(sim.querySelectorAll(".objectif"));
 
@@ -3732,6 +3805,37 @@ if (estEnfant) {
 
 }
 
+/* =========================
+   ADOLESCENT :
+   LES QUALITÉS NE PARTICIPENT PAS
+   À LA RESTAURATION PAR POSITION
+========================= */
+
+if (estAdolescent) {
+
+  objectifs =
+    objectifs.filter(function(objectif) {
+
+      return !objectif.classList.contains(
+        "objectif-qualite-ado"
+      );
+
+    });
+
+  objectifsSauvegardes =
+    objectifsSauvegardes.filter(function(obj) {
+
+      const estVraieQualite =
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        );
+
+      return !estVraieQualite;
+
+    });
+
+}    
 
 /* Pour la Matriarche :
    la ville et le compteur sont des informations,
@@ -4866,6 +4970,40 @@ function faireGrandir(sim) {
 
   }
 
+    /* =========================================
+     SI L'ENFANT DEVIENT ADOLESCENT :
+     ON GARDE SES QUALITÉS PERSONNELLES
+  ========================================= */
+
+  let qualitesEnfant = [];
+
+  if (
+    cleAgeActuel === "enfant" &&
+    ageActuel.suivant === "adolescent"
+  ) {
+
+    const lignesQualites =
+      sim.querySelectorAll(".objectif-qualite-enfant");
+
+    lignesQualites.forEach(function(ligne) {
+
+      const texte =
+        ligne.querySelector(".texte-objectif");
+
+      const image =
+        ligne.querySelector(".icone-objectif img");
+
+      if (!texte || !image) return;
+
+      qualitesEnfant.push({
+        texte: texte.textContent,
+        image: image.src,
+        imageAlt: image.alt
+      });
+
+    });
+
+  }
 
   /* Affichage du nouvel âge */
   afficherAge(sim, ageActuel.suivant);
@@ -4929,6 +5067,55 @@ function faireGrandir(sim) {
 
   }
 
+  /* =========================================
+     REMETTRE LES QUALITÉS SUR LA FICHE ADO
+     CETTE FOIS ELLES SONT À VALIDER
+  ========================================= */
+
+  if (
+    ageActuel.suivant === "adolescent" &&
+    qualitesEnfant.length > 0
+  ) {
+
+    const zoneObjectifs =
+      sim.querySelector(".objectifs-sim");
+
+    if (zoneObjectifs) {
+
+      qualitesEnfant
+        .slice()
+        .reverse()
+        .forEach(function(qualite) {
+
+          const ligne =
+            document.createElement("div");
+
+          ligne.className =
+            "objectif objectif-qualite-ado";
+
+          ligne.innerHTML = `
+            <span class="icone-objectif">
+              <img
+                src="${qualite.image}"
+                alt="${qualite.imageAlt || ""}"
+              >
+            </span>
+
+            <span class="texte-objectif">
+              ${qualite.texte}
+            </span>
+
+            <button title="Valider cette qualité">✓</button>
+          `;
+
+          zoneObjectifs.prepend(ligne);
+
+        });
+
+    }
+
+  }
+  
 }
 
 /* =========================================
