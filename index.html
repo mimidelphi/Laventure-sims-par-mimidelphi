@@ -9065,7 +9065,22 @@ function lancerDeBalPromoAdo() {
 
   setTimeout(function() {
 
+       const positionActuelle =
+      getComputedStyle(cube).transform;
+
+    cube.style.animation = "none";
     cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+    void cube.offsetWidth;
+
+    cube.style.transition =
+      "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+    cube.style.transform =
+      "rotateX(-22deg) rotateY(32deg)";
 
     if (resultatBalPromoAdo === "bal") {
 
