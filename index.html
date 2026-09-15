@@ -4875,11 +4875,22 @@ objectifs: `
         <button>✓</button>
       </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Activité : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+      <div class="objectif objectif-tirage objectif-activite-ado"
+     onclick="if (!event.target.closest('button')) ouvrirTirageActiviteAdo(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/activite/dos-carte-activite.png"
+      alt="Tirage activité ado"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Activité — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
 
       <div class="objectif objectif-bal-promo-ado">
 
@@ -8196,6 +8207,9 @@ function validerTirageMomentEnfant() {
 
   sauvegarderChallenge();
 }
+
+let ligneActiviteAdoEnCours = null;
+let carteActiviteAdoTiree = null;
   
   let ligneActiviteEnfantEnCours = null;
 let carteActiviteEnfantTiree = null;
@@ -8205,6 +8219,155 @@ let carteActiviteEnfantTiree = null;
    PREMIER TIRAGE ACTIVITÉ
 ------------------------- */
 
+const cartesPremierTirageActiviteAdo = [
+  {
+    nom: "Activité existante EA",
+    type: "existante",
+    image: "images/activite/1er-tirage/carte-activite-existante-ado.png"
+  },
+  {
+    nom: "Activité de la ville",
+    type: "ville",
+    image: "images/activite/1er-tirage/carte-activite-ville.png"
+  },
+  {
+    nom: "Premier job",
+    type: "premier-job",
+    image: "images/activite/1er-tirage/carte-premier-job.png"
+  },
+  {
+    nom: "Pas d'activité",
+    type: "aucune",
+    image: "images/activite/1er-tirage/carte-pas-dactivite.png"
+  }
+];
+  
+function ouvrirTirageActiviteAdo(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneActiviteAdoEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+ const hasard = Math.random() * 100;
+
+let index;
+
+if (hasard < 28) {
+  index = 0; // Activité existante EA : 28 %
+}
+else if (hasard < 44) {
+  index = 1; // Activité de la ville : 16 %
+}
+else if (hasard < 72) {
+  index = 2; // Premier job : 28 %
+}
+else {
+  index = 3; // Pas d'activité : 28 %
+}
+
+carteActiviteAdoTiree =
+  cartesPremierTirageActiviteAdo[index];
+
+  bouton.textContent =
+    "Valider ce résultat";
+
+  bouton.onclick =
+    validerPremierTirageActiviteAdo;
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité ado">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteAdoTiree.image}"
+            alt="${carteActiviteAdoTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+async function validerPremierTirageActiviteAdo() {
+
+  if (
+    !ligneActiviteAdoEnCours ||
+    !carteActiviteAdoTiree
+  ) {
+    return;
+  }
+
+  /* PAS D'ACTIVITÉ */
+  if (carteActiviteAdoTiree.type === "aucune") {
+
+    ligneActiviteAdoEnCours.dataset.carteTiree = "oui";
+
+    const texte =
+      ligneActiviteAdoEnCours.querySelector(".texte-objectif");
+
+    if (texte) {
+      texte.textContent = "Pas d'activité";
+    }
+
+    fermerTirageNourrisson();
+    return;
+  }
+
+  /* Sinon : deuxième tirage */
+  await ouvrirDeuxiemeTirageActiviteAdo(
+    carteActiviteAdoTiree.type
+  );
+}
+  
 function ouvrirTirageActiviteEnfant(ligne) {
 
   if (
@@ -8242,15 +8405,23 @@ function ouvrirTirageActiviteEnfant(ligne) {
 
 
   /* Tirage parmi les 3 catégories */
-  const index =
-    Math.floor(
-      Math.random() *
-      cartesPremierTirageActiviteEnfant.length
-    );
+  
+ const hasard = Math.random() * 100;
 
-  carteActiviteEnfantTiree =
-    cartesPremierTirageActiviteEnfant[index];
+let index;
 
+if (hasard < 38) {
+  index = 0; // Activité existante EA : 38 %
+}
+else if (hasard < 62) {
+  index = 1; // Activité de la ville : 24 %
+}
+else {
+  index = 2; // Pas d'activité : 38 %
+}
+
+carteActiviteEnfantTiree =
+  cartesPremierTirageActiviteEnfant[index];
 
   /* Le bouton devient temporairement
      le bouton du tirage Activité */
@@ -8381,6 +8552,247 @@ async function validerPremierTirageActiviteEnfant() {
    DEUXIÈME TIRAGE ACTIVITÉ
 ------------------------- */
 
+async function ouvrirDeuxiemeTirageActiviteAdo(categorie) {
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Même bibliothèque que l'enfant */
+  let requete =
+    supabaseClient
+      .from("activity_library")
+      .select(
+        "id, nom, age, categorie, ville, image, actif"
+      )
+      .eq("actif", true)
+      .eq("categorie", categorie)
+      .in(
+        "age",
+        ["ado", "enfant-ado"]
+      );
+
+
+  /* Activités de la ville :
+     uniquement la ville actuelle de la Matriarche */
+  if (categorie === "ville") {
+
+    const villeElement =
+      document.getElementById("ville-matriarche");
+
+    const villeActuelle =
+      villeElement
+        ? villeElement.textContent.trim()
+        : "";
+
+    if (!villeActuelle) {
+
+      alert(
+        "Impossible de connaître la ville actuelle de la Matriarche."
+      );
+
+      return;
+    }
+
+    requete =
+      requete.ilike(
+        "ville",
+        villeActuelle
+      );
+  }
+
+
+  const { data: activites, error } =
+    await requete;
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement activités ado pour le tirage :",
+      error
+    );
+
+    alert(
+      "Impossible de charger les activités disponibles."
+    );
+
+    return;
+  }
+
+
+  if (!activites || activites.length === 0) {
+
+    alert(
+      categorie === "ville"
+        ? "Aucune activité active n'est disponible dans cette ville."
+        : categorie === "premier-job"
+          ? "Aucun premier job actif n'est disponible pour les ados."
+          : "Aucune activité EA active n'est disponible pour les ados."
+    );
+
+    return;
+  }
+
+
+  /* Même tirage aléatoire que l'enfant */
+  const index =
+    Math.floor(
+      Math.random() * activites.length
+    );
+
+  carteActiviteAdoTiree =
+    activites[index];
+
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider cette activité";
+
+  bouton.onclick =
+    validerDeuxiemeTirageActiviteAdo;
+
+
+  /* Exactement les mêmes 7 cartes */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité ado">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteAdoTiree.image}"
+            alt="${carteActiviteAdoTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+/* -------------------------
+   VALIDATION DU 2e TIRAGE ADO
+------------------------- */
+
+function validerDeuxiemeTirageActiviteAdo() {
+
+  if (
+    !ligneActiviteAdoEnCours ||
+    !carteActiviteAdoTiree
+  ) {
+    return;
+  }
+
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+
+  const texte =
+    ligneActiviteAdoEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneActiviteAdoEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      carteActiviteAdoTiree.nom;
+  }
+
+
+  if (image) {
+    image.src =
+      carteActiviteAdoTiree.image;
+
+    image.alt =
+      carteActiviteAdoTiree.nom;
+  }
+
+
+  ligneActiviteAdoEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneActiviteAdoEnCours.onclick = null;
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneActiviteAdoEnCours = null;
+  carteActiviteAdoTiree = null;
+
+
+  sauvegarderChallenge();
+}
+  
 async function ouvrirDeuxiemeTirageActiviteEnfant(categorie) {
 
   const fond =
