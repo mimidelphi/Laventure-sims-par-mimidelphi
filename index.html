@@ -2896,6 +2896,83 @@ input[type="checkbox"] {
   </div>
 
 </div>
+
+<!-- =========================
+     DÉ DU BAL DE PROMO ADO
+========================= -->
+
+<div id="fond-tirage-bal-promo-ado"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 BAL DE PROMO 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Cet ado ira-t-il au bal de promo ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-bal-promo-ado"
+           class="resultat-qualites-bambin">
+        Bal de promo
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-bal-promo-ado"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-bal-promo-ado"
+              onclick="lancerDeBalPromoAdo()">
+        Lancer le dé 🎲
+      </button>
+
+      <button id="bouton-valider-bal-promo-ado"
+              onclick="validerDeBalPromoAdo()">
+        Valider
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
   
 <!-- =========================
      TIRAGE DES COMPÉTENCES BAMBIN
@@ -4775,11 +4852,46 @@ objectifs: `
         <button>✓</button>
       </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">💃</span>
-        <span class="texte-objectif">Dernier bal de promo : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+      <div class="objectif objectif-bal-promo-ado">
+
+  <span
+    class="icone-objectif de-competence-bambin"
+    onclick="event.stopPropagation(); ouvrirTirageBalPromoAdo(this)"
+  >
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+    </span>
+  </span>
+
+  <span class="texte-objectif">Bal de promo — à tirer</span>
+
+  <button>✓</button>
+
+</div>
 
       <div class="objectif">
         <span class="icone-objectif">🌱</span>
@@ -8803,6 +8915,217 @@ function validerDeMoyenneEnfant() {
   ligneMoyenneEnfantEnCours = null;
   resultatMoyenneEnfant = null;
   tirageMoyenneEnfantEnCours = false;
+
+  sauvegarderChallenge();
+}
+
+/* =========================
+   DÉ DU BAL DE PROMO ADO
+========================= */
+
+let ligneBalPromoAdoEnCours = null;
+let resultatBalPromoAdo = null;
+let tirageBalPromoAdoEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageBalPromoAdo(element) {
+
+  const ligne = element.closest(".objectif-bal-promo-ado");
+
+  if (!ligne) return;
+
+  /* Impossible de retirer une deuxième fois */
+  if (ligne.dataset.carteTiree === "oui") return;
+
+  ligneBalPromoAdoEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-bal-promo-ado");
+
+  const resultat =
+    document.getElementById("resultat-bal-promo-ado");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-bal-promo-ado");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-bal-promo-ado");
+
+  const cube =
+    document.getElementById("cube-bal-promo-ado");
+
+  if (
+    !fond ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider ||
+    !cube
+  ) {
+    return;
+  }
+
+  resultatBalPromoAdo = null;
+  tirageBalPromoAdoEnCours = false;
+
+  resultat.textContent = "Bal de promo";
+
+  cube.classList.remove("en-lancer");
+
+  boutonLancer.style.display = "inline-block";
+  boutonLancer.disabled = false;
+
+  boutonValider.classList.remove("visible");
+
+  fond.classList.add("ouvert");
+}
+
+
+/* -------------------------
+   TIRAGE 80 % / 20 %
+------------------------- */
+
+function tirerBalPromoAdo() {
+
+  return Math.random() < 0.80
+    ? "bal"
+    : "secher";
+}
+
+
+/* -------------------------
+   LANCER DU DÉ
+------------------------- */
+
+function lancerDeBalPromoAdo() {
+
+  if (tirageBalPromoAdoEnCours) return;
+
+  const cube =
+    document.getElementById("cube-bal-promo-ado");
+
+  const resultat =
+    document.getElementById("resultat-bal-promo-ado");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-bal-promo-ado");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-bal-promo-ado");
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+  tirageBalPromoAdoEnCours = true;
+
+  resultatBalPromoAdo =
+    tirerBalPromoAdo();
+
+  boutonLancer.disabled = true;
+
+  resultat.textContent = "Le dé roule... 🎲";
+
+  cube.classList.remove("en-lancer");
+  void cube.offsetWidth;
+  cube.classList.add("en-lancer");
+
+  setTimeout(function() {
+
+    cube.classList.remove("en-lancer");
+
+    if (resultatBalPromoAdo === "bal") {
+
+      resultat.textContent =
+        "Aller au bal de promo";
+
+    } else {
+
+      resultat.textContent =
+        "Promettre de sécher le bal de promo";
+
+    }
+
+    boutonLancer.style.display = "none";
+    boutonValider.classList.add("visible");
+
+    tirageBalPromoAdoEnCours = false;
+
+  }, 1900);
+}
+
+
+/* -------------------------
+   VALIDATION DU RÉSULTAT
+------------------------- */
+
+function validerDeBalPromoAdo() {
+
+  if (
+    !ligneBalPromoAdoEnCours ||
+    !resultatBalPromoAdo ||
+    tirageBalPromoAdoEnCours
+  ) {
+    return;
+  }
+
+  const texte =
+    ligneBalPromoAdoEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const cubeFiche =
+    ligneBalPromoAdoEnCours.querySelector(
+      ".cube-bambin"
+    );
+
+  const imageResultat =
+    resultatBalPromoAdo === "bal"
+      ? "images/bambin/des/bal de promo.png"
+      : "images/bambin/des/pas de bal de promo.png";
+
+  if (texte) {
+
+    texte.textContent =
+      resultatBalPromoAdo === "bal"
+        ? "Aller au bal de promo"
+        : "Promettre de sécher le bal de promo";
+
+  }
+
+  /* Le résultat devient la face visible du dé de la fiche */
+  if (cubeFiche) {
+
+    const faceAvant =
+      cubeFiche.querySelector(".face-avant img");
+
+    if (faceAvant) {
+      faceAvant.src = imageResultat;
+    }
+
+  }
+
+  ligneBalPromoAdoEnCours.dataset.carteTiree = "oui";
+  ligneBalPromoAdoEnCours.onclick = null;
+
+  const fond =
+    document.getElementById("fond-tirage-bal-promo-ado");
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  ligneBalPromoAdoEnCours = null;
+  resultatBalPromoAdo = null;
+  tirageBalPromoAdoEnCours = false;
 
   sauvegarderChallenge();
 }
