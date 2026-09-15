@@ -891,12 +891,21 @@ label,
 }
     
 .icone-objectif img:hover {
-  transform: scale(6);
+  transform: scale(8);
   position: relative;
-  z-index: 9999;
+  z-index: 999;
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
 }
 
+/* =========================
+   ZOOM CARTES ACTIVITÉ
+========================= */
+
+.objectif-activite-enfant .icone-objectif img:hover,
+.objectif-activite-ado .icone-objectif img:hover {
+  transform: scale(4);
+}
+    
     /* =========================
    TIRAGE CARTES NOURRISSON
 ========================= */
