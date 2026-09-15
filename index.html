@@ -3747,6 +3747,19 @@ if (estAdolescent) {
           <button title="Valider cette qualité">✓</button>
         `;
 
+        /* Restaurer l'état validé de la qualité */
+        if (qualite.valide) {
+          ligne.classList.add("objectif-valide");
+          ligne.style.opacity = "0.45";
+
+          const bouton =
+            ligne.querySelector("button");
+
+          if (bouton) {
+            bouton.textContent = "↩";
+          }
+        }
+        
         zoneObjectifs.prepend(ligne);
 
       });
