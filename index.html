@@ -800,6 +800,68 @@ label,
 
   padding: 5px 3px 12px;
 }
+
+/* =========================================
+   FICHES DANS L'HISTORIQUE
+========================================= */
+
+.colonne-historique-age {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fiche-historique-age {
+  background: #f59af0;
+
+  border: 2px solid #39234f;
+  border-radius: 15px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+}
+
+.fiche-historique-age .bloc-age {
+  margin-top: 0;
+}
+
+.fiche-historique-age .age-sous-titre {
+  cursor: default;
+}
+
+.fiche-historique-age
+.age-sous-titre:hover::before {
+  color: #7b4bb7;
+}
+
+.fiche-historique-age
+.icone-age-droite {
+  display: none;
+}
+
+.fiche-historique-age
+.separateur-coeur {
+  margin-top: 8px;
+}
+
+.fiche-historique-age
+.objectif {
+  pointer-events: none;
+}
+
+.fiche-historique-age
+.objectif button {
+  pointer-events: none;
+}
+
+.fiche-historique-age
+.icone-objectif img {
+  cursor: default;
+}
     
 /* =========================
    PETIT CŒUR SÉPARATEUR
@@ -5371,6 +5433,149 @@ if (iconeDroite) {
   }
 }
 
+function creerFicheHistoriqueAge(etape) {
+
+  const imagesAge = {
+    nouveauNe: "images/icone-age/nouveau-ne.png",
+    nourrisson: "images/icone-age/nourisson.png",
+    bambin: "images/icone-age/bambin.png",
+    enfant: "images/icone-age/enfant.png",
+    adolescent: "images/icone-age/ado.png",
+    jeuneAdulte: "images/icone-age/jeune-adulte.png",
+    adulte: "images/icone-age/adulte.png",
+    personneAgee: "images/icone-age/personne-agee.png"
+  };
+
+  const fiche =
+    document.createElement("div");
+
+  fiche.className =
+    "fiche-historique-age";
+
+  const duree =
+    etape.dureeAge
+      ? etape.dureeAge +
+        (etape.dureeAge === 1
+          ? " jour"
+          : " jours")
+      : "? jours";
+
+  fiche.innerHTML = `
+    <div class="bloc-age">
+
+      <div class="logo-age">
+        <img
+          src="${imagesAge[etape.cleAge] || ""}"
+          alt="${etape.nomAge || ""}"
+        >
+      </div>
+
+      <div class="texte-age">
+
+        <strong class="age-nom">
+          ${etape.nomAge || ""}
+        </strong>
+
+        <span
+          class="age-sous-titre"
+          data-duree-affichage="${duree}"
+        ></span>
+
+      </div>
+
+    </div>
+
+    <div class="separateur-coeur">
+      <span></span>
+      ♥
+      <span></span>
+    </div>
+
+    <div class="titre-objectifs">
+      Objectifs de cette étape
+    </div>
+
+    <div class="objectifs-historique-age">
+    </div>
+  `;
+
+  const zoneObjectifs =
+    fiche.querySelector(
+      ".objectifs-historique-age"
+    );
+
+  const objectifs =
+    Array.isArray(etape.objectifs)
+      ? etape.objectifs
+      : [];
+
+  objectifs.forEach(function(objectif) {
+
+    const ligne =
+      document.createElement("div");
+
+    ligne.className = "objectif";
+
+    if (objectif.bloque) {
+      ligne.classList.add(
+        "objectif-bloque"
+      );
+    }
+
+    const icone =
+      objectif.image
+        ? `
+          <div class="icone-objectif">
+            <img
+              src="${objectif.image}"
+              alt="${objectif.imageAlt || ""}"
+            >
+          </div>
+        `
+        : `
+          <div class="icone-objectif">
+          </div>
+        `;
+
+    let etat = "";
+
+    if (objectif.bloque) {
+
+      etat = `
+        <div class="icone-bloque">
+          🔒
+        </div>
+      `;
+
+    } else if (objectif.valide) {
+
+      etat = `
+        <button
+          type="button"
+          tabindex="-1"
+        >
+          ✓
+        </button>
+      `;
+
+    }
+
+    ligne.innerHTML = `
+      ${icone}
+
+      <div class="texte-objectif">
+        ${objectif.texte || ""}
+      </div>
+
+      ${etat}
+    `;
+
+    zoneObjectifs.appendChild(ligne);
+  });
+
+  return fiche;
+}
+  
 function testerHistoriqueSim(sim) {
 
   let historique = [];
@@ -5447,6 +5652,36 @@ function testerHistoriqueSim(sim) {
     };
   }
 
+const zoneColonnes =
+  fond.querySelector(
+    ".colonnes-historique-ages"
+  );
+
+zoneColonnes.innerHTML = "";
+
+const colonne1 =
+  document.createElement("div");
+
+colonne1.className =
+  "colonne-historique-age";
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "nouveauNe" ||
+    etape.cleAge === "nourrisson"
+  ) {
+
+    colonne1.appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+zoneColonnes.appendChild(colonne1);
+  
   fond.classList.add("ouvert");
 }
   
