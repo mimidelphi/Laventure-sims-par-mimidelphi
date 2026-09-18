@@ -5770,14 +5770,13 @@ historique.forEach(function(etape) {
 
 });
 
-  /* COLONNE 2 :
-   BAMBIN + ENFANT */
+/* COLONNE 2 :
+   BAMBIN */
 
 historique.forEach(function(etape) {
 
   if (
-    etape.cleAge === "bambin" ||
-    etape.cleAge === "enfant"
+    etape.cleAge === "bambin"
   ) {
 
     colonnes[1].appendChild(
@@ -5790,12 +5789,12 @@ historique.forEach(function(etape) {
 
 
 /* COLONNE 3 :
-   ADO */
+   ENFANT */
 
 historique.forEach(function(etape) {
 
   if (
-    etape.cleAge === "adolescent"
+    etape.cleAge === "enfant"
   ) {
 
     colonnes[2].appendChild(
@@ -5808,12 +5807,63 @@ historique.forEach(function(etape) {
 
 
 /* COLONNE 4 :
-   JEUNE ADULTE */
+   ADO */
 
 historique.forEach(function(etape) {
 
   if (
-    etape.cleAge === "jeuneAdulte"
+    etape.cleAge === "adolescent"
+  ) {
+
+    colonnes[3].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});/* COLONNE 2 :
+   BAMBIN */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "bambin"
+  ) {
+
+    colonnes[1].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 3 :
+   ENFANT */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "enfant"
+  ) {
+
+    colonnes[2].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 4 :
+   ADO */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "adolescent"
   ) {
 
     colonnes[3].appendChild(
