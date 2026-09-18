@@ -633,7 +633,7 @@ label,
 }
 
 .age-sous-titre::before {
-  content: "▰▰▰▰▰▰▰▱▱▱";
+ content: "▰▰▰▰▰▰▱▱";
 
   position: absolute;
   top: 0;
@@ -663,6 +663,12 @@ label,
 
 .age-sous-titre:hover::before {
   color: #9a64d0;
+}
+
+/* Pas de durée d'âge sur la Matriarche */
+#sim-1 .age-sous-titre::before,
+#sim-1 .age-sous-titre::after {
+  display: none;
 }
     
 .icone-age-droite {
