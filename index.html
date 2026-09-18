@@ -695,7 +695,112 @@ label,
   transform: scale(1.06);
 }
 
+/* =========================================
+   HISTORIQUE DES ÉTAPES DE VIE
+========================================= */
 
+.fond-historique-ages {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 15000;
+
+  background: rgba(45, 32, 55, 0.72);
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.fond-historique-ages.ouvert {
+  display: flex;
+}
+
+.fenetre-historique-ages {
+  position: relative;
+
+  width: min(1200px, 96vw);
+  max-height: 92vh;
+
+  overflow: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffafd,
+      #f4ecfb
+    );
+
+  border: 2px solid #d9c2eb;
+  border-radius: 26px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 20px 60px rgba(40, 25, 55, 0.35);
+
+  box-sizing: border-box;
+}
+
+.titre-historique-ages {
+  margin: 0 45px 5px;
+
+  text-align: center;
+
+  color: #6c3eb1;
+  font-size: 24px;
+}
+
+.sous-titre-historique-ages {
+  margin: 0 0 20px;
+
+  text-align: center;
+
+  color: #777;
+  font-size: 12px;
+}
+
+.fermer-historique-ages {
+  position: absolute;
+
+  top: 12px;
+  right: 15px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #a47abc;
+  font-size: 27px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.fermer-historique-ages:hover {
+  transform: scale(1.12);
+  color: #6c3eb1;
+}
+
+.colonnes-historique-ages {
+  min-height: 300px;
+
+  display: flex;
+  gap: 16px;
+
+  align-items: flex-start;
+
+  overflow-x: auto;
+
+  padding: 5px 3px 12px;
+}
+    
 /* =========================
    PETIT CŒUR SÉPARATEUR
 ========================= */
@@ -5286,23 +5391,63 @@ function testerHistoriqueSim(sim) {
     return;
   }
 
-  const ages =
-    historique.map(function(etape) {
+  let fond =
+    document.getElementById(
+      "fond-historique-ages"
+    );
 
-      const duree =
-        etape.dureeAge
-          ? " — " + etape.dureeAge +
-            (etape.dureeAge === 1 ? " jour" : " jours")
-          : "";
+  if (!fond) {
 
-      return "• " + etape.nomAge + duree;
+    fond = document.createElement("div");
 
-    }).join("\n");
+    fond.id = "fond-historique-ages";
+    fond.className = "fond-historique-ages";
 
-  alert(
-    "📖 Historique des étapes de vie\n\n" +
-    ages
-  );
+    fond.innerHTML = `
+      <div class="fenetre-historique-ages">
+
+        <button
+          type="button"
+          class="fermer-historique-ages"
+          title="Fermer"
+        >
+          ×
+        </button>
+
+        <h2 class="titre-historique-ages">
+          📖 Historique des étapes de vie
+        </h2>
+
+        <p class="sous-titre-historique-ages">
+          Souvenirs des étapes déjà vécues
+        </p>
+
+        <div class="colonnes-historique-ages">
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(fond);
+
+    fond
+      .querySelector(
+        ".fermer-historique-ages"
+      )
+      .onclick = function() {
+        fond.classList.remove("ouvert");
+      };
+
+    fond.onclick = function(event) {
+
+      if (event.target === fond) {
+        fond.classList.remove("ouvert");
+      }
+
+    };
+  }
+
+  fond.classList.add("ouvert");
 }
   
 function renseignerDureeAge(sim) {
