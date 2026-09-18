@@ -5298,6 +5298,26 @@ function faireGrandir(sim) {
     return;
   }
 
+  /* =========================================
+   VERROU ANTI-DELPHINE 😂
+   DURÉE OBLIGATOIRE AVANT ANNIVERSAIRE
+========================================= */
+
+const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+if (
+  !barreDuree ||
+  !barreDuree.dataset.dureeAge
+) {
+
+  alert(
+    "⏳ Oups ! Tu as oublié de renseigner la durée de cette étape.\n\n" +
+    "Clique sur la barre de chargement sous l'âge avant de faire grandir ce Sim."
+  );
+
+  return;
+}
 
   /* =========================================
      SI LE BAMBIN DEVIENT ENFANT :
