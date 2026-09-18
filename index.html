@@ -3609,11 +3609,24 @@ const dureeAge =
     ? parseInt(barreDuree.dataset.dureeAge, 10)
     : null;
 
+let historiqueAges = [];
+
+if (sim.dataset.historiqueAges) {
+  try {
+    historiqueAges =
+      JSON.parse(sim.dataset.historiqueAges);
+  } catch (erreur) {
+    historiqueAges = [];
+  }
+}
+
 return {
   objectifs: objectifs,
   icones: icones,
-  dureeAge: dureeAge
+  dureeAge: dureeAge,
+  historiqueAges: historiqueAges
 };
+    
 }
 
 async function sauvegarderChallenge() {
@@ -3773,6 +3786,17 @@ if (version < 4) {
 
   if (!etat) return;
 
+/* =========================
+   RESTAURER L'HISTORIQUE DES ÂGES
+========================= */
+
+sim.dataset.historiqueAges =
+  JSON.stringify(
+    Array.isArray(etat.historiqueAges)
+      ? etat.historiqueAges
+      : []
+  );
+    
 /* =========================
    RESTAURER LA DURÉE DE L'ÂGE
 ========================= */
@@ -5270,6 +5294,52 @@ function renseignerDureeAge(sim) {
   barre.dataset.dureeAffichage =
     duree + (duree === 1 ? " jour" : " jours");
 }
+
+function enregistrerEtapeDansHistorique(
+  sim,
+  cleAge
+) {
+
+  const etatActuel =
+    extraireEtatSim(sim);
+
+  let historique = [];
+
+  if (sim.dataset.historiqueAges) {
+    try {
+      historique =
+        JSON.parse(
+          sim.dataset.historiqueAges
+        );
+    } catch (erreur) {
+      historique = [];
+    }
+  }
+
+  historique.push({
+    cleAge: cleAge,
+
+    nomAge:
+      sim.querySelector(".age-nom")
+        ? sim
+            .querySelector(".age-nom")
+            .textContent
+            .trim()
+        : "",
+
+    dureeAge:
+      etatActuel.dureeAge,
+
+    objectifs:
+      etatActuel.objectifs,
+
+    icones:
+      etatActuel.icones
+  });
+
+  sim.dataset.historiqueAges =
+    JSON.stringify(historique);
+}
   
 /* =========================================
    FAIRE GRANDIR UN SIM
@@ -5319,6 +5389,12 @@ if (
   return;
 }
 
+/* 📖 On archive l'étape AVANT de la remplacer */
+enregistrerEtapeDansHistorique(
+  sim,
+  cleAgeActuel
+);
+  
   /* =========================================
      SI LE BAMBIN DEVIENT ENFANT :
      ON GARDE SES QUALITÉS PERSONNELLES
