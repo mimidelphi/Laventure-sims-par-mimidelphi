@@ -618,54 +618,48 @@ label,
 
 /* =========================
    DURÉE DE L'ÉTAPE DE VIE
+   STYLE BARRE DE CHARGEMENT
 ========================= */
 
 .age-sous-titre {
-  position: relative;
-  height: 15px;
-  margin-top: 5px !important;
-  border: 1px solid #bba5d3;
-  border-radius: 8px;
-  background: #ded4e8;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 4px !important;
+  height: 14px;
+
   cursor: pointer;
-  box-sizing: border-box;
+  color: #555;
+  font-size: 9px;
+  line-height: 1;
 }
 
 .age-sous-titre::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  bottom: 2px;
-  left: 2px;
-  width: 38%;
-  border-radius: 5px;
-  background: linear-gradient(
-    90deg,
-    #7b4bb7,
-    #a66ddd
-  );
+  content: "▰▰▰▰▰▰▰▱▱▱";
+
+  color: #7b4bb7;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+
+  white-space: nowrap;
 }
 
 .age-sous-titre::after {
   content: attr(data-duree-affichage);
-  position: absolute;
-  inset: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #4f326c;
+  color: #555;
   font-size: 9px;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1;
 
-  z-index: 2;
+  white-space: nowrap;
 }
 
-.age-sous-titre:hover {
-  border-color: #7b4bb7;
+.age-sous-titre:hover::before {
+  color: #9a64d0;
 }
     
 .icone-age-droite {
@@ -5177,7 +5171,7 @@ const imagesAge = {
 
 if (sousTitre) {
   sousTitre.textContent = "";
-  sousTitre.dataset.dureeAffichage = "Durée : ?";
+ sousTitre.dataset.dureeAffichage = "? jours";
   sousTitre.title = "Cliquer pour renseigner la durée de cette étape";
 
   sousTitre.onclick = function() {
