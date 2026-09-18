@@ -616,6 +616,58 @@ label,
   color: #555;
 }
 
+/* =========================
+   DURÉE DE L'ÉTAPE DE VIE
+========================= */
+
+.age-sous-titre {
+  position: relative;
+  height: 15px;
+  margin-top: 5px !important;
+  border: 1px solid #bba5d3;
+  border-radius: 8px;
+  background: #ded4e8;
+  overflow: hidden;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.age-sous-titre::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: 38%;
+  border-radius: 5px;
+  background: linear-gradient(
+    90deg,
+    #7b4bb7,
+    #a66ddd
+  );
+}
+
+.age-sous-titre::after {
+  content: attr(data-duree-affichage);
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #4f326c;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 1;
+
+  z-index: 2;
+}
+
+.age-sous-titre:hover {
+  border-color: #7b4bb7;
+}
+    
 .icone-age-droite {
   width: 28px;
   height: 28px;
@@ -5124,7 +5176,13 @@ const imagesAge = {
 }
 
 if (sousTitre) {
-  sousTitre.textContent = modele.sousTitre;
+  sousTitre.textContent = "";
+  sousTitre.dataset.dureeAffichage = "Durée : ?";
+  sousTitre.title = "Cliquer pour renseigner la durée de cette étape";
+
+  sousTitre.onclick = function() {
+    renseignerDureeAge(sim);
+  };
 }
 
 if (iconeDroite) {
@@ -5141,7 +5199,45 @@ if (iconeDroite) {
   }
 }
 
+function renseignerDureeAge(sim) {
 
+  const barre =
+    sim.querySelector(".age-sous-titre");
+
+  if (!barre) {
+    return;
+  }
+
+  const valeurActuelle =
+    barre.dataset.dureeAge || "";
+
+  const reponse = prompt(
+    "⏳ Combien de jours Sims cette étape de vie a-t-elle duré ?",
+    valeurActuelle
+  );
+
+  if (reponse === null) {
+    return;
+  }
+
+  const duree =
+    parseInt(reponse, 10);
+
+  if (
+    !Number.isInteger(duree) ||
+    duree < 1
+  ) {
+    alert("Entre un nombre de jours supérieur à 0.");
+    return;
+  }
+
+  barre.dataset.dureeAge =
+    duree.toString();
+
+  barre.dataset.dureeAffichage =
+    duree + (duree === 1 ? " jour" : " jours");
+}
+  
 /* =========================================
    FAIRE GRANDIR UN SIM
 ========================================= */
