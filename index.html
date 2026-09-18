@@ -3601,10 +3601,19 @@ imageAlt:
   };
 });
 
-  return {
-    objectifs: objectifs,
-    icones: icones
-  };
+ const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+const dureeAge =
+  barreDuree && barreDuree.dataset.dureeAge
+    ? parseInt(barreDuree.dataset.dureeAge, 10)
+    : null;
+
+return {
+  objectifs: objectifs,
+  icones: icones,
+  dureeAge: dureeAge
+};
 }
 
 async function sauvegarderChallenge() {
@@ -3764,6 +3773,27 @@ if (version < 4) {
 
   if (!etat) return;
 
+/* =========================
+   RESTAURER LA DURÉE DE L'ÂGE
+========================= */
+
+const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+if (
+  barreDuree &&
+  etat.dureeAge !== null &&
+  etat.dureeAge !== undefined
+) {
+
+  barreDuree.dataset.dureeAge =
+    etat.dureeAge.toString();
+
+  barreDuree.dataset.dureeAffichage =
+    etat.dureeAge +
+    (etat.dureeAge === 1 ? " jour" : " jours");
+}
+    
   // Restaurer l'état des objectifs
   if (etat.objectifs) {
 
