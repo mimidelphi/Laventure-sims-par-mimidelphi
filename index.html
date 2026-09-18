@@ -5234,7 +5234,10 @@ const imagesAge = {
 
 if (sousTitre) {
   sousTitre.textContent = "";
- sousTitre.dataset.dureeAffichage = "? jours";
+
+  delete sousTitre.dataset.dureeAge;
+  sousTitre.dataset.dureeAffichage = "? jours";
+ 
   sousTitre.title = "Cliquer pour renseigner la durée de cette étape";
 
   sousTitre.onclick = function() {
