@@ -5549,11 +5549,23 @@ function creerFicheHistoriqueAge(etape) {
       ? etape.objectifs
       : [];
 
-  objectifs.forEach(function(objectif) {
+ objectifs.forEach(function(objectif) {
 
-    const ligne =
-      document.createElement("div");
+  /* On cache les qualités personnelles
+     en attente chez Bambin et Enfant */
 
+  if (
+    (
+      etape.cleAge === "bambin" ||
+      etape.cleAge === "enfant"
+    ) &&
+    objectif.bloque
+  ) {
+    return;
+  }
+
+  const ligne =
+    document.createElement("div");
     ligne.className = "objectif";
 
     if (objectif.bloque) {
