@@ -5248,6 +5248,10 @@ if (sousTitre) {
 if (iconeDroite) {
   iconeDroite.textContent = "↩";
   iconeDroite.title = "Consulter les étapes de vie passées";
+
+  iconeDroite.onclick = function() {
+    testerHistoriqueSim(sim);
+  };
 }
 
   if (titreObjectifs) {
@@ -5259,6 +5263,45 @@ if (iconeDroite) {
   }
 }
 
+function testerHistoriqueSim(sim) {
+
+  let historique = [];
+
+  if (sim.dataset.historiqueAges) {
+    try {
+      historique =
+        JSON.parse(sim.dataset.historiqueAges);
+    } catch (erreur) {
+      historique = [];
+    }
+  }
+
+  if (historique.length === 0) {
+    alert(
+      "📖 Aucune étape de vie passée enregistrée pour ce Sim."
+    );
+    return;
+  }
+
+  const ages =
+    historique.map(function(etape) {
+
+      const duree =
+        etape.dureeAge
+          ? " — " + etape.dureeAge +
+            (etape.dureeAge === 1 ? " jour" : " jours")
+          : "";
+
+      return "• " + etape.nomAge + duree;
+
+    }).join("\n");
+
+  alert(
+    "📖 Historique des étapes de vie\n\n" +
+    ages
+  );
+}
+  
 function renseignerDureeAge(sim) {
 
   const barre =
