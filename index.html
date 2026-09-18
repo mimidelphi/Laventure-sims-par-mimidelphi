@@ -5758,6 +5758,59 @@ historique.forEach(function(etape) {
 
 });
 
+  /* COLONNE 2 :
+   BAMBIN + ENFANT */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "bambin" ||
+    etape.cleAge === "enfant"
+  ) {
+
+    colonnes[1].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 3 :
+   ADO */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "adolescent"
+  ) {
+
+    colonnes[2].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 4 :
+   JEUNE ADULTE */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "jeuneAdulte"
+  ) {
+
+    colonnes[3].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
 
 /* FLÈCHE DROITE */
 
