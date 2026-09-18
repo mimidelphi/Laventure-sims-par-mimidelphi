@@ -791,16 +791,56 @@ label,
 .colonnes-historique-ages {
   min-height: 300px;
 
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns:
+    34px
+    repeat(4, minmax(0, 1fr))
+    34px;
 
-  align-items: flex-start;
+  gap: 10px;
+  align-items: start;
 
-  overflow-x: auto;
-
-  padding: 5px 3px 12px;
+  padding: 5px 0 12px;
 }
 
+.bouton-defilement-historique {
+  width: 34px;
+  height: 50px;
+
+  align-self: center;
+
+  border: 1px solid #cdb2e7;
+  border-radius: 10px;
+
+  background: #f4ecfb;
+  color: #6c3eb1;
+
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.bouton-defilement-historique:hover {
+  background: #eadcf5;
+  transform: scale(1.05);
+}
+
+.bouton-defilement-historique:disabled {
+  opacity: 0.25;
+  cursor: default;
+  transform: none;
+}
+
+.emplacement-historique-vide {
+  min-width: 0;
+}
+    
 /* =========================================
    FICHES DANS L'HISTORIQUE
 ========================================= */
@@ -5659,11 +5699,49 @@ const zoneColonnes =
 
 zoneColonnes.innerHTML = "";
 
-const colonne1 =
-  document.createElement("div");
 
-colonne1.className =
-  "colonne-historique-age";
+/* FLÈCHE GAUCHE */
+
+const boutonGauche =
+  document.createElement("button");
+
+boutonGauche.type = "button";
+boutonGauche.className =
+  "bouton-defilement-historique";
+
+boutonGauche.textContent = "‹";
+boutonGauche.title =
+  "Voir les étapes précédentes";
+
+boutonGauche.disabled = true;
+
+zoneColonnes.appendChild(
+  boutonGauche
+);
+
+
+/* 4 COLONNES FIXES */
+
+const colonnes = [];
+
+for (let i = 0; i < 4; i++) {
+
+  const colonne =
+    document.createElement("div");
+
+  colonne.className =
+    "colonne-historique-age";
+
+  colonnes.push(colonne);
+
+  zoneColonnes.appendChild(
+    colonne
+  );
+}
+
+
+/* COLONNE 1 :
+   NOUVEAU-NÉ + NOURRISSON */
 
 historique.forEach(function(etape) {
 
@@ -5672,7 +5750,7 @@ historique.forEach(function(etape) {
     etape.cleAge === "nourrisson"
   ) {
 
-    colonne1.appendChild(
+    colonnes[0].appendChild(
       creerFicheHistoriqueAge(etape)
     );
 
@@ -5680,7 +5758,25 @@ historique.forEach(function(etape) {
 
 });
 
-zoneColonnes.appendChild(colonne1);
+
+/* FLÈCHE DROITE */
+
+const boutonDroite =
+  document.createElement("button");
+
+boutonDroite.type = "button";
+boutonDroite.className =
+  "bouton-defilement-historique";
+
+boutonDroite.textContent = "›";
+boutonDroite.title =
+  "Voir les étapes suivantes";
+
+boutonDroite.disabled = true;
+
+zoneColonnes.appendChild(
+  boutonDroite
+);
   
   fond.classList.add("ouvert");
 }
