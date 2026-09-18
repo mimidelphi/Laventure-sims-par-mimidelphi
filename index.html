@@ -605,6 +605,11 @@ label,
   line-height: 1.1;
 }
 
+.texte-age strong.age-long {
+  font-size: 14px;
+  letter-spacing: -0.3px;
+}
+    
 .texte-age span {
   margin-top: 3px;
   font-size: 10px;
@@ -5097,9 +5102,19 @@ const imagesAge = {
   personneAgee: "images/icone-age/personne-agee.png"
 };
   
-  if (ageNom) {
-    ageNom.textContent = modele.nom;
+ if (ageNom) {
+  ageNom.textContent = modele.nom;
+
+  ageNom.classList.remove("age-long");
+
+  if (
+    cleAge === "nouveauNe" ||
+    cleAge === "adolescent" ||
+    cleAge === "jeuneAdulte"
+  ) {
+    ageNom.classList.add("age-long");
   }
+}
 
   if (logoAge && imagesAge[cleAge]) {
   logoAge.innerHTML = `
