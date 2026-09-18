@@ -7878,13 +7878,32 @@ function ouvrirTirageDiplomeLycee(objectif) {
 
 
   /* Tirage aléatoire */
-  const index =
-    Math.floor(
-      Math.random() * cartesDiplomeLycee.length
-    );
+  const hasard = Math.random() * 100;
 
-  carteDiplomeLyceeTiree =
-    cartesDiplomeLycee[index];
+if (hasard < 11) {
+  // 11 % — Décrochage scolaire
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[0];
+
+} else if (hasard < 20) {
+  // 9 % — Renvoyé du lycée
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[5];
+
+} else if (hasard < 36) {
+  // 16 % — Diplôme en avance
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[2];
+
+} else if (hasard < 50) {
+  // 14 % — Major de promo
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[3];
+
+} else if (hasard < 75) {
+  // 25 % — Diplôme avec mention
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[4];
+
+} else {
+  // 25 % — Diplôme classique
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[1];
+}
 
 
   /* Création des 7 cartes */
