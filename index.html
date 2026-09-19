@@ -1200,6 +1200,25 @@ label,
 .objectif-activite-ado .icone-objectif img:hover {
   transform: scale(4);
 }
+
+/* =========================
+   ASPIRATION ENFANT
+========================= */
+
+.objectif-aspiration-enfant {
+  background: linear-gradient(
+    90deg,
+    #fffdf4,
+    #fff5c7
+  );
+  border: 2px solid #d6ad3b;
+  box-shadow: 0 2px 7px rgba(181, 137, 25, 0.18);
+}
+
+.objectif-aspiration-enfant .texte-objectif {
+  color: #8a6817;
+  font-weight: bold;
+}
     
     /* =========================
    TIRAGE CARTES NOURRISSON
@@ -5089,6 +5108,23 @@ objectifs: `
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
+
+<div class="objectif objectif-tirage objectif-aspiration-enfant"
+     onclick="if (!event.target.closest('button')) ouvrirTirageAspirationEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/apiration-enfant/dos-aspiration-enfant.png"
+      alt="Tirage aspiration enfant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Aspiration — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
 
  <div class="objectif objectif-tirage objectif-activite-enfant"
      onclick="if (!event.target.closest('button')) ouvrirTirageActiviteEnfant(this)">
