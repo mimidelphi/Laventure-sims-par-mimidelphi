@@ -582,11 +582,19 @@ label,
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 25px;
+  overflow: hidden;
+}
+
+.logo-age img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .texte-age {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -595,19 +603,306 @@ label,
   color: #6c3eb1;
   font-size: 16px;
   line-height: 1.1;
+  white-space: nowrap;
 }
-
+    
+.texte-age strong.age-long {
+  font-size: 14px;
+  letter-spacing: -0.3px;
+}
+    
 .texte-age span {
   margin-top: 3px;
   font-size: 10px;
   color: #555;
 }
 
-.icone-age-droite {
-  font-size: 23px;
+/* =========================
+   DURÉE DE L'ÉTAPE DE VIE
+   STYLE BARRE DE CHARGEMENT
+========================= */
+
+.age-sous-titre {
+  position: relative;
+  display: block;
+
+  margin-top: 4px !important;
+  height: 23px;
+
+  cursor: pointer;
 }
 
+.age-sous-titre::before {
+ content: "▰▰▰▰▰▰▱▱";
 
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  color: #7b4bb7;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.age-sous-titre::after {
+  content: attr(data-duree-affichage);
+
+  position: absolute;
+  top: 13px;
+  right: 0;
+
+  color: #555;
+  font-size: 9px;
+  font-weight: normal;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.age-sous-titre:hover::before {
+  color: #9a64d0;
+}
+
+/* Pas de durée d'âge sur la Matriarche */
+#sim-1 .age-sous-titre::before,
+#sim-1 .age-sous-titre::after {
+  display: none;
+}
+    
+.icone-age-droite {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  flex-shrink: 0;
+  border: 1px solid #2f80ed;
+  border-radius: 5px;
+  background: #eaf3ff;
+  color: #1670df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.icone-age-droite:hover {
+  background: #dbeaff;
+  transform: scale(1.06);
+}
+
+/* =========================================
+   HISTORIQUE DES ÉTAPES DE VIE
+========================================= */
+
+.fond-historique-ages {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 15000;
+
+  background: rgba(45, 32, 55, 0.72);
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.fond-historique-ages.ouvert {
+  display: flex;
+}
+
+.fenetre-historique-ages {
+  position: relative;
+
+  width: min(1200px, 96vw);
+  max-height: 92vh;
+
+  overflow: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffafd,
+      #f4ecfb
+    );
+
+  border: 2px solid #d9c2eb;
+  border-radius: 26px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 20px 60px rgba(40, 25, 55, 0.35);
+
+  box-sizing: border-box;
+}
+
+.titre-historique-ages {
+  margin: 0 45px 5px;
+
+  text-align: center;
+
+  color: #6c3eb1;
+  font-size: 24px;
+}
+
+.sous-titre-historique-ages {
+  margin: 0 0 20px;
+
+  text-align: center;
+
+  color: #777;
+  font-size: 12px;
+}
+
+.fermer-historique-ages {
+  position: absolute;
+
+  top: 12px;
+  right: 15px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #a47abc;
+  font-size: 27px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.fermer-historique-ages:hover {
+  transform: scale(1.12);
+  color: #6c3eb1;
+}
+
+.colonnes-historique-ages {
+  min-height: 300px;
+
+  display: grid;
+  grid-template-columns:
+    34px
+    repeat(4, minmax(0, 1fr))
+    34px;
+
+  gap: 10px;
+  align-items: start;
+
+  padding: 5px 0 12px;
+}
+
+.bouton-defilement-historique {
+  width: 34px;
+  height: 50px;
+
+  align-self: center;
+
+  border: 1px solid #cdb2e7;
+  border-radius: 10px;
+
+  background: #f4ecfb;
+  color: #6c3eb1;
+
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.bouton-defilement-historique:hover {
+  background: #eadcf5;
+  transform: scale(1.05);
+}
+
+.bouton-defilement-historique:disabled {
+  opacity: 0.25;
+  cursor: default;
+  transform: none;
+}
+
+.emplacement-historique-vide {
+  min-width: 0;
+}
+    
+/* =========================================
+   FICHES DANS L'HISTORIQUE
+========================================= */
+
+.colonne-historique-age {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fiche-historique-age {
+  background: #f59af0;
+
+  border: 2px solid #39234f;
+  border-radius: 15px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+}
+
+.fiche-historique-age .bloc-age {
+  margin-top: 0;
+}
+
+.fiche-historique-age .age-sous-titre {
+  cursor: default;
+}
+
+.fiche-historique-age
+.age-sous-titre:hover::before {
+  color: #7b4bb7;
+}
+
+.fiche-historique-age
+.icone-age-droite {
+  display: none;
+}
+
+.fiche-historique-age
+.separateur-coeur {
+  margin-top: 8px;
+}
+
+.fiche-historique-age
+.objectif {
+  pointer-events: none;
+}
+
+.fiche-historique-age
+.objectif button {
+  pointer-events: none;
+}
+
+.fiche-historique-age
+.icone-objectif img {
+  cursor: default;
+}
+    
 /* =========================
    PETIT CŒUR SÉPARATEUR
 ========================= */
@@ -874,7 +1169,7 @@ label,
 .icone-objectif img {
   width: 24px;
   height: 32px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
   display: block;
   cursor: zoom-in;
@@ -897,6 +1192,66 @@ label,
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
 }
 
+/* =========================
+   ZOOM CARTES ACTIVITÉ
+========================= */
+
+.objectif-activite-enfant .icone-objectif img:hover,
+.objectif-activite-ado .icone-objectif img:hover {
+  transform: scale(4);
+}
+
+/* =========================
+   ASPIRATION ENFANT
+   OBJECTIF SPÉCIAL
+========================= */
+
+.objectif-aspiration-enfant {
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffdf3 0%,
+      #f8e7a1 28%,
+      #fff8d5 52%,
+      #e7c45d 76%,
+      #fff6c5 100%
+    );
+
+  border: 2px solid #b98a19;
+  border-radius: 10px;
+
+  box-shadow:
+    0 3px 8px rgba(126, 86, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(139, 95, 0, 0.18);
+
+  /* Séparation avec les objectifs normaux */
+  margin-bottom: 14px;
+}
+
+.objectif-aspiration-enfant::after {
+  content: "✦";
+  position: absolute;
+  top: -8px;
+  right: 8px;
+
+  color: #d5a928;
+  font-size: 15px;
+
+  text-shadow:
+    0 0 5px #fff4ad,
+    0 0 9px rgba(255, 213, 73, 0.8);
+
+  pointer-events: none;
+}
+
+.objectif-aspiration-enfant .texte-objectif {
+  color: #755000;
+  font-weight: 800;
+}
+    
     /* =========================
    TIRAGE CARTES NOURRISSON
 ========================= */
@@ -1227,6 +1582,30 @@ justify-content: center;
 
 #bouton-valider-moyenne-enfant.visible {
   display: inline-block;
+}
+
+/* =========================
+   BOUTONS DÉ BAL DE PROMO
+========================= */
+
+#bouton-lancer-bal-promo-ado {
+  background: #73c66b;
+  color: white;
+}
+
+#bouton-valider-bal-promo-ado {
+  display: none;
+  background: #7b4bb7;
+  color: white;
+}
+
+#bouton-valider-bal-promo-ado.visible {
+  display: inline-block;
+}
+
+/* Face BAL DE PROMO uniquement */
+img[src="images/bambin/des/bal de promo.png"] {
+  transform: scale(1.18);
 }
     
 /* =========================
@@ -2562,6 +2941,10 @@ input[type="checkbox"] {
   <option value="ville">
     Activité de la ville
   </option>
+
+  <option value="premier-job">
+    Premier job
+  </option>
 </select>
 
 <label for="nouvelle-activite-ville">
@@ -2896,6 +3279,84 @@ input[type="checkbox"] {
   </div>
 
 </div>
+
+<!-- =========================
+     DÉ DU BAL DE PROMO ADO
+========================= -->
+
+<div id="fond-tirage-bal-promo-ado"
+     class="fond-tirage-qualites-bambin">
+
+  <div class="fenetre-tirage-qualites-bambin">
+
+    <h2 class="titre-tirage-qualites-bambin">
+      💚 BAL DE PROMO 💚
+    </h2>
+
+    <p class="sous-titre-tirage-qualites-bambin">
+      🎲 Cet ado ira-t-il au bal de promo ?
+    </p>
+
+    <div class="carte-de-qualites-bambin">
+
+      <div id="resultat-bal-promo-ado"
+           class="resultat-qualites-bambin">
+        Bal de promo
+      </div>
+
+      <div class="de-3d-qualites-bambin">
+
+        <div id="cube-bal-promo-ado"
+             class="cube-bambin">
+
+          <div class="face-de face-avant">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-droite">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-arriere">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-gauche">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-dessus">
+            <img src="images/bambin/des/bal de promo.png" alt="">
+          </div>
+
+          <div class="face-de face-dessous">
+            <img src="images/bambin/des/pas de bal de promo.png" alt="">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions-tirage-qualites-bambin">
+
+      <button id="bouton-lancer-bal-promo-ado"
+              onclick="lancerDeBalPromoAdo()">
+        Lancer le dé 🎲
+      </button>
+
+     <button id="bouton-valider-bal-promo-ado"
+        class="bouton-valider-qualites-bambin"
+        onclick="validerDeBalPromoAdo()">
+  Valider
+</button>
+
+    </div>
+
+  </div>
+
+</div>
   
 <!-- =========================
      TIRAGE DES COMPÉTENCES BAMBIN
@@ -3107,7 +3568,7 @@ input[type="checkbox"] {
   );
 
   const VERSION_SAUVEGARDE = 4;
-  const SAVE_SLOT = "foyer_actif";
+ const SAVE_SLOT = "foyer_actif";
 
   /* =========================
    CARTES NOURRISSON
@@ -3357,6 +3818,9 @@ let carteNourrissonTiree = null;
     valide:
       objectif.classList.contains("objectif-valide"),
 
+bloque:
+  objectif.classList.contains("objectif-bloque"),
+    
    carteTiree:
   objectif.dataset.carteTiree === "oui",
 
@@ -3398,10 +3862,32 @@ imageAlt:
   };
 });
 
-  return {
-    objectifs: objectifs,
-    icones: icones
-  };
+ const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+const dureeAge =
+  barreDuree && barreDuree.dataset.dureeAge
+    ? parseInt(barreDuree.dataset.dureeAge, 10)
+    : null;
+
+let historiqueAges = [];
+
+if (sim.dataset.historiqueAges) {
+  try {
+    historiqueAges =
+      JSON.parse(sim.dataset.historiqueAges);
+  } catch (erreur) {
+    historiqueAges = [];
+  }
+}
+
+return {
+  objectifs: objectifs,
+  icones: icones,
+  dureeAge: dureeAge,
+  historiqueAges: historiqueAges
+};
+    
 }
 
 async function sauvegarderChallenge() {
@@ -3561,6 +4047,38 @@ if (version < 4) {
 
   if (!etat) return;
 
+/* =========================
+   RESTAURER L'HISTORIQUE DES ÂGES
+========================= */
+
+sim.dataset.historiqueAges =
+  JSON.stringify(
+    Array.isArray(etat.historiqueAges)
+      ? etat.historiqueAges
+      : []
+  );
+    
+/* =========================
+   RESTAURER LA DURÉE DE L'ÂGE
+========================= */
+
+const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+if (
+  barreDuree &&
+  etat.dureeAge !== null &&
+  etat.dureeAge !== undefined
+) {
+
+  barreDuree.dataset.dureeAge =
+    etat.dureeAge.toString();
+
+  barreDuree.dataset.dureeAffichage =
+    etat.dureeAge +
+    (etat.dureeAge === 1 ? " jour" : " jours");
+}
+    
   // Restaurer l'état des objectifs
   if (etat.objectifs) {
 
@@ -3677,11 +4195,105 @@ if (estEnfant) {
 
       });
 
+    /* L'aspiration reste au-dessus des qualités après rechargement */
+    const aspirationEnfant =
+      zoneObjectifs.querySelector(".objectif-aspiration-enfant");
+
+    if (aspirationEnfant) {
+      zoneObjectifs.prepend(aspirationEnfant);
+    }
+    
   }
 
 }
 
+/* =========================================
+   ADOLESCENT :
+   RESTAURER LES QUALITÉS PERSONNELLES
+   À VALIDER
+========================================= */
 
+const estAdolescent =
+  ageNom &&
+  ageNom.textContent.trim() === "ADOLESCENT";
+
+if (estAdolescent) {
+
+  const zoneObjectifs =
+    sim.querySelector(".objectifs-sim");
+
+  const qualitesAdoSauvegardees =
+    etat.objectifs.filter(function(obj) {
+
+      return (
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        ) &&
+        !obj.image.includes(
+          "dos-carte-qualite.png"
+        )
+      );
+
+    });
+
+  if (zoneObjectifs) {
+
+    /* Sécurité : aucune ancienne ligne qualité */
+    zoneObjectifs
+      .querySelectorAll(".objectif-qualite-ado")
+      .forEach(function(ligne) {
+        ligne.remove();
+      });
+
+    /* On remet les qualités sauvegardées */
+    qualitesAdoSauvegardees
+      .slice()
+      .reverse()
+      .forEach(function(qualite) {
+
+        const ligne =
+          document.createElement("div");
+
+        ligne.className =
+          "objectif objectif-qualite-ado";
+
+        ligne.innerHTML = `
+          <span class="icone-objectif">
+            <img
+              src="${qualite.image}"
+              alt="${qualite.imageAlt || ""}"
+            >
+          </span>
+
+          <span class="texte-objectif">
+            ${qualite.texte}
+          </span>
+
+          <button title="Valider cette qualité">✓</button>
+        `;
+
+        /* Restaurer l'état validé de la qualité */
+        if (qualite.valide) {
+          ligne.classList.add("objectif-valide");
+          ligne.style.opacity = "0.45";
+
+          const bouton =
+            ligne.querySelector("button");
+
+          if (bouton) {
+            bouton.textContent = "↩";
+          }
+        }
+        
+        zoneObjectifs.prepend(ligne);
+
+      });
+
+  }
+
+}
+    
 let objectifs =
   Array.from(sim.querySelectorAll(".objectif"));
 
@@ -3732,6 +4344,37 @@ if (estEnfant) {
 
 }
 
+/* =========================
+   ADOLESCENT :
+   LES QUALITÉS NE PARTICIPENT PAS
+   À LA RESTAURATION PAR POSITION
+========================= */
+
+if (estAdolescent) {
+
+  objectifs =
+    objectifs.filter(function(objectif) {
+
+      return !objectif.classList.contains(
+        "objectif-qualite-ado"
+      );
+
+    });
+
+  objectifsSauvegardes =
+    objectifsSauvegardes.filter(function(obj) {
+
+      const estVraieQualite =
+        obj.image &&
+        obj.image.includes(
+          "images/bambin/carte-qualite/"
+        );
+
+      return !estVraieQualite;
+
+    });
+
+}    
 
 /* Pour la Matriarche :
    la ville et le compteur sont des informations,
@@ -4211,19 +4854,25 @@ const bibliothequeAges = {
 
     objectifs: `
       <div class="objectif">
-        <span class="icone-objectif">💗</span>
+       <span class="icone-objectif">
+  <img src="images/carte-fete/prendre-soin-des-besoins-du-bebe.png" alt="">
+</span>
         <span class="texte-objectif">Prendre soin des besoins du bébé</span>
         <button>✓</button>
       </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🪇</span>
-        <span class="texte-objectif">Organiser une fête prénatale</span>
-        <button>✓</button>
-      </div>
+    <div class="objectif">
+  <span class="icone-objectif">
+   <img src="images/carte-fete/fete-prenatale.png" alt="">
+  </span>
+  <span class="texte-objectif">Organiser une fête prénatale</span>
+  <button>✓</button>
+</div>
 
       <div class="objectif objectif-final">
-        <span class="icone-objectif">🎂</span>
+        <span class="icone-objectif">
+  <img src="images/carte-fete/grandir-pendant-la-fete.png" alt="">
+</span>
         <span class="texte-objectif">Grandir pendant la fête</span>
         <button>✓</button>
       </div>
@@ -4300,14 +4949,18 @@ const bibliothequeAges = {
       <button>✓</button>
     </div>
 
-    <div class="objectif">
-      <span class="icone-objectif">🎭</span>
-      <span class="texte-objectif">Organiser une fête costumée</span>
-      <button>✓</button>
-    </div>
+   <div class="objectif">
+  <span class="icone-objectif">
+    <img src="images/carte-fete/fete-costumee.png" alt="">
+  </span>
+  <span class="texte-objectif">Organiser une fête costumée</span>
+  <button>✓</button>
+</div>
 
     <div class="objectif objectif-final">
-      <span class="icone-objectif">🎂</span>
+     <span class="icone-objectif">
+  <img src="images/carte-fete/grandir-pendant-la-fete.png" alt="">
+</span>
       <span class="texte-objectif">Grandir pendant la fête</span>
       <button>✓</button>
     </div>
@@ -4467,14 +5120,18 @@ objectifs: `
       <button>✓</button>
     </div>
 
-    <div class="objectif">
-      <span class="icone-objectif">🧸</span>
-      <span class="texte-objectif">Organiser une séance de jeu entre bambins</span>
-      <button>✓</button>
-    </div>
+   <div class="objectif">
+  <span class="icone-objectif">
+   <img src="images/carte-fete/fete-entre-bambin.png" alt="">
+  </span>
+  <span class="texte-objectif">Organiser une séance de jeu entre bambins</span>
+  <button>✓</button>
+</div>
 
     <div class="objectif objectif-final">
-      <span class="icone-objectif">🎂</span>
+      <span class="icone-objectif">
+  <img src="images/carte-fete/grandir-pendant-la-fete.png" alt="">
+</span>
       <span class="texte-objectif">Grandir pendant la fête</span>
       <button>✓</button>
     </div>
@@ -4492,12 +5149,29 @@ objectifs: `
 
     objectifs: `
 
+<div class="objectif objectif-tirage objectif-aspiration-enfant objectif-optionnel"
+     onclick="if (!event.target.closest('button')) ouvrirTirageAspirationEnfant(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/enfant/apiration-enfant/dos-aspiration-enfant.png"
+      alt="Tirage aspiration enfant"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Aspiration — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
  <div class="objectif objectif-tirage objectif-activite-enfant"
      onclick="if (!event.target.closest('button')) ouvrirTirageActiviteEnfant(this)">
 
   <span class="icone-objectif">
     <img
-      src="images/activite/dos-carte-activite.png"
+     src="images/activite/dos-activite-enfant.png"
       alt="Tirage activité enfant"
     >
   </span>
@@ -4544,9 +5218,9 @@ objectifs: `
 
   </span>
 
-  <span class="texte-objectif">
-    Terminer l'enfance avec la moyenne : C
-  </span>
+ <span class="texte-objectif">
+  Moyenne scolaire — à tirer
+</span>
 
   <button>✓</button>
 </div>
@@ -4622,14 +5296,18 @@ objectifs: `
   <button>✓</button>
 </div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🎉</span>
-        <span class="texte-objectif">Faire une fête d'anniversaire avec les copains</span>
-        <button>✓</button>
-      </div>
+     <div class="objectif">
+  <span class="icone-objectif">
+   <img src="images/carte-fete/fete-danniv.png" alt="">
+  </span>
+  <span class="texte-objectif">Faire une fête d'anniversaire avec les copains</span>
+  <button>✓</button>
+</div>
 
       <div class="objectif objectif-final">
-        <span class="icone-objectif">🎂</span>
+       <span class="icone-objectif">
+  <img src="images/carte-fete/grandir-pendant-la-fete.png" alt="">
+</span>
         <span class="texte-objectif">Grandir pendant la fête</span>
         <button>✓</button>
       </div>
@@ -4646,38 +5324,93 @@ objectifs: `
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
-      <div class="objectif">
-        <span class="icone-objectif">🎓</span>
-        <span class="texte-objectif">Diplôme : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+     <div class="objectif objectif-tirage objectif-diplome-lycee"
+     onclick="if (!event.target.closest('button')) ouvrirTirageDiplomeLycee(this)">
 
-      <div class="objectif">
-        <span class="icone-objectif">🃏</span>
-        <span class="texte-objectif">Activité : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+  <span class="icone-objectif">
+    <img
+      src="images/ado/diplome-lycee/dos-diplome-lycée.png"
+      alt="Tirage diplôme du lycée"
+    >
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">💃</span>
-        <span class="texte-objectif">Dernier bal de promo : résultat du tirage</span>
-        <button>✓</button>
-      </div>
+  <span class="texte-objectif">
+    Diplôme du lycée — à tirer
+  </span>
 
-      <div class="objectif">
-        <span class="icone-objectif">🌱</span>
-        <span class="texte-objectif">Qualités personnelles révélées</span>
-        <button>✓</button>
-      </div>
+  <button>✓</button>
+</div>
 
-      <div class="objectif">
-        <span class="icone-objectif">🎉</span>
-        <span class="texte-objectif">Faire une fête privée entre ados</span>
-        <button>✓</button>
-      </div>
+      <div class="objectif objectif-tirage objectif-activite-ado"
+     onclick="if (!event.target.closest('button')) ouvrirTirageActiviteAdo(this)">
+
+  <span class="icone-objectif">
+    <img
+      src="images/activite/dos-carte-activite.png"
+      alt="Tirage activité ado"
+    >
+  </span>
+
+  <span class="texte-objectif">
+    Activité — à tirer
+  </span>
+
+  <button>✓</button>
+</div>
+
+      <div class="objectif objectif-bal-promo-ado">
+
+  <span
+    class="icone-objectif de-competence-bambin"
+    onclick="event.stopPropagation(); ouvrirTirageBalPromoAdo(this)"
+  >
+    <span class="cube-bambin">
+
+      <span class="face-de face-avant">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-droite">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+      <span class="face-de face-arriere">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-gauche">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+      <span class="face-de face-dessus">
+        <img src="images/bambin/des/bal de promo.png" alt="Bal de promo">
+      </span>
+
+      <span class="face-de face-dessous">
+        <img src="images/bambin/des/pas de bal de promo.png" alt="Pas de bal de promo">
+      </span>
+
+    </span>
+  </span>
+
+  <span class="texte-objectif">Bal de promo — à tirer</span>
+
+  <button>✓</button>
+
+</div>
+
+     <div class="objectif">
+  <span class="icone-objectif">
+   <img src="images/carte-fete/soiree-dansante.png" alt="">
+  </span>
+  <span class="texte-objectif">Organiser une soirée dansante entre ados</span>
+  <button>✓</button>
+</div>
 
       <div class="objectif objectif-final">
-        <span class="icone-objectif">🎂</span>
+        <span class="icone-objectif">
+  <img src="images/carte-fete/grandir-pendant-la-fete.png" alt="">
+</span>
         <span class="texte-objectif">Grandir pendant la fête</span>
         <button>✓</button>
       </div>
@@ -4775,21 +5508,59 @@ function afficherAge(sim, cleAge) {
   const titreObjectifs = sim.querySelector(".titre-objectifs");
   const objectifs = sim.querySelector(".objectifs-sim");
 
-  if (ageNom) {
-    ageNom.textContent = modele.nom;
-  }
+const imagesAge = {
+  nouveauNe: "images/icone-age/nouveau-ne.png",
+  nourrisson: "images/icone-age/nourisson.png",
+  bambin: "images/icone-age/bambin.png",
+  enfant: "images/icone-age/enfant.png",
+ adolescent: "images/icone-age/ado.png",
+  jeuneAdulte: "images/icone-age/jeune-adulte.png",
+  adulte: "images/icone-age/adulte.png",
+  personneAgee: "images/icone-age/personne-agee.png"
+};
+  
+ if (ageNom) {
+  ageNom.textContent = modele.nom;
 
-  if (logoAge) {
-    logoAge.textContent = modele.logo;
-  }
+  ageNom.classList.remove("age-long");
 
-  if (sousTitre) {
-    sousTitre.textContent = modele.sousTitre;
+  if (
+    cleAge === "nouveauNe" ||
+     cleAge === "nourrisson" ||
+    cleAge === "adolescent" ||
+    cleAge === "jeuneAdulte"
+  ) {
+    ageNom.classList.add("age-long");
   }
+}
 
-  if (iconeDroite) {
-    iconeDroite.textContent = modele.iconeDroite;
-  }
+  if (logoAge && imagesAge[cleAge]) {
+  logoAge.innerHTML = `
+    <img src="${imagesAge[cleAge]}" alt="${modele.nom}">
+  `;
+}
+
+if (sousTitre) {
+  sousTitre.textContent = "";
+
+  delete sousTitre.dataset.dureeAge;
+  sousTitre.dataset.dureeAffichage = "? jours";
+ 
+  sousTitre.title = "Cliquer pour renseigner la durée de cette étape";
+
+  sousTitre.onclick = function() {
+    renseignerDureeAge(sim);
+  };
+}
+
+if (iconeDroite) {
+  iconeDroite.textContent = "↩";
+  iconeDroite.title = "Consulter les étapes de vie passées";
+
+  iconeDroite.onclick = function() {
+    testerHistoriqueSim(sim);
+  };
+}
 
   if (titreObjectifs) {
     titreObjectifs.textContent = modele.titreObjectifs;
@@ -4800,7 +5571,472 @@ function afficherAge(sim, cleAge) {
   }
 }
 
+function creerFicheHistoriqueAge(etape) {
 
+  const imagesAge = {
+    nouveauNe: "images/icone-age/nouveau-ne.png",
+    nourrisson: "images/icone-age/nourisson.png",
+    bambin: "images/icone-age/bambin.png",
+    enfant: "images/icone-age/enfant.png",
+    adolescent: "images/icone-age/ado.png",
+    jeuneAdulte: "images/icone-age/jeune-adulte.png",
+    adulte: "images/icone-age/adulte.png",
+    personneAgee: "images/icone-age/personne-agee.png"
+  };
+
+  const fiche =
+    document.createElement("div");
+
+  fiche.className =
+    "fiche-historique-age";
+
+  const duree =
+    etape.dureeAge
+      ? etape.dureeAge +
+        (etape.dureeAge === 1
+          ? " jour"
+          : " jours")
+      : "? jours";
+
+  fiche.innerHTML = `
+    <div class="bloc-age">
+
+      <div class="logo-age">
+        <img
+          src="${imagesAge[etape.cleAge] || ""}"
+          alt="${etape.nomAge || ""}"
+        >
+      </div>
+
+      <div class="texte-age">
+
+        <strong class="age-nom">
+          ${etape.nomAge || ""}
+        </strong>
+
+        <span
+          class="age-sous-titre"
+          data-duree-affichage="${duree}"
+        ></span>
+
+      </div>
+
+    </div>
+
+    <div class="separateur-coeur">
+      <span></span>
+      ♥
+      <span></span>
+    </div>
+
+    <div class="titre-objectifs">
+      Objectifs de cette étape
+    </div>
+
+    <div class="objectifs-historique-age">
+    </div>
+  `;
+
+  const zoneObjectifs =
+    fiche.querySelector(
+      ".objectifs-historique-age"
+    );
+
+  const objectifs =
+    Array.isArray(etape.objectifs)
+      ? etape.objectifs
+      : [];
+
+ objectifs.forEach(function(objectif) {
+
+  /* On cache les qualités personnelles
+     en attente chez Bambin et Enfant */
+
+  if (
+    (
+      etape.cleAge === "bambin" ||
+      etape.cleAge === "enfant"
+    ) &&
+    objectif.bloque
+  ) {
+    return;
+  }
+
+  const ligne =
+    document.createElement("div");
+    ligne.className = "objectif";
+
+/* L'aspiration Enfant garde son apparence dorée dans l'historique */
+if (
+  etape.cleAge === "enfant" &&
+  objectif.image &&
+  objectif.image.includes("/apiration-enfant/")
+) {
+  ligne.classList.add("objectif-aspiration-enfant");
+}
+   
+    if (objectif.bloque) {
+      ligne.classList.add(
+        "objectif-bloque"
+      );
+    }
+
+    const icone =
+      objectif.image
+        ? `
+          <div class="icone-objectif">
+            <img
+              src="${objectif.image}"
+              alt="${objectif.imageAlt || ""}"
+            >
+          </div>
+        `
+        : `
+          <div class="icone-objectif">
+          </div>
+        `;
+
+    let etat = "";
+
+    if (objectif.bloque) {
+
+      etat = `
+        <div class="icone-bloque">
+          🔒
+        </div>
+      `;
+
+    } else if (objectif.valide) {
+
+      etat = `
+        <button
+          type="button"
+          tabindex="-1"
+        >
+          ✓
+        </button>
+      `;
+
+    }
+
+    ligne.innerHTML = `
+      ${icone}
+
+      <div class="texte-objectif">
+        ${objectif.texte || ""}
+      </div>
+
+      ${etat}
+    `;
+
+    zoneObjectifs.appendChild(ligne);
+  });
+
+  return fiche;
+}
+  
+function testerHistoriqueSim(sim) {
+
+  let historique = [];
+
+  if (sim.dataset.historiqueAges) {
+    try {
+      historique =
+        JSON.parse(sim.dataset.historiqueAges);
+    } catch (erreur) {
+      historique = [];
+    }
+  }
+
+  if (historique.length === 0) {
+    alert(
+      "📖 Aucune étape de vie passée enregistrée pour ce Sim."
+    );
+    return;
+  }
+
+  let fond =
+    document.getElementById(
+      "fond-historique-ages"
+    );
+
+  if (!fond) {
+
+    fond = document.createElement("div");
+
+    fond.id = "fond-historique-ages";
+    fond.className = "fond-historique-ages";
+
+    fond.innerHTML = `
+      <div class="fenetre-historique-ages">
+
+        <button
+          type="button"
+          class="fermer-historique-ages"
+          title="Fermer"
+        >
+          ×
+        </button>
+
+        <h2 class="titre-historique-ages">
+          📖 Historique des étapes de vie
+        </h2>
+
+        <p class="sous-titre-historique-ages">
+          Souvenirs des étapes déjà vécues
+        </p>
+
+        <div class="colonnes-historique-ages">
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(fond);
+
+    fond
+      .querySelector(
+        ".fermer-historique-ages"
+      )
+      .onclick = function() {
+        fond.classList.remove("ouvert");
+      };
+
+    fond.onclick = function(event) {
+
+      if (event.target === fond) {
+        fond.classList.remove("ouvert");
+      }
+
+    };
+  }
+
+const zoneColonnes =
+  fond.querySelector(
+    ".colonnes-historique-ages"
+  );
+
+zoneColonnes.innerHTML = "";
+
+
+/* FLÈCHE GAUCHE */
+
+const boutonGauche =
+  document.createElement("button");
+
+boutonGauche.type = "button";
+boutonGauche.className =
+  "bouton-defilement-historique";
+
+boutonGauche.textContent = "‹";
+boutonGauche.title =
+  "Voir les étapes précédentes";
+
+boutonGauche.disabled = true;
+
+zoneColonnes.appendChild(
+  boutonGauche
+);
+
+
+/* 4 COLONNES FIXES */
+
+const colonnes = [];
+
+for (let i = 0; i < 4; i++) {
+
+  const colonne =
+    document.createElement("div");
+
+  colonne.className =
+    "colonne-historique-age";
+
+  colonnes.push(colonne);
+
+  zoneColonnes.appendChild(
+    colonne
+  );
+}
+
+
+/* COLONNE 1 :
+   NOUVEAU-NÉ + NOURRISSON */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "nouveauNe" ||
+    etape.cleAge === "nourrisson"
+  ) {
+
+    colonnes[0].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+/* COLONNE 2 :
+   BAMBIN */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "bambin"
+  ) {
+
+    colonnes[1].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 3 :
+   ENFANT */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "enfant"
+  ) {
+
+    colonnes[2].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+
+/* COLONNE 4 :
+   ADO */
+
+historique.forEach(function(etape) {
+
+  if (
+    etape.cleAge === "adolescent"
+  ) {
+
+    colonnes[3].appendChild(
+      creerFicheHistoriqueAge(etape)
+    );
+
+  }
+
+});
+
+/* FLÈCHE DROITE */
+
+const boutonDroite =
+  document.createElement("button");
+
+boutonDroite.type = "button";
+boutonDroite.className =
+  "bouton-defilement-historique";
+
+boutonDroite.textContent = "›";
+boutonDroite.title =
+  "Voir les étapes suivantes";
+
+boutonDroite.disabled = true;
+
+zoneColonnes.appendChild(
+  boutonDroite
+);
+  
+  fond.classList.add("ouvert");
+}
+  
+function renseignerDureeAge(sim) {
+
+  const barre =
+    sim.querySelector(".age-sous-titre");
+
+  if (!barre) {
+    return;
+  }
+
+  const valeurActuelle =
+    barre.dataset.dureeAge || "";
+
+  const reponse = prompt(
+    "⏳ Combien de jours Sims cette étape de vie a-t-elle duré ?",
+    valeurActuelle
+  );
+
+  if (reponse === null) {
+    return;
+  }
+
+  const duree =
+    parseInt(reponse, 10);
+
+  if (
+    !Number.isInteger(duree) ||
+    duree < 1
+  ) {
+    alert("Entre un nombre de jours supérieur à 0.");
+    return;
+  }
+
+  barre.dataset.dureeAge =
+    duree.toString();
+
+  barre.dataset.dureeAffichage =
+    duree + (duree === 1 ? " jour" : " jours");
+}
+
+function enregistrerEtapeDansHistorique(
+  sim,
+  cleAge
+) {
+
+  const etatActuel =
+    extraireEtatSim(sim);
+
+  let historique = [];
+
+  if (sim.dataset.historiqueAges) {
+    try {
+      historique =
+        JSON.parse(
+          sim.dataset.historiqueAges
+        );
+    } catch (erreur) {
+      historique = [];
+    }
+  }
+
+  historique.push({
+    cleAge: cleAge,
+
+    nomAge:
+      sim.querySelector(".age-nom")
+        ? sim
+            .querySelector(".age-nom")
+            .textContent
+            .trim()
+        : "",
+
+    dureeAge:
+      etatActuel.dureeAge,
+
+    objectifs:
+      etatActuel.objectifs,
+
+    icones:
+      etatActuel.icones
+  });
+
+  sim.dataset.historiqueAges =
+    JSON.stringify(historique);
+}
+  
 /* =========================================
    FAIRE GRANDIR UN SIM
 ========================================= */
@@ -4828,7 +6064,33 @@ function faireGrandir(sim) {
     return;
   }
 
+  /* =========================================
+   VERROU ANTI-DELPHINE 😂
+   DURÉE OBLIGATOIRE AVANT ANNIVERSAIRE
+========================================= */
 
+const barreDuree =
+  sim.querySelector(".age-sous-titre");
+
+if (
+  !barreDuree ||
+  !barreDuree.dataset.dureeAge
+) {
+
+  alert(
+    "⏳ Oups ! Tu as oublié de renseigner la durée de cette étape.\n\n" +
+    "Clique sur la barre de chargement sous l'âge avant de faire grandir ce Sim."
+  );
+
+  return;
+}
+
+/* 📖 On archive l'étape AVANT de la remplacer */
+enregistrerEtapeDansHistorique(
+  sim,
+  cleAgeActuel
+);
+  
   /* =========================================
      SI LE BAMBIN DEVIENT ENFANT :
      ON GARDE SES QUALITÉS PERSONNELLES
@@ -4866,6 +6128,40 @@ function faireGrandir(sim) {
 
   }
 
+    /* =========================================
+     SI L'ENFANT DEVIENT ADOLESCENT :
+     ON GARDE SES QUALITÉS PERSONNELLES
+  ========================================= */
+
+  let qualitesEnfant = [];
+
+  if (
+    cleAgeActuel === "enfant" &&
+    ageActuel.suivant === "adolescent"
+  ) {
+
+    const lignesQualites =
+      sim.querySelectorAll(".objectif-qualite-enfant");
+
+    lignesQualites.forEach(function(ligne) {
+
+      const texte =
+        ligne.querySelector(".texte-objectif");
+
+      const image =
+        ligne.querySelector(".icone-objectif img");
+
+      if (!texte || !image) return;
+
+      qualitesEnfant.push({
+        texte: texte.textContent,
+        image: image.src,
+        imageAlt: image.alt
+      });
+
+    });
+
+  }
 
   /* Affichage du nouvel âge */
   afficherAge(sim, ageActuel.suivant);
@@ -4925,10 +6221,67 @@ function faireGrandir(sim) {
 
         });
 
+        /* L'aspiration reste au-dessus des qualités personnelles */
+        const aspirationEnfant =
+          zoneObjectifs.querySelector(".objectif-aspiration-enfant");
+
+        if (aspirationEnfant) {
+          zoneObjectifs.prepend(aspirationEnfant);
+        }
+      
     }
 
   }
 
+  /* =========================================
+     REMETTRE LES QUALITÉS SUR LA FICHE ADO
+     CETTE FOIS ELLES SONT À VALIDER
+  ========================================= */
+
+  if (
+    ageActuel.suivant === "adolescent" &&
+    qualitesEnfant.length > 0
+  ) {
+
+    const zoneObjectifs =
+      sim.querySelector(".objectifs-sim");
+
+    if (zoneObjectifs) {
+
+      qualitesEnfant
+        .slice()
+        .reverse()
+        .forEach(function(qualite) {
+
+          const ligne =
+            document.createElement("div");
+
+          ligne.className =
+            "objectif objectif-qualite-ado";
+
+          ligne.innerHTML = `
+            <span class="icone-objectif">
+              <img
+                src="${qualite.image}"
+                alt="${qualite.imageAlt || ""}"
+              >
+            </span>
+
+            <span class="texte-objectif">
+              ${qualite.texte}
+            </span>
+
+            <button title="Valider cette qualité">✓</button>
+          `;
+
+          zoneObjectifs.prepend(ligne);
+
+        });
+
+    }
+
+  }
+  
 }
 
 /* =========================================
@@ -4966,6 +6319,11 @@ function verifierGrandir(sim) {
       return;
     }
 
+/* On ignore les objectifs optionnels */
+if (objectif.classList.contains("objectif-optionnel")) {
+  return;
+}
+    
     /* S'il reste un objectif non validé */
     if (!objectif.classList.contains("objectif-valide")) {
       toutEstFait = false;
@@ -7442,6 +8800,232 @@ function tirerSocial(objectif) {
   );
 }
 
+/* =========================================
+   TIRAGE DIPLÔME DU LYCÉE — ADO
+========================================= */
+
+let ligneDiplomeLyceeEnCours = null;
+let carteDiplomeLyceeTiree = null;
+
+const cartesDiplomeLycee = [
+  {
+    nom: "Décrochage scolaire",
+    image: "images/ado/diplome-lycee/decrochage-scolaire.png"
+  },
+  {
+    nom: "Diplôme classique",
+    image: "images/ado/diplome-lycee/diplome-classic.png"
+  },
+  {
+    nom: "Diplôme en avance",
+    image: "images/ado/diplome-lycee/diplome-en-avance.png"
+  },
+  {
+    nom: "Diplôme — Major de promo",
+    image: "images/ado/diplome-lycee/diplome-major-promo.png"
+  },
+  {
+    nom: "Diplôme avec mention",
+    image: "images/ado/diplome-lycee/diplome-mention.png"
+  },
+    {
+    nom: "Renvoyé du lycée",
+    image: "images/ado/diplome-lycee/renvoyer-du-lycee.png"
+  },
+  {
+    nom: "Diplôme en ligne",
+    image: "images/ado/diplome-lycee/diplome-en-ligne.png"
+  }
+];
+
+
+function ouvrirTirageDiplomeLycee(objectif) {
+
+  if (objectif.dataset.carteTiree === "oui") {
+    return;
+  }
+
+  ligneDiplomeLyceeEnCours = objectif;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider ce diplôme";
+
+  bouton.onclick =
+    validerTirageDiplomeLycee;
+
+
+  /* Tirage aléatoire */
+  const hasard = Math.random() * 100;
+
+if (hasard < 8) {
+  // 8 % — Décrochage scolaire
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[0];
+
+} else if (hasard < 15) {
+  // 7 % — Renvoyé du lycée
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[5];
+
+} else if (hasard < 30) {
+  // 15 % — Diplôme en avance
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[2];
+
+} else if (hasard < 45) {
+  // 15 % — Major de promo
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[3];
+
+} else if (hasard < 65) {
+  // 20 % — Diplôme avec mention
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[4];
+
+} else if (hasard < 85) {
+  // 20 % — Diplôme classique
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[1];
+
+} else {
+  // 15 % — Diplôme en ligne / études à domicile
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[6];
+}
+
+  /* Création des 7 cartes */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/ado/diplome-lycee/dos-diplome-lycée.png"
+            alt="Dos diplôme du lycée">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteDiplomeLyceeTiree.image}"
+            alt="${carteDiplomeLyceeTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  /* Notre animation de cartes existante */
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+function validerTirageDiplomeLycee() {
+
+  if (
+    !ligneDiplomeLyceeEnCours ||
+    !carteDiplomeLyceeTiree
+  ) {
+    return;
+  }
+
+
+  const texte =
+    ligneDiplomeLyceeEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneDiplomeLyceeEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  texte.textContent =
+    carteDiplomeLyceeTiree.nom;
+
+  if (image) {
+    image.src =
+      carteDiplomeLyceeTiree.image;
+
+    image.alt =
+      carteDiplomeLyceeTiree.nom;
+  }
+
+
+  /* Empêche un deuxième tirage */
+  ligneDiplomeLyceeEnCours.dataset.carteTiree =
+    "oui";
+
+
+  const fond =
+    document.getElementById(
+      "fond-tirage-nourrisson"
+    );
+
+  const paquet =
+    document.getElementById(
+      "paquet-nourrisson"
+    );
+
+  const bouton =
+    document.getElementById(
+      "bouton-fermer-tirage"
+    );
+
+
+  fond.classList.remove("ouvert");
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+
+  /* Remise du bouton dans son état normal */
+  bouton.onclick =
+    fermerTirageNourrisson;
+
+  bouton.textContent =
+    "Valider";
+
+
+  sauvegarderChallenge();
+
+
+  ligneDiplomeLyceeEnCours = null;
+  carteDiplomeLyceeTiree = null;
+}
+  
 function lancerAnimationTirageNourrisson(
   fond,
   paquet,
@@ -7538,6 +9122,52 @@ function fermerTirageNourrisson() {
    ACTIVITÉ ENFANT
 ========================= */
 
+/* =========================
+   CARTES ASPIRATION ENFANT
+========================= */
+
+const cartesAspirationEnfant = [
+  {
+    nom: "Corps et esprit",
+    image: "images/enfant/apiration-enfant/Corps-et-esprit.png"
+  },
+  {
+    nom: "Pro des soirées pyjamas",
+    image: "images/enfant/apiration-enfant/Pro-des-soiree-pyjamas.png"
+  },
+  {
+    nom: "Star du quartier",
+    image: "images/enfant/apiration-enfant/Star-du-quartier.png"
+  },
+  {
+    nom: "Capitaine de la récré",
+    image: "images/enfant/apiration-enfant/capitaine-de-la-recre.png"
+  },
+  {
+    nom: "Enfant très sociable",
+    image: "images/enfant/apiration-enfant/enfant-tres-sociable.png"
+  },
+  {
+    nom: "Enfant turbulent",
+    image: "images/enfant/apiration-enfant/enfant-turbulent.png"
+  },
+  {
+    nom: "Génie créatif",
+    image: "images/enfant/apiration-enfant/genie-creatif.png"
+  },
+  {
+    nom: "Petit génie",
+    image: "images/enfant/apiration-enfant/petit-genie.png"
+  },
+  {
+    nom: "Prodige artistique",
+    image: "images/enfant/apiration-enfant/prodige-artistique.png"
+  }
+];
+
+let ligneAspirationEnfantEnCours = null;
+let carteAspirationEnfantTiree = null;
+  
 const cartesPremierTirageActiviteEnfant = [
 
   {
@@ -7861,6 +9491,9 @@ function validerTirageMomentEnfant() {
 
   sauvegarderChallenge();
 }
+
+let ligneActiviteAdoEnCours = null;
+let carteActiviteAdoTiree = null;
   
   let ligneActiviteEnfantEnCours = null;
 let carteActiviteEnfantTiree = null;
@@ -7870,6 +9503,292 @@ let carteActiviteEnfantTiree = null;
    PREMIER TIRAGE ACTIVITÉ
 ------------------------- */
 
+const cartesPremierTirageActiviteAdo = [
+  {
+    nom: "Activité existante EA",
+    type: "existante",
+    image: "images/activite/1er-tirage/carte-activite-existante-ado.png"
+  },
+  {
+    nom: "Activité de la ville",
+    type: "ville",
+    image: "images/activite/1er-tirage/carte-activite-ville.png"
+  },
+  {
+    nom: "Premier job",
+    type: "premier-job",
+    image: "images/activite/1er-tirage/carte-premier-job.png"
+  },
+  {
+    nom: "Pas d'activité",
+    type: "aucune",
+    image: "images/activite/1er-tirage/carte-pas-dactivite.png"
+  }
+];
+  
+function ouvrirTirageActiviteAdo(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneActiviteAdoEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+ const hasard = Math.random() * 100;
+
+let index;
+
+if (hasard < 28) {
+  index = 0; // Activité existante EA : 28 %
+}
+else if (hasard < 44) {
+  index = 1; // Activité de la ville : 16 %
+}
+else if (hasard < 72) {
+  index = 2; // Premier job : 28 %
+}
+else {
+  index = 3; // Pas d'activité : 28 %
+}
+
+carteActiviteAdoTiree =
+  cartesPremierTirageActiviteAdo[index];
+
+  bouton.textContent =
+    "Valider ce résultat";
+
+  bouton.onclick =
+    validerPremierTirageActiviteAdo;
+
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité ado">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteAdoTiree.image}"
+            alt="${carteActiviteAdoTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+async function validerPremierTirageActiviteAdo() {
+
+  if (
+    !ligneActiviteAdoEnCours ||
+    !carteActiviteAdoTiree
+  ) {
+    return;
+  }
+
+  /* PAS D'ACTIVITÉ */
+  if (carteActiviteAdoTiree.type === "aucune") {
+
+    ligneActiviteAdoEnCours.dataset.carteTiree = "oui";
+
+    const texte =
+      ligneActiviteAdoEnCours.querySelector(".texte-objectif");
+
+    if (texte) {
+      texte.textContent = "Pas d'activité";
+    }
+
+    fermerTirageNourrisson();
+    return;
+  }
+
+  /* Sinon : deuxième tirage */
+  await ouvrirDeuxiemeTirageActiviteAdo(
+    carteActiviteAdoTiree.type
+  );
+}
+
+/* =========================
+   TIRAGE ASPIRATION ENFANT
+========================= */
+
+function ouvrirTirageAspirationEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneAspirationEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+  /* Remise à zéro de la fenêtre */
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  /* Tirage aléatoire parmi les 9 aspirations */
+  const index =
+    Math.floor(
+      Math.random() * cartesAspirationEnfant.length
+    );
+
+  carteAspirationEnfantTiree =
+    cartesAspirationEnfant[index];
+
+  /* Le bouton devient celui du tirage Aspiration */
+  bouton.textContent =
+    "Valider cette aspiration";
+
+  bouton.onclick =
+    validerAspirationEnfant;
+
+  /* Même animation que les cartes Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/enfant/apiration-enfant/dos-aspiration-enfant.png"
+            alt="Dos carte aspiration enfant">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteAspirationEnfantTiree.image}"
+            alt="${carteAspirationEnfantTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+function validerAspirationEnfant() {
+
+  if (
+    ligneAspirationEnfantEnCours &&
+    carteAspirationEnfantTiree
+  ) {
+
+    const texte =
+      ligneAspirationEnfantEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      ligneAspirationEnfantEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    texte.textContent =
+      carteAspirationEnfantTiree.nom;
+
+    image.src =
+      carteAspirationEnfantTiree.image;
+
+    image.alt =
+      carteAspirationEnfantTiree.nom;
+
+    ligneAspirationEnfantEnCours.dataset.carteTiree =
+      "oui";
+
+    ligneAspirationEnfantEnCours.onclick = null;
+  }
+
+  document
+    .getElementById("fond-tirage-nourrisson")
+    .classList.remove("ouvert");
+
+  document
+    .getElementById("paquet-nourrisson")
+    .innerHTML = "";
+
+  ligneAspirationEnfantEnCours = null;
+  carteAspirationEnfantTiree = null;
+
+  sauvegarderChallenge();
+}
+  
 function ouvrirTirageActiviteEnfant(ligne) {
 
   if (
@@ -7907,15 +9826,23 @@ function ouvrirTirageActiviteEnfant(ligne) {
 
 
   /* Tirage parmi les 3 catégories */
-  const index =
-    Math.floor(
-      Math.random() *
-      cartesPremierTirageActiviteEnfant.length
-    );
+  
+ const hasard = Math.random() * 100;
 
-  carteActiviteEnfantTiree =
-    cartesPremierTirageActiviteEnfant[index];
+let index;
 
+if (hasard < 38) {
+  index = 0; // Activité existante EA : 38 %
+}
+else if (hasard < 62) {
+  index = 1; // Activité de la ville : 24 %
+}
+else {
+  index = 2; // Pas d'activité : 38 %
+}
+
+carteActiviteEnfantTiree =
+  cartesPremierTirageActiviteEnfant[index];
 
   /* Le bouton devient temporairement
      le bouton du tirage Activité */
@@ -7940,7 +9867,7 @@ function ouvrirTirageActiviteEnfant(ligne) {
 
         <div class="face-carte verso">
           <img
-            src="images/activite/dos-carte-activite.png"
+            src="images/activite/dos-activite-enfant.png"
             alt="Dos carte activité">
         </div>
 
@@ -8046,6 +9973,247 @@ async function validerPremierTirageActiviteEnfant() {
    DEUXIÈME TIRAGE ACTIVITÉ
 ------------------------- */
 
+async function ouvrirDeuxiemeTirageActiviteAdo(categorie) {
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+
+  /* Même bibliothèque que l'enfant */
+  let requete =
+    supabaseClient
+      .from("activity_library")
+      .select(
+        "id, nom, age, categorie, ville, image, actif"
+      )
+      .eq("actif", true)
+      .eq("categorie", categorie)
+      .in(
+        "age",
+        ["ado", "enfant-ado"]
+      );
+
+
+  /* Activités de la ville :
+     uniquement la ville actuelle de la Matriarche */
+  if (categorie === "ville") {
+
+    const villeElement =
+      document.getElementById("ville-matriarche");
+
+    const villeActuelle =
+      villeElement
+        ? villeElement.textContent.trim()
+        : "";
+
+    if (!villeActuelle) {
+
+      alert(
+        "Impossible de connaître la ville actuelle de la Matriarche."
+      );
+
+      return;
+    }
+
+    requete =
+      requete.ilike(
+        "ville",
+        villeActuelle
+      );
+  }
+
+
+  const { data: activites, error } =
+    await requete;
+
+
+  if (error) {
+
+    console.error(
+      "Erreur chargement activités ado pour le tirage :",
+      error
+    );
+
+    alert(
+      "Impossible de charger les activités disponibles."
+    );
+
+    return;
+  }
+
+
+  if (!activites || activites.length === 0) {
+
+    alert(
+      categorie === "ville"
+        ? "Aucune activité active n'est disponible dans cette ville."
+        : categorie === "premier-job"
+          ? "Aucun premier job actif n'est disponible pour les ados."
+          : "Aucune activité EA active n'est disponible pour les ados."
+    );
+
+    return;
+  }
+
+
+  /* Même tirage aléatoire que l'enfant */
+  const index =
+    Math.floor(
+      Math.random() * activites.length
+    );
+
+  carteActiviteAdoTiree =
+    activites[index];
+
+
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  bouton.textContent =
+    "Valider cette activité";
+
+  bouton.onclick =
+    validerDeuxiemeTirageActiviteAdo;
+
+
+  /* Exactement les mêmes 7 cartes */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/activite/dos-carte-activite.png"
+            alt="Dos carte activité ado">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteActiviteAdoTiree.image}"
+            alt="${carteActiviteAdoTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+
+/* -------------------------
+   VALIDATION DU 2e TIRAGE ADO
+------------------------- */
+
+function validerDeuxiemeTirageActiviteAdo() {
+
+  if (
+    !ligneActiviteAdoEnCours ||
+    !carteActiviteAdoTiree
+  ) {
+    return;
+  }
+
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+
+  const texte =
+    ligneActiviteAdoEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const image =
+    ligneActiviteAdoEnCours.querySelector(
+      ".icone-objectif img"
+    );
+
+
+  if (texte) {
+    texte.textContent =
+      carteActiviteAdoTiree.nom;
+  }
+
+
+  if (image) {
+    image.src =
+      carteActiviteAdoTiree.image;
+
+    image.alt =
+      carteActiviteAdoTiree.nom;
+  }
+
+
+  ligneActiviteAdoEnCours.dataset.carteTiree =
+    "oui";
+
+  ligneActiviteAdoEnCours.onclick = null;
+
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  if (paquet) {
+    paquet.innerHTML = "";
+  }
+
+  if (bouton) {
+
+    bouton.classList.remove("visible");
+
+    bouton.textContent =
+      "Valider cette étape";
+
+    bouton.onclick =
+      fermerTirageNourrisson;
+  }
+
+
+  ligneActiviteAdoEnCours = null;
+  carteActiviteAdoTiree = null;
+
+
+  sauvegarderChallenge();
+}
+  
 async function ouvrirDeuxiemeTirageActiviteEnfant(categorie) {
 
   const fond =
@@ -8184,7 +10352,7 @@ async function ouvrirDeuxiemeTirageActiviteEnfant(categorie) {
 
         <div class="face-carte verso">
           <img
-            src="images/activite/dos-carte-activite.png"
+            src="images/activite/dos-activite-enfant.png"
             alt="Dos carte activité">
         </div>
 
@@ -8603,6 +10771,232 @@ function validerDeMoyenneEnfant() {
   ligneMoyenneEnfantEnCours = null;
   resultatMoyenneEnfant = null;
   tirageMoyenneEnfantEnCours = false;
+
+  sauvegarderChallenge();
+}
+
+/* =========================
+   DÉ DU BAL DE PROMO ADO
+========================= */
+
+let ligneBalPromoAdoEnCours = null;
+let resultatBalPromoAdo = null;
+let tirageBalPromoAdoEnCours = false;
+
+
+/* -------------------------
+   OUVERTURE DE LA FENÊTRE
+------------------------- */
+
+function ouvrirTirageBalPromoAdo(element) {
+
+  const ligne = element.closest(".objectif-bal-promo-ado");
+
+  if (!ligne) return;
+
+  /* Impossible de retirer une deuxième fois */
+  if (ligne.dataset.carteTiree === "oui") return;
+
+  ligneBalPromoAdoEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-bal-promo-ado");
+
+  const resultat =
+    document.getElementById("resultat-bal-promo-ado");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-bal-promo-ado");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-bal-promo-ado");
+
+  const cube =
+    document.getElementById("cube-bal-promo-ado");
+
+  if (
+    !fond ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider ||
+    !cube
+  ) {
+    return;
+  }
+
+  resultatBalPromoAdo = null;
+  tirageBalPromoAdoEnCours = false;
+
+  resultat.textContent = "Bal de promo";
+
+  cube.classList.remove("en-lancer");
+
+  boutonLancer.style.display = "inline-block";
+  boutonLancer.disabled = false;
+
+  boutonValider.classList.remove("visible");
+
+  fond.classList.add("ouvert");
+}
+
+
+/* -------------------------
+   TIRAGE 80 % / 20 %
+------------------------- */
+
+function tirerBalPromoAdo() {
+
+  return Math.random() < 0.80
+    ? "bal"
+    : "secher";
+}
+
+
+/* -------------------------
+   LANCER DU DÉ
+------------------------- */
+
+function lancerDeBalPromoAdo() {
+
+  if (tirageBalPromoAdoEnCours) return;
+
+  const cube =
+    document.getElementById("cube-bal-promo-ado");
+
+  const resultat =
+    document.getElementById("resultat-bal-promo-ado");
+
+  const boutonLancer =
+    document.getElementById("bouton-lancer-bal-promo-ado");
+
+  const boutonValider =
+    document.getElementById("bouton-valider-bal-promo-ado");
+
+  if (
+    !cube ||
+    !resultat ||
+    !boutonLancer ||
+    !boutonValider
+  ) {
+    return;
+  }
+
+  tirageBalPromoAdoEnCours = true;
+
+  resultatBalPromoAdo =
+    tirerBalPromoAdo();
+
+  boutonLancer.disabled = true;
+
+  resultat.textContent = "Le dé roule... 🎲";
+
+  cube.classList.remove("en-lancer");
+  void cube.offsetWidth;
+  cube.classList.add("en-lancer");
+
+  setTimeout(function() {
+
+       const positionActuelle =
+      getComputedStyle(cube).transform;
+
+    cube.style.animation = "none";
+    cube.classList.remove("en-lancer");
+
+    cube.style.transition = "none";
+    cube.style.transform = positionActuelle;
+
+    void cube.offsetWidth;
+
+    cube.style.transition =
+      "transform 0.72s cubic-bezier(.2,.75,.2,1)";
+
+    cube.style.transform =
+      "rotateX(-22deg) rotateY(32deg)";
+
+    if (resultatBalPromoAdo === "bal") {
+
+      resultat.textContent =
+        "Aller au bal de promo";
+
+    } else {
+
+      resultat.textContent =
+        "Promettre de sécher le bal de promo";
+
+    }
+
+    boutonLancer.style.display = "none";
+    boutonValider.classList.add("visible");
+
+    tirageBalPromoAdoEnCours = false;
+
+  }, 1900);
+}
+
+
+/* -------------------------
+   VALIDATION DU RÉSULTAT
+------------------------- */
+
+function validerDeBalPromoAdo() {
+
+  if (
+    !ligneBalPromoAdoEnCours ||
+    !resultatBalPromoAdo ||
+    tirageBalPromoAdoEnCours
+  ) {
+    return;
+  }
+
+  const texte =
+    ligneBalPromoAdoEnCours.querySelector(
+      ".texte-objectif"
+    );
+
+  const cubeFiche =
+    ligneBalPromoAdoEnCours.querySelector(
+      ".cube-bambin"
+    );
+
+  const imageResultat =
+    resultatBalPromoAdo === "bal"
+      ? "images/bambin/des/bal de promo.png"
+      : "images/bambin/des/pas de bal de promo.png";
+
+  if (texte) {
+
+    texte.textContent =
+      resultatBalPromoAdo === "bal"
+        ? "Aller au bal de promo"
+        : "Promettre de sécher le bal de promo";
+
+  }
+
+  /* Le résultat devient la face visible du dé de la fiche */
+  if (cubeFiche) {
+
+    const faceAvant =
+      cubeFiche.querySelector(".face-avant img");
+
+    if (faceAvant) {
+      faceAvant.src = imageResultat;
+    }
+
+  }
+
+  ligneBalPromoAdoEnCours.dataset.carteTiree = "oui";
+  ligneBalPromoAdoEnCours.onclick = null;
+
+  const fond =
+    document.getElementById("fond-tirage-bal-promo-ado");
+
+  if (fond) {
+    fond.classList.remove("ouvert");
+  }
+
+  ligneBalPromoAdoEnCours = null;
+  resultatBalPromoAdo = null;
+  tirageBalPromoAdoEnCours = false;
 
   sauvegarderChallenge();
 }
