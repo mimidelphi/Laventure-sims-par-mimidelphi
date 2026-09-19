@@ -8828,9 +8828,13 @@ const cartesDiplomeLycee = [
     nom: "Diplôme avec mention",
     image: "images/ado/diplome-lycee/diplome-mention.png"
   },
-  {
+    {
     nom: "Renvoyé du lycée",
     image: "images/ado/diplome-lycee/renvoyer-du-lycee.png"
+  },
+  {
+    nom: "Diplôme en ligne",
+    image: "images/ado/diplome-lycee/diplome-en-ligne.png"
   }
 ];
 
@@ -8872,31 +8876,34 @@ function ouvrirTirageDiplomeLycee(objectif) {
   /* Tirage aléatoire */
   const hasard = Math.random() * 100;
 
-if (hasard < 11) {
-  // 11 % — Décrochage scolaire
+if (hasard < 8) {
+  // 8 % — Décrochage scolaire
   carteDiplomeLyceeTiree = cartesDiplomeLycee[0];
 
-} else if (hasard < 20) {
-  // 9 % — Renvoyé du lycée
+} else if (hasard < 15) {
+  // 7 % — Renvoyé du lycée
   carteDiplomeLyceeTiree = cartesDiplomeLycee[5];
 
-} else if (hasard < 36) {
-  // 16 % — Diplôme en avance
+} else if (hasard < 30) {
+  // 15 % — Diplôme en avance
   carteDiplomeLyceeTiree = cartesDiplomeLycee[2];
 
-} else if (hasard < 50) {
-  // 14 % — Major de promo
+} else if (hasard < 45) {
+  // 15 % — Major de promo
   carteDiplomeLyceeTiree = cartesDiplomeLycee[3];
 
-} else if (hasard < 75) {
-  // 25 % — Diplôme avec mention
+} else if (hasard < 65) {
+  // 20 % — Diplôme avec mention
   carteDiplomeLyceeTiree = cartesDiplomeLycee[4];
 
-} else {
-  // 25 % — Diplôme classique
+} else if (hasard < 85) {
+  // 20 % — Diplôme classique
   carteDiplomeLyceeTiree = cartesDiplomeLycee[1];
-}
 
+} else {
+  // 15 % — Diplôme en ligne / études à domicile
+  carteDiplomeLyceeTiree = cartesDiplomeLycee[6];
+}
 
   /* Création des 7 cartes */
   for (let i = 1; i <= 7; i++) {
