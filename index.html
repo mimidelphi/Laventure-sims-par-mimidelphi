@@ -4195,6 +4195,14 @@ if (estEnfant) {
 
       });
 
+    /* L'aspiration reste au-dessus des qualités après rechargement */
+    const aspirationEnfant =
+      zoneObjectifs.querySelector(".objectif-aspiration-enfant");
+
+    if (aspirationEnfant) {
+      zoneObjectifs.prepend(aspirationEnfant);
+    }
+    
   }
 
 }
@@ -6204,6 +6212,14 @@ enregistrerEtapeDansHistorique(
 
         });
 
+        /* L'aspiration reste au-dessus des qualités personnelles */
+        const aspirationEnfant =
+          zoneObjectifs.querySelector(".objectif-aspiration-enfant");
+
+        if (aspirationEnfant) {
+          zoneObjectifs.prepend(aspirationEnfant);
+        }
+      
     }
 
   }
