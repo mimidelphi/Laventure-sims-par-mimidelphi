@@ -1203,21 +1203,53 @@ label,
 
 /* =========================
    ASPIRATION ENFANT
+   OBJECTIF SPÉCIAL
 ========================= */
 
 .objectif-aspiration-enfant {
-  background: linear-gradient(
-    90deg,
-    #fffdf4,
-    #fff5c7
-  );
-  border: 2px solid #d6ad3b;
-  box-shadow: 0 2px 7px rgba(181, 137, 25, 0.18);
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffdf3 0%,
+      #f8e7a1 28%,
+      #fff8d5 52%,
+      #e7c45d 76%,
+      #fff6c5 100%
+    );
+
+  border: 2px solid #b98a19;
+  border-radius: 10px;
+
+  box-shadow:
+    0 3px 8px rgba(126, 86, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(139, 95, 0, 0.18);
+
+  /* Séparation avec les objectifs normaux */
+  margin-bottom: 14px;
+}
+
+.objectif-aspiration-enfant::after {
+  content: "✦";
+  position: absolute;
+  top: -8px;
+  right: 8px;
+
+  color: #d5a928;
+  font-size: 15px;
+
+  text-shadow:
+    0 0 5px #fff4ad,
+    0 0 9px rgba(255, 213, 73, 0.8);
+
+  pointer-events: none;
 }
 
 .objectif-aspiration-enfant .texte-objectif {
-  color: #8a6817;
-  font-weight: bold;
+  color: #755000;
+  font-weight: 800;
 }
     
     /* =========================
