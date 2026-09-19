@@ -5666,6 +5666,15 @@ function creerFicheHistoriqueAge(etape) {
     document.createElement("div");
     ligne.className = "objectif";
 
+/* L'aspiration Enfant garde son apparence dorée dans l'historique */
+if (
+  etape.cleAge === "enfant" &&
+  objectif.image &&
+  objectif.image.includes("/apiration-enfant/")
+) {
+  ligne.classList.add("objectif-aspiration-enfant");
+}
+   
     if (objectif.bloque) {
       ligne.classList.add(
         "objectif-bloque"
