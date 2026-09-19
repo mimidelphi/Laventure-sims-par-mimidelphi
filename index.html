@@ -5149,7 +5149,7 @@ objectifs: `
 
     objectifs: `
 
-<div class="objectif objectif-tirage objectif-aspiration-enfant"
+<div class="objectif objectif-tirage objectif-aspiration-enfant objectif-optionnel"
      onclick="if (!event.target.closest('button')) ouvrirTirageAspirationEnfant(this)">
 
   <span class="icone-objectif">
@@ -6310,6 +6310,11 @@ function verifierGrandir(sim) {
       return;
     }
 
+/* On ignore les objectifs optionnels */
+if (objectif.classList.contains("objectif-optionnel")) {
+  return;
+}
+    
     /* S'il reste un objectif non validé */
     if (!objectif.classList.contains("objectif-valide")) {
       toutEstFait = false;
@@ -9101,6 +9106,52 @@ function fermerTirageNourrisson() {
    ACTIVITÉ ENFANT
 ========================= */
 
+/* =========================
+   CARTES ASPIRATION ENFANT
+========================= */
+
+const cartesAspirationEnfant = [
+  {
+    nom: "Corps et esprit",
+    image: "images/enfant/apiration-enfant/Corps-et-esprit.png"
+  },
+  {
+    nom: "Pro des soirées pyjamas",
+    image: "images/enfant/apiration-enfant/Pro-des-soiree-pyjamas.png"
+  },
+  {
+    nom: "Star du quartier",
+    image: "images/enfant/apiration-enfant/Star-du-quartier.png"
+  },
+  {
+    nom: "Capitaine de la récré",
+    image: "images/enfant/apiration-enfant/capitaine-de-la-recre.png"
+  },
+  {
+    nom: "Enfant très sociable",
+    image: "images/enfant/apiration-enfant/enfant-tres-sociable.png"
+  },
+  {
+    nom: "Enfant turbulent",
+    image: "images/enfant/apiration-enfant/enfant-turbulent.png"
+  },
+  {
+    nom: "Génie créatif",
+    image: "images/enfant/apiration-enfant/genie-creatif.png"
+  },
+  {
+    nom: "Petit génie",
+    image: "images/enfant/apiration-enfant/petit-genie.png"
+  },
+  {
+    nom: "Prodige artistique",
+    image: "images/enfant/apiration-enfant/prodige-artistique.png"
+  }
+];
+
+let ligneAspirationEnfantEnCours = null;
+let carteAspirationEnfantTiree = null;
+  
 const cartesPremierTirageActiviteEnfant = [
 
   {
@@ -9583,6 +9634,143 @@ async function validerPremierTirageActiviteAdo() {
   await ouvrirDeuxiemeTirageActiviteAdo(
     carteActiviteAdoTiree.type
   );
+}
+
+/* =========================
+   TIRAGE ASPIRATION ENFANT
+========================= */
+
+function ouvrirTirageAspirationEnfant(ligne) {
+
+  if (
+    !ligne ||
+    ligne.dataset.carteTiree === "oui"
+  ) {
+    return;
+  }
+
+  ligneAspirationEnfantEnCours = ligne;
+
+  const fond =
+    document.getElementById("fond-tirage-nourrisson");
+
+  const paquet =
+    document.getElementById("paquet-nourrisson");
+
+  const bouton =
+    document.getElementById("bouton-fermer-tirage");
+
+  if (!fond || !paquet || !bouton) {
+    return;
+  }
+
+  /* Remise à zéro de la fenêtre */
+  paquet.innerHTML = "";
+
+  paquet.classList.remove(
+    "eventail",
+    "selection-faite"
+  );
+
+  bouton.classList.remove("visible");
+
+  /* Tirage aléatoire parmi les 9 aspirations */
+  const index =
+    Math.floor(
+      Math.random() * cartesAspirationEnfant.length
+    );
+
+  carteAspirationEnfantTiree =
+    cartesAspirationEnfant[index];
+
+  /* Le bouton devient celui du tirage Aspiration */
+  bouton.textContent =
+    "Valider cette aspiration";
+
+  bouton.onclick =
+    validerAspirationEnfant;
+
+  /* Même animation que les cartes Nourrisson */
+  for (let i = 1; i <= 7; i++) {
+
+    const carte =
+      document.createElement("div");
+
+    carte.className =
+      "carte-animation carte-" + i;
+
+    carte.innerHTML = `
+      <div class="carte-animation-interieur">
+
+        <div class="face-carte verso">
+          <img
+            src="images/enfant/apiration-enfant/dos-aspiration-enfant.png"
+            alt="Dos carte aspiration enfant">
+        </div>
+
+        <div class="face-carte recto">
+          <img
+            src="${carteAspirationEnfantTiree.image}"
+            alt="${carteAspirationEnfantTiree.nom}">
+        </div>
+
+      </div>
+    `;
+
+    paquet.appendChild(carte);
+  }
+
+  lancerAnimationTirageNourrisson(
+    fond,
+    paquet,
+    bouton
+  );
+}
+
+function validerAspirationEnfant() {
+
+  if (
+    ligneAspirationEnfantEnCours &&
+    carteAspirationEnfantTiree
+  ) {
+
+    const texte =
+      ligneAspirationEnfantEnCours.querySelector(
+        ".texte-objectif"
+      );
+
+    const image =
+      ligneAspirationEnfantEnCours.querySelector(
+        ".icone-objectif img"
+      );
+
+    texte.textContent =
+      carteAspirationEnfantTiree.nom;
+
+    image.src =
+      carteAspirationEnfantTiree.image;
+
+    image.alt =
+      carteAspirationEnfantTiree.nom;
+
+    ligneAspirationEnfantEnCours.dataset.carteTiree =
+      "oui";
+
+    ligneAspirationEnfantEnCours.onclick = null;
+  }
+
+  document
+    .getElementById("fond-tirage-nourrisson")
+    .classList.remove("ouvert");
+
+  document
+    .getElementById("paquet-nourrisson")
+    .innerHTML = "";
+
+  ligneAspirationEnfantEnCours = null;
+  carteAspirationEnfantTiree = null;
+
+  sauvegarderChallenge();
 }
   
 function ouvrirTirageActiviteEnfant(ligne) {
