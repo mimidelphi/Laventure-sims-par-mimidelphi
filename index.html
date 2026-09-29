@@ -4412,9 +4412,10 @@ if (sim.classList.contains("matriarche")) {
 }
 
 
-/* Préserve l'alignement des anciennes sauvegardes lors de l'ajout des lignes. */
+/* Ancienne fiche ado : sa première ligne était toujours le diplôme,
+   y compris lorsque le résultat a remplacé le texte initial. */
 if (estAdolescent && objectifsSauvegardes.length &&
-    (objectifsSauvegardes[0].texte || '').includes('Diplôme')) {
+    (objectifsSauvegardes[0].image || '').includes('/diplome-lycee/')) {
   objectifsSauvegardes = objectifsSauvegardes.slice();
   objectifsSauvegardes.unshift({ texte: 'Aspiration — à tirer' });
   objectifsSauvegardes.splice(3, 0, { texte: 'Carrière à temps partiel — à tirer' });
