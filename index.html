@@ -4295,6 +4295,10 @@ if (estAdolescent) {
 
       });
 
+    /* Comme chez l'enfant, l'aspiration précède les qualités. */
+    const aspirationAdo = zoneObjectifs.querySelector('.objectif-aspiration-ado');
+    if (aspirationAdo) zoneObjectifs.prepend(aspirationAdo);
+
   }
 
 }
@@ -4451,7 +4455,7 @@ if (objectifSauvegarde.carteTiree) {
   if (objectifSauvegarde.paquetAspiration) {
     objectif.dataset.paquetAspiration = objectifSauvegarde.paquetAspiration;
   } else if (objectif.classList.contains('objectif-aspiration-ado') &&
-             objectifSauvegarde.image && objectifSauvegarde.image.includes('/aspiration-ado/')) {
+             objectifSauvegarde.image && objectifSauvegarde.image.includes('/apiration-ado/')) {
     objectif.dataset.paquetAspiration = 'ado';
   }
 
@@ -5353,7 +5357,7 @@ objectifs: `
     objectifs: `
       <div class="objectif objectif-tirage objectif-aspiration-ado objectif-optionnel"
            onclick="if (!event.target.closest('button')) ouvrirTirageAspirationAdo(this)">
-        <span class="icone-objectif"><img src="images/ado/aspiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration ado"></span>
+        <span class="icone-objectif"><img src="images/ado/apiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration ado"></span>
         <span class="texte-objectif">Aspiration — à tirer</span>
         <button>✓</button>
       </div>
@@ -5469,7 +5473,7 @@ objectifs: `
     objectifs: `
       <div class="objectif objectif-tirage objectif-aspiration-ado objectif-optionnel"
            onclick="if (!event.target.closest('button')) ouvrirTirageAspirationAdo(this)">
-        <span class="icone-objectif"><img src="images/ado/aspiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration jeune adulte"></span>
+        <span class="icone-objectif"><img src="images/ado/apiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration jeune adulte"></span>
         <span class="texte-objectif">Aspiration — à tirer</span>
         <button>✓</button>
       </div>
@@ -5721,7 +5725,7 @@ if (
   ligne.classList.add("objectif-aspiration-enfant");
 }
 if (etape.cleAge === "adolescent" && objectif.image &&
-    (objectif.image.includes("/aspiration-ado/") || objectif.image.includes("/aspiration-ado-adulte/"))) {
+    (objectif.image.includes("/apiration-ado/") || objectif.image.includes("/aspiration-ado-adulte/"))) {
   ligne.classList.add("objectif-aspiration-ado");
 }
    
@@ -6352,6 +6356,10 @@ enregistrerEtapeDansHistorique(
           zoneObjectifs.prepend(ligne);
 
         });
+
+      /* L'aspiration reste en tête après le passage à l'adolescence. */
+      const aspirationAdo = zoneObjectifs.querySelector('.objectif-aspiration-ado');
+      if (aspirationAdo) zoneObjectifs.prepend(aspirationAdo);
 
     }
 
@@ -9756,10 +9764,10 @@ async function validerPremierTirageActiviteAdo() {
 /* Aspiration ado : premier paquet 65 % ado, 35 % ado/adulte.
    Les noms de fichiers correspondent aux captures du dépôt. */
 const cartesAspirationAdo = [
-  { nom: 'Déterminée', image: 'images/ado/aspiration-ado/ado-determinee.png' },
-  { nom: 'Ado icône admirée', image: 'images/ado/aspiration-ado/ado-icone-admiree.png' },
-  { nom: 'Ado qui en fait des tonnes', image: 'images/ado/aspiration-ado/ado-qui-en-fait-des-tonnes.png' },
-  { nom: 'Ado vivre a fond', image: 'images/ado/aspiration-ado/ado-vivre-a-fond.png' }
+  { nom: 'Déterminée', image: 'images/ado/apiration-ado/ado-determinee.png' },
+  { nom: 'Ado icône admirée', image: 'images/ado/apiration-ado/ado-icone-admiree.png' },
+  { nom: 'Ado qui en fait des tonnes', image: 'images/ado/apiration-ado/ado-qui-en-fait-des-tonnes.png' },
+  { nom: 'Ado vivre a fond', image: 'images/ado/apiration-ado/ado-vivre-a-fond.png' }
 ];
 const cartesAspirationAdoAdulte = [
   { nom: 'Baronne de l immobilier', image: 'images/ado/aspiration-ado-adulte/Baronne-de-l-immobilier.png' },
@@ -9851,7 +9859,7 @@ function aspirationAdoChoisie(sim) {
 function aspirationDeterminee(sim) {
   const ligne = aspirationAdoChoisie(sim);
   return !!ligne && ligne.querySelector('.icone-objectif img')?.getAttribute('src') ===
-    'images/ado/aspiration-ado/ado-determinee.png';
+    'images/ado/apiration-ado/ado-determinee.png';
 }
 
 function afficherJobDeterminee(sim) {
@@ -9898,8 +9906,8 @@ function ouvrirTirageAspirationAdo(ligne) {
   bouton.textContent = 'Valider cette aspiration';
   bouton.onclick = validerAspirationAdo;
   const dos = paquetAdo
-    ? 'images/ado/aspiration-ado/dos-aspiration-ado.png'
-    : 'images/ado/aspiration-ado/dos-aspiration-ado.png';
+    ? 'images/ado/apiration-ado/dos-aspiration-ado.png'
+    : 'images/ado/apiration-ado/dos-aspiration-ado.png';
   for (let i = 1; i <= 7; i++) {
     const carte = document.createElement('div');
     carte.className = 'carte-animation carte-' + i;
