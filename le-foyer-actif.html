@@ -1206,7 +1206,8 @@ label,
    OBJECTIF SPÉCIAL
 ========================= */
 
-.objectif-aspiration-enfant {
+.objectif-aspiration-enfant,
+.objectif-aspiration-ado {
   position: relative;
 
   background:
@@ -1231,7 +1232,8 @@ label,
   margin-bottom: 14px;
 }
 
-.objectif-aspiration-enfant::after {
+.objectif-aspiration-enfant::after,
+.objectif-aspiration-ado::after {
   content: "✦";
   position: absolute;
   top: -8px;
@@ -1247,7 +1249,8 @@ label,
   pointer-events: none;
 }
 
-.objectif-aspiration-enfant .texte-objectif {
+.objectif-aspiration-enfant .texte-objectif,
+.objectif-aspiration-ado .texte-objectif {
   color: #755000;
   font-weight: 800;
 }
@@ -3569,6 +3572,51 @@ input[type="checkbox"] {
 
   const VERSION_SAUVEGARDE = 4;
  const SAVE_SLOT = "foyer_actif";
+ const BACKUP_SLOT_ASPIRATIONS = "foyer_actif_backup_20260929_aspirations";
+ let chargementSauvegardeVerifie = false;
+
+ async function conserverSauvegardeAvantAspirations(userId, donneesOriginales) {
+   const { data: copieExistante, error: erreurLecture } = await supabaseClient
+     .from('app_data').select('user_id')
+     .eq('user_id', userId).eq('save_slot', BACKUP_SLOT_ASPIRATIONS)
+     .maybeSingle();
+   if (erreurLecture) {
+     console.error('Impossible de vérifier la copie de sécurité', erreurLecture);
+     return false;
+   }
+   if (copieExistante) return true;
+   const { error: erreurCopie } = await supabaseClient.from('app_data').insert({
+     user_id: userId,
+     save_slot: BACKUP_SLOT_ASPIRATIONS,
+     data: donneesOriginales
+   });
+   if (erreurCopie) {
+     console.error('Impossible de créer la copie de sécurité', erreurCopie);
+     return false;
+   }
+   return true;
+ }
+
+ function verifierCartesRestituees(simsSauvegardes) {
+   return simsSauvegardes.every(function(sauvegarde) {
+     const sim = document.getElementById(sauvegarde.id);
+     if (!sim || !sauvegarde.etat || !sim.classList.contains('sim-modele'))
+       return false;
+     const ageRestitue = sim.querySelector('.age-nom')?.textContent.trim();
+     const nomRestitue = sim.querySelector('.prenom-sim')?.textContent.trim();
+     if (ageRestitue !== sauvegarde.age ||
+         nomRestitue !== sauvegarde.prenom) return false;
+     const imagesAffichees = Array.from(sim.querySelectorAll('.objectif .icone-objectif img'))
+       .map(img => new URL(img.getAttribute('src'), document.baseURI).href);
+     const cartes = (sauvegarde.etat.objectifs || []).filter(obj =>
+       obj.carteTiree && obj.image);
+     const cartesPresentes = cartes.every(obj =>
+       imagesAffichees.includes(new URL(obj.image, document.baseURI).href));
+     const iconesAttendees = (sauvegarde.etat.icones || []).length;
+     const iconesAffichees = sim.querySelectorAll('.icone-identite:not(.vide)').length;
+     return cartesPresentes && iconesAffichees >= iconesAttendees;
+   });
+ }
 
   /* =========================
    CARTES NOURRISSON
@@ -3784,7 +3832,7 @@ let carteNourrissonTiree = null;
     .from("app_data")
     .upsert({
         user_id: user.id,
-        save_slot: SAVE_SLOT,
+        save_slot: SAVE_SLOT + "_diagnostic",
         data: { test: texte }
     }, {
         onConflict: "user_id,save_slot"
@@ -3823,6 +3871,8 @@ bloque:
     
    carteTiree:
   objectif.dataset.carteTiree === "oui",
+
+paquetAspiration: objectif.dataset.paquetAspiration || "",
 
 momentId:
   objectif.dataset.momentId || "",
@@ -3891,6 +3941,10 @@ return {
 }
 
 async function sauvegarderChallenge() {
+  if (!chargementSauvegardeVerifie) {
+    console.warn('Sauvegarde suspendue : chargement ou vérification en cours.');
+    return;
+  }
   
   const etatSauvegarde =
   document.getElementById("etat-sauvegarde");
@@ -4290,6 +4344,10 @@ if (estAdolescent) {
 
       });
 
+    /* Comme chez l'enfant, l'aspiration précède les qualités. */
+    const aspirationAdo = zoneObjectifs.querySelector('.objectif-aspiration-ado');
+    if (aspirationAdo) zoneObjectifs.prepend(aspirationAdo);
+
   }
 
 }
@@ -4403,6 +4461,22 @@ if (sim.classList.contains("matriarche")) {
 }
 
 
+/* Ancienne fiche ado : sa première ligne était toujours le diplôme,
+   y compris lorsque le résultat a remplacé le texte initial. */
+if (estAdolescent && objectifsSauvegardes.length &&
+    (objectifsSauvegardes[0].image || '').includes('/diplome-lycee/')) {
+  objectifsSauvegardes = objectifsSauvegardes.slice();
+  objectifsSauvegardes.unshift({ texte: 'Aspiration — à tirer' });
+  objectifsSauvegardes.splice(3, 0, { texte: 'Carrière à temps partiel — à tirer' });
+}
+if (ageNom && ageNom.textContent.trim() === 'JEUNE ADULTE' &&
+    objectifsSauvegardes.length &&
+    (objectifsSauvegardes[0].texte || '').includes('Université')) {
+  objectifsSauvegardes = [
+    { texte: 'Aspiration — à tirer' }, ...objectifsSauvegardes
+  ];
+}
+
 objectifsSauvegardes.forEach(function(objectifSauvegarde, index) {
 
       const objectif = objectifs[index];
@@ -4428,6 +4502,12 @@ if (texte && objectifSauvegarde.texte) {
 if (objectifSauvegarde.carteTiree) {
 
   objectif.dataset.carteTiree = "oui";
+  if (objectifSauvegarde.paquetAspiration) {
+    objectif.dataset.paquetAspiration = objectifSauvegarde.paquetAspiration;
+  } else if (objectif.classList.contains('objectif-aspiration-ado') &&
+             objectifSauvegarde.image && objectifSauvegarde.image.includes('/apiration-ado/')) {
+    objectif.dataset.paquetAspiration = 'ado';
+  }
 
 if (objectifSauvegarde.momentId) {
   objectif.dataset.momentId =
@@ -4468,6 +4548,7 @@ if (objectifSauvegarde.momentCode) {
 
     });
   }
+  afficherJobDeterminee(sim);
 }
 
 function restaurerIconesSim(sim, etat) {
@@ -4557,6 +4638,9 @@ async function chargerChallenge() {
   if (!data || !data.data) {
     return;
   }
+
+const copieDeSecuriteCreee =
+  await conserverSauvegardeAvantAspirations(user.id, data.data);
 
 const donneesChargees = migrerSauvegarde(data.data);
 
@@ -4834,6 +4918,18 @@ compteurMatriarcheValeur =
     : 0;
 
 afficherCompteurMatriarche();
+
+if (!copieDeSecuriteCreee) {
+  alert("La copie de sécurité n'a pas pu être créée. Ta partie est affichée, mais l'enregistrement est désactivé pour la protéger.");
+  return;
+}
+
+if (!verifierCartesRestituees(simsSauvegardes)) {
+  alert("Certaines cartes de ta sauvegarde n'ont pas été restaurées. Rien ne sera enregistré : garde cette copie de sécurité et préviens Iris.");
+  return;
+}
+
+chargementSauvegardeVerifie = true;
 
 }
   
@@ -5324,6 +5420,12 @@ objectifs: `
     titreObjectifs: "Objectifs de cette étape",
 
     objectifs: `
+      <div class="objectif objectif-tirage objectif-aspiration-ado objectif-optionnel"
+           onclick="if (!event.target.closest('button')) ouvrirTirageAspirationAdo(this)">
+        <span class="icone-objectif"><img src="images/ado/apiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration ado"></span>
+        <span class="texte-objectif">Aspiration — à tirer</span>
+        <button>✓</button>
+      </div>
      <div class="objectif objectif-tirage objectif-diplome-lycee"
      onclick="if (!event.target.closest('button')) ouvrirTirageDiplomeLycee(this)">
 
@@ -5357,6 +5459,13 @@ objectifs: `
 
   <button>✓</button>
 </div>
+
+      <div class="objectif objectif-tirage objectif-job-aspiration" style="display:none"
+           onclick="if (!event.target.closest('button')) ouvrirJobAspirationDeterminee(this)">
+        <span class="icone-objectif"><img src="images/activite/1er-tirage/carte-premier-job.png" alt="Premier job"></span>
+        <span class="texte-objectif">Carrière à temps partiel — à tirer</span>
+        <button>✓</button>
+      </div>
 
       <div class="objectif objectif-bal-promo-ado">
 
@@ -5427,6 +5536,12 @@ objectifs: `
     titreObjectifs: "Objectifs avant de quitter le foyer",
 
     objectifs: `
+      <div class="objectif objectif-tirage objectif-aspiration-ado objectif-optionnel"
+           onclick="if (!event.target.closest('button')) ouvrirTirageAspirationAdo(this)">
+        <span class="icone-objectif"><img src="images/ado/apiration-ado/dos-aspiration-ado.png" alt="Tirage aspiration jeune adulte"></span>
+        <span class="texte-objectif">Aspiration — à tirer</span>
+        <button>✓</button>
+      </div>
       <div class="objectif">
         <span class="icone-objectif">🎓</span>
         <span class="texte-objectif">Université ? — résultat du tirage (7 %)</span>
@@ -5666,13 +5781,17 @@ function creerFicheHistoriqueAge(etape) {
     document.createElement("div");
     ligne.className = "objectif";
 
-/* L'aspiration Enfant garde son apparence dorée dans l'historique */
+/* Les aspirations gardent leur apparence dorée dans l'historique */
 if (
   etape.cleAge === "enfant" &&
   objectif.image &&
   objectif.image.includes("/apiration-enfant/")
 ) {
   ligne.classList.add("objectif-aspiration-enfant");
+}
+if (etape.cleAge === "adolescent" && objectif.image &&
+    (objectif.image.includes("/apiration-ado/") || objectif.image.includes("/aspiration-ado-adulte/"))) {
+  ligne.classList.add("objectif-aspiration-ado");
 }
    
     if (objectif.bloque) {
@@ -6085,6 +6204,18 @@ if (
   return;
 }
 
+/* Une aspiration ado/adulte reste active au passage jeune adulte. */
+const aspirationAdoAvantAnniversaire =
+  cleAgeActuel === 'adolescent' ? aspirationAdoChoisie(sim) : null;
+const aspirationAConserver = aspirationAdoAvantAnniversaire &&
+  aspirationAdoAvantAnniversaire.dataset.paquetAspiration === 'ado-adulte'
+    ? {
+        nom: aspirationAdoAvantAnniversaire.querySelector('.texte-objectif').textContent,
+        image: aspirationAdoAvantAnniversaire.querySelector('.icone-objectif img').getAttribute('src'),
+        valide: aspirationAdoAvantAnniversaire.classList.contains('objectif-valide')
+      }
+    : null;
+
 /* 📖 On archive l'étape AVANT de la remplacer */
 enregistrerEtapeDansHistorique(
   sim,
@@ -6165,6 +6296,19 @@ enregistrerEtapeDansHistorique(
 
   /* Affichage du nouvel âge */
   afficherAge(sim, ageActuel.suivant);
+  if (aspirationAConserver) {
+    const ligne = sim.querySelector('.objectif-aspiration-ado');
+    if (ligne) {
+      ligne.querySelector('.texte-objectif').textContent = aspirationAConserver.nom;
+      const image = ligne.querySelector('.icone-objectif img');
+      image.src = aspirationAConserver.image;
+      image.alt = aspirationAConserver.nom;
+      ligne.dataset.carteTiree = 'oui';
+      ligne.dataset.paquetAspiration = 'ado-adulte';
+      ligne.onclick = null;
+      if (aspirationAConserver.valide) ligne.classList.add('objectif-valide');
+    }
+  }
 
 
   /* =========================================
@@ -6278,6 +6422,10 @@ enregistrerEtapeDansHistorique(
 
         });
 
+      /* L'aspiration reste en tête après le passage à l'adolescence. */
+      const aspirationAdo = zoneObjectifs.querySelector('.objectif-aspiration-ado');
+      if (aspirationAdo) zoneObjectifs.prepend(aspirationAdo);
+
     }
 
   }
@@ -6316,6 +6464,13 @@ function verifierGrandir(sim) {
 
     /* On ignore les objectifs volontairement bloqués */
     if (objectif.classList.contains("objectif-bloque")) {
+      return;
+    }
+
+    /* Le job de Déterminée n'existe dans le parcours qu'après
+       validation de l'activité officielle. */
+    if (objectif.classList.contains('objectif-job-aspiration') &&
+        objectif.style.display === 'none') {
       return;
     }
 
@@ -6404,6 +6559,12 @@ sauvegarderChallenge();
 
   /* OBJECTIF NORMAL */
 
+  if (objectif.classList.contains('objectif-job-aspiration') &&
+      objectif.dataset.carteTiree !== 'oui') {
+    ouvrirJobAspirationDeterminee(objectif);
+    return;
+  }
+
   objectif.classList.toggle("objectif-valide");
 
 
@@ -6420,6 +6581,10 @@ sauvegarderChallenge();
 
 
   /* On regarde si le gâteau peut maintenant être débloqué */
+
+  if (objectif.classList.contains('objectif-activite-ado')) {
+    afficherJobDeterminee(sim);
+  }
 
   verifierGrandir(sim);
 
@@ -8840,6 +9005,7 @@ const cartesDiplomeLycee = [
 
 
 function ouvrirTirageDiplomeLycee(objectif) {
+  if (!exigerAspirationAvantTirage(objectif)) return;
 
   if (objectif.dataset.carteTiree === "oui") {
     return;
@@ -8905,6 +9071,15 @@ if (hasard < 8) {
   carteDiplomeLyceeTiree = cartesDiplomeLycee[6];
 }
 
+  /* Déterminée : En avance, Major ou Avec mention uniquement.
+     Leurs poids relatifs dans le tirage actuel sont 15 / 15 / 20. */
+  if (aspirationDeterminee(objectif.closest('.sim-modele'))) {
+    const resultatCompatible = Math.random() * 50;
+    carteDiplomeLyceeTiree = cartesDiplomeLycee[
+      resultatCompatible < 15 ? 2 : resultatCompatible < 30 ? 3 : 4
+    ];
+  }
+
   /* Création des 7 cartes */
   for (let i = 1; i <= 7; i++) {
 
@@ -8967,7 +9142,9 @@ function validerTirageDiplomeLycee() {
 
 
   texte.textContent =
-    carteDiplomeLyceeTiree.nom;
+    carteDiplomeLyceeTiree.nom +
+    (aspirationDeterminee(ligneDiplomeLyceeEnCours.closest('.sim-modele'))
+      ? ' — obtenir et garder un A' : '');
 
   if (image) {
     image.src =
@@ -9527,6 +9704,7 @@ const cartesPremierTirageActiviteAdo = [
 ];
   
 function ouvrirTirageActiviteAdo(ligne) {
+  if (!exigerAspirationAvantTirage(ligne)) return;
 
   if (
     !ligne ||
@@ -9563,7 +9741,9 @@ function ouvrirTirageActiviteAdo(ligne) {
 
 let index;
 
-if (hasard < 28) {
+if (aspirationDeterminee(ligne.closest('.sim-modele'))) {
+  index = 0; // Activité extrascolaire EA requise ; job tiré séparément.
+} else if (hasard < 28) {
   index = 0; // Activité existante EA : 28 %
 }
 else if (hasard < 44) {
@@ -9650,6 +9830,212 @@ async function validerPremierTirageActiviteAdo() {
   await ouvrirDeuxiemeTirageActiviteAdo(
     carteActiviteAdoTiree.type
   );
+}
+
+
+/* Aspiration ado : premier paquet 65 % ado, 35 % ado/adulte.
+   Les noms de fichiers correspondent aux captures du dépôt. */
+const cartesAspirationAdo = [
+  { nom: 'Déterminée', image: 'images/ado/apiration-ado/ado-determinee.png' },
+  { nom: 'Ado icône admirée', image: 'images/ado/apiration-ado/ado-icone-admiree.png' },
+  { nom: 'Ado qui en fait des tonnes', image: 'images/ado/apiration-ado/ado-qui-en-fait-des-tonnes.png' },
+  { nom: 'Ado vivre a fond', image: 'images/ado/apiration-ado/ado-vivre-a-fond.png' }
+];
+const cartesAspirationAdoAdulte = [
+  { nom: 'Baronne de l immobilier', image: 'images/ado/aspiration-ado-adulte/Baronne-de-l-immobilier.png' },
+  { nom: 'Grand chef', image: 'images/ado/aspiration-ado-adulte/Grand-chef.png' },
+  { nom: 'Grand acteur', image: 'images/ado/aspiration-ado-adulte/Grand_acteur.png' },
+  { nom: 'Grande mixologue', image: 'images/ado/aspiration-ado-adulte/Grande-mixologue.png' },
+  { nom: 'Magnat du marche', image: 'images/ado/aspiration-ado-adulte/Magnat-du-marche.png' },
+  { nom: 'Sim originaire de la ville', image: 'images/ado/aspiration-ado-adulte/Sim-originaire-de-la-ville.png' },
+  { nom: 'Vie a la plage', image: 'images/ado/aspiration-ado-adulte/Vie-a-la-plage.png' },
+  { nom: 'Vilain valentin', image: 'images/ado/aspiration-ado-adulte/Vilain-Valentin.png' },
+  { nom: 'Visiteuse du mont komorebi', image: 'images/ado/aspiration-ado-adulte/Visiteuse-du-Mont-Komorebi.png' },
+  { nom: 'Amatrice de plein air', image: 'images/ado/aspiration-ado-adulte/amatrice-de-plein-air.png' },
+  { nom: 'Ame soeur', image: 'images/ado/aspiration-ado-adulte/ame-soeur.png' },
+  { nom: 'Ami de tous', image: 'images/ado/aspiration-ado-adulte/ami-de-tous.png' },
+  { nom: 'Amie des animaux', image: 'images/ado/aspiration-ado-adulte/amie-des-animaux.png' },
+  { nom: 'Artisane du cristal', image: 'images/ado/aspiration-ado-adulte/artisane-du-cristal.png' },
+  { nom: 'As des appareils', image: 'images/ado/aspiration-ado-adulte/as-des-appareils.png' },
+  { nom: 'As des blagues', image: 'images/ado/aspiration-ado-adulte/as-des-blagues.png' },
+  { nom: 'Auteur de best sellers', image: 'images/ado/aspiration-ado-adulte/auteur-de-best-sellers.png' },
+  { nom: 'Bon vampire', image: 'images/ado/aspiration-ado-adulte/bon-vampire.png' },
+  { nom: 'Botaniste independante', image: 'images/ado/aspiration-ado-adulte/botaniste-independante.png' },
+  { nom: 'Cavaliere de championnat', image: 'images/ado/aspiration-ado-adulte/cavaliere-de-championnat.png' },
+  { nom: 'Celebrite de renommee mondiale', image: 'images/ado/aspiration-ado-adulte/celebrite-de-renommee-mondiale.png' },
+  { nom: 'Cerveau exceptionnel', image: 'images/ado/aspiration-ado-adulte/cerveau-exceptionnel.png' },
+  { nom: 'Chasseuse de bestioles', image: 'images/ado/aspiration-ado-adulte/chasseuse-de-bestioles.png' },
+  { nom: 'Chef de la bande', image: 'images/ado/aspiration-ado-adulte/chef-de-la-bande.png' },
+  { nom: 'Chercheur de secret', image: 'images/ado/aspiration-ado-adulte/chercheur-de-secret.png' },
+  { nom: 'Confident du quartier', image: 'images/ado/aspiration-ado-adulte/confident-du-quartier.png' },
+  { nom: 'Conservatrice', image: 'images/ado/aspiration-ado-adulte/conservatrice.png' },
+  { nom: 'Corsaire galactique', image: 'images/ado/aspiration-ado-adulte/corsaire-galactique.png' },
+  { nom: 'Createur magistral', image: 'images/ado/aspiration-ado-adulte/createur-magistral.png' },
+  { nom: 'Culturiste', image: 'images/ado/aspiration-ado-adulte/culturiste.png' },
+  { nom: 'Descendance qui reussit', image: 'images/ado/aspiration-ado-adulte/descendance-qui-reussit.png' },
+  { nom: 'Eco innovatrice', image: 'images/ado/aspiration-ado-adulte/eco-innovatrice.png' },
+  { nom: 'Ennemi public', image: 'images/ado/aspiration-ado-adulte/ennemi-public.png' },
+  { nom: 'Entrepreneur estime', image: 'images/ado/aspiration-ado-adulte/entrepreneur-estime.png' },
+  { nom: 'Erudite en archeologie', image: 'images/ado/aspiration-ado-adulte/erudite-en-archeologie.png' },
+  { nom: 'Espoir ou ordre', image: 'images/ado/aspiration-ado-adulte/espoir-ou-ordre.png' },
+  { nom: 'Etudes universitaires', image: 'images/ado/aspiration-ado-adulte/etudes-universitaires.png' },
+  { nom: 'Experte en fabrication de nectar', image: 'images/ado/aspiration-ado-adulte/experte-en-fabrication-de-nectar.png' },
+  { nom: 'Exploratrice de la jungle', image: 'images/ado/aspiration-ado-adulte/exploratrice-de-la-jungle.png' },
+  { nom: 'Exploratrice romantique', image: 'images/ado/aspiration-ado-adulte/exploratrice-romantique.png' },
+  { nom: 'Fabuleusement sale', image: 'images/ado/aspiration-ado-adulte/fabuleusement-sale.png' },
+  { nom: 'Famille de vampire', image: 'images/ado/aspiration-ado-adulte/famille-de-vampire.png' },
+  { nom: 'Fetard', image: 'images/ado/aspiration-ado-adulte/fetard.png' },
+  { nom: 'Gardienne de la nature', image: 'images/ado/aspiration-ado-adulte/gardienne-de-la-nature.png' },
+  { nom: 'Genie de l informatique', image: 'images/ado/aspiration-ado-adulte/genie-de-l-informatique.png' },
+  { nom: 'Genie de la musique', image: 'images/ado/aspiration-ado-adulte/genie-de-la-musique.png' },
+  { nom: 'Gourou zen', image: 'images/ado/aspiration-ado-adulte/gourou-zen.png' },
+  { nom: 'Grande famille heureuse', image: 'images/ado/aspiration-ado-adulte/grande-famille-heureuse.png' },
+  { nom: 'Habitant averti', image: 'images/ado/aspiration-ado-adulte/habitant-averti.png' },
+  { nom: 'Histoire de fee', image: 'images/ado/aspiration-ado-adulte/histoire-de-fee.png' },
+  { nom: 'Historienne des fantomes', image: 'images/ado/aspiration-ado-adulte/historienne-des-fantomes.png' },
+  { nom: 'Incorrigible kleptomane', image: 'images/ado/aspiration-ado-adulte/incorrigible-kleptomane.png' },
+  { nom: 'Incroyablement riche', image: 'images/ado/aspiration-ado-adulte/incroyablement-riche.png' },
+  { nom: 'Initie a la lycantropie', image: 'images/ado/aspiration-ado-adulte/initie-a-la-lycantropie.png' },
+  { nom: 'Le mystere de strangerville', image: 'images/ado/aspiration-ado-adulte/le-mystere-de-StrangerVille.png' },
+  { nom: 'Maitresse vampire', image: 'images/ado/aspiration-ado-adulte/maitresse-vampire.png' },
+  { nom: 'Marionnettiste des masses', image: 'images/ado/aspiration-ado-adulte/marionnettiste-des-masses.png' },
+  { nom: 'Mentor magistral', image: 'images/ado/aspiration-ado-adulte/mentor-magistral.png' },
+  { nom: 'Nomade de la nature', image: 'images/ado/aspiration-ado-adulte/nomade-de-la-nature.png' },
+  { nom: 'Paix interieur', image: 'images/ado/aspiration-ado-adulte/paix-interieur.png' },
+  { nom: 'Parfaitement impeccable', image: 'images/ado/aspiration-ado-adulte/parfaitement-impeccable.png' },
+  { nom: 'Partenaire modele', image: 'images/ado/aspiration-ado-adulte/partenaire-modele.png' },
+  { nom: 'Passionnee sport extreme', image: 'images/ado/aspiration-ado-adulte/passionnee-sport-extreme.png' },
+  { nom: 'Peintre extraordinaire', image: 'images/ado/aspiration-ado-adulte/peintre-extraordinaire.png' },
+  { nom: 'Preparatrice de potions', image: 'images/ado/aspiration-ado-adulte/preparatrice-de-potions.png' },
+  { nom: 'Pro de la peche', image: 'images/ado/aspiration-ado-adulte/pro-de-la-peche.png' },
+  { nom: 'Proprietaire cinq etoiles', image: 'images/ado/aspiration-ado-adulte/proprietaire-cinq-etoiles.png' },
+  { nom: 'Roi des betises', image: 'images/ado/aspiration-ado-adulte/roi-des-betises.png' },
+  { nom: 'Romantique en serie', image: 'images/ado/aspiration-ado-adulte/romantique-en-serie.png' },
+  { nom: 'Seigneur du tricot', image: 'images/ado/aspiration-ado-adulte/seigneur-du-tricot.png' },
+  { nom: 'Sim aux multiples talents', image: 'images/ado/aspiration-ado-adulte/sim-aux-multiples-talents.png' },
+  { nom: 'Sorts et sorcellerie', image: 'images/ado/aspiration-ado-adulte/sorts-et-sorcellerie.png' },
+  { nom: 'Specialiste de tomarang', image: 'images/ado/aspiration-ado-adulte/specialiste-de-Tomarang.png' },
+  { nom: 'Specialiste de la rancoeur', image: 'images/ado/aspiration-ado-adulte/specialiste-de-la-rancoeur.png' },
+  { nom: 'Specialiste des elixirs', image: 'images/ado/aspiration-ado-adulte/specialiste-des-elixirs.png' },
+  { nom: 'Specialiste des soins pour soi', image: 'images/ado/aspiration-ado-adulte/specialiste-des-soins-pour-soi.png' },
+  { nom: 'Superparent', image: 'images/ado/aspiration-ado-adulte/superparent.png' }
+];
+
+/* Ces dix cartes sont rares dans le paquet ado/adulte :
+   5 % pour le groupe entier, puis tirage équitable entre elles. */
+const imagesAspirationsSurnaturelles = new Set([
+  'histoire-de-fee.png',
+  'famille-de-vampire.png',
+  'maitresse-vampire.png',
+  'sorts-et-sorcellerie.png',
+  'historienne-des-fantomes.png',
+  'initie-a-la-lycantropie.png',
+  'espoir-ou-ordre.png',
+  'corsaire-galactique.png',
+  'bon-vampire.png',
+  'preparatrice-de-potions.png'
+]);
+
+function tirerAspirationAdoAdulte() {
+  const rares = cartesAspirationAdoAdulte.filter(carte =>
+    imagesAspirationsSurnaturelles.has(carte.image.split('/').pop()));
+  const courantes = cartesAspirationAdoAdulte.filter(carte =>
+    !imagesAspirationsSurnaturelles.has(carte.image.split('/').pop()));
+  const paquet = Math.random() < 0.05 ? rares : courantes;
+  return paquet[Math.floor(Math.random() * paquet.length)];
+}
+let ligneAspirationAdoEnCours = null;
+let carteAspirationAdoTiree = null;
+
+function aspirationAdoChoisie(sim) {
+  const ligne = sim && sim.querySelector('.objectif-aspiration-ado');
+  return ligne && ligne.dataset.carteTiree === 'oui' ? ligne : null;
+}
+
+function aspirationDeterminee(sim) {
+  const ligne = aspirationAdoChoisie(sim);
+  return !!ligne && ligne.querySelector('.icone-objectif img')?.getAttribute('src') ===
+    'images/ado/apiration-ado/ado-determinee.png';
+}
+
+function afficherJobDeterminee(sim) {
+  const job = sim && sim.querySelector('.objectif-job-aspiration');
+  const activite = sim && sim.querySelector('.objectif-activite-ado');
+  if (job) job.style.display = aspirationDeterminee(sim) &&
+    ((activite?.dataset.carteTiree === 'oui' &&
+      activite.classList.contains('objectif-valide')) || job.dataset.carteTiree === 'oui')
+      ? '' : 'none';
+}
+
+function ouvrirJobAspirationDeterminee(ligne) {
+  if (!ligne || ligne.dataset.carteTiree === 'oui' ||
+      !aspirationDeterminee(ligne.closest('.sim-modele'))) return;
+  const activite = ligne.closest('.sim-modele').querySelector('.objectif-activite-ado');
+  if (!activite || activite.dataset.carteTiree !== 'oui' ||
+      !activite.classList.contains('objectif-valide')) {
+    alert("Valide d'abord l'activité officielle EA au niveau 3 avant de tirer le job.");
+    return;
+  }
+  ligneActiviteAdoEnCours = ligne;
+  ouvrirDeuxiemeTirageActiviteAdo('premier-job');
+}
+
+function exigerAspirationAvantTirage(ligne) {
+  if (aspirationAdoChoisie(ligne.closest('.sim-modele'))) return true;
+  alert("Tire d'abord l'aspiration ado : elle peut modifier les résultats de ce tirage.");
+  return false;
+}
+
+function ouvrirTirageAspirationAdo(ligne) {
+  if (!ligne || ligne.dataset.carteTiree === 'oui') return;
+  const fond = document.getElementById('fond-tirage-nourrisson');
+  const paquet = document.getElementById('paquet-nourrisson');
+  const bouton = document.getElementById('bouton-fermer-tirage');
+  if (!fond || !paquet || !bouton) return;
+  ligneAspirationAdoEnCours = ligne;
+  const paquetAdo = !!ligne.closest('.sim-modele')?.querySelector('.age-nom')?.textContent.includes('ADOLESCENT') && Math.random() < 0.65;
+  const cartes = paquetAdo ? cartesAspirationAdo : cartesAspirationAdoAdulte;
+  carteAspirationAdoTiree = paquetAdo
+    ? cartes[Math.floor(Math.random() * cartes.length)]
+    : tirerAspirationAdoAdulte();
+  paquet.innerHTML = '';
+  paquet.classList.remove('eventail', 'selection-faite');
+  bouton.classList.remove('visible');
+  bouton.textContent = 'Valider cette aspiration';
+  bouton.onclick = validerAspirationAdo;
+  const dos = paquetAdo
+    ? 'images/ado/apiration-ado/dos-aspiration-ado.png'
+    : 'images/ado/apiration-ado/dos-aspiration-ado.png';
+  for (let i = 1; i <= 7; i++) {
+    const carte = document.createElement('div');
+    carte.className = 'carte-animation carte-' + i;
+    carte.innerHTML = `<div class="carte-animation-interieur">
+      <div class="face-carte verso"><img src="${dos}" alt="Dos aspiration"></div>
+      <div class="face-carte recto"><img src="${carteAspirationAdoTiree.image}" alt="${carteAspirationAdoTiree.nom}"></div>
+    </div>`;
+    paquet.appendChild(carte);
+  }
+  lancerAnimationTirageNourrisson(fond, paquet, bouton);
+}
+
+function validerAspirationAdo() {
+  if (!ligneAspirationAdoEnCours || !carteAspirationAdoTiree) return;
+  const ligne = ligneAspirationAdoEnCours;
+  ligne.querySelector('.texte-objectif').textContent = carteAspirationAdoTiree.nom;
+  const image = ligne.querySelector('.icone-objectif img');
+  image.src = carteAspirationAdoTiree.image;
+  image.alt = carteAspirationAdoTiree.nom;
+  ligne.dataset.carteTiree = 'oui';
+  ligne.dataset.paquetAspiration = cartesAspirationAdo.includes(carteAspirationAdoTiree) ? 'ado' : 'ado-adulte';
+  ligne.onclick = null;
+  const sim = ligne.closest('.sim-modele');
+  afficherJobDeterminee(sim);
+  verifierGrandir(sim);
+  document.getElementById('fond-tirage-nourrisson').classList.remove('ouvert');
+  document.getElementById('paquet-nourrisson').innerHTML = '';
+  ligneAspirationAdoEnCours = null;
+  carteAspirationAdoTiree = null;
+  sauvegarderChallenge();
 }
 
 /* =========================
@@ -10168,7 +10554,9 @@ function validerDeuxiemeTirageActiviteAdo() {
 
   if (texte) {
     texte.textContent =
-      carteActiviteAdoTiree.nom;
+      carteActiviteAdoTiree.nom +
+      (aspirationDeterminee(ligneActiviteAdoEnCours.closest('.sim-modele'))
+        ? ' — atteindre le niveau 3' : '');
   }
 
 
