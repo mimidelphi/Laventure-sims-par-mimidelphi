@@ -6402,6 +6402,13 @@ function verifierGrandir(sim) {
       return;
     }
 
+    /* Le job de Déterminée n'existe dans le parcours qu'après
+       validation de l'activité officielle. */
+    if (objectif.classList.contains('objectif-job-aspiration') &&
+        objectif.style.display === 'none') {
+      return;
+    }
+
 /* On ignore les objectifs optionnels */
 if (objectif.classList.contains("objectif-optionnel")) {
   return;
@@ -6510,11 +6517,11 @@ sauvegarderChallenge();
 
   /* On regarde si le gâteau peut maintenant être débloqué */
 
-  verifierGrandir(sim);
-
   if (objectif.classList.contains('objectif-activite-ado')) {
     afficherJobDeterminee(sim);
   }
+
+  verifierGrandir(sim);
 
 sauvegarderChallenge();
   
@@ -9848,6 +9855,30 @@ const cartesAspirationAdoAdulte = [
   { nom: 'Specialiste des soins pour soi', image: 'images/ado/aspiration-ado-adulte/specialiste-des-soins-pour-soi.png' },
   { nom: 'Superparent', image: 'images/ado/aspiration-ado-adulte/superparent.png' }
 ];
+
+/* Ces dix cartes sont rares dans le paquet ado/adulte :
+   5 % pour le groupe entier, puis tirage équitable entre elles. */
+const imagesAspirationsSurnaturelles = new Set([
+  'histoire-de-fee.png',
+  'famille-de-vampire.png',
+  'maitresse-vampire.png',
+  'sorts-et-sorcellerie.png',
+  'historienne-des-fantomes.png',
+  'initie-a-la-lycantropie.png',
+  'espoir-ou-ordre.png',
+  'corsaire-galactique.png',
+  'bon-vampire.png',
+  'preparatrice-de-potions.png'
+]);
+
+function tirerAspirationAdoAdulte() {
+  const rares = cartesAspirationAdoAdulte.filter(carte =>
+    imagesAspirationsSurnaturelles.has(carte.image.split('/').pop()));
+  const courantes = cartesAspirationAdoAdulte.filter(carte =>
+    !imagesAspirationsSurnaturelles.has(carte.image.split('/').pop()));
+  const paquet = Math.random() < 0.05 ? rares : courantes;
+  return paquet[Math.floor(Math.random() * paquet.length)];
+}
 let ligneAspirationAdoEnCours = null;
 let carteAspirationAdoTiree = null;
 
@@ -9899,7 +9930,9 @@ function ouvrirTirageAspirationAdo(ligne) {
   ligneAspirationAdoEnCours = ligne;
   const paquetAdo = !!ligne.closest('.sim-modele')?.querySelector('.age-nom')?.textContent.includes('ADOLESCENT') && Math.random() < 0.65;
   const cartes = paquetAdo ? cartesAspirationAdo : cartesAspirationAdoAdulte;
-  carteAspirationAdoTiree = cartes[Math.floor(Math.random() * cartes.length)];
+  carteAspirationAdoTiree = paquetAdo
+    ? cartes[Math.floor(Math.random() * cartes.length)]
+    : tirerAspirationAdoAdulte();
   paquet.innerHTML = '';
   paquet.classList.remove('eventail', 'selection-faite');
   bouton.classList.remove('visible');
@@ -9930,7 +9963,9 @@ function validerAspirationAdo() {
   ligne.dataset.carteTiree = 'oui';
   ligne.dataset.paquetAspiration = cartesAspirationAdo.includes(carteAspirationAdoTiree) ? 'ado' : 'ado-adulte';
   ligne.onclick = null;
-  afficherJobDeterminee(ligne.closest('.sim-modele'));
+  const sim = ligne.closest('.sim-modele');
+  afficherJobDeterminee(sim);
+  verifierGrandir(sim);
   document.getElementById('fond-tirage-nourrisson').classList.remove('ouvert');
   document.getElementById('paquet-nourrisson').innerHTML = '';
   ligneAspirationAdoEnCours = null;
