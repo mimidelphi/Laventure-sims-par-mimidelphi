@@ -13433,6 +13433,24 @@ document.addEventListener("mousemove", function (event) {
 .cc-cover-border i { font-size: .8cqw; font-style: normal; }
 .cc-scene.cc-camera-table { transform-origin: 55% 65%; transform: scale(2.15); }
 @media (prefers-reduced-motion: reduce) { .cc-moving-cover { transition: none; } }
+
+/* Générations : lettres classiques sur une même ligne, tournée sur la tranche. */
+#ccArchives .cc-scene .cc-spine.cc-generation span {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: auto;
+  height: auto;
+  max-height: none;
+  writing-mode: horizontal-tb;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  display: block;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: .03em;
+  overflow: visible;
+  line-height: 1;
+}
 </style>
 
 <!-- Salle des archives : les positions sont exprimées en pourcentage de l'image.
@@ -13523,12 +13541,26 @@ document.addEventListener("mousemove", function (event) {
     } [c]));
   const names = ['Aimée', 'Andy', 'Benjamin', 'Charly', 'Daphnée', 'Emma', 'Florette', 'Fanny'],
     colors = ['#65735b', '#715878', '#486c83', '#997550', '#957070', '#547c72', '#9b6984', '#8c7c4d'];
+  function lifeTitle(name) {
+    return 'La vie ' + (/^[aeiouyàâäéèêëîïôöùûüœæ]/i.test(name) ? 'd’' : 'de ') + name;
+  }
+  function repairDefaultTitles() {
+    for (const book of state.books) {
+      if (book.category !== 'life') continue;
+      for (const name of names) {
+        if (book.title === 'La vie d’' + name || book.title === "La vie d'" + name) {
+          book.title = lifeTitle(name);
+          break;
+        }
+      }
+    }
+  }
   const defaults = () => ({
     version: 1,
     books: names.map((n, i) => ({
       id: 'life-' + i,
       category: 'life',
-      title: 'La vie d’' + n,
+      title: lifeTitle(n),
       number: i + 1,
       color: colors[i],
       story: '',
@@ -13775,6 +13807,7 @@ document.addEventListener("mousemove", function (event) {
   }
 
   function render() {
+    repairDefaultTitles();
     renderShelves();
     if (!$('ccBook').hidden) renderBook();
     if (!$('ccTree').hidden) renderTree();
