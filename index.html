@@ -13685,7 +13685,8 @@ document.addEventListener("mousemove", function (event) {
     const html = books.map(book => {
       const icon = book.category === 'home' ? '⌂' : book.category === 'family' ? '▧' : '';
       const available = position[3] * .712 * .92 - .75;
-    const fontSize = Math.min(1.08, available / Math.max(1, label(book).length * .6));
+    const maxFont = (book.category === 'home' || book.category === 'family') ? .72 : .9;
+    const fontSize = Math.min(maxFont, available / Math.max(1, label(book).length * .6));
     const font = fontSize.toFixed(3) + 'cqw';
       return '<button class="cc-spine ' + (icon ? 'cc-generation' : '') + '"' +
         ' data-cc-book="' + esc(book.id) + '"' +
@@ -13824,11 +13825,21 @@ document.addEventListener("mousemove", function (event) {
           transform: 'perspective(900px) rotateX(54deg) rotateZ(-8deg)',
           fontSize: '22px'
         });
-        await pause(700);
+        await pause(950);
         /* Le tome rejoint la table, puis la caméra se rapproche. */
-        $('ccScene').classList.add('cc-camera-table');
-        clone.style.opacity = '0';
-        await pause(600);
+        const scene = $('ccScene');
+        const sceneBox = scene.getBoundingClientRect();
+        /* Le tome posé appartient désormais à la table : il suit son zoom. */
+        Object.assign(clone.style, {
+          position: 'absolute',
+          left: (table.left - sceneBox.left + table.width / 2 - landingWidth / 2) + 'px',
+          top: (table.top - sceneBox.top + table.height / 2 - landingHeight / 2) + 'px',
+          transition: 'none'
+        });
+        scene.append(clone);
+        await pause(100);
+        scene.classList.add('cc-camera-table');
+        await pause(800);
         clone.remove();
       }
       renderBook();
