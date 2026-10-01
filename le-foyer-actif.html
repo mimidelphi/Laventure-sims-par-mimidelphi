@@ -2613,6 +2613,7 @@ input[type="checkbox"] {
   </header>
 
   <main>
+<nav class="cc-nav" aria-label="Pages du challenge"><a class="cc-button" href="#etat-sauvegarde">Foyer actif</a><button class="cc-button" id="ccLaunch" onclick="ouvrirArchivesCentcoeurs()">📚 Archives des Centcoeurs</button></nav>
 <div class="carte" id="connexion">
   <h2>🔐 Connexion</h2>
   <p>Connecte-toi pour retrouver ta progression sur tous tes ordinateurs.</p>
@@ -12772,5 +12773,1734 @@ document.addEventListener("mousemove", function (event) {
 });
   
 </script>
+<style>
+#ccArchives[hidden],#ccBook[hidden],#ccTree[hidden],#ccEditor[hidden]{
+  display:none!important}
+  #ccArchives{
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    overflow:auto;
+    color:#eee1c8;
+    font-family:Georgia,serif;
+    background:radial-gradient(ellipse at 50% 15%,#625344,transparent 65%),repeating-linear-gradient(0deg,#302a25 0 46px,#362f28 47px 49px);
+    padding:24px;
+    box-sizing:border-box}
+    .cc-nav{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin:12px 0;
+      flex-wrap:wrap}
+      .cc-button{
+        border:1px solid #b99861;
+        background:#eee3cd;
+        color:#443326;
+        padding:10px 16px;
+        border-radius:8px;
+        font:inherit;
+        cursor:pointer}
+        .cc-button:hover{
+          background:#fff4dc}
+          .cc-button:disabled{
+            opacity:.5}
+            .cc-top{
+              display:flex;
+              align-items:center;
+              gap:12px;
+              justify-content:space-between;
+              max-width:1440px;
+              margin:auto}
+              .cc-top h1{
+                font-size:clamp(24px,3vw,42px);
+                font-weight:normal;
+                margin:6px 0}
+                .cc-top small{
+                  display:block;
+                  color:#cbbba0}
+                  .cc-status{
+                    font:13px Arial,sans-serif;
+                    max-width:320px;
+                    color:#e7d4ad}
+                    .cc-room{
+                      max-width:1440px;
+                      margin:26px auto 0;
+                      display:grid;
+                      grid-template-columns:1.25fr 1fr 1fr;
+                      gap:26px;
+                      align-items:start}
+                      .cc-case{
+                        background:linear-gradient(90deg,#251811,#72503a 5%,#382619 10%,#382619 90%,#77583b 96%,#281c13);
+                        border:8px solid #63462e;
+                        border-radius:45px 45px 5px 5px;
+                        box-shadow:0 16px 35px #0009,inset 0 0 0 2px #b99655;
+                        padding:22px 12px 6px}
+                        .cc-case h2{
+                          font-weight:normal;
+                          text-align:center;
+                          color:#e7c98e;
+                          font-size:22px;
+                          margin:0 0 16px}
+                          .cc-shelf{
+                            display:flex;
+                            gap:5px;
+                            align-items:flex-end;
+                            min-height:116px;
+                            padding:8px 6px 0;
+                            border-bottom:12px solid #765032;
+                            box-shadow:0 5px 8px #000a;
+                            margin-bottom:18px;
+                            background:linear-gradient(#130e0d95,#24170c90);
+                            position:relative}
+                            .cc-spine{
+                              position:relative;
+                              width:32px;
+                              min-width:0;
+                              height:112px;
+                              flex-shrink:0;
+                              border:1px solid #c39f6277;
+                              border-radius:3px 6px 4px 3px;
+                              background:linear-gradient(90deg,#0007,transparent 25%,#fff2 42%,transparent 60%,#0005),var(--cc-color,#675774);
+                              color:#ffeac1;
+                              box-shadow:3px 0 3px #0007;
+                              padding:7px 3px;
+                              transition:transform .28s,filter .28s;
+                              transform-origin:center bottom;
+                              cursor:pointer;
+                              font:12px Georgia,serif;
+                              text-align:center;
+                              box-sizing:border-box}
+                              .cc-spine span{
+                                writing-mode:vertical-rl;
+                                transform:rotate(180deg);
+                                white-space:nowrap;
+                                display:inline-block;
+                                max-height:91px;
+                                overflow:hidden;
+                                text-overflow:ellipsis}
+                                .cc-spine:hover,.cc-spine:focus-visible{
+                                  transform:translateY(-13px) rotate(-9deg) scale(1.06);
+                                  filter:brightness(1.25);
+                                  z-index:2;
+                                  outline:2px solid #e9c784}
+                                  .cc-spine:before,.cc-spine:after{
+                                    content:'';
+                                    position:absolute;
+                                    left:2px;
+                                    right:2px;
+                                    height:2px;
+                                    background:#d9b976;
+                                    top:5px}
+                                    .cc-spine:after{
+                                      top:auto;
+                                      bottom:5px}
+                                      .cc-empty{
+                                        width:27px;
+                                        height:90px;
+                                        flex-shrink:0;
+                                        border:1px dashed #c6a67924;
+                                        border-radius:3px;
+                                        display:flex;
+                                        align-items:flex-end;
+                                        justify-content:center;
+                                        color:#d5bc883d;
+                                        font:10px Arial;
+                                        padding-bottom:6px;
+                                        box-sizing:border-box}
+                                        .cc-row-note{
+                                          font:12px Arial;
+                                          color:#b9a180;
+                                          margin:0 5px 8px}
+                                          .cc-frame{
+                                            display:block;
+                                            margin:12px auto 28px;
+                                            width:88%;
+                                            max-width:320px;
+                                            min-height:145px;
+                                            border:13px ridge #bfa876;
+                                            border-radius:28px 28px 4px 4px;
+                                            background:radial-gradient(#ece3cc,#b6bbaa);
+                                            color:#5c654e;
+                                            box-shadow:0 9px 18px #0007;
+                                            text-align:center;
+                                            padding:12px;
+                                            font:17px Georgia;
+                                            cursor:pointer}
+                                            .cc-frame svg{
+                                              display:block;
+                                              margin:auto;
+                                              width:180px;
+                                              height:85px}
+                                              .cc-table{
+                                                max-width:860px;
+                                                height:92px;
+                                                position:relative;
+                                                margin:42px auto 90px;
+                                                background:repeating-linear-gradient(0deg,#78563b 0 8px,#725036 9px 10px);
+                                                border:9px solid #4b321f;
+                                                border-radius:50% 50% 10px 10px;
+                                                box-shadow:0 20px 35px #0007;
+                                                transform:perspective(500px) rotateX(20deg)}
+                                                .cc-table:before,.cc-table:after{
+                                                  content:'';
+                                                  position:absolute;
+                                                  top:100%;
+                                                  height:95px;
+                                                  width:35px;
+                                                  background:#422b1d;
+                                                  left:9%;
+                                                  transform:skew(-5deg)}
+                                                  .cc-table:after{
+                                                    left:auto;
+                                                    right:9%;
+                                                    transform:skew(5deg)}
+                                                    .cc-table p{
+                                                      text-align:center;
+                                                      color:#e1caaa;
+                                                      font-style:italic;
+                                                      padding:10px}
+                                                      .cc-overlay{
+                                                        position:fixed;
+                                                        inset:0;
+                                                        z-index:10020;
+                                                        background:#17100ce8;
+                                                        overflow:auto;
+                                                        padding:24px;
+                                                        box-sizing:border-box;
+                                                        font-family:Georgia,serif;
+                                                        color:#463727}
+                                                        .cc-toolbar{
+                                                          display:flex;
+                                                          gap:10px;
+                                                          align-items:center;
+                                                          justify-content:center;
+                                                          flex-wrap:wrap;
+                                                          margin:0 auto 18px}
+                                                          .cc-toolbar h2{
+                                                            font-size:20px;
+                                                            font-weight:normal;
+                                                            color:#ead7b7;
+                                                            margin:0 12px}
+                                                            .cc-open-book{
+                                                              position:relative;
+                                                              max-width:1100px;
+                                                              min-height:610px;
+                                                              margin:auto;
+                                                              display:grid;
+                                                              grid-template-columns:1fr 1fr;
+                                                              border:10px solid var(--cc-cover,#66516f);
+                                                              border-radius:8px;
+                                                              background:#e9dbc1;
+                                                              box-shadow:0 15px 65px #000c;
+                                                              animation:ccOpen .55s ease-out}
+                                                              .cc-page{
+                                                                padding:32px 38px;
+                                                                min-width:0;
+                                                                background:linear-gradient(90deg,#fcf5e8,#f5ecd9 90%,#d9cbb0);
+                                                                min-height:520px;
+                                                                box-sizing:border-box;
+                                                                position:relative}
+                                                                .cc-page+ .cc-page{
+                                                                  background:linear-gradient(90deg,#cdbda0,#f7efdc 10%,#fcf5e8);
+                                                                  border-left:1px solid #b8a485}
+                                                                  .cc-page h3{
+                                                                    font-size:27px;
+                                                                    font-weight:normal;
+                                                                    line-height:1.35}
+                                                                    .cc-story{
+                                                                      white-space:pre-wrap;
+                                                                      line-height:1.8;
+                                                                      font-size:17px;
+                                                                      overflow-wrap:anywhere}
+                                                                      .cc-placeholder{
+                                                                        color:#8f816d;
+                                                                        font-style:italic;
+                                                                        text-align:center;
+                                                                        padding:50px 10px;
+                                                                        line-height:1.8}
+                                                                        .cc-photo-grid{
+                                                                          display:grid;
+                                                                          grid-template-columns:1fr 1fr;
+                                                                          gap:18px;
+                                                                          align-content:start}
+                                                                          .cc-photo-grid figure{
+                                                                            margin:0;
+                                                                            min-width:0}
+                                                                            .cc-photo-grid img{
+                                                                              width:100%;
+                                                                              max-height:220px;
+                                                                              object-fit:contain;
+                                                                              background:#e1d6c2;
+                                                                              padding:5px;
+                                                                              box-sizing:border-box;
+                                                                              box-shadow:0 3px 6px #63523d44;
+                                                                              display:block}
+                                                                              .cc-photo-grid figcaption{
+                                                                                font-size:14px;
+                                                                                text-align:center;
+                                                                                padding-top:8px;
+                                                                                overflow-wrap:anywhere}
+                                                                                .cc-page-number{
+                                                                                  display:block;
+                                                                                  text-align:center;
+                                                                                  color:#8a775e;
+                                                                                  font-size:12px;
+                                                                                  margin-top:24px}
+                                                                                  .cc-page-turn{
+                                                                                    animation:ccTurn .45s ease-out}
+                                                                                    .cc-editor-panel{
+                                                                                      max-width:720px;
+                                                                                      margin:auto;
+                                                                                      padding:25px;
+                                                                                      background:#f5ecd9;
+                                                                                      border-radius:12px}
+                                                                                      .cc-editor-panel h2{
+                                                                                        font-weight:normal}
+                                                                                        .cc-editor-panel label{
+                                                                                          display:block;
+                                                                                          margin:14px 0 6px}
+                                                                                          .cc-editor-panel input:not([type=color]),.cc-editor-panel select,.cc-editor-panel textarea{
+                                                                                            width:100%;
+                                                                                            padding:10px;
+                                                                                            box-sizing:border-box;
+                                                                                            border:1px solid #cbb99c;
+                                                                                            border-radius:5px;
+                                                                                            background:#fffcf4;
+                                                                                            color:#463727;
+                                                                                            font:16px Georgia}
+                                                                                            .cc-editor-panel textarea{
+                                                                                              min-height:180px;
+                                                                                              resize:vertical}
+                                                                                              .cc-edit-photo{
+                                                                                                display:grid;
+                                                                                                grid-template-columns:90px 1fr auto;
+                                                                                                align-items:center;
+                                                                                                gap:12px;
+                                                                                                margin:12px 0}
+                                                                                                .cc-edit-photo img{
+                                                                                                  width:90px;
+                                                                                                  height:70px;
+                                                                                                  object-fit:contain}
+                                                                                                  .cc-inline{
+                                                                                                    display:flex;
+                                                                                                    gap:8px;
+                                                                                                    flex-wrap:wrap}
+                                                                                                    .cc-tree-paper{
+                                                                                                      width:100%;
+                                                                                                      min-height:65vh;
+                                                                                                      background:#f4eddb;
+                                                                                                      border:12px ridge #bca574;
+                                                                                                      border-radius:8px;
+                                                                                                      box-sizing:border-box;
+                                                                                                      overflow:auto}
+                                                                                                      .cc-tree-paper svg{
+                                                                                                        display:block;
+                                                                                                        width:100%;
+                                                                                                        min-width:700px;
+                                                                                                        min-height:520px}
+                                                                                                        .cc-tree-paper text{
+                                                                                                          font-family:Georgia,serif;
+                                                                                                          fill:#4f4233}
+                                                                                                          .cc-person-list{
+                                                                                                            display:flex;
+                                                                                                            gap:8px;
+                                                                                                            flex-wrap:wrap}
+                                                                                                            .cc-person-list button{
+                                                                                                              max-width:180px}
+                                                                                                              .cc-notice{
+                                                                                                                font:14px Arial;
+                                                                                                                line-height:1.6;
+                                                                                                                color:#6d604f}
+                                                                                                                .cc-flight{
+                                                                                                                  position:fixed;
+                                                                                                                  z-index:10030;
+                                                                                                                  pointer-events:none;
+                                                                                                                  transition:all .65s cubic-bezier(.25,.75,.2,1)}
+                                                                                                                  @keyframes ccOpen{
+                                                                                                                    from{
+                                                                                                                      transform:scale(.5) rotateX(25deg);
+                                                                                                                      opacity:0}
+                                                                                                                      to{
+                                                                                                                        transform:none;
+                                                                                                                        opacity:1}
+                                                                                                                      }
+                                                                                                                      @keyframes ccTurn{
+                                                                                                                        from{
+                                                                                                                          transform:perspective(1200px) rotateY(-12deg);
+                                                                                                                          opacity:.6}
+                                                                                                                          to{
+                                                                                                                            transform:none;
+                                                                                                                            opacity:1}
+                                                                                                                          }
+                                                                                                                          @media(max-width:1050px){
+                                                                                                                            .cc-room{
+                                                                                                                              grid-template-columns:1fr 1fr}
+                                                                                                                              .cc-room>.cc-case:first-child{
+                                                                                                                                grid-column:1/-1}
+                                                                                                                                .cc-shelf{
+                                                                                                                                  gap:6px}
+                                                                                                                                  .cc-top{
+                                                                                                                                    flex-wrap:wrap}
+                                                                                                                                  }
+                                                                                                                                  @media(max-width:650px){
+                                                                                                                                    #ccArchives{
+                                                                                                                                      padding:14px}
+                                                                                                                                      .cc-room{
+                                                                                                                                        grid-template-columns:1fr}
+                                                                                                                                        .cc-open-book{
+                                                                                                                                          grid-template-columns:1fr}
+                                                                                                                                          .cc-page{
+                                                                                                                                            padding:22px;
+                                                                                                                                            min-height:250px}
+                                                                                                                                            .cc-page+.cc-page{
+                                                                                                                                              border-left:0;
+                                                                                                                                              border-top:1px solid #b8a485}
+                                                                                                                                              .cc-overlay{
+                                                                                                                                                padding:12px}
+                                                                                                                                                .cc-spine{
+                                                                                                                                                  width:29px}
+                                                                                                                                                  .cc-empty{
+                                                                                                                                                    width:22px}
+                                                                                                                                                    .cc-shelf{
+                                                                                                                                                      gap:4px}
+                                                                                                                                                      .cc-edit-photo{
+                                                                                                                                                        grid-template-columns:65px 1fr}
+                                                                                                                                                        .cc-edit-photo img{
+                                                                                                                                                          width:65px}
+                                                                                                                                                          .cc-top h1{
+                                                                                                                                                            font-size:26px}
+                                                                                                                                                          }
+                                                                                                                                                          @media(prefers-reduced-motion:reduce){
+                                                                                                                                                            #ccArchives *,#ccBook *,#ccTree *,#ccEditor *,.cc-flight{
+                                                                                                                                                              animation:none!important;
+                                                                                                                                                              transition:none!important}
+                                                                                                                                                            }
+                                                                                                                                                            /* La salle complète : image de référence et livres posés sur ses étagères. */
+                                                                                                                                                            #ccArchives{
+                                                                                                                                                              padding: 0;
+                                                                                                                                                              overflow: hidden;
+                                                                                                                                                              background: #241b15;
+                                                                                                                                                              display: flex;
+                                                                                                                                                              flex-direction: column;
+                                                                                                                                                              align-items: center;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-top{
+                                                                                                                                                              width: 100%;
+                                                                                                                                                              max-width: none;
+                                                                                                                                                              height: 62px;
+                                                                                                                                                              min-height: 62px;
+                                                                                                                                                              box-sizing: border-box;
+                                                                                                                                                              padding: 7px 18px;
+                                                                                                                                                              background: #2b211beb;
+                                                                                                                                                              z-index: 5;
+                                                                                                                                                              gap: 10px;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-top h1{
+                                                                                                                                                              font-size: clamp(17px, 1.5vw, 25px);
+                                                                                                                                                              margin: 0;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-top small{
+                                                                                                                                                              display: none;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-top > div:last-child{
+                                                                                                                                                              display: flex;
+                                                                                                                                                              align-items: center;
+                                                                                                                                                              gap: 8px;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-button{
+                                                                                                                                                              padding: 7px 11px;
+                                                                                                                                                              font-size: 13px;
+                                                                                                                                                            }
+                                                                                                                                                            #ccStatus{
+                                                                                                                                                              margin: 0 0 0 8px;
+                                                                                                                                                              font-size: 11px;
+                                                                                                                                                              max-width: 230px;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene-window{
+                                                                                                                                                              width: 100%;
+                                                                                                                                                              flex: 1;
+                                                                                                                                                              min-height: 0;
+                                                                                                                                                              display: flex;
+                                                                                                                                                              align-items: center;
+                                                                                                                                                              justify-content: center;
+                                                                                                                                                              overflow: hidden;
+                                                                                                                                                              position: relative;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene{
+                                                                                                                                                              position: relative;
+                                                                                                                                                              width: min(100vw, calc((100dvh - 62px) * 1.40453686));
+                                                                                                                                                              aspect-ratio: 1486 / 1058;
+                                                                                                                                                              flex-shrink: 0;
+                                                                                                                                                              container-type: inline-size;
+                                                                                                                                                              transition: transform 850ms cubic-bezier(.2,.75,.2,1), filter 850ms;
+                                                                                                                                                              transform-origin: 50% 64%;
+                                                                                                                                                              isolation: isolate;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene > .cc-room-image{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              inset: 0;
+                                                                                                                                                              width: 100%;
+                                                                                                                                                              height: 100%;
+                                                                                                                                                              display: block;
+                                                                                                                                                              pointer-events: none;
+                                                                                                                                                              user-select: none;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene.cc-camera-table{
+                                                                                                                                                              transform-origin: 50% 64%;
+                                                                                                                                                              transform: scale(2.15);
+                                                                                                                                                              filter: brightness(.76);
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene.cc-camera-tree{
+                                                                                                                                                              transform-origin: 57% 31%;
+                                                                                                                                                              transform: scale(2.6);
+                                                                                                                                                              filter: brightness(.88);
+                                                                                                                                                            }
+                                                                                                                                                            .cc-real-shelf{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              display: flex;
+                                                                                                                                                              align-items: flex-end;
+                                                                                                                                                              gap: .18cqw;
+                                                                                                                                                              box-sizing: border-box;
+                                                                                                                                                              padding: 0 .18cqw;
+                                                                                                                                                              z-index: 2;
+                                                                                                                                                            }
+                                                                                                                                                            /* Masque de bois à l'emplacement des huit livres peints dans l'image.
+                                                                                                                                                            Les vrais livres remplacent ces silhouettes et deviennent cliquables. */
+                                                                                                                                                            .cc-real-shelf.cc-first-shelf{
+                                                                                                                                                              background: linear-gradient(90deg, #372219, #3e291d 50%, #38241a);
+                                                                                                                                                              box-shadow: inset 0 8px 14px #11090555;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine{
+                                                                                                                                                              width: var(--cc-book-width, 1.24cqw);
+                                                                                                                                                              flex: 0 0 var(--cc-book-width, 1.24cqw);
+                                                                                                                                                              height: 92%;
+                                                                                                                                                              min-height: 0;
+                                                                                                                                                              padding: .3cqw .06cqw;
+                                                                                                                                                              border-width: 1px;
+                                                                                                                                                              border-radius: .15cqw .3cqw .17cqw .15cqw;
+                                                                                                                                                              font-size: var(--cc-book-font, 1.08cqw);
+                                                                                                                                                              line-height: 1;
+                                                                                                                                                              box-shadow: .18cqw 0 .22cqw #0009;
+                                                                                                                                                              overflow: visible;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine span{
+                                                                                                                                                              max-height: none;
+                                                                                                                                                              height: 100%;
+                                                                                                                                                              display: flex;
+                                                                                                                                                              align-items: center;
+                                                                                                                                                              justify-content: center;
+                                                                                                                                                              writing-mode: vertical-rl;
+                                                                                                                                                              transform: rotate(180deg);
+                                                                                                                                                              font-weight: bold;
+                                                                                                                                                              letter-spacing: .02em;
+                                                                                                                                                              white-space: nowrap;
+                                                                                                                                                              overflow: hidden;
+                                                                                                                                                              text-overflow: clip;
+                                                                                                                                                              width: 100%;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine:hover,
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine:focus-visible{
+                                                                                                                                                              transform: translateY(-.8cqw) rotate(-9deg) scale(1.13);
+                                                                                                                                                              z-index: 7;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine:before{
+                                                                                                                                                              top: .3cqw;
+                                                                                                                                                              height: .1cqw;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene .cc-spine:after{
+                                                                                                                                                              bottom: .3cqw;
+                                                                                                                                                              height: .1cqw;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-book-icon{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              bottom: .55cqw;
+                                                                                                                                                              left: 0;
+                                                                                                                                                              width: 100%;
+                                                                                                                                                              font-size: .68cqw;
+                                                                                                                                                              font-style: normal;
+                                                                                                                                                              text-align: center;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene .cc-spine.cc-generation span{
+                                                                                                                                                              height: calc(100% - .8cqw);
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scenic-label{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              color: #e8cf92;
+                                                                                                                                                              font-size: .58cqw;
+                                                                                                                                                              line-height: 1.12;
+                                                                                                                                                              text-align: center;
+                                                                                                                                                              text-shadow: 0 1px 2px #000;
+                                                                                                                                                              z-index: 3;
+                                                                                                                                                              pointer-events: none;
+                                                                                                                                                            }
+                                                                                                                                                            #ccOpenTree.cc-tree-hit{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              left: 45.8%;
+                                                                                                                                                              top: 13.5%;
+                                                                                                                                                              width: 22.6%;
+                                                                                                                                                              height: 36%;
+                                                                                                                                                              background: transparent;
+                                                                                                                                                              border: 0;
+                                                                                                                                                              border-radius: 12px;
+                                                                                                                                                              padding: 0;
+                                                                                                                                                              cursor: pointer;
+                                                                                                                                                              z-index: 3;
+                                                                                                                                                              transition: box-shadow .3s, background .3s;
+                                                                                                                                                            }
+                                                                                                                                                            #ccOpenTree.cc-tree-hit:hover,
+                                                                                                                                                            #ccOpenTree.cc-tree-hit:focus-visible{
+                                                                                                                                                              box-shadow: 0 0 28px #ffdd8e77;
+                                                                                                                                                              background: #fff3c50d;
+                                                                                                                                                              outline: 2px solid #e9c784;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene-tools{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              bottom: 1.5%;
+                                                                                                                                                              left: 0;
+                                                                                                                                                              right: 0;
+                                                                                                                                                              display: flex;
+                                                                                                                                                              justify-content: center;
+                                                                                                                                                              gap: 8px;
+                                                                                                                                                              z-index: 5;
+                                                                                                                                                            }
+                                                                                                                                                            #ccArchives .cc-scene-tools .cc-button{
+                                                                                                                                                              background: #f4ead5e8;
+                                                                                                                                                              box-shadow: 0 3px 10px #0004;
+                                                                                                                                                              font-size: clamp(10px, .82cqw, 14px);
+                                                                                                                                                              padding: .45cqw .7cqw;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-table-target{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              left: 40%;
+                                                                                                                                                              top: 60%;
+                                                                                                                                                              width: 22%;
+                                                                                                                                                              height: 9%;
+                                                                                                                                                              pointer-events: none;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-scene-hint{
+                                                                                                                                                              position: absolute;
+                                                                                                                                                              left: 29%;
+                                                                                                                                                              top: 71%;
+                                                                                                                                                              width: 46%;
+                                                                                                                                                              color: #f3dec0;
+                                                                                                                                                              text-align: center;
+                                                                                                                                                              font-size: .86cqw;
+                                                                                                                                                              text-shadow: 0 2px 4px #231609;
+                                                                                                                                                              pointer-events: none;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-flight.cc-spine{
+                                                                                                                                                              display: grid;
+                                                                                                                                                              place-items: center;
+                                                                                                                                                              font-size: 25px;
+                                                                                                                                                              text-align: center;
+                                                                                                                                                              color: #ffeac1;
+                                                                                                                                                              background: linear-gradient(90deg, #0007, transparent 25%, #fff2 42%, transparent 60%, #0005), var(--cc-color, #675774);
+                                                                                                                                                              border: 2px solid #c39f62;
+                                                                                                                                                              box-shadow: 0 12px 30px #0009;
+                                                                                                                                                              border-radius: 4px 10px 10px 4px;
+                                                                                                                                                              box-sizing: border-box;
+                                                                                                                                                            }
+                                                                                                                                                            .cc-flight.cc-spine span{
+                                                                                                                                                              writing-mode: horizontal-tb;
+                                                                                                                                                              transform: none;
+                                                                                                                                                              white-space: normal;
+                                                                                                                                                              line-height: 1.3;
+                                                                                                                                                              font-weight: bold;
+                                                                                                                                                              padding: 12px;
+                                                                                                                                                            }
+                                                                                                                                                            #ccBook{
+                                                                                                                                                              background: #20170fcf;
+                                                                                                                                                              backdrop-filter: blur(3px);
+                                                                                                                                                            }
+                                                                                                                                                            #ccBook .cc-open-book{
+                                                                                                                                                              min-height: min(610px, 72vh);
+                                                                                                                                                            }
+                                                                                                                                                            #ccBook .cc-page{
+                                                                                                                                                              min-height: min(520px, 64vh);
+                                                                                                                                                            }
+                                                                                                                                                            @media (max-width: 900px){
+                                                                                                                                                              #ccStatus{
+                                                                                                                                                                display: none;
+                                                                                                                                                              }
+                                                                                                                                                              #ccArchives .cc-top{
+                                                                                                                                                                padding: 5px 10px;
+                                                                                                                                                              }
+                                                                                                                                                              #ccArchives .cc-top .cc-button{
+                                                                                                                                                                font-size: 11px;
+                                                                                                                                                                padding: 7px;
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                            @media (max-width: 600px){
+                                                                                                                                                              #ccArchives .cc-top{
+                                                                                                                                                                height: 92px;
+                                                                                                                                                                min-height: 92px;
+                                                                                                                                                                flex-wrap: wrap;
+                                                                                                                                                                justify-content: center;
+                                                                                                                                                              }
+                                                                                                                                                              #ccArchives .cc-top h1{
+                                                                                                                                                                font-size: 19px;
+                                                                                                                                                              }
+                                                                                                                                                              #ccArchives .cc-top > div:last-child{
+                                                                                                                                                                justify-content: center;
+                                                                                                                                                                flex-wrap: wrap;
+                                                                                                                                                              }
+                                                                                                                                                              .cc-scene{
+                                                                                                                                                                width: min(100vw, calc((100dvh - 92px) * 1.40453686));
+                                                                                                                                                              }
+                                                                                                                                                              .cc-scene-tools{
+                                                                                                                                                                bottom: -45px;
+                                                                                                                                                                flex-wrap: wrap;
+                                                                                                                                                                padding: 0 12px;
+                                                                                                                                                              }
+                                                                                                                                                              #ccArchives .cc-scene-tools .cc-button{
+                                                                                                                                                                padding: 6px 9px;
+                                                                                                                                                                font-size: 11px;
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                            @media (prefers-reduced-motion: reduce){
+                                                                                                                                                              .cc-scene{
+                                                                                                                                                                transition: none !important;
+                                                                                                                                                              }
+                                                                                                                                                            }
+
+/* Couverture en mouvement : pas de rotation, titre complet, pose sur le plateau. */
+.cc-moving-cover {
+  position: absolute;
+  z-index: 12;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, #0005, transparent 7%, #ffffff12 50%, #0002), var(--cc-cover-color, #66516f);
+  border: 1px solid #b89960;
+  border-radius: .3cqw;
+  box-shadow: 0 .35cqw .6cqw #0008, 0 .18cqw 0 #d0c0a2;
+  padding: .5cqw;
+  box-sizing: border-box;
+  pointer-events: none;
+  overflow: hidden;
+  transition: left 800ms cubic-bezier(.25,.7,.2,1), top 800ms cubic-bezier(.25,.7,.2,1), width 800ms, height 800ms, opacity 200ms;
+}
+.cc-cover-border {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d3b77f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .5cqw;
+  padding: .4cqw;
+  text-align: center;
+  color: #e8d5ae;
+  font-family: Georgia, serif;
+}
+.cc-cover-border small { font-size: .58cqw; }
+.cc-cover-border strong { font-size: 1.15cqw; line-height: 1.2; font-weight: normal; }
+.cc-cover-border i { font-size: .8cqw; font-style: normal; }
+.cc-scene.cc-camera-table { transform-origin: 55% 65%; transform: scale(2.15); }
+@media (prefers-reduced-motion: reduce) { .cc-moving-cover { transition: none; } }
+
+/* Générations : lettres classiques sur une même ligne, tournée sur la tranche. */
+#ccArchives .cc-scene .cc-spine.cc-generation span {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: auto;
+  height: auto;
+  max-height: none;
+  writing-mode: horizontal-tb;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  display: block;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: .03em;
+  overflow: visible;
+  line-height: 1;
+}
+</style>
+
+<!-- Salle des archives : les positions sont exprimées en pourcentage de l'image.
+     L'image reste entière, quelle que soit la taille de la fenêtre. -->
+<section id="ccArchives" hidden aria-label="Archives des Centcoeurs">
+  <div class="cc-top">
+    <div>
+<h1>Archives des Centcoeurs</h1>
+</div>
+    <div>
+      <button class="cc-button" id="ccExport">Exporter</button>
+      <button class="cc-button" id="ccImport">Importer une copie</button>
+      <input id="ccImportFile" type="file" accept="application/json,.json" hidden>
+      <button class="cc-button" id="ccReturn">↩ Foyer actif</button>
+      <p id="ccStatus" class="cc-status" role="status">
+</p>
+    </div>
+  </div>
+  <div class="cc-scene-window">
+    <div id="ccScene" class="cc-scene">
+      <img class="cc-room-image" src="bibliotheque-centcoeurs-v3.png"
+           alt="Salle des archives : deux grandes bibliothèques des vies à gauche, tableau généalogique sur pied au centre, bibliothèques famille, maisons et mondes à droite, table de lecture au premier plan."
+           draggable="false">
+      <div id="ccLives1" aria-label="Les vies, tomes 1 à 50">
+</div>
+      <div id="ccLives2" aria-label="Les vies, tomes 51 à 101">
+</div>
+      <div id="ccHomes" aria-label="Évolution des maisons par génération">
+</div>
+      <div id="ccFamily" aria-label="Photos de famille par génération">
+</div>
+      <div id="ccWorlds" aria-label="Les mondes">
+</div>
+      <button id="ccOpenTree" class="cc-tree-hit" aria-label="Entrer dans l’arbre des Centcoeurs" title="L’arbre des Centcoeurs">
+</button>
+      <div id="ccTableTarget" class="cc-table-target" aria-hidden="true">
+</div>
+      <div class="cc-scene-hint">Choisis un livre ou le tableau pour entrer dans les souvenirs.</div>
+      <div class="cc-scene-tools" aria-label="Compléter les collections">
+        <button class="cc-button" data-cc-add="life">+ Une vie</button>
+        <button class="cc-button" data-cc-add="home">+ Une maison</button>
+        <button class="cc-button" data-cc-add="family">+ Un album de famille</button>
+        <button class="cc-button" data-cc-add="world">+ Un monde</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="ccBook" class="cc-overlay" hidden role="dialog" aria-modal="true" aria-label="Livre de souvenirs">
+<div class="cc-toolbar">
+<button class="cc-button" id="ccCloseBook">↩ Ranger le livre</button>
+<h2 id="ccBookTitle">
+</h2>
+<button class="cc-button" id="ccEditBook">✎ Modifier</button>
+</div>
+<div id="ccBookSpread" class="cc-open-book">
+</div>
+<div class="cc-toolbar" style="margin-top:18px">
+<button class="cc-button" id="ccPrev">← Pages précédentes</button>
+<span id="ccPageInfo" style="color:#ead7b7">
+</span>
+<button class="cc-button" id="ccNext">Pages suivantes →</button>
+</div>
+</section>
+<section id="ccTree" class="cc-overlay" hidden role="dialog" aria-modal="true" aria-label="Arbre généalogique">
+<div class="cc-toolbar">
+<button class="cc-button" id="ccCloseTree">↩ Bibliothèque</button>
+<h2>L’arbre des Centcoeurs</h2>
+<button class="cc-button" id="ccEditTree">✎ Compléter l’arbre</button>
+</div>
+<div id="ccTreePaper" class="cc-tree-paper">
+</div>
+</section>
+<section id="ccEditor" class="cc-overlay" hidden role="dialog" aria-modal="true" aria-label="Modifier les archives">
+<div class="cc-editor-panel" id="ccEditorPanel">
+</div>
+</section>
+<script>
+/* Archives autonomes : aucune lecture/modification de sims[], aucune écriture dans SAVE_SLOT. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id),
+    esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    } [c]));
+  const names = ['Aimée', 'Andy', 'Benjamin', 'Charly', 'Daphnée', 'Emma', 'Florette', 'Fanny'],
+    colors = ['#65735b', '#715878', '#486c83', '#997550', '#957070', '#547c72', '#9b6984', '#8c7c4d'];
+  function lifeTitle(name) {
+    return 'La vie ' + (/^[aeiouyàâäéèêëîïôöùûüœæ]/i.test(name) ? 'd’' : 'de ') + name;
+  }
+  function repairDefaultTitles() {
+    for (const book of state.books) {
+      if (book.category !== 'life') continue;
+      for (const name of names) {
+        if (book.title === 'La vie d’' + name || book.title === "La vie d'" + name) {
+          book.title = lifeTitle(name);
+          break;
+        }
+      }
+    }
+  }
+  const defaults = () => ({
+    version: 1,
+    books: names.map((n, i) => ({
+      id: 'life-' + i,
+      category: 'life',
+      title: lifeTitle(n),
+      number: i + 1,
+      color: colors[i],
+      story: '',
+      photos: []
+    })).concat([{
+      id: 'family-1',
+      category: 'family',
+      title: 'La famille Centcoeurs — Génération 1',
+      color: '#79653e',
+      story: '',
+      photos: []
+    }, {
+      id: 'home-1',
+      category: 'home',
+      title: 'La maison des Centcoeurs — Génération 1',
+      color: '#496d67',
+      story: '',
+      photos: []
+    }, {
+      id: 'world-windenburg',
+      category: 'world',
+      title: 'Reconstruction de Windenburg',
+      world: 'Windenburg',
+      color: '#546b82',
+      story: '',
+      photos: []
+    }]),
+    people: [],
+    unions: []
+  });
+  let state = defaults(),
+    selected = null,
+    spread = 0,
+    userId = null,
+    loaded = false,
+    loading = null,
+    saving = false,
+    dirty = false,
+    revision = 0,
+    trigger = null;
+  const slot = () => (typeof SAVE_SLOT !== 'undefined' ? SAVE_SLOT : 'test') + '_archives_v1';
+  const localKey = () => 'centcoeurs:' + slot() + ':' + (userId || 'local');
+  const status = t => {
+    $('ccStatus').textContent = t;
+  };
+
+  function valid(x) {
+    return x && x.version === 1 && Array.isArray(x.books) && Array.isArray(x.people) && Array.isArray(x
+        .unions) && x.books.every(b => typeof b.id === 'string' && typeof b.title === 'string' && Array
+        .isArray(b.photos)) && x.people.every(p => typeof p.id === 'string' && typeof p.name ===
+      'string') && x.unions.every(u => typeof u.a === 'string' && typeof u.b === 'string');
+  }
+
+  function readLocal() {
+    try {
+      const x = JSON.parse(localStorage.getItem(localKey()));
+      if (valid(x)) return x;
+    } catch (e) {}
+    return null;
+  }
+
+  function localSave() {
+    try {
+      localStorage.setItem(localKey(), JSON.stringify(state));
+      return true;
+    } catch (e) {
+      status('Stockage local plein : exporte les archives et vérifie la sauvegarde en ligne.');
+      return false;
+    }
+  }
+  async function load() {
+    if (loading) return loading;
+    loading = (async () => {
+      loaded = false;
+      try {
+        const session = typeof supabaseClient !== 'undefined' ? await supabaseClient.auth
+          .getSession() : {
+            data: {
+              session: null
+            }
+          };
+        const id = session.data?.session?.user?.id || null;
+        if (id !== userId) {
+          userId = id;
+          state = defaults();
+          dirty = false;
+          revision = 0;
+        }
+        if (!id) {
+          state = readLocal() || state;
+          loaded = true;
+          status('Sauvegarde sur cet ordinateur · connecte-toi pour synchroniser.');
+          render();
+          return;
+        }
+        const {
+          data,
+          error
+        } = await supabaseClient.from('app_data').select('data').eq('user_id', id).eq('save_slot',
+          slot()).maybeSingle();
+        if (error) throw error;
+        if (data) {
+          if (!valid(data.data)) throw Error('Format de sauvegarde inconnu');
+          if (!dirty) state = data.data;
+        } else if (!dirty) state = readLocal() || defaults();
+        loaded = true;
+        localSave();
+        status('Archives chargées · sauvegarde indépendante du foyer.');
+        render();
+      } catch (e) {
+        state = readLocal() || state;
+        status(
+          'Connexion indisponible : consultation possible. Rouvre les Archives pour réessayer avant de modifier.'
+          );
+        render();
+      } finally {
+        loading = null;
+      }
+    })();
+    return loading;
+  }
+  async function save() {
+    if (!loaded || !userId || saving) return;
+    saving = true;
+    try {
+      while (dirty) {
+        dirty = false;
+        const rev = revision;
+        const payload = JSON.parse(JSON.stringify(state));
+        status('Enregistrement des archives…');
+        const {
+          error
+        } = await supabaseClient.from('app_data').upsert({
+          user_id: userId,
+          save_slot: slot(),
+          data: payload
+        }, {
+          onConflict: 'user_id,save_slot'
+        });
+        if (error) {
+          dirty = true;
+          throw error;
+        }
+        if (rev === revision) status('✓ Archives enregistrées en ligne');
+      }
+    } catch (e) {
+      status('Archives conservées ici · synchronisation à réessayer en rouvrant les Archives.');
+    } finally {
+      saving = false;
+    }
+  }
+
+  function changed() {
+    revision++;
+    dirty = true;
+    const ok = localSave();
+    if (!userId && ok) status('✓ Archives enregistrées sur cet ordinateur');
+    render();
+    if (userId) save();
+  }
+
+  function canEdit() {
+    if (loaded) return true;
+    alert('Attends le chargement des Archives, puis rouvre-les si la connexion a échoué.');
+    return false;
+  }
+  /* Étiquettes courtes : un livre se reconnaît depuis la vue de la salle.
+     Le titre complet demeure visible au survol et dans le livre ouvert. */
+  function spineName(book) {
+    if (book.spineLabel) return book.spineLabel;
+    if (book.category === 'life') {
+      return book.title.replace(/^La vie (?:d[’']|de\s+)/i, '').split(/\s+[—–-]\s+/)[0].trim();
+    }
+    if (book.category === 'world') {
+      return book.world || book.title.replace(/^Reconstruction (?:de|d[’'])\s*/i, '').trim();
+    }
+    const match = book.title.match(/(?:génération|generation|gen)\s*(\d+)/i);
+    if (match) return 'Gen' + match[1];
+    const collection = state.books.filter(b => b.category === book.category);
+    return 'Gen' + (collection.indexOf(book) + 1);
+  }
+
+  function realShelf(container, books, position, slots, first = false) {
+    const label = b => spineName(b);
+    const bayWidth = position[2];
+    const width = Math.min(1.35, (bayWidth - .36) / slots - .18);
+    const html = books.map(book => {
+      const icon = book.category === 'home' ? '⌂' : book.category === 'family' ? '▧' : '';
+      const available = position[3] * .712 * .92 - .75;
+    const maxFont = (book.category === 'home' || book.category === 'family') ? .72 : .9;
+    const fontSize = Math.min(maxFont, available / Math.max(1, label(book).length * .6));
+    const font = fontSize.toFixed(3) + 'cqw';
+      return '<button class="cc-spine ' + (icon ? 'cc-generation' : '') + '"' +
+        ' data-cc-book="' + esc(book.id) + '"' +
+        ' style="--cc-color:' + safeColor(book.color) + ';--cc-book-width:' + width +
+        'cqw;--cc-book-font:' + font + '"' +
+        ' title="' + esc(book.title) + '" aria-label="Ouvrir ' + esc(book.title) + '">' +
+        '<span>' + esc(label(book)) + '</span>' +
+        (icon ? '<i class="cc-book-icon" aria-hidden="true">' + icon + '</i>' : '') + '</button>';
+    }).join('');
+    return '<div class="cc-real-shelf ' + (first ? 'cc-first-shelf' : '') + '"' +
+      ' style="left:' + position[0] + '%;top:' + position[1] + '%;width:' + position[2] + '%;height:' +
+      position[3] + '%">' + html + '</div>';
+  }
+
+  function renderShelves() {
+    const lives = state.books.filter(b => b.category === 'life').sort((a, b) => (a.number || 0) - (b
+      .number || 0));
+    const left = [
+      [10.9, 12.1, 14.2, 6.7],
+      [10.8, 20.8, 14.4, 5.7],
+      [10.7, 27.1, 14.5, 6.9],
+      [10.7, 35.3, 14.5, 6.4],
+      [10.6, 43.3, 14.6, 6.7]
+    ];
+    const right = [
+      [29.2, 12.4, 11.5, 6.8],
+      [29.1, 20.5, 11.6, 5.6],
+      [29.1, 27.0, 11.6, 6.5],
+      [29.0, 34.6, 11.7, 6.7],
+      [29.0, 42.7, 11.7, 6.8]
+    ];
+    $('ccLives1').innerHTML = left.map((p, i) => realShelf('ccLives1', lives.slice(i * 10, (i + 1) * 10), p,
+      10, i === 0)).join('');
+    $('ccLives2').innerHTML = right.map((p, i) => realShelf('ccLives2', lives.slice(50 + i * 10, i === 4 ?
+      101 : 60 + i * 10), p, i === 4 ? 11 : 10)).join('');
+    const homes = state.books.filter(b => b.category === 'home');
+    const family = state.books.filter(b => b.category === 'family');
+    const worlds = state.books.filter(b => b.category === 'world');
+    $('ccHomes').innerHTML = realShelf('ccHomes', homes, [72.1, 26.6, 10.8, 5.8], Math.max(10, homes
+      .length));
+    $('ccFamily').innerHTML = realShelf('ccFamily', family, [72.1, 40.7, 10.8, 6.0], Math.max(10, family.length));
+    const worldRow = Math.max(11, Math.ceil(worlds.length / 3));
+    $('ccWorlds').innerHTML = [
+        [86.0, 27.0, 10.3, 5.3],
+        [86.0, 33.9, 10.3, 5.2],
+        [86.0, 40.8, 10.3, 5.1]
+      ].map((p, i) => realShelf('ccWorlds', worlds.slice(i * worldRow, (i + 1) * worldRow), p, worldRow))
+      .join('');
+  }
+
+  function safeColor(c) {
+    return /^#[0-9a-f]{6}$/i.test(c || '') ? c : '#66516f';
+  }
+
+  function render() {
+    repairDefaultTitles();
+    renderShelves();
+    if (!$('ccBook').hidden) renderBook();
+    if (!$('ccTree').hidden) renderTree();
+  }
+
+  function getBook() {
+    return state.books.find(b => b.id === selected);
+  }
+
+  function page(b, index) {
+    if (index === 0) return '<h3>' + esc(b.title) + '</h3><div class="cc-story">' + (esc(b.story) ||
+      '<p class="cc-placeholder">Une histoire attend d’être racontée…<br>Ajoute-la avec « Modifier ».</p>'
+      ) + '</div>';
+    const photos = b.photos.slice((index - 1) * 4, index * 4);
+    return photos.length ? '<div class="cc-photo-grid">' + photos.map(p => '<figure><img src="' + esc(
+          safePhoto(p.src)) + '" alt="' + esc(p.caption || 'Souvenir') + '"><figcaption>' + esc(p.caption) +
+        '</figcaption></figure>').join('') + '</div>' :
+      '<p class="cc-placeholder">Les prochains souvenirs trouveront leur place ici.</p>';
+  }
+
+  function safePhoto(src) {
+    return /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src || '') ? src : '';
+  }
+
+  function renderBook() {
+    const b = getBook();
+    if (!b) return;
+    const pages = Math.max(2, 1 + Math.ceil(b.photos.length / 4));
+    const max = Math.ceil(pages / 2) - 1;
+    spread = Math.max(0, Math.min(spread, max));
+    $('ccBookTitle').textContent = b.title;
+    $('ccBookSpread').style.setProperty('--cc-cover', safeColor(b.color));
+    $('ccBookSpread').innerHTML = [spread * 2, spread * 2 + 1].map(i => '<article class="cc-page">' + page(
+      b, i) + '<span class="cc-page-number">' + (i + 1) + '</span></article>').join('');
+    $('ccPageInfo').textContent = 'Double-page ' + (spread + 1) + ' / ' + (max + 1);
+    $('ccPrev').disabled = spread === 0;
+    $('ccNext').disabled = spread === max;
+  }
+  let animating = false;
+  const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  function resetCamera() {
+    $('ccScene').classList.remove('cc-camera-table', 'cc-camera-tree');
+  }
+  async function openBook(id, button) {
+    if (animating) return;
+    animating = true;
+    selected = id;
+    spread = 0;
+    trigger = button;
+    let cover = null;
+    try {
+      if (button && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const scene = $('ccScene');
+        const sceneBox = scene.getBoundingClientRect();
+        const from = button.getBoundingClientRect();
+        const book = getBook();
+        cover = document.createElement('div');
+        cover.className = 'cc-moving-cover';
+        cover.setAttribute('aria-hidden', 'true');
+        cover.style.setProperty('--cc-cover-color', safeColor(book.color));
+        /* La couverture porte le titre complet, sans réutiliser la tranche. */
+        cover.innerHTML = '<div class="cc-cover-border"><small>Archives des Centcoeurs</small><strong>' +
+          esc(book.title) + '</strong><i>✦</i></div>';
+        Object.assign(cover.style, {
+          left: ((from.left + from.width / 2 - sceneBox.left) / sceneBox.width * 100) + '%',
+          top: ((from.top + from.height / 2 - sceneBox.top) / sceneBox.height * 100) + '%',
+          width: from.width + 'px',
+          height: from.height + 'px',
+          opacity: '0'
+        });
+        scene.append(cover);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        Object.assign(cover.style, {
+          left: '55%', top: '65%', width: '14cqw', height: '8cqw', opacity: '1'
+        });
+        /* Le livre reste posé sur la partie libre du plateau avant le zoom. */
+        await pause(1100);
+        scene.classList.add('cc-camera-table');
+        await pause(850);
+      }
+      renderBook();
+      $('ccBook').hidden = false;
+      $('ccCloseBook').focus();
+    } finally {
+      cover?.remove();
+      animating = false;
+    }
+  }
+
+  function closeBook() {
+    $('ccBook').hidden = true;
+    resetCamera();
+    const spine = document.querySelector('[data-cc-book="' + CSS.escape(selected) + '"]');
+    spine?.focus();
+  }
+  async function openTree() {
+    if (animating) return;
+    animating = true;
+    try {
+      renderTree();
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        $('ccScene').classList.add('cc-camera-tree');
+        await pause(750);
+      }
+      $('ccTree').hidden = false;
+      $('ccCloseTree').focus();
+    } finally {
+      animating = false;
+    }
+  }
+
+  function editor(html) {
+    $('ccEditorPanel').innerHTML = html;
+    $('ccEditor').hidden = false;
+    $('ccEditorPanel').querySelector('input,button,select')?.focus();
+  }
+
+  function closeEditor() {
+    $('ccEditor').hidden = true;
+    if (!$('ccBook').hidden) $('ccEditBook').focus();
+    else if (!$('ccTree').hidden) $('ccEditTree').focus();
+  }
+
+  function bookEditor() {
+    if (!canEdit()) return;
+    const b = getBook();
+    const draft = JSON.parse(JSON.stringify(b));
+    editor(
+      '<h2>Les souvenirs de ce tome</h2><form id="ccBookForm"><label>Titre du livre<input id="ccTitleInput" required maxlength="150" value="' +
+      esc(b.title) +
+      '"></label><label>Texte court sur la tranche<input id="ccSpineInput" required maxlength="30" value="' +
+      esc(spineName(b)) +
+      '"></label><label>Couleur de la couverture <input id="ccColorInput" type="color" value="' +
+      safeColor(b.color) + '"></label><label>Son histoire — première page<textarea id="ccStoryInput">' +
+      esc(b.story) +
+      '</textarea></label><label>Ajouter des photos<input id="ccPhotoInput" type="file" accept="image/*" multiple></label><p class="cc-notice">Quatre photos par page, dans l’ordre ajouté. Chaque photo peut avoir sa courte légende.</p><div id="ccDraftPhotos"></div><p id="ccPhotoStatus" role="status"></p><div class="cc-inline"><button class="cc-button" type="submit">Enregistrer</button><button class="cc-button" type="button" id="ccCancelEdit">Annuler</button></div></form>'
+      );
+    let processing = false;
+    const draw = () => {
+      $('ccDraftPhotos').innerHTML = draft.photos.map((p, i) => '<div class="cc-edit-photo"><img src="' +
+        esc(safePhoto(p.src)) + '" alt="Souvenir ' + (i + 1) + '"><input data-caption="' + i +
+        '" value="' + esc(p.caption) +
+        '" placeholder="Quelques mots…" aria-label="Légende de la photo ' + (i + 1) +
+        '"><div><button class="cc-button" type="button" data-up="' + i + '" ' + (i === 0 ? 'disabled' :
+          '') + '>↑</button><button class="cc-button" type="button" data-remove="' + i +
+        '" aria-label="Retirer la photo ' + (i + 1) + '">×</button></div></div>').join('');
+    };
+    draw();
+    $('ccDraftPhotos').oninput = e => {
+      if (e.target.dataset.caption !== undefined) draft.photos[+e.target.dataset.caption].caption = e
+        .target.value;
+    };
+    $('ccDraftPhotos').onclick = e => {
+      const el = e.target.closest('button');
+      if (!el) return;
+      if (el.dataset.remove !== undefined) draft.photos.splice(+el.dataset.remove, 1);
+      if (el.dataset.up !== undefined) {
+        const i = +el.dataset.up;
+        [draft.photos[i - 1], draft.photos[i]] = [draft.photos[i], draft.photos[i - 1]];
+      }
+      draw();
+    };
+    $('ccPhotoInput').onchange = async e => {
+      processing = true;
+      $('ccBookForm').querySelector('[type=submit]').disabled = true;
+      $('ccPhotoStatus').textContent = 'Préparation des photos…';
+      try {
+        for (const file of e.target.files) draft.photos.push({
+          src: await photo(file, 1200),
+          caption: ''
+        });
+        draw();
+        $('ccPhotoStatus').textContent = 'Photos prêtes.';
+      } catch (err) {
+        $('ccPhotoStatus').textContent = err.message;
+      } finally {
+        processing = false;
+        $('ccBookForm').querySelector('[type=submit]').disabled = false;
+      }
+    };
+    $('ccCancelEdit').onclick = closeEditor;
+    $('ccBookForm').onsubmit = e => {
+      e.preventDefault();
+      if (processing) return;
+      draft.title = $('ccTitleInput').value.trim();
+      if (!draft.title) return;
+      draft.spineLabel = $('ccSpineInput').value.trim();
+      draft.color = $('ccColorInput').value;
+      draft.story = $('ccStoryInput').value;
+      state.books[state.books.findIndex(x => x.id === b.id)] = draft;
+      changed();
+      closeEditor();
+    };
+  }
+
+  function photo(file, max = 400) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) return reject(Error('Choisis une image.'));
+      if (file.size > 30 * 1024 * 1024) return reject(Error('Cette photo dépasse 30 Mo.'));
+      const img = new Image(),
+        url = URL.createObjectURL(file);
+      img.onload = () => {
+        const ratio = Math.min(1, max / Math.max(img.width, img.height)),
+          canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(img.width * ratio));
+        canvas.height = Math.max(1, Math.round(img.height * ratio));
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/jpeg', .82));
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(Error('Image illisible : utilise un JPG ou un PNG.'));
+      };
+      img.src = url;
+    });
+  }
+
+  function addBook(category) {
+    if (!canEdit()) return;
+    const list = state.books.filter(b => b.category === category);
+    if (category === 'life' && list.length >= 101) {
+      alert('Les 101 places sont occupées.');
+      return;
+    }
+    const n = list.length + 1,
+      title = category === 'family' ? 'La famille Centcoeurs — Génération ' + n : category === 'home' ?
+      'La maison des Centcoeurs — Génération ' + n : category === 'world' ? 'Reconstruction de ' :
+      'La vie de ';
+    editor('<h2>Un nouveau tome</h2><form id="ccAddForm">' + (category === 'world' ?
+        '<label>Nom du monde<input id="ccWorldInput" required maxlength="80" placeholder="Le monde de la prochaine génération"></label>' :
+        '') + '<label>Titre<input id="ccNewTitle" required maxlength="150" value="' + esc(title) +
+      '"></label><div class="cc-inline"><button class="cc-button">Créer le livre</button><button class="cc-button" type="button" id="ccCancelEdit">Annuler</button></div></form>'
+      );
+    if (category === 'world') $('ccWorldInput').oninput = () => {
+      $('ccNewTitle').value = 'Reconstruction de ' + $('ccWorldInput').value;
+    };
+    $('ccCancelEdit').onclick = closeEditor;
+    $('ccAddForm').onsubmit = e => {
+      e.preventDefault();
+      const world = category === 'world' ? $('ccWorldInput').value.trim() : null;
+      if (world && state.books.some(b => b.category === 'world' && (b.world || '').toLocaleLowerCase() ===
+          world.toLocaleLowerCase())) {
+        alert('Ce monde possède déjà son livre.');
+        return;
+      }
+      state.books.push({
+        id: 'book-' + crypto.randomUUID(),
+        category,
+        title: $('ccNewTitle').value.trim(),
+        number: category === 'life' ? Math.max(0, ...list.map(b => b.number || 0)) + 1 : undefined,
+        world,
+        color: colors[n % colors.length],
+        story: '',
+        photos: []
+      });
+      changed();
+      closeEditor();
+    };
+  }
+
+  function renderTree() {
+    if (!state.people.length) {
+      $('ccTreePaper').innerHTML =
+        '<p class="cc-placeholder">Le tableau attend les premiers portraits des Centcoeurs.<br>Choisis « Compléter l’arbre » pour ajouter Aimée, les pères et les enfants.</p>';
+      return;
+    }
+    const people = state.people,
+      map = new Map(people.map(p => [p.id, p])),
+      depth = new Map();
+
+    function level(p, path = new Set()) {
+      if (depth.has(p.id)) return depth.get(p.id);
+      if (path.has(p.id)) return 0;
+      const next = new Set(path);
+      next.add(p.id);
+      const parents = (p.parents || []).map(id => map.get(id)).filter(Boolean);
+      const d = parents.length ? 1 + Math.max(...parents.map(q => level(q, next))) : 0;
+      depth.set(p.id, d);
+      return d;
+    }
+    people.forEach(p => level(p));
+    for (let k = 0; k < people.length; k++) {
+      let moved = false;
+      for (const u of state.unions) {
+        if (!map.has(u.a) || !map.has(u.b)) continue;
+        const d = Math.max(depth.get(u.a), depth.get(u.b));
+        for (const id of [u.a, u.b])
+          if (depth.get(id) !== d) {
+            depth.set(id, d);
+            moved = true;
+          }
+      }
+      for (const p of people) {
+        const parentDepth = Math.max(-1, ...(p.parents || []).filter(id => map.has(id)).map(id => depth.get(
+          id)));
+        if (depth.get(p.id) <= parentDepth) {
+          depth.set(p.id, parentDepth + 1);
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+    const rows = new Map();
+    people.forEach(p => {
+      const d = depth.get(p.id);
+      if (!rows.has(d)) rows.set(d, []);
+      rows.get(d).push(p);
+    });
+    const coords = new Map(),
+      width = Math.max(800, ...[...rows.values()].map(row => row.length * 130 + 80)),
+      height = (Math.max(...rows.keys()) + 1) * 185 + 80;
+    for (const [d, row] of rows) {
+      const ordered = [],
+        seen = new Set();
+      for (const p of row) {
+        if (seen.has(p.id)) continue;
+        ordered.push(p);
+        seen.add(p.id);
+        for (const u of state.unions) {
+          const id = u.a === p.id ? u.b : u.b === p.id ? u.a : null;
+          if (id && row.some(q => q.id === id) && !seen.has(id)) {
+            ordered.push(map.get(id));
+            seen.add(id);
+          }
+        }
+      }
+      ordered.forEach((p, i) => coords.set(p.id, {
+        x: width / 2 + (i - (ordered.length - 1) / 2) * 130,
+        y: 65 + d * 185
+      }));
+    }
+    let links = '',
+      nodes = '',
+      defs = '';
+    const drawn = new Set();
+    for (const p of people) {
+      const parents = (p.parents || []).map(id => coords.get(id)).filter(Boolean),
+        c = coords.get(p.id);
+      if (!parents.length) continue;
+      const mid = parents.reduce((s, q) => s + q.x, 0) / parents.length,
+        y = Math.max(...parents.map(q => q.y)) + 58;
+      links += '<path d="M' + mid + ' ' + y + ' V' + (c.y - 65) + ' H' + c.x + ' V' + (c.y - 37) +
+        '" fill="none" stroke="#8f8066" stroke-width="2"/>';
+      if (parents.length === 2) {
+        const key = (p.parents || []).slice().sort().join('|');
+        if (!drawn.has(key)) {
+          drawn.add(key);
+          links += '<path d="M' + parents[0].x + ' ' + (parents[0].y + 44) + ' V' + y + ' H' + parents[1]
+            .x + ' V' + (parents[1].y + 44) + '" fill="none" stroke="#8f8066" stroke-width="2"/>';
+        }
+      }
+    }
+    for (const u of state.unions) {
+      const a = coords.get(u.a),
+        b = coords.get(u.b);
+      if (!a || !b) continue;
+      const symbol = u.type === 'married' ? '💍' : u.type === 'separated' ? '💔' : '♥';
+      links += '<path d="M' + a.x + ' ' + (a.y + 48) + ' V' + (a.y + 58) + ' H' + b.x + ' V' + (b.y + 48) +
+        '" fill="none" stroke="#a7926d" stroke-width="2"/><rect x="' + ((a.x + b.x) / 2 - 16) + '" y="' + (a
+          .y + 45) + '" width="32" height="26" fill="#f4eddb"/><text x="' + ((a.x + b.x) / 2) + '" y="' + (a
+          .y + 64) + '" text-anchor="middle" font-size="20">' + symbol + '</text>';
+    }
+    people.forEach((p, i) => {
+      const c = coords.get(p.id),
+        src = safePhoto(p.photo);
+      defs += '<clipPath id="ccClip' + i + '"><circle cx="' + c.x + '" cy="' + c.y +
+        '" r="35"/></clipPath>';
+      nodes += '<circle cx="' + c.x + '" cy="' + c.y +
+        '" r="37" fill="#c6cbb7" stroke="#a68d5d" stroke-width="3"/>' + (src ? '<image href="' + src +
+          '" x="' + (c.x - 35) + '" y="' + (c.y - 35) +
+          '" width="70" height="70" preserveAspectRatio="xMidYMid slice" clip-path="url(#ccClip' + i +
+          ')"/>' : '<text x="' + c.x + '" y="' + (c.y + 7) + '" text-anchor="middle" font-size="22">' +
+          esc(p.name.split(/\s+/).map(n => n[0]).slice(0, 2).join('')) + '</text>') + '<text x="' + c
+        .x + '" y="' + (c.y + 96) + '" text-anchor="middle" font-size="13">' + esc(p.name) + '</text>';
+    });
+    $('ccTreePaper').innerHTML = '<svg viewBox="0 0 ' + width + ' ' + height +
+      '" role="img" aria-label="Arbre généalogique des Centcoeurs"><defs>' + defs + '</defs>' + links +
+      nodes + '</svg>';
+  }
+
+  function treeEditor() {
+    if (!canEdit()) return;
+    editor(
+      '<h2>Compléter l’arbre</h2><p class="cc-notice">Les portraits affichent uniquement le nom. Les lignes se dessinent automatiquement.</p><div class="cc-person-list">' +
+      state.people.map(p => '<button class="cc-button" data-person="' + esc(p.id) + '">' + esc(p.name) +
+        '</button>').join('') +
+      '</div><div class="cc-inline" style="margin-top:20px"><button class="cc-button" id="ccAddPerson">+ Un Sim</button><button class="cc-button" id="ccAddUnion">+ Une relation</button><button class="cc-button" id="ccDoneTree">Terminer</button></div>'
+      );
+    $('ccAddPerson').onclick = () => personEditor();
+    $('ccAddUnion').onclick = unionEditor;
+    $('ccDoneTree').onclick = closeEditor;
+    $('ccEditorPanel').querySelectorAll('[data-person]').forEach(el => el.onclick = () => personEditor(el
+      .dataset.person));
+  }
+
+  function options(except, chosen) {
+    return '<option value="">Aucun / inconnu</option>' + state.people.filter(p => p.id !== except).map(p =>
+      '<option value="' + esc(p.id) + '" ' + (p.id === chosen ? 'selected' : '') + '>' + esc(p.name) +
+      '</option>').join('');
+  }
+
+  function ancestor(id, target, seen = new Set()) {
+    if (id === target) return true;
+    if (seen.has(id)) return false;
+    seen.add(id);
+    return (state.people.find(p => p.id === id)?.parents || []).some(q => ancestor(q, target, seen));
+  }
+
+  function personEditor(id) {
+    const p = state.people.find(p => p.id === id) || {
+      id: 'person-' + crypto.randomUUID(),
+      name: '',
+      photo: '',
+      parents: []
+    };
+    let portrait = p.photo || '',
+      processing = false;
+    editor('<h2>' + (id ? 'Modifier un portrait' : 'Ajouter un Sim') +
+      '</h2><form id="ccPersonForm"><label>Prénom et nom<input id="ccPersonName" required maxlength="80" value="' +
+      esc(p.name) +
+      '"></label><label>Photo<input id="ccPersonPhoto" type="file" accept="image/*"></label><div id="ccPortraitPreview">' +
+      (portrait ? '<img src="' + esc(safePhoto(portrait)) +
+        '" style="width:90px;height:90px;object-fit:cover;border-radius:50%" alt="Portrait">' : '') +
+      '</div><label>Premier parent<select id="ccParentA">' + options(p.id, p.parents[0]) +
+      '</select></label><label>Deuxième parent<select id="ccParentB">' + options(p.id, p.parents[1]) +
+      '</select></label><p id="ccPersonStatus" role="status"></p><div class="cc-inline"><button class="cc-button">Enregistrer</button><button class="cc-button" type="button" id="ccCancelPerson">Annuler</button>' +
+      (id ? '<button class="cc-button" type="button" id="ccDeletePerson">Supprimer ce portrait</button>' :
+        '') + '</div></form>');
+    $('ccCancelPerson').onclick = treeEditor;
+    $('ccPersonPhoto').onchange = async e => {
+      if (!e.target.files[0]) return;
+      processing = true;
+      try {
+        portrait = await photo(e.target.files[0]);
+        $('ccPortraitPreview').innerHTML = '<img src="' + portrait +
+          '" style="width:90px;height:90px;object-fit:cover;border-radius:50%" alt="Portrait">';
+        $('ccPersonStatus').textContent = 'Photo prête.';
+      } catch (err) {
+        $('ccPersonStatus').textContent = err.message;
+      } finally {
+        processing = false;
+      }
+    };
+    if (id) $('ccDeletePerson').onclick = () => {
+      if (!confirm('Supprimer ce portrait et ses liens ? Ses livres resteront conservés.')) return;
+      state.people = state.people.filter(q => q.id !== id);
+      state.people.forEach(q => q.parents = (q.parents || []).filter(x => x !== id));
+      state.unions = state.unions.filter(u => u.a !== id && u.b !== id);
+      changed();
+      treeEditor();
+    };
+    $('ccPersonForm').onsubmit = e => {
+      e.preventDefault();
+      if (processing) {
+        $('ccPersonStatus').textContent = 'Attends la préparation de la photo.';
+        return;
+      }
+      const parents = [$('ccParentA').value, $('ccParentB').value].filter(Boolean);
+      if (new Set(parents).size !== parents.length || parents.some(q => ancestor(q, p.id))) {
+        $('ccPersonStatus').textContent = 'Ces parents créeraient un lien familial impossible.';
+        return;
+      }
+      for (const u of state.unions) {
+        const partner = u.a === p.id ? u.b : u.b === p.id ? u.a : null;
+        if (partner && parents.some(q => ancestor(q, partner))) {
+          $('ccPersonStatus').textContent = 'Un conjoint ne peut pas être un ascendant.';
+          return;
+        }
+      }
+      const entry = {
+        id: p.id,
+        name: $('ccPersonName').value.trim(),
+        photo: portrait,
+        parents
+      };
+      if (!entry.name) return;
+      const i = state.people.findIndex(q => q.id === p.id);
+      if (i < 0) state.people.push(entry);
+      else state.people[i] = entry;
+      changed();
+      treeEditor();
+    };
+  }
+
+  function unionEditor() {
+    if (state.people.length < 2) {
+      alert('Ajoute au moins deux portraits.');
+      return;
+    }
+    editor('<h2>Les liens de couple</h2><div>' + state.unions.map((u, i) => '<p>' + esc(state.people.find(
+          p => p.id === u.a)?.name) + ' ' + (u.type === 'married' ? '💍' : u.type === 'separated' ? '💔' :
+          '♥') + ' ' + esc(state.people.find(p => p.id === u.b)?.name) +
+        ' <button class="cc-button" data-delete-union="' + i + '">Retirer le lien</button></p>').join(
+      '') + '</div><form id="ccUnionForm"><label>Premier Sim<select id="ccUnionA" required>' + options() +
+      '</select></label><label>Deuxième Sim<select id="ccUnionB" required>' + options() +
+      '</select></label><label>Relation<select id="ccUnionType"><option value="couple">♥ Couple</option><option value="married">💍 Mariage</option><option value="separated">💔 Séparation</option></select></label><p id="ccUnionStatus" role="status"></p><div class="cc-inline"><button class="cc-button">Enregistrer la relation</button><button class="cc-button" type="button" id="ccCancelUnion">Retour</button></div></form>'
+      );
+    $('ccCancelUnion').onclick = treeEditor;
+    $('ccEditorPanel').querySelectorAll('[data-delete-union]').forEach(el => el.onclick = () => {
+      state.unions.splice(+el.dataset.deleteUnion, 1);
+      changed();
+      unionEditor();
+    });
+    $('ccUnionForm').onsubmit = e => {
+      e.preventDefault();
+      const a = $('ccUnionA').value,
+        b = $('ccUnionB').value,
+        type = $('ccUnionType').value;
+      if (a === b || ancestor(a, b) || ancestor(b, a)) {
+        $('ccUnionStatus').textContent = 'Choisis deux Sims distincts sans lien d’ascendance.';
+        return;
+      }
+      const existing = state.unions.find(u => (u.a === a && u.b === b) || (u.a === b && u.b === a));
+      if (existing) existing.type = type;
+      else state.unions.push({
+        a,
+        b,
+        type
+      });
+      changed();
+      treeEditor();
+    };
+  }
+  window.ouvrirArchivesCentcoeurs = async () => {
+    $('ccArchives').hidden = false;
+    document.body.style.overflow = 'hidden';
+    status('Chargement des archives…');
+    render();
+    await load();
+    if (dirty && loaded && userId) save();
+    $('ccReturn').focus();
+  };
+  $('ccReturn').onclick = () => {
+    if (animating) return;
+    resetCamera();
+    $('ccArchives').hidden = true;
+    document.body.style.overflow = '';
+    document.getElementById('ccLaunch')?.focus();
+  };
+  $('ccArchives').onclick = e => {
+    const b = e.target.closest('[data-cc-book]'),
+      a = e.target.closest('[data-cc-add]');
+    if (b) openBook(b.dataset.ccBook, b);
+    if (a) addBook(a.dataset.ccAdd);
+  };
+  $('ccCloseBook').onclick = closeBook;
+  $('ccEditBook').onclick = bookEditor;
+  for (const [id, d] of [
+      ['ccPrev', -1],
+      ['ccNext', 1]
+    ]) $(id).onclick = () => {
+    spread += d;
+    renderBook();
+    $('ccBookSpread').classList.remove('cc-page-turn');
+    void $('ccBookSpread').offsetWidth;
+    $('ccBookSpread').classList.add('cc-page-turn');
+  };
+  $('ccOpenTree').onclick = openTree;
+  $('ccCloseTree').onclick = () => {
+    $('ccTree').hidden = true;
+    resetCamera();
+    $('ccOpenTree').focus();
+  };
+  $('ccEditTree').onclick = treeEditor;
+  $('ccExport').onclick = () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], {
+        type: 'application/json'
+      }),
+      url = URL.createObjectURL(blob),
+      a = document.createElement('a');
+    a.href = url;
+    a.download = 'archives-centcoeurs-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  $('ccImport').onclick = () => {
+    if (canEdit()) $('ccImportFile').click();
+  };
+  $('ccImportFile').onchange = async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const incoming = JSON.parse(await file.text());
+      if (!valid(incoming)) throw Error('Cette copie ne correspond pas aux Archives des Centcoeurs.');
+      if (!confirm(
+        'Remplacer uniquement les Archives par cette copie ? Le foyer actif restera intact.')) return;
+      state = incoming;
+      changed();
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      e.target.value = '';
+    }
+  };
+  document.addEventListener('keydown', e => {
+    const panel = [$('ccEditor'), $('ccBook'), $('ccTree'), $('ccArchives')].find(x => !x.hidden);
+    if (!panel) return;
+    if (e.key === 'Escape') {
+      if (panel.id === 'ccEditor') closeEditor();
+      else if (panel.id === 'ccBook') closeBook();
+      else if (panel.id === 'ccTree') $('ccCloseTree').click();
+      else $('ccReturn').click();
+    }
+    if (e.key === 'Tab') {
+      const nodes = [...panel.querySelectorAll('button,input,textarea,select,a[href]')].filter(x => !x
+        .disabled && x.getClientRects().length);
+      if (!nodes.length) return;
+      const first = nodes[0],
+        last = nodes[nodes.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+  render();
+  window.addEventListener('resize', () => {
+    if (!$('ccArchives').hidden) render();
+  });
+})();
+</script>
+
 </body>
 </html>
