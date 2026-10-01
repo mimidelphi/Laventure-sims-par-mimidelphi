@@ -13398,6 +13398,41 @@ document.addEventListener("mousemove", function (event) {
                                                                                                                                                                 transition: none !important;
                                                                                                                                                               }
                                                                                                                                                             }
+
+/* Couverture en mouvement : pas de rotation, titre complet, pose sur le plateau. */
+.cc-moving-cover {
+  position: absolute;
+  z-index: 12;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, #0005, transparent 7%, #ffffff12 50%, #0002), var(--cc-cover-color, #66516f);
+  border: 1px solid #b89960;
+  border-radius: .3cqw;
+  box-shadow: 0 .35cqw .6cqw #0008, 0 .18cqw 0 #d0c0a2;
+  padding: .5cqw;
+  box-sizing: border-box;
+  pointer-events: none;
+  overflow: hidden;
+  transition: left 800ms cubic-bezier(.25,.7,.2,1), top 800ms cubic-bezier(.25,.7,.2,1), width 800ms, height 800ms, opacity 200ms;
+}
+.cc-cover-border {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d3b77f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .5cqw;
+  padding: .4cqw;
+  text-align: center;
+  color: #e8d5ae;
+  font-family: Georgia, serif;
+}
+.cc-cover-border small { font-size: .58cqw; }
+.cc-cover-border strong { font-size: 1.15cqw; line-height: 1.2; font-weight: normal; }
+.cc-cover-border i { font-size: .8cqw; font-style: normal; }
+.cc-scene.cc-camera-table { transform-origin: 55% 65%; transform: scale(2.15); }
+@media (prefers-reduced-motion: reduce) { .cc-moving-cover { transition: none; } }
 </style>
 
 <!-- Salle des archives : les positions sont exprimées en pourcentage de l'image.
@@ -13418,7 +13453,7 @@ document.addEventListener("mousemove", function (event) {
   </div>
   <div class="cc-scene-window">
     <div id="ccScene" class="cc-scene">
-      <img class="cc-room-image" src="bibliotheque-centcoeurs.png"
+      <img class="cc-room-image" src="bibliotheque-centcoeurs-v3.png"
            alt="Salle des archives : deux grandes bibliothèques des vies à gauche, tableau généalogique sur pied au centre, bibliothèques famille, maisons et mondes à droite, table de lecture au premier plan."
            draggable="false">
       <div id="ccLives1" aria-label="Les vies, tomes 1 à 50">
@@ -13431,8 +13466,6 @@ document.addEventListener("mousemove", function (event) {
 </div>
       <div id="ccWorlds" aria-label="Les mondes">
 </div>
-      <span class="cc-scenic-label" style="left:73.6%;top:24.2%;width:3.2%">Évolution<br>maison</span>
-      <span class="cc-scenic-label" style="left:78.3%;top:24.2%;width:3.3%">Photos<br>famille</span>
       <button id="ccOpenTree" class="cc-tree-hit" aria-label="Entrer dans l’arbre des Centcoeurs" title="L’arbre des Centcoeurs">
 </button>
       <div id="ccTableTarget" class="cc-table-target" aria-hidden="true">
@@ -13725,14 +13758,9 @@ document.addEventListener("mousemove", function (event) {
     const homes = state.books.filter(b => b.category === 'home');
     const family = state.books.filter(b => b.category === 'family');
     const worlds = state.books.filter(b => b.category === 'world');
-    $('ccHomes').innerHTML = realShelf('ccHomes', homes, [72.0, 27.1, 10.9, 5.1], Math.max(10, homes
+    $('ccHomes').innerHTML = realShelf('ccHomes', homes, [72.1, 26.6, 10.8, 5.8], Math.max(10, homes
       .length));
-    const familyRow = Math.max(10, Math.ceil(family.length / 2));
-    $('ccFamily').innerHTML = [
-        [72.0, 33.8, 10.9, 5.4],
-        [72.0, 40.6, 10.9, 5.0]
-      ].map((p, i) => realShelf('ccFamily', family.slice(i * familyRow, (i + 1) * familyRow), p, familyRow))
-      .join('');
+    $('ccFamily').innerHTML = realShelf('ccFamily', family, [72.1, 40.7, 10.8, 6.0], Math.max(10, family.length));
     const worldRow = Math.max(11, Math.ceil(worlds.length / 3));
     $('ccWorlds').innerHTML = [
         [86.0, 27.0, 10.3, 5.3],
@@ -13797,55 +13825,42 @@ document.addEventListener("mousemove", function (event) {
     selected = id;
     spread = 0;
     trigger = button;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cover = null;
     try {
-      if (button && !reduced) {
-        const from = button.getBoundingClientRect();
-        const table = $('ccTableTarget').getBoundingClientRect();
-        const clone = button.cloneNode(true);
-        clone.classList.add('cc-flight');
-        const landingWidth = Math.max(90, table.width * .52);
-        const landingHeight = landingWidth * 1.4;
-        Object.assign(clone.style, {
-          left: from.left + 'px',
-          top: from.top + 'px',
-          width: from.width + 'px',
-          height: from.height + 'px',
-          transform: 'none',
-          fontSize: '14px'
-        });
-        clone.querySelector('.cc-book-icon')?.remove();
-        document.body.append(clone);
-        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-        Object.assign(clone.style, {
-          left: (table.left + table.width / 2 - landingWidth / 2) + 'px',
-          top: (table.top + table.height / 2 - landingHeight / 2) + 'px',
-          width: landingWidth + 'px',
-          height: landingHeight + 'px',
-          transform: 'perspective(900px) rotateX(54deg) rotateZ(-8deg)',
-          fontSize: '22px'
-        });
-        await pause(950);
-        /* Le tome rejoint la table, puis la caméra se rapproche. */
+      if (button && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         const scene = $('ccScene');
         const sceneBox = scene.getBoundingClientRect();
-        /* Le tome posé appartient désormais à la table : il suit son zoom. */
-        Object.assign(clone.style, {
-          position: 'absolute',
-          left: (table.left - sceneBox.left + table.width / 2 - landingWidth / 2) + 'px',
-          top: (table.top - sceneBox.top + table.height / 2 - landingHeight / 2) + 'px',
-          transition: 'none'
+        const from = button.getBoundingClientRect();
+        const book = getBook();
+        cover = document.createElement('div');
+        cover.className = 'cc-moving-cover';
+        cover.setAttribute('aria-hidden', 'true');
+        cover.style.setProperty('--cc-cover-color', safeColor(book.color));
+        /* La couverture porte le titre complet, sans réutiliser la tranche. */
+        cover.innerHTML = '<div class="cc-cover-border"><small>Archives des Centcoeurs</small><strong>' +
+          esc(book.title) + '</strong><i>✦</i></div>';
+        Object.assign(cover.style, {
+          left: ((from.left + from.width / 2 - sceneBox.left) / sceneBox.width * 100) + '%',
+          top: ((from.top + from.height / 2 - sceneBox.top) / sceneBox.height * 100) + '%',
+          width: from.width + 'px',
+          height: from.height + 'px',
+          opacity: '0'
         });
-        scene.append(clone);
-        await pause(100);
+        scene.append(cover);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        Object.assign(cover.style, {
+          left: '55%', top: '65%', width: '14cqw', height: '8cqw', opacity: '1'
+        });
+        /* Le livre reste posé sur la partie libre du plateau avant le zoom. */
+        await pause(1100);
         scene.classList.add('cc-camera-table');
-        await pause(800);
-        clone.remove();
+        await pause(850);
       }
       renderBook();
       $('ccBook').hidden = false;
       $('ccCloseBook').focus();
     } finally {
+      cover?.remove();
       animating = false;
     }
   }
